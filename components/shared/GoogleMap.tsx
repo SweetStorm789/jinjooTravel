@@ -44,7 +44,7 @@ export default function GoogleMap({
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDI_FC6KGbrqnhRd6elUb3KwMAE4Ih8J9Y&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
       script.async = true;
       script.defer = true;
       script.onload = () => setIsLoaded(true);

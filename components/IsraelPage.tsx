@@ -27,6 +27,16 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import bethlehemImage from "../images/israel/israel-bethlehem-church.jpg";
+import deadSeaImage from "../images/israel/dead-sea.jpg";
+import nazarethImage from "../images/israel/nazareth.jpg";
+import jerusalemImage from "../images/israel/jerusalem-1314895_1920.jpg";
+import peterChurchImage from "../images/israel/peter-church.jpg";
+
+
+
 
 interface IsraelPageProps {
   setCurrentPage: (page: string) => void;
@@ -115,40 +125,44 @@ export default function IsraelPage({
 
   const holyPlaces = [
     {
-      name: "베들레헴",
+      name: "베들레헴 - 예수탄생기념성당",
       subtitle: "예수님 탄생지",
       description:
-        "예루살렘으로부터 남서쪽 약 8km 떨어진 곳에 있는 예수님 탄생지로, 탄생교회(Church of Nativity)에는 예수님의 탄생지를 보존하고 있는 동굴이 그대로 있으며, 그리스도인들은 대부분의 동굴을 귀금속으로 장식하였습니다.",
+        "예수 탄생 교회는 팔레스타인 베들레헴에 위치한 성지로, 예수 그리스도께서 탄생하신 장소 위에 세워진 성당이다. 가톨릭 신앙 안에서 이곳은 하느님의 말씀이 사람이 되어 오신 ‘강생의 신비’가 실제로 이루어진 자리로, 성탄의 의미를 가장 깊이 되새길 수 있는 성지다.",
       icon: Star,
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
+      image: bethlehemImage,
     },
     {
-      name: "예리고",
-      subtitle: "세상에서 가장 낮은 도시",
+      name: "타브가 - 베드로 수위권 성당",
+      subtitle: "",
       description:
-        "예루살렘에서 동쪽 39km에 위치한 예리고는 고고학적으로 세상에서 가장 오래된 도시 중 하나이며, 해수면보다 250m 낮은 가장 낮은 도시입니다. 예수님이 40일간 금식하시며 유혹을 받으신 곳으로 유명합니다.",
+        "이스라엘 갈릴래아 호숫가 타브가에 있는 베드로 수위권 성당은, 부활한 예수님이 베드로에게 “내 양을 먹여라”라고 말씀하며 교회의 수장으로 세운 장소로 전해진다. 성당 안에는 그때 식사가 이루어진 바위인 **‘멘사 도미니’**가 보존되어 있어 순례자들이 깊이 묵상하는 곳이다.",
       icon: Mountain,
       color: "from-green-100 to-emerald-200",
       iconColor: "text-green-700",
+      image: peterChurchImage,
+    },
+    {
+      name: "나사렛 - 성모영보대성당",
+      subtitle: "예수님이 성장하신 곳",
+      description:
+      "이스라엘 **나사렛(Nazareth)**은 갈릴래아 지역에 위치한 도시로, 예수 그리스도께서 유년 시절을 보내신 곳으로 전해져 가톨릭 신앙에서 매우 중요한 성지로 여겨진다. 오늘날에도 많은 순례자들이 이곳을 찾아 예수님의 삶의 자취를 되새기며 기도하는 은총의 장소로 삼고 있다.",
+      icon: Church,
+      color: "from-purple-100 to-violet-200",
+      iconColor: "text-purple-700",
+      image: nazarethImage,
     },
     {
       name: "사해",
       subtitle: "염분 농도가 높은 신비한 바다",
       description:
-        "예루살렘에서 동쪽으로 약 35km 떨어진 곳에 위치한 사해는 수면이 해수면보다 392m 낮고, 가장 깊은 곳의 수심은 약 400m까지 내려갑니다. 높은 염분 농도로 인해 몸이 자연스럽게 떠오르는 신비한 경험을 할 수 있습니다.",
+        "예루살렘에서 동쪽으로 약 35km 떨어진 곳에 위치한 사해는 수면이 해수면보다 392m 낮고, 가장 깊은 곳의 수심은 약 400m까지 내려간다. 높은 염분 농도로 인해 몸이 자연스럽게 떠오르는 신비한 경험을 할 수 있다.",
       icon: Waves,
       color: "from-blue-100 to-cyan-200",
       iconColor: "text-blue-700",
-    },
-    {
-      name: "나사렛",
-      subtitle: "예수님이 성장하신 곳",
-      description:
-        "이스라엘 북부 갈릴리 지역에 위치한 나사렛은 예수님이 30세까지 성장하신 곳으로, 천사 가브리엘이 성모 마리아에게 수태고지를 한 장소입니다. 성모영보대성당과 성 요셉 성당이 위치해 있습니다.",
-      icon: Church,
-      color: "from-purple-100 to-violet-200",
-      iconColor: "text-purple-700",
+      image: deadSeaImage,
     },
   ];
 
@@ -329,28 +343,22 @@ export default function IsraelPage({
                       key={index}
                       className="overflow-hidden"
                     >
-                      <div
-                        className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent
-                              className={`h-6 w-6 ${place.iconColor}`}
-                            />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {place.name}
-                          </h3>
-                        </div>
+                      <div className="relative">
+                        <div className="absolute inset-0"></div>
+                        <ImageWithFallback
+                        src={place.image}
+                        alt={place.name}
+                        className={`w-full h-[240px] object-cover ${place.image === peterChurchImage ? 'object-top' : ''}`}
+                      />
+                       
                         {/* 오버레이 텍스트 */}
                         <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {place.subtitle}
-                            </span>
-                          </div>
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {place.name}
+                          </span>
                         </div>
+                      </div>
                       </div>
                       <CardContent className="p-4">
                         <p className="text-sm text-muted-foreground leading-relaxed">
@@ -393,6 +401,11 @@ export default function IsraelPage({
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[4/3] bg-gradient-to-br from-yellow-100 to-amber-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={jerusalemImage}
+                        alt="예루살렘"
+                        className="w-full h-[240px] object-cover"
+                      />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -416,21 +429,14 @@ export default function IsraelPage({
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          예루살렘은 유대교, 기독교, 이슬람교
-                          3대 종교의 성지로, 수천 년간 인류
-                          역사의 중심에 서 있는 거룩한
-                          도시입니다. 예수님께서 십자가에 못
-                          박히시고 부활하신 곳이며, 성전산과
-                          통곡의 벽, 성묘교회 등 중요한 성지들이
-                          위치해 있습니다.
+                          예루살렘은 유대교, 가톨릭을 포함한 그리스도교, 이슬람교가 모두 성지로 여기는 인류 신앙의 중심지다. 수천 년의 역사를 품은 이 거룩한 도시는 예수 그리스도의 수난, 죽음, 부활이 이루어진 장소로, 오늘날에도 전 세계 순례자들이 끊임없이 찾는 깊은 영적 의미의 공간이다.
                         </p>
 
                         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-yellow-800 italic">
-                              "예루살렘아 내가 너를 잊을진대 내
-                              오른손이 그 재주를 잊을지로다"
+                              "예루살렘아 내가 너를 잊을진대 내 오른손이 그 재주를 잊을지로다"
                             </blockquote>
                           </div>
                           <p className="text-yellow-600 text-xs mt-2 text-right">
@@ -438,23 +444,32 @@ export default function IsraelPage({
                           </p>
                         </div>
 
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          구시가지는 유대인 지구, 기독교 지구,
-                          이슬람 지구, 아르메니아 지구로 나뉘어
-                          있으며, 각 지구마다 고유한 종교적
-                          전통과 문화가 살아 숨쉬고 있습니다.
+                        <p className="text-sm text-muted-foreground leading-relaxed space-y-2">
+                          <strong>📍 주요 성지</strong><br />
+
+                          <span className="block mt-2">
+                            <strong>성묘 교회 (Holy Sepulchre)</strong><br />
+                            예수님의 십자가 처형, 무덤, 부활의 장소로 전해지는 그리스도교의 가장 중심적인 성지.
+                          </span>
+
+                          <span className="block mt-2">
+                            <strong>성전산 (Temple Mount)</strong><br />
+                            유대교의 솔로몬 성전 터이자, 이슬람교의 바위돔(Dome of the Rock)이 있는 성스러운 장소.
+                          </span>
+
+                          <span className="block mt-2">
+                            <strong>통곡의 벽 (Western Wall)</strong><br />
+                            유대교에서 가장 거룩하게 여기는 장소로, 고대 성전의 서쪽 벽 일부가 남아 있다.
+                          </span>
                         </p>
                       </div>
 
                       <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                        <span className="text-sm font-medium">
-                          구시가지 면적
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          약 1km²
-                        </span>
+                        <span className="text-sm font-medium">구시가지 면적</span>
+                        <span className="text-sm text-muted-foreground">약 1km²</span>
                       </div>
                     </div>
+
                   </div>
                 </CardContent>
               </Card>

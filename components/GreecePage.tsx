@@ -135,9 +135,9 @@ export default function GreecePage({
     {
       name: "무명전사비",
       subtitle:
-        "국회 의사당 앞에 있으며, 독립 전쟁 이후에 있었던 여러 번의 전쟁에서 전사, 행방 불명된 병사들의 비이다.",
+        "아테네 신타그마 광장 앞에 위치한 무명전사비는 그리스 독립 전쟁부터 현대의 여러 전투에 이르기까지, 나라를 위해 목숨을 바친 이름 없는 전사들을 추모하기 위해 세워진 기념비다.",
       description:
-        "국회 의사당 앞에 있으며, 독립 전쟁 이후에 있었던 여러 번의 전쟁에서 전사, 행방 불명된 병사들의 비이다. 1923년의 작품으로 항상 2명의 위병이 여름에는 순백, 겨울에는 짙은 곤색의 중세 이래의 전통 의상을 입고 서 있다.",
+        "아테네 신타그마 광장 앞에 위치한 무명전사비는 그리스 독립 전쟁부터 현대의 여러 전투에 이르기까지, 나라를 위해 목숨을 바친 이름 없는 전사들을 추모하기 위해 세워진 기념비다. 기념비 앞에서는 전통 의상을 입은 근위병들이 정해진 시간마다 엄숙한 교대식을 진행하며, 그리스의 역사와 희생, 전통을 상징하는 의미 있는 장소로 많은 이들의 발길이 이어지고 있다.",
         image: unnamedSoldierImage,
     },
     {
@@ -172,7 +172,7 @@ export default function GreecePage({
                   그리스 공화국
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
-                  사도 바울의 발자취와 요한계시록이 기록된 땅,
+                  사도 바울의 발자취와 요한묵시록이 기록된 땅,
                   기독교 초기 교회의 중요한 무대
                 </p>
               </div>
@@ -295,10 +295,7 @@ export default function GreecePage({
                   아테네
                 </h2>
                 <p className="text-muted-foreground">
-                  그리스의 수도인 아테네는 장대, 경제, 문화의
-                  중심지로 전해진그리스 수도이 약1/30번째 목숨
-                  사는 대도시이다. 약 2,500년 전에 일어난 고대
-                  도시의 중심지였다.
+                아테네는 그리스의 수도이자 고대 그리스 문명의 중심지로, 민주주의와 철학, 예술이 꽃피운 도시다. 소크라테스, 플라톤, 아리스토텔레스 같은 위대한 철학자들이 활동했던 곳으로, 서양 문명의 뿌리를 간직하고 있다. 도시 중심에 자리한 아크로폴리스와 파르테논 신전은 아테네의 상징이며, 고대 유적과 현대적인 도시 문화가 조화를 이루는 모습이 인상적이다. 오늘날에도 유럽 문화와 역사를 체험할 수 있는 대표적인 여행지로 많은 이들이 찾고 있다.
                 </p>
               </div>
 
@@ -475,7 +472,7 @@ export default function GreecePage({
               </Card>
             </section>
 
-            {/* 파트모스섬 - 요한계시록 */}
+            {/* 파트모스섬 - 요한묵시록 */}
             <section>
               <Card className="overflow-hidden">
                 <div className="bg-gradient-to-r from-purple-50 to-indigo-50 px-6 py-4">
@@ -489,12 +486,12 @@ export default function GreecePage({
                           파트모스섬
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          요한묵묵시록이 기록된 성지
+                          요한묵시록이 기록된 성지
                         </p>
                       </div>
                     </div>
                     <Badge variant="secondary">
-                      요한계시록
+                      요한묵시록
                     </Badge>
                   </div>
                 </div>
