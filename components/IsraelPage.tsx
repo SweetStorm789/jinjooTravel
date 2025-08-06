@@ -25,6 +25,8 @@ import {
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface IsraelPageProps {
   setCurrentPage: (page: string) => void;
@@ -296,26 +298,13 @@ export default function IsraelPage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
-                    <div className="text-center space-y-4 relative z-10">
-                      <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-lg">
-                        <MapPin className="h-8 w-8 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium">예루살렘</p>
-                        <p className="text-sm text-muted-foreground">
-                          31.7683°N, 35.2137°E
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2"
-                        >
-                          구글맵 영역
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+                  <GoogleMap
+                    center={holyPlacesLocations.israel.center}
+                    markers={holyPlacesLocations.israel.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
                 </CardContent>
               </Card>
             </section>
@@ -402,19 +391,23 @@ export default function IsraelPage({
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-yellow-100 to-amber-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Church className="h-8 w-8 text-amber-700" />
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-yellow-100 to-amber-200 rounded-lg overflow-hidden">
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="text-center space-y-3">
+                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                <Church className="h-8 w-8 text-amber-700" />
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-amber-900">
-                              Jerusalem
-                            </p>
-                            <p className="text-sm text-amber-700">
-                              예루살렘 구시가지
-                            </p>
-                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                            Jerusalem
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            예루살렘 구시가지
+                          </p>
                         </div>
                       </div>
                     </div>

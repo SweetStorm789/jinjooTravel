@@ -14,6 +14,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 import {
   Card,
   CardContent,
@@ -23,6 +25,13 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+import olympiaStadiumImage from "../images/greece/ancient-olympia-stadium-greece.jpg";
+import athensImage from "../images/greece/athens-acropolis-parthenon-temple.jpg";
+import syntagmaSquareImage from "../images/greece/syntagma-square-athens-view.jpg";
+import unnamedSoldierImage from "../images/greece/tomb-of-the-unknown-soldier-athens.jpg";
+import zeusTempleImage from "../images/greece/temple-of-zeus-athens-ruins.jpg";
+import areopagusHillImage from "../images/greece/areopagus-hill-athens-panorama.jpg";
 
 interface GreecePageProps {
   setCurrentPage: (page: string) => void;
@@ -108,32 +117,36 @@ export default function GreecePage({
 
   const holyPlaces = [
     {
-      name: "아테네",
+      name: "아크로폴리스",
       subtitle:
-        "그리스의 수도인 아테네는 장대, 경제, 문화의 중심지로 전해진 그리스 수도다.",
+        "폴리스(도시국가)의 중심이었던 언덕으로 기운전 13세기경에 세워진 고대 그리스의 유적지이며 유네스코 지정 세계 고적 제 1호다.",
       description:
-        "그리스의 수도인 아테네는 장대, 경제, 문화의 중심지로 전해진 그리스 수도다. 약 2,500년 전에 일어난 고대 도시의 중심지였다.",
+        "폴리스(도시국가)의 중심이었던 언덕으로 기운전 13세기경에 세워진 고대 그리스의 유적지이며 유네스코 지정 세계 고적 제 1호다. 아크로폴리스는 ‘도시의 높은 곳’ 이라는 뜻으로, 아테네에서 가장 높은 곳에 위치하고 있다.",
+      image: athensImage,
     },
     {
-      name: "콘덴창",
+      name: "신타그마 광장(헌법 광장)",
       subtitle:
-        "아테네 중심에 되는 광장으로서, 광장 곳곳에 있는 콘덴창은 아테네의 대표적인 콘덴창이다.",
+        "신타그마 광장은 그리스 아테네의 중심부에 있는 광장이다. 1844년 그리스 왕국의 헌법이 여기서 반포되었다.",
       description:
-        "아테네 중심에 되는 광장으로서, 광장 곳곳에 있는 콘덴창은 아테네의 대표적인 콘덴창이다. 이 광장을 둘러싸서 메데르어 대도시인 민주성의 중심지로 존재한다.",
+        "신타그마 광장은 그리스 아테네의 중심부에 있는 광장이다. 1844년 그리스 왕국의 헌법이 여기서 반포되었다. 신타그마는 그리스어로 헌법을 의미한다. 그리스 고궁이 광장 바로 앞에 위치해 있으며, 이 건물은 1934년부터 그리스 국회로 사용되고 있다. 이 광장의 동쪽에는 무명 용사의 비가 있다. 그 밖에도 광장 주변에는 각종 관공서가 위치해있고, 광장 서쪽으로 아테네 최대의 번화가인 에르무 거리가 있다.",
+        image: syntagmaSquareImage,
     },
     {
-      name: "무덤정신비",
+      name: "무명전사비",
       subtitle:
-        "고대 왕이 일장 있어 인간과 칠순강이 응답 현장이 여러 원인 강성된 상황이었다.",
+        "국회 의사당 앞에 있으며, 독립 전쟁 이후에 있었던 여러 번의 전쟁에서 전사, 행방 불명된 병사들의 비이다.",
       description:
-        "고대 왕이 일장 있어 인간과 칠순강이 응답 현장이 여러 원인 강성된 상황이었다. 향후 불길한 발생이 십분 경제를 전개하고 사항을 일으킨 것도 있었다. 1923년 약 350만으로 형성 경제의 미국에 어머니 기존도로 점판 간결을 압삼하고 있었다.",
+        "국회 의사당 앞에 있으며, 독립 전쟁 이후에 있었던 여러 번의 전쟁에서 전사, 행방 불명된 병사들의 비이다. 1923년의 작품으로 항상 2명의 위병이 여름에는 순백, 겨울에는 짙은 곤색의 중세 이래의 전통 의상을 입고 서 있다.",
+        image: unnamedSoldierImage,
     },
     {
       name: "제우스 신전",
       subtitle:
-        "그리스 최대의 신전으로서, 후대에 104개가 있던 물건과 가장 15일간 노아 있는 자리스 왕상의 건축이다.",
+        "제우스 신전(올림피에이온)은 아테네에 위치한 고대 그리스 최대 규모의 신전으로, 천둥의 신 제우스를 기리기 위해 건립되었다.",
       description:
-        "그리스 최대의 신전으로서, 후대에 104개가 있던 물건과 가장 15일간 노아 있는 자리스 왕상의 건축이다.",
+        "제우스 신전(올림피에이온)은 아테네에 위치한 고대 그리스 최대 규모의 신전으로, 천둥의 신 제우스를 기리기 위해 건립되었다. 기원전 6세기에 착공되어 로마 황제 하드리아누스 치세인 서기 132년에 완공되었으며, 현재는 일부 기둥만 남아 있지만, 당시의 장엄함을 보여주는 중요한 유적이이다.",
+        image: zeusTempleImage,
     },
   ];
 
@@ -264,26 +277,13 @@ export default function GreecePage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-green-500/10"></div>
-                    <div className="text-center space-y-4 relative z-10">
-                      <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-lg">
-                        <MapPin className="h-8 w-8 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium">아테네</p>
-                        <p className="text-sm text-muted-foreground">
-                          37.9755°N, 23.7348°E
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2"
-                        >
-                          구글맵 영역
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+                  <GoogleMap
+                    center={holyPlacesLocations.greece.center}
+                    markers={holyPlacesLocations.greece.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
                 </CardContent>
               </Card>
             </section>
@@ -305,8 +305,14 @@ export default function GreecePage({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {holyPlaces.map((place, index) => (
                   <Card key={index} className="overflow-hidden">
-                    <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={place.image}
+                        alt={place.name}
+                        className="w-full h-[240px] object-cover"
+                      />
+                     {/*
                       <div className="text-center space-y-2 relative z-10">
                         <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
                           {index === 0 && (
@@ -325,11 +331,11 @@ export default function GreecePage({
                         <h3 className="font-medium text-gray-900">
                           {place.name}
                         </h3>
-                      </div>
+                      </div>*/}
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
-                        <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                          <span className="text-sm font-medium text-gray-800">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
                             {place.name}
                           </span>
                         </div>
@@ -349,16 +355,14 @@ export default function GreecePage({
                 <Card className="overflow-hidden">
                   <div className="aspect-[2/1] bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-orange-500/10"></div>
-                    <div className="text-center space-y-2 relative z-10">
-                      <div className="w-16 h-16 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                        <Mountain className="h-8 w-8 text-amber-600" />
-                      </div>
-                      <h3 className="font-medium text-amber-900">
-                        올림피아 경기장
-                      </h3>
-                    </div>
+                    
                     {/* 오버레이 텍스트 */}
-                    <div className="absolute bottom-4 left-4 right-4">
+                    <div className="absolute bottom-0 left-0 right-0">
+                      <ImageWithFallback
+                        src={olympiaStadiumImage}
+                        alt="올림피아 경기장"
+                        className="w-full h-full object-cover"
+                      />
                       <div className="bg-white/90 backdrop-blur-sm rounded px-3 py-2">
                         <span className="font-medium text-amber-800">
                           올림피아 경기장
@@ -368,12 +372,7 @@ export default function GreecePage({
                   </div>
                   <CardContent className="p-6">
                     <p className="text-muted-foreground leading-relaxed">
-                      고대의 로마테네 대륙에서 가장의
-                      경기장이었던 곳으로 1896년 제1회 근대
-                      올림픽 출범때부터 현재까지 유명한
-                      경기장이다. 현재 광장에서는 약 10년 간이나
-                      위보를 아일에만 약50,000명조를 올수 있는
-                      경기장 이다.
+                    올림피아 경기장은 고대 그리스 올림픽의 발상지로, 제우스 신을 기리기 위해 기원전 776년부터 4년에 한 번씩 경기가 열렸던 장소다. 펠로폰네소스 반도에 위치하며, 육상 경기를 위한 트랙과 제우스 신전, 필리페이온, 헤라 신전 등의 유적이 함께 남아 있다. 유네스코 세계문화유산으로 지정되어 고대 스포츠와 종교 문화의 중심지로 평가받는는다.
                     </p>
                   </CardContent>
                 </Card>
@@ -391,7 +390,7 @@ export default function GreecePage({
                       </div>
                       <div>
                         <h3 className="font-medium">
-                          아테네 아레오바고
+                          아테네 아레오파고 
                         </h3>
                         <p className="text-sm text-muted-foreground">
                           바울의 유명한 설교 장소
@@ -408,19 +407,23 @@ export default function GreecePage({
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Building className="h-8 w-8 text-blue-700" />
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg overflow-hidden">
+                          <div className="w-full h-full flex items-center justify-center">
+                            <ImageWithFallback
+                              src={areopagusHillImage}
+                              alt="아레오파고 "
+                              className="w-full h-full object-cover"
+                            />
                           </div>
-                          <div>
-                            <p className="font-medium text-blue-900">
-                              Areopagus
-                            </p>
-                            <p className="text-sm text-blue-700">
-                              아레오바고
-                            </p>
-                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-blue-900">
+                            Areopagus
+                          </p>
+                          <p className="text-sm text-blue-700">
+                            아레오파고 
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -429,32 +432,32 @@ export default function GreecePage({
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          사도 바울이 아테네를 방문했을 때, 그는
-                          도시 곳곳에 우상들이 가득한 것을 보고
-                          마음이 격분했다. 그는 회당에서
-                          유대인들과 경건한 사람들과 변론하고,
-                          또 날마다 시장에서 만나는 사람들과도
-                          변론했다.
+                        아레오파고는 아테네 아크로폴리스 서쪽에 위치한 바위 언덕으로, 고대에는 최고 법정을 겸한 회의 장소였다.
+                        사도 바울은 아테네를 방문했을 때, 도시 곳곳에 세워진 수많은 우상들을 보고 마음이 격분하여 회당과 광장에서 유다인들과 시민들을 상대로 하느님을 전했다. 그러던 중 에피쿠로스와 스토아 철학자들에 의해 아레오파고로 불려가게 된다.
+
+                        이 자리에서 바울은 아테네 시민들에게 이렇게 말한다:
                         </p>
 
                         <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-blue-800 italic">
-                              "알지 못하는 신에게라고 새긴 단도
-                              보았으니 그런즉 너희가 알지 못하고
-                              위하는 그것을 내가 너희에게 알게
-                              하리라"
+                            “내가 걷다가 너희가 받들어 모시는 것들을 보다가 ‘알지 못하는 신에게’ 바친 제단도 보았습니다.
+                              그러니 너희가 알지도 못하면서 받들어 모시는 그분을 내가 너희에게 알려 드리겠습니다.”
+                              <p className="text-blue-600 text-xs mt-2 text-right">
+                              (사도행전 17,23)</p>
+                              <p>“이제 하느님께서는 모든 사람에게 어디에 있든지 회개하라고 명하십니다.”</p>
+                              <p className="text-blue-600 text-xs mt-2 text-right">
+                              (사도행전 17,30)</p>
+                              “그들은 죽은 이들의 부활에 대한 말을 듣고 조롱하는 사람도 있었고, ‘이 일에 대해서는 나중에 다시 듣겠다’ 하는 사람도 있었다.”
+                              <p className="text-blue-600 text-xs mt-2 text-right">(사도행전 17,32)</p>
                             </blockquote>
                           </div>
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          아레오바고는 아테네의 고대
-                          법정이었으며, 바울은 이곳에서
-                          그리스인들에게 창조주 하나님과 부활의
-                          복음을 전했다. 이는 기독교가 헬라
-                          문화권으로 전해지는 중요한 순간이었다.
+                        사도 바울은 이 자리에서 하느님은 세상의 창조주시며, 사람의 손을 통해 섬김을 받는 분이 아니고, 모든 사람을 회개로 부르며 예수 그리스도의 부활을 통해 구원의 길을 여셨다고 선포했다.
+                        이 설교는 복음이 헬레니즘 문화권에 본격적으로 전해지는 중요한 전환점이 되었으며, 기독교 선교사적 관점에서 매우 상징적인 장소로 여겨진다.
                         </p>
                       </div>
 
@@ -486,7 +489,7 @@ export default function GreecePage({
                           파트모스섬
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          요한계시록이 기록된 성지
+                          요한묵묵시록이 기록된 성지
                         </p>
                       </div>
                     </div>
@@ -499,25 +502,21 @@ export default function GreecePage({
                 <CardContent className="p-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
-                      사도 요한이 로마 황제 도미티아누스에 의해
-                      유배된 섬으로, 이곳에서 요한계시록을
-                      기록했다고 전해진다. 에게해의 작은
-                      섬이지만 기독교 역사에서 매우 중요한
-                      의미를 갖는 성지이다.
+                    요한 묵시록이 기록된 성지
+                    </p>
+                    <p>파트모스는 사도 요한이 로마 황제 도미티아누스에 의해 유배된 섬으로, 전승에 따르면 이곳에서 요한 묵시록을 기록한 것으로 전해진다.
+                    에게 해의 작은 섬이지만, 하느님의 계시가 내려진 장소로서 기독교 역사에서 매우 중요한 의미를 지닌 성지다.
                     </p>
 
                     <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
                       <div className="flex items-start space-x-2">
                         <Info className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5" />
                         <blockquote className="text-purple-800 italic">
-                          "나 요한은 너희 형제요 예수의 환난과
-                          나라와 참음에 동참하는 자라 하나님의
-                          말씀과 예수의 증거로 말미암아 밧모라
-                          하는 섬에 있었더니"
+                        “나 요한은 여러분의 형제이며, 예수님과 함께 환난과 나라와 인내를 함께 받은 사람입니다. 나는 하느님의 말씀과 예수님에 대한 증언 때문에 밧모라고 하는 섬에 있었습니다.”
                         </blockquote>
                       </div>
                       <p className="text-purple-600 text-xs mt-2 text-right">
-                        - 요한계시록 1:9
+                        - 요한 묵시록 1장 9절 (가톨릭 성경 공동번역)
                       </p>
                     </div>
                   </div>
@@ -693,6 +692,8 @@ export default function GreecePage({
           </div>
         </div>
       </div>
-    </div>
-  );
+          </div>
+
+
+    );
 }

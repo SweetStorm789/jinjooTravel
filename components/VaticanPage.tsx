@@ -22,6 +22,10 @@ import {
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+import vaticanImage from "../images/vatican/st-peters-basilica.jpg";
 
 interface VaticanPageProps {
   setCurrentPage: (page: string) => void;
@@ -232,28 +236,13 @@ export default function VaticanPage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
-                    <div className="text-center space-y-4 relative z-10">
-                      <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-lg">
-                        <MapPin className="h-8 w-8 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium">
-                          바티칸 시티
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          41.9029°N, 12.4534°E
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2"
-                        >
-                          구글맵 영역
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+                  <GoogleMap
+                    center={holyPlacesLocations.vatican.center}
+                    markers={holyPlacesLocations.vatican.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
                 </CardContent>
               </Card>
             </section>
@@ -362,9 +351,16 @@ export default function VaticanPage({
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-orange-200 rounded-lg flex items-center justify-center">
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-orange-200 rounded-lg overflow-hidden">
+                          <ImageWithFallback
+                            src={vaticanImage}
+                            alt="성 베드로 대성당"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                         <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
+                          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg mx-auto">
                             <Church className="h-8 w-8 text-amber-700" />
                           </div>
                           <div>

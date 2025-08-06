@@ -4,6 +4,8 @@ import { Separator } from "./ui/separator";
 import guadalupeImage from '../images/guadalupe/guadalupe.png';
 import tilmaImage from '../images/guadalupe/tilmaImage.png';
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface GuadalupePageProps {
   setCurrentPage: (page: string) => void;
@@ -389,6 +391,17 @@ export default function GuadalupePage({ setCurrentPage }: GuadalupePageProps) {
               <section>
                 <h2 className="text-3xl mb-8 pb-4 border-b border-muted">아메리카 대륙의 복음화</h2>
                 
+                {/* 구글맵 */}
+                <div className="mb-8">
+                  <GoogleMap
+                    center={holyPlacesLocations.guadalupe.center}
+                    markers={holyPlacesLocations.guadalupe.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
+                </div>
+
                 <div className="bg-muted/50 p-8">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     {modernImpacts.map((impact, index) => {

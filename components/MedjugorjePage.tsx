@@ -23,6 +23,8 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 // 메주고리예 실제 사진들 import
 import crossMountainPhoto from '../images/medjugorje/medjugorje1.jpg';
@@ -123,23 +125,30 @@ export default function MedjugorjePage({ setCurrentPage }: MedjugorjePageProps) 
                 {medjugorjeImages.map((image, index) => (
                   <div 
                     key={index}
-                    className={`aspect-video overflow-hidden rounded-lg cursor-pointer group relative ${
+                    className={`flex flex-col space-y-4 ${
                       index === 2 ? 'col-span-2' : ''
                     }`}
-                    onClick={() => {
-                      setCurrentImageIndex(index);
-                      setIsGalleryOpen(true);
-                    }}
                   >
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    
-                    {/* 호버 오버레이 */}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div 
+                      className="aspect-video overflow-hidden rounded-lg cursor-pointer group relative"
+                      onClick={() => {
+                        setCurrentImageIndex(index);
+                        setIsGalleryOpen(true);
+                      }}
+                    >
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      
+                      {/* 호버 오버레이 */}
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      </div>
                     </div>
+                    <p className="text-sm text-muted-foreground text-center">
+                      {image.alt}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -533,6 +542,17 @@ export default function MedjugorjePage({ setCurrentPage }: MedjugorjePageProps) 
               <section>
                 <h2 className="text-3xl mb-8 pb-4 border-b border-muted">메주고리예 순례</h2>
                 
+                {/* 구글맵 */}
+                <div className="mb-8">
+                  <GoogleMap
+                    center={holyPlacesLocations.medjugorje.center}
+                    markers={holyPlacesLocations.medjugorje.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
+                </div>
+
                 <div className="bg-muted/50 p-8">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <div>

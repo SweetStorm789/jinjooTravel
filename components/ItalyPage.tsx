@@ -28,6 +28,8 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface ItalyPageProps {
   setCurrentPage: (page: string) => void;
@@ -330,26 +332,13 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-500/10"></div>
-                    <div className="text-center space-y-4 relative z-10">
-                      <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-lg">
-                        <MapPin className="h-8 w-8 text-green-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium">이탈리아</p>
-                        <p className="text-sm text-muted-foreground">
-                          41.8719°N, 12.5674°E
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2"
-                        >
-                          구글맵 영역
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+                  <GoogleMap
+                    center={holyPlacesLocations.italy.center}
+                    markers={holyPlacesLocations.italy.markers}
+                    zoom={6}
+                    height="400px"
+                    className="w-full"
+                  />
                 </CardContent>
               </Card>
             </section>

@@ -44,7 +44,7 @@ export default function GoogleMap({
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDI_FC6KGbrqnhRd6elUb3KwMAE4Ih8J9Y&libraries=places`;
       script.async = true;
       script.defer = true;
       script.onload = () => setIsLoaded(true);
@@ -60,6 +60,7 @@ export default function GoogleMap({
       const googleMap = new window.google.maps.Map(mapRef.current, {
         center,
         zoom,
+        gestureHandling: "greedy", // 스크롤 시 Ctrl 키 없이도 줌 가능
         styles: [
           // 성지순례에 어울리는 깔끔한 맵 스타일
           {

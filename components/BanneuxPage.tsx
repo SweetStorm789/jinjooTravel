@@ -15,6 +15,8 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 import banneuxPhoto from '../images/banneux/banneux-sanctuary.png';
 import marietteBeckoPhoto from '../images/banneux/mariette-becko.png';
@@ -494,6 +496,17 @@ export default function BanneuxPage({ setCurrentPage }: BanneuxPageProps) {
               <section>
                 <h2 className="text-3xl mb-8 pb-4 border-b border-muted">기적의 샘과 치유</h2>
                 
+                {/* 구글맵 */}
+                <div className="mb-8">
+                  <GoogleMap
+                    center={holyPlacesLocations.banneux.center}
+                    markers={holyPlacesLocations.banneux.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
                     <h3 className="text-xl font-medium mb-4">모든 민족을 위한 샘</h3>

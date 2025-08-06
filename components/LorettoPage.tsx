@@ -27,6 +27,8 @@ import {
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface LorettoPageProps {
   setCurrentPage: (page: string) => void;
@@ -298,26 +300,13 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/10"></div>
-                    <div className="text-center space-y-4 relative z-10">
-                      <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-lg">
-                        <MapPin className="h-8 w-8 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium">로레토</p>
-                        <p className="text-sm text-muted-foreground">
-                          43.4367°N, 13.6055°E
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2"
-                        >
-                          구글맵 영역
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+                  <GoogleMap
+                    center={holyPlacesLocations.loretto.center}
+                    markers={holyPlacesLocations.loretto.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
                 </CardContent>
               </Card>
             </section>

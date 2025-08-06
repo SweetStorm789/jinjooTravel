@@ -16,6 +16,8 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface FatimaPageProps {
   setCurrentPage: (page: string) => void;
@@ -363,6 +365,17 @@ export default function FatimaPage({ setCurrentPage }: FatimaPageProps) {
               <section>
                 <h2 className="text-3xl mb-8 pb-4 border-b border-muted">주요 성지</h2>
                 
+                {/* 구글맵 */}
+                <div className="mb-8">
+                  <GoogleMap
+                    center={holyPlacesLocations.fatima.center}
+                    markers={holyPlacesLocations.fatima.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
+                </div>
+
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {holySites.slice(0, 2).map((site, index) => (

@@ -23,6 +23,8 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 // 루르드 성지 실제 사진들 import
 import lourdesImage1 from '../images/lourdes/Lourdes1.jpg';
@@ -482,6 +484,17 @@ export default function LourdesPage({ setCurrentPage }: LourdesPageProps) {
               <section>
                 <h2 className="text-3xl mb-8 pb-4 border-b border-muted">주요 순례지</h2>
                 
+                {/* 구글맵 */}
+                <div className="mb-8">
+                  <GoogleMap
+                    center={holyPlacesLocations.lourdes.center}
+                    markers={holyPlacesLocations.lourdes.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
+                </div>
+
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>

@@ -24,6 +24,17 @@ import {
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { useState } from "react";
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import madridImage from "../images/spain/madrid-2179954_1920.jpg";
+import segoviaImage from "../images/spain/segovia-91266_1920.jpg";
+import avilaImage from "../images/spain/Avila-cathedral-573069_1920.jpg";
+import salanamceImage from "../images/spain/salamanca-3143997_1920.jpg";
+import sanctiagoImage from "../images/spain/santiago-de-compostela.jpg";
+
+
 
 interface SpainPageProps {
   setCurrentPage: (page: string) => void;
@@ -113,12 +124,21 @@ export default function SpainPage({
       subtitle: "스페인의 수도이자 정치·경제·문화의 중심지",
       description:
         "스페인의 수도인 마드리드는 이베리아 반도 중앙에 위치한 정치·경제·문화의 중심지입니다. 알무데나 성당과 왕궁 등 중요한 가톨릭 성지들이 위치해 있습니다.",
+        image: madridImage,
+    },
+    {
+      name: "살라망카",
+      subtitle: "유럽에서 가장 오래된 대학 도시 중 하나",
+      description:
+        "1218년에 설립된 살라망카 대학교로 유명한 이 도시는 '황금빛 도시'라고 불립니다. 신구 대성당과 산 마르코스 수도원 등이 위치해 있습니다.",
+        image: salanamceImage,
     },
     {
       name: "세고비아",
       subtitle: "로마 시대의 수도교와 알카사르로 유명한 고도",
       description:
         "세고비아는 로마 시대부터 이어져 온 고도로, 유네스코 세계문화유산인 로마 수도교와 알카사르가 있습니다. 성모 마리아에게 봉헌된 대성당이 도시의 중심에 자리하고 있습니다.",
+        image: segoviaImage,
     },
     {
       name: "아빌라",
@@ -126,13 +146,9 @@ export default function SpainPage({
         "성녀 테레사의 고향이자 중세 성벽으로 둘러싸인 성스러운 도시",
       description:
         "대성녀 테레사(데 헤수스)의 고향인 아빌라는 완전히 보존된 중세 성벽으로 유명합니다. 성녀 테레사 수도원과 성 비센테 성당 등 중요한 순례지들이 있습니다.",
+        image: avilaImage,
     },
-    {
-      name: "살라망카",
-      subtitle: "유럽에서 가장 오래된 대학 도시 중 하나",
-      description:
-        "1218년에 설립된 살라망카 대학교로 유명한 이 도시는 '황금빛 도시'라고 불립니다. 신구 대성당과 산 마르코스 수도원 등이 위치해 있습니다.",
-    },
+    
   ];
 
   return (
@@ -262,26 +278,13 @@ export default function SpainPage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-red-500/10"></div>
-                    <div className="text-center space-y-4 relative z-10">
-                      <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-lg">
-                        <MapPin className="h-8 w-8 text-amber-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium">마드리드</p>
-                        <p className="text-sm text-muted-foreground">
-                          40.4168°N, 3.7038°W
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2"
-                        >
-                          구글맵 영역
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
+                  <GoogleMap
+                    center={holyPlacesLocations.spain.center}
+                    markers={holyPlacesLocations.spain.markers}
+                    zoom={15}
+                    height="400px"
+                    className="w-full"
+                  />
                 </CardContent>
               </Card>
             </section>
@@ -301,10 +304,15 @@ export default function SpainPage({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {majorCities.map((city, index) => (
                   <Card key={index} className="overflow-hidden">
-                    <div className="aspect-video bg-gradient-to-br from-amber-100 to-red-200 flex items-center justify-center relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-red-500/10"></div>
-                      <div className="text-center space-y-2 relative z-10">
-                        <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[240px] object-cover"
+                      />
+                      {/* <div className="text-center space-y-2 relative z-10">
+                       <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
                           {index === 0 && (
                             <Crown className="h-6 w-6 text-amber-600" />
                           )}
@@ -322,16 +330,20 @@ export default function SpainPage({
                           {city.name}
                         </h3>
                       </div>
+                      */}
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
-                        <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                          <span className="text-sm font-medium text-gray-800">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
                             {city.name}
                           </span>
                         </div>
                       </div>
+                      
                     </div>
                     <CardContent className="p-4">
+                    <span className="text-sm font-medium text-gray-800">
+                          </span>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {city.description}
                       </p>
@@ -369,19 +381,28 @@ export default function SpainPage({
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Church className="h-8 w-8 text-amber-700" />
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={sanctiagoImage}
+                        alt="산티아고 데 콤포스텔라"
+                        className="w-full h-full object-cover"
+                      />
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="text-center space-y-3">
+                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                <Church className="h-8 w-8 text-amber-700" />
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-amber-900">
-                              Santiago de Compostela
-                            </p>
-                            <p className="text-sm text-amber-700">
-                              산티아고 대성당
-                            </p>
-                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                            Santiago de Compostela
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            산티아고 대성당
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -652,6 +673,8 @@ export default function SpainPage({
           </div>
         </div>
       </div>
-    </div>
-  );
+          </div>
+
+
+    );
 }
