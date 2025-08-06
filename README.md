@@ -21,6 +21,15 @@
 
 ## 시작하기
 
+### 환경 변수 설정
+1. 프로젝트 루트에 `.env` 파일을 생성합니다.
+2. 다음 환경 변수를 설정합니다:
+   ```env
+   VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+   ```
+   - Google Maps API 키는 [Google Cloud Console](https://console.cloud.google.com/)에서 생성할 수 있습니다.
+
+### 개발 환경 설정
 ```bash
 # 의존성 설치
 npm install
