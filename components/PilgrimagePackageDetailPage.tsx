@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Separator } from "./ui/separator";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState } from "react";
+import { formatDateToKorean } from "../utils/dateFormat";
 
 interface PilgrimagePackageDetailPageProps {
   setCurrentPage: (page: string) => void;
@@ -56,7 +57,6 @@ export default function PilgrimagePackageDetailPage({
     ],
     duration: "7박 8일",
     price: "2,890,000원",
-    originalPrice: "3,200,000원",
     region: "이탈리아",
     highlights: [
       "베드로 대성당",
@@ -392,7 +392,18 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
                               <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
                                 {day.day}
                               </div>
-                              <span>Day {day.day} - {day.title}</span>
+                              <div className="flex flex-col">
+                                <span>Day {day.day} - {day.title}</span>
+                                {packageData.departureDate && (
+                                  <span className="text-sm text-muted-foreground">
+                                    {(() => {
+                                      const startDate = new Date(packageData.departureDate.replace(/년|월|일/g, '').trim());
+                                      startDate.setDate(startDate.getDate() + day.day - 1);
+                                      return formatDateToKorean(startDate);
+                                    })()}
+                                  </span>
+                                )}
+                              </div>
                             </CardTitle>
                           </div>
                           <CardDescription>{day.description}</CardDescription>
@@ -568,7 +579,6 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
                   <div className="space-y-2">
                     <div className="flex items-baseline space-x-2">
                       <span className="text-2xl font-medium">{packageData.price}</span>
-                      <span className="text-sm text-muted-foreground line-through">{packageData.originalPrice}</span>
                     </div>
                     <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p>
                   </div>

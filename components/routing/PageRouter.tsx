@@ -58,7 +58,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
       return (
         <>
           <HeroSection />
-          <FeaturedPackages />
+          <FeaturedPackages setCurrentPage={setCurrentPage} />
           <CompanyFeatures />
         </>
       );
@@ -220,7 +220,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
     return (
       <>
         <HeroSection />
-        <FeaturedPackages />
+        <FeaturedPackages setCurrentPage={setCurrentPage} />
         <CompanyFeatures />
       </>
     );

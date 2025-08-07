@@ -20,7 +20,24 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+interface PilgrimagePackage {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  image_url?: string;
+  duration: string;
+  price: string;
+  region: string;
+  highlights: string;
+  departure_date: string;
+  arrival_date: string;
+  max_people: number;
+  status: 'draft' | 'published' | 'closed';
+}
 
 interface PilgrimagePackagesPageProps {
   setCurrentPage: (page: string) => void;
@@ -32,135 +49,62 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(initialRegion);
   const [selectedDuration, setSelectedDuration] = useState("all");
+  const [packages, setPackages] = useState<PilgrimagePackage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const packages = [
-    {
-      id: 1,
-      title: "바티칸 & 로마 성지순례",
-      subtitle: "가톨릭의 중심지에서 만나는 신앙의 뿌리",
-      description: "베드로 대성당, 시스티나 성당, 바티칸 박물관과 로마의 주요 성지들을 방문하는 특별한 순례",
-      image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=800&auto=format&fit=crop",
-      duration: "7박 8일",
-      price: "2,890,000원",
-      region: "유럽",
-      highlights: ["베드로 대성당", "시스티나 성당", "산 조반니 라테라노 대성당", "산타 마리아 마조레 대성당"],
-      departureDate: "2024년 3월 15일",
-      arrivalDate: "2024년 3월 22일",
-      maxPeople: 25,
-    },
-    {
-      id: 2,
-      title: "이탈리아 전체 성지순례",
-      subtitle: "아시시에서 파두아까지, 이탈리아 성인들의 발자취",
-      description: "성 프란치스코의 아시시, 성 안토니오의 파두아, 성 비오 신부의 산조반니로톤도까지",
-      image: "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?q=80&w=800&auto=format&fit=crop",
-      duration: "10박 11일",
-      price: "3,590,000원",
-      region: "유럽",
-      highlights: ["아시시 성 프란치스코 대성당", "산조반니로톤도", "로레토 성모 성당", "란치아노 성체기적지"],
-      departureDate: "2024년 4월 20일",
-      arrivalDate: "2024년 4월 30일",
-      maxPeople: 20,
-    },
-    {
-      id: 3,
-      title: "성지 이스라엘 순례",
-      subtitle: "예수님의 발자취를 따라가는 거룩한 여정",
-      description: "베들레헴, 나사렛, 갈릴리 호수, 예루살렘의 주요 성지들을 방문하는 감동적인 순례",
-      image: "https://images.unsplash.com/photo-1544637112-6e4174881c80?q=80&w=800&auto=format&fit=crop",
-      duration: "8박 9일",
-      price: "2,990,000원",
-      region: "이스라엘",
-      highlights: ["베들레헴 예수 탄생교회", "나사렛 수태고지 성당", "갈릴리 호수", "예루살렘 성묘교회"],
-      departureDate: "2024년 3월 25일",
-      arrivalDate: "2024년 4월 2일",
-      maxPeople: 30,
-    },
-    {
-      id: 4,
-      title: "스페인 순례길 & 성지순례",
-      subtitle: "산티아고 순례길과 스페인 주요 성지 탐방",
-      description: "산티아고 데 콤포스텔라 순례길과 아빌라, 세고비아 등 스페인 성인들의 성지 방문",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=800&auto=format&fit=crop",
-      duration: "9박 10일",
-      price: "3,290,000원",
-      region: "유럽",
-      highlights: ["산티아고 대성당", "아빌라 성 테레사 성지", "사그라다 파밀리아", "몬세라트 수도원"],
-      departureDate: "2024년 5월 10일",
-      arrivalDate: "2024년 5월 19일",
-      maxPeople: 22,
-    },
-    {
-      id: 5,
-      title: "그리스 사도 바울로 순례",
-      subtitle: "사도 바울로의 전도여행 경로를 따라",
-      description: "아테네, 코린토스, 테살로니키 등 사도 바울로가 복음을 전한 그리스 주요 도시들",
-      image: "https://images.unsplash.com/photo-1555993539-1732b0258048?q=80&w=800&auto=format&fit=crop",
-      duration: "7박 8일",
-      price: "2,690,000원",
-      region: "유럽",
-      highlights: ["아테네 아레오파고스", "코린토스 고고학 유적지", "테살로니키", "파트모스 섬"],
-      departureDate: "2024년 4월 5일",
-      arrivalDate: "2024년 4월 12일",
-      maxPeople: 25,
-    },
-    {
-      id: 6,
-      title: "이집트 성가족 피난길",
-      subtitle: "성가족이 걸었던 이집트 피난길을 따라",
-      description: "카이로, 시나이산, 알렉산드리아를 통해 성가족의 이집트 피난 여정을 체험",
-      image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?q=80&w=800&auto=format&fit=crop",
-      duration: "8박 9일",
-      price: "3,190,000원",
-      region: "아시아",
-      highlights: ["시나이산", "성녀 카타리나 수도원", "올드 카이로", "알렉산드리아"],
-      departureDate: "2024년 6월 1일",
-      arrivalDate: "2024년 6월 9일",
-      maxPeople: 20,
-    },
-    {
-      id: 7,
-      title: "프랑스 루르드 순례",
-      subtitle: "성모 마리아의 발현지 루르드와 리지외 성녀 테레사",
-      description: "루르드 성모 발현지와 리지외의 성녀 테레사 성지를 방문하는 은총의 순례",
-      image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800&auto=format&fit=crop",
-      duration: "6박 7일",
-      price: "2,490,000원",
-      region: "유럽",
-      highlights: ["루르드 성모 동굴", "베르나데트 성녀 유적", "리지외 테레사 성당", "몽마르트르 언덕"],
-      departureDate: "2024년 5월 25일",
-      arrivalDate: "2024년 5월 31일",
-      maxPeople: 28,
-    },
-    {
-      id: 8,
-      title: "튀르키예 일곱 교회 순례",
-      subtitle: "요한 묵시록의 일곱 교회와 사도 바울로의 발자취",
-      description: "에페소스, 스미르나 등 요한 묵시록에 등장하는 일곱 교회와 사도 바울로 유적지 탐방",
-      image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?q=80&w=800&auto=format&fit=crop",
-      duration: "8박 9일",
-      price: "2,790,000원",
-      region: "아시아",
-      highlights: ["에페소스 유적지", "파묵칼레", "카파도키아", "성 소피아 대성당"],
-      departureDate: "2024년 4월 15일",
-      arrivalDate: "2024년 4월 23일",
-      maxPeople: 24,
-    },
-    {
-      id: 9,
-      title: "한국 가톨릭 성지순례",
-      subtitle: "한국 순교성인들의 발자취와 성모님 발현지",
-      description: "서울 명동성당, 절두산 순교성지, 강화 갑곶순교성지, 노트르담 수녀원 등 한국 가톨릭 성지 순례",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=800&auto=format&fit=crop",
-      duration: "4박 5일",
-      price: "890,000원",
-      region: "국내",
-      highlights: ["명동성당", "절두산 순교성지", "강화 갑곶순교성지", "노트르담 수녀원"],
-      departureDate: "2024년 6월 15일",
-      arrivalDate: "2024년 6월 19일",
-      maxPeople: 35,
-    }
-  ];
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get('http://localhost:5000/api/packages');
+        setPackages(response.data);
+      } catch (error) {
+        console.error('Failed to fetch packages:', error);
+        setError('상품 목록을 불러오는데 실패했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPackages();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">상품 목록을 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="text-red-500 text-xl">{error}</div>
+          <Button onClick={() => window.location.reload()}>다시 시도</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+  };
+
+  const formatPrice = (price: string | number) => {
+    const numericPrice = typeof price === 'string' ? parseInt(price.replace(/[^0-9]/g, '')) : price;
+    return numericPrice.toLocaleString('ko-KR') + '원';
+  };
+
+  const getHighlights = (highlightsString: string): string[] => {
+    return highlightsString.split('\n').filter(highlight => highlight.trim() !== '');
+  };
 
   const filteredPackages = packages.filter(pkg => {
     const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -300,7 +244,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                 <div className="relative">
                   <div className="aspect-[16/10] overflow-hidden">
                     <ImageWithFallback
-                      src={pkg.image}
+                      src={pkg.image_url ? `http://localhost:5000${pkg.image_url}` : '/placeholder-image.jpg'}
                       alt={pkg.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -326,14 +270,14 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                     <div>
                       <p className="text-xs font-medium text-muted-foreground mb-2">주요 방문지</p>
                       <div className="flex flex-wrap gap-1">
-                        {pkg.highlights.slice(0, 3).map((highlight, index) => (
+                        {getHighlights(pkg.highlights).slice(0, 3).map((highlight, index) => (
                           <Badge key={index} variant="outline" className="text-xs">
                             {highlight}
                           </Badge>
                         ))}
-                        {pkg.highlights.length > 3 && (
+                        {getHighlights(pkg.highlights).length > 3 && (
                           <Badge variant="outline" className="text-xs">
-                            +{pkg.highlights.length - 3}
+                            +{getHighlights(pkg.highlights).length - 3}
                           </Badge>
                         )}
                       </div>
@@ -347,7 +291,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                       </div>
                       <div className="flex items-center space-x-2">
                         <Users className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">최대 {pkg.maxPeople}명</span>
+                        <span className="text-sm">최대 {pkg.max_people}명</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Plane className="h-4 w-4 text-muted-foreground" />
@@ -357,14 +301,14 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                     
                     {/* 가격 */}
                     <div className="pt-4 border-t border-border">
-                      <p className="text-lg font-medium">{pkg.price}</p>
+                      <p className="text-lg font-medium">{formatPrice(pkg.price)}</p>
                       <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p>
                     </div>
                     
                     {/* 출발일 및 도착일 */}
                     <div className="text-xs text-muted-foreground space-y-1">
-                      <div>출발일: {pkg.departureDate}</div>
-                      <div>도착일: {pkg.arrivalDate}</div>
+                      <div>출발일: {formatDate(pkg.departure_date)}</div>
+                      <div>도착일: {formatDate(pkg.arrival_date)}</div>
                     </div>
                   </div>
                 </CardContent>
