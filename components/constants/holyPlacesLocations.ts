@@ -189,5 +189,13 @@ export const holyPlacesLocations = {
       title: "로마 콜로세움",
       content: "초기 그리스도교 순교자들의 장소"
     }]
+  },
+  banneux: {
+    center: { lat: 50.53856060145688, lng: 5.736358099428498 },
+    markers: [{
+      position: { lat: 50.53856060145688, lng: 5.736358099428498 },
+      title: "바뇌 성모 성지",
+      content: "1933년 가난한 자들의 성모님 발현 장소"
+    }]
   }
 };

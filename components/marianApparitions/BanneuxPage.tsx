@@ -11,15 +11,15 @@ import {
   Droplets,
   Shield
 } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
-import GoogleMap from "./shared/GoogleMap";
-import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import GoogleMap from "../shared/GoogleMap";
+import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
-import banneuxPhoto from '../images/banneux/banneux-sanctuary.png';
-import marietteBeckoPhoto from '../images/banneux/mariette-becko.png';
+import banneuxPhoto from '../../images/banneux/banneux-sanctuary.png';
+import marietteBeckoPhoto from '../../images/banneux/mariette-becko.png';
 
 interface BanneuxPageProps {
   setCurrentPage: (page: string) => void;

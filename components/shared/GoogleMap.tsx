@@ -106,7 +106,10 @@ export default function GoogleMap({
               </div>
             `
           });
-
+          // ✅ 지도 로드시 자동으로 InfoWindow 열기
+          infoWindow.open(map, mapMarker);
+          
+          // ✅ 마커 클릭 시 InfoWindow 열기
           mapMarker.addListener('click', () => {
             infoWindow.open(map, mapMarker);
           });

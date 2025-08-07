@@ -16,20 +16,20 @@ import {
   ChevronRight,
   X
 } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
-import GoogleMap from "./shared/GoogleMap";
-import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import GoogleMap from "../shared/GoogleMap";
+import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 // 메주고리예 실제 사진들 import
-import crossMountainPhoto from '../images/medjugorje/medjugorje1.jpg';
-import apparitionHillPhoto from '../images/medjugorje/medjugorje2.jpg';
-import stJamesChurchPhoto from '../images/medjugorje/medjugorje3.jpg';
+import crossMountainPhoto from '../../images/medjugorje/medjugorje1.jpg';
+import apparitionHillPhoto from '../../images/medjugorje/medjugorje2.jpg';
+import stJamesChurchPhoto from '../../images/medjugorje/medjugorje3.jpg';
 
 interface MedjugorjePageProps {
   setCurrentPage: (page: string) => void;

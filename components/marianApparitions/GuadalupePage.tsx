@@ -1,11 +1,11 @@
 import { Quote, Crown, Users, Heart, MapPin, Calendar, Clock } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Separator } from "./ui/separator";
-import guadalupeImage from '../images/guadalupe/guadalupe.png';
-import tilmaImage from '../images/guadalupe/tilmaImage.png';
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import GoogleMap from "./shared/GoogleMap";
-import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Separator } from "../ui/separator";
+import guadalupeImage from '../../images/guadalupe/guadalupe.png';
+import tilmaImage from '../../images/guadalupe/tilmaImage.png';
+import { ImageWithFallback } from "../figma/ImageWithFallback";
+import GoogleMap from "../shared/GoogleMap";
+import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 interface GuadalupePageProps {
   setCurrentPage: (page: string) => void;

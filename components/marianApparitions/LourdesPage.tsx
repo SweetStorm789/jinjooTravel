@@ -16,22 +16,22 @@ import {
   ChevronRight,
   X
 } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
-import GoogleMap from "./shared/GoogleMap";
-import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import GoogleMap from "../shared/GoogleMap";
+import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 // 루르드 성지 실제 사진들 import
-import lourdesImage1 from '../images/lourdes/Lourdes1.jpg';
-import lourdesImage2 from '../images/lourdes/Lourdes2.jpg';
-import lourdesImage3 from '../images/lourdes/Lourdes3.jpg';
-import lourdesImage4 from '../images/lourdes/Lourdes4.jpg';
-import bernadettePhoto from '../images/lourdes/bernadette.png';
+import lourdesImage1 from '../../images/lourdes/Lourdes1.jpg';
+import lourdesImage2 from '../../images/lourdes/Lourdes2.jpg';
+import lourdesImage3 from '../../images/lourdes/Lourdes3.jpg';
+import lourdesImage4 from '../../images/lourdes/Lourdes4.jpg';
+import bernadettePhoto from '../../images/lourdes/bernadette.png';
 
 interface LourdesPageProps {
   setCurrentPage: (page: string) => void;

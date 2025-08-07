@@ -10,14 +10,14 @@ import {
   Globe,
   Quote
 } from "lucide-react";
-import threeShepherdsPhoto from '../images/fatima/three-shepherds.jpg';
-import fatimaImage from '../images/fatima/fatima-sanctuary.jpg';
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
-import GoogleMap from "./shared/GoogleMap";
-import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import threeShepherdsPhoto from '../../images/fatima/three-shepherds.jpg';
+import fatimaImage from '../../images/fatima/fatima-sanctuary.jpg';
+import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import GoogleMap from "../shared/GoogleMap";
+import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 interface FatimaPageProps {
   setCurrentPage: (page: string) => void;
