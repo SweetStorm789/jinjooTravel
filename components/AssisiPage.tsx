@@ -300,8 +300,8 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                 </CardHeader>
                 <CardContent>
                   <GoogleMap
-                    center={holyPlacesLocations.assisi.center}
-                    markers={holyPlacesLocations.assisi.markers}
+                    center={holyPlacesLocations.assisiBasilica.center}
+                    markers={holyPlacesLocations.assisiBasilica.markers}
                     zoom={15}
                     height="400px"
                     className="w-full"

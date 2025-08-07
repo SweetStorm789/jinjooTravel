@@ -166,7 +166,7 @@ export const holyPlacesLocations = {
       content: "1981년부터 현재까지 성모 마리아 발현 장소"
     }]
   },
-  assisi: {
+  assisiBasilica: {
     center: { lat: 43.0707, lng: 12.6197 },
     markers: [{
       position: { lat: 43.0707, lng: 12.6197 },
@@ -174,7 +174,7 @@ export const holyPlacesLocations = {
       content: "성 프란치스코의 묘소가 있는 성지"
     }]
   },
-  vatican: {
+  vaticanBasilica: {
     center: { lat: 41.9022, lng: 12.4539 },
     markers: [{
       position: { lat: 41.9022, lng: 12.4539 },
@@ -182,7 +182,7 @@ export const holyPlacesLocations = {
       content: "가톨릭 교회의 중심지"
     }]
   },
-  rome: {
+  romeColosseum: {
     center: { lat: 41.9028, lng: 12.4964 },
     markers: [{
       position: { lat: 41.9028, lng: 12.4964 },

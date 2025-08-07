@@ -237,8 +237,8 @@ export default function VaticanPage({
                 </CardHeader>
                 <CardContent>
                   <GoogleMap
-                    center={holyPlacesLocations.vatican.center}
-                    markers={holyPlacesLocations.vatican.markers}
+                    center={holyPlacesLocations.vaticanBasilica.center}
+                    markers={holyPlacesLocations.vaticanBasilica.markers}
                     zoom={15}
                     height="400px"
                     className="w-full"

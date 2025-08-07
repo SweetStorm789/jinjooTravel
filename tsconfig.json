@@ -24,6 +24,6 @@
       "@images/*": ["./images/*"]
     }
   },
-  "include": ["src", "components", "utils", "styles", "images"],
+  "include": ["src", "components", "utils", "styles", "images","vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

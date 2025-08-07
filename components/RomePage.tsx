@@ -296,8 +296,8 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                 </CardHeader>
                 <CardContent>
                   <GoogleMap
-                    center={holyPlacesLocations.rome.center}
-                    markers={holyPlacesLocations.rome.markers}
+                    center={holyPlacesLocations.romeColosseum.center}
+                    markers={holyPlacesLocations.romeColosseum.markers}
                     zoom={15}
                     height="400px"
                     className="w-full"
