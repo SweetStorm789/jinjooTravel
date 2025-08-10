@@ -55,7 +55,7 @@ interface PackageData {
   }[];
   included: string[];
   notIncluded: string[];
-  notes: string;
+  insuranceNotes: string;
   customerPromise: string;
   cancellationPolicy: string;
   otherInfo: string;
@@ -148,7 +148,7 @@ function PilgrimagePackageDetailPage({
           itinerary,
           included,
           notIncluded,
-          notes: data.notes || '',
+          insuranceNotes: data.insurance_notes || '',
           customerPromise: data.customer_promise || '',
           cancellationPolicy: data.cancellation_policy || '',
           otherInfo: data.other_info || ''
@@ -525,7 +525,7 @@ function PilgrimagePackageDetailPage({
                     <CardContent>
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <pre className="text-sm leading-relaxed whitespace-pre-wrap font-sans">
-                          {packageData.notes}
+                          {packageData.insuranceNotes}
                         </pre>
                       </div>
                     </CardContent>

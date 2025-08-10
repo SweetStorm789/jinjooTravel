@@ -96,8 +96,8 @@ export const createPackage = async (req: Request, res: Response) => {
             'INSERT INTO package_itineraries SET ?',
             {
               package_id: packageId,
-              day_number: day.day_number,
-              day_label: day.day_label,
+              day_number: day.day,
+              day_label: day.dayLabel,
               title: day.title,
               description: day.description,
               activities: day.activities,
