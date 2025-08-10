@@ -279,14 +279,25 @@ export default function PilgrimagePackageFormPage({
         arrival_date: formData.arrivalDate,
         max_people: formData.maxPeople,
         highlights: formData.highlights,
-        status: 'draft',
+        status: 'published',
         included: formData.included,
         not_included: formData.notIncluded,
         notes: formData.notes,
         insurance_notes: formData.insuranceNotes,
         customer_promise: formData.customerPromise,
         cancellation_policy: formData.cancellationPolicy,
-        other_info: formData.otherInfo
+        other_info: formData.otherInfo,
+
+        // ✅ 반드시 포함
+        itinerary: formData.itinerary.map(d => ({
+          day: d.day,
+          dayLabel: d.dayLabel,
+          title: d.title,
+          description: d.description,
+          activities: d.activities,
+          meals: d.meals,
+          accommodation: d.accommodation,
+        })),
       };
 
       // 1. 상품 정보 저장

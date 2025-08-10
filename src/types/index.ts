@@ -8,10 +8,11 @@ export interface User {
 export interface PilgrimageProduct {
   id: number;
   title: string;
+  subtitle: string;
   productCode: string;
   region: string;
   country: string;
-  duration: number;
+  duration: string;
   price: number;
   departureDate: Date;
   returnDate: Date;
@@ -19,22 +20,29 @@ export interface PilgrimageProduct {
   maxParticipants: number;
   currentParticipants: number;
   description: string;
+  highlights: string[];
   includedItems: string[];
   excludedItems: string[];
   notes: string;
+  customerPromise: string;
+  cancellationPolicy: string;
+  otherInfo: string;
   status: 'ACTIVE' | 'FULL' | 'CLOSED';
   isFeatured: boolean;
+  isWithPriest: boolean;
+  isDirect: boolean;
+  tags: string[];
 }
 
 export interface PilgrimageItinerary {
   id: number;
   productId: number;
   dayNumber: number;
-  location: string;
+  title: string;
   description: string;
+  activities: string[];
   meals: string;
   accommodation: string;
-  transportation: string;
 }
 
 export interface ProductImage {

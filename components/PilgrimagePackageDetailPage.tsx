@@ -1,19 +1,19 @@
 import {
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
   MapPin,
   Calendar,
   Users,
   Plane,
   Clock,
-  CheckCircle,
-  XCircle,
   Phone,
   Mail,
   ArrowLeft,
   Star,
   Heart,
   Share2,
-  Download,
-  AlertTriangle,
+  Download
 } from "lucide-react";
 import {
   Card,
@@ -27,8 +27,39 @@ import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Separator } from "./ui/separator";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatDateToKorean } from "../utils/dateFormat";
+import { ErrorBoundary } from "./shared/ErrorBoundary";
+
+interface PackageData {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  region: string;
+  duration: string;
+  price: string;
+  departureDate: string;
+  arrivalDate: string;
+  maxPeople: number;
+  currentBookings: number;
+  highlights: string[];
+  images: string[];
+  itinerary: {
+    day: number;
+    title: string;
+    description: string;
+    activities: string[];
+    meals: string;
+    accommodation: string;
+  }[];
+  included: string[];
+  notIncluded: string[];
+  notes: string;
+  customerPromise: string;
+  cancellationPolicy: string;
+  otherInfo: string;
+}
 
 interface PilgrimagePackageDetailPageProps {
   setCurrentPage: (page: string) => void;
@@ -36,212 +67,151 @@ interface PilgrimagePackageDetailPageProps {
   isAdmin?: boolean;
 }
 
-export default function PilgrimagePackageDetailPage({ 
+function PilgrimagePackageDetailPage({ 
   setCurrentPage, 
   packageId = "1",
   isAdmin = false
 }: PilgrimagePackageDetailPageProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const [packageData, setPackageData] = useState<PackageData | null>(null);
 
-  // 실제로는 packageId를 기반으로 DB에서 데이터를 가져올 예정
-  const packageData = {
-    id: 1,
-    title: "바티칸 & 로마 성지순례",
-    subtitle: "가톨릭의 중심지에서 만나는 신앙의 뿌리",
-    description: "베드로 대성당, 시스티나 성당, 바티칸 박물관과 로마의 주요 성지들을 방문하는 특별한 순례로, 2천 년 가톨릭 역사의 심장부에서 신앙을 깊게 하는 거룩한 여정입니다.",
-    images: [
-      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1552832230-92e4d7b42344?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1598969444050-b2d67d7d5a3a?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1609650982475-8e9bb7e8f7a0?q=80&w=1200&auto=format&fit=crop",
-    ],
-    duration: "7박 8일",
-    price: "2,890,000원",
-    region: "이탈리아",
-    highlights: [
-      "베드로 대성당",
-      "시스티나 성당",
-      "산 조반니 라테라노 대성당",
-      "산타 마리아 마조레 대성당",
-      "산 클레멘테 성당",
-      "진실의 입",
-      "로마 지하묘지",
-      "바티칸 박물관"
-    ],
-    departureDate: "2024년 3월 15일",
-    arrivalDate: "2024년 3월 22일",
-    maxPeople: 25,
-    currentBookings: 18,
-    
-    itinerary: [
-      {
-        day: 1,
-        title: "인천 출발 → 로마 도착",
-        description: "인천국제공항 출발, 로마 레오나르도 다 빈치 공항 도착 후 호텔 체크인",
-        activities: [
-          "인천국제공항 출발 (KE927편)",
-          "로마 레오나르도 다 빈치 공항 도착",
-          "호텔 체크인 및 휴식",
-          "환영 만찬"
-        ],
-        meals: "기내식, 석식",
-        accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-      },
-      {
-        day: 2,
-        title: "바티칸 성지순례",
-        description: "가톨릭의 중심지 바티칸에서 베드로 대성당과 시스티나 성당 참배",
-        activities: [
-          "바티칸 박물관 관람",
-          "시스티나 성당 미사 참례",
-          "베드로 대성당 참배",
-          "베드로 묘소 참배",
-          "교황 일반알현 (수요일인 경우)"
-        ],
-        meals: "조식, 중식, 석식",
-        accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-      },
-      {
-        day: 3,
-        title: "로마 4대 성당 순례",
-        description: "로마의 4대 성당을 차례로 방문하며 가톨릭 역사를 체험",
-        activities: [
-          "산 조반니 라테라노 대성당 (교황좌 성당)",
-          "산타 마리아 마조레 대성당 (구유 성유물)",
-          "산 바오로 푸오리 레 무라 대성당",
-          "성계단 기도"
-        ],
-        meals: "조식, 중식, 석식",
-        accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-      },
-      {
-        day: 4,
-        title: "로마 시내 성지 & 역사 탐방",
-        description: "고대 로마와 초기 기독교 유적지 방문",
-        activities: [
-          "콜로세움 및 포로 로마노",
-          "산 클레멘테 성당 (지하교회)",
-          "라테라노 세례소",
-          "진실의 입",
-          "트레비 분수"
-        ],
-        meals: "조식, 중식, 석식",
-        accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-      },
-      {
-        day: 5,
-        title: "로마 지하묘지 & 근교 성지",
-        description: "초기 기독교 순교자들의 발자취를 따라",
-        activities: [
-          "산 칼리스토 지하묘지",
-          "산 세바스티아노 성당",
-          "도미네 쿠오 바디스 성당",
-          "세 개의 분수 성당",
-          "아피아 가도"
-        ],
-        meals: "조식, 중식, 석식",
-        accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-      },
-      {
-        day: 6,
-        title: "카스텔 간돌포 & 자유시간",
-        description: "교황의 여름 별장과 로마 시내 자유시간",
-        activities: [
-          "카스텔 간돌포 (교황 여름 별장)",
-          "알바노 호수 관람",
-          "로마 시내 자유시간",
-          "기념품 쇼핑"
-        ],
-        meals: "조식, 중식, 석식",
-        accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-      },
-      {
-        day: 7,
-        title: "마지막 미사 & 공항 출발",
-        description: "순례 마무리 미사와 한국으로 출발",
-        activities: [
-          "순례 마무리 미사",
-          "개인 기도 시간",
-          "공항 이동",
-          "로마 출발 (KE928편)"
-        ],
-        meals: "조식, 기내식",
-        accommodation: "기내숙박"
-      },
-      {
-        day: 8,
-        title: "인천 도착",
-        description: "인천국제공항 도착 및 해산",
-        activities: [
-          "인천국제공항 도착",
-          "입국 수속",
-          "순례단 해산"
-        ],
-        meals: "기내식",
-        accommodation: "-"
+  useEffect(() => {
+    const fetchPackageData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:5000/api/packages/${packageId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch package data');
+        }
+        const data = await response.json();
+        
+        // 디버깅을 위해 데이터 로깅
+        console.log('Raw data:', data);
+        
+        // 문자열을 배열로 변환하는 함수
+        const parseTextToArray = (text: string | null | undefined, defaultValue: any[] = []): any[] => {
+          if (!text) return defaultValue;
+          
+          // 이미 JSON 배열인 경우 파싱 시도
+          if (text.startsWith('[') && text.endsWith(']')) {
+            try {
+              const parsed = JSON.parse(text);
+              return Array.isArray(parsed) ? parsed : defaultValue;
+            } catch (e) {
+              console.log('Not a valid JSON array, treating as text');
+            }
+          }
+          
+          // 일반 텍스트를 줄바꿈으로 분리
+          return text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+        };
+
+        // highlights 처리
+        const highlights = parseTextToArray(data.highlights);
+
+        // included 처리
+        const included = parseTextToArray(data.included);
+
+        // not_included 처리
+        const notIncluded = parseTextToArray(data.not_included);
+
+        // itinerary 처리
+        const itinerary = (data.itineraries || []).map((day: any) => {
+          return {
+            day: day.day_number,
+            title: day.title || '',
+            description: day.description || '',
+            activities: parseTextToArray(day.activities),
+            meals: day.meals || '',
+            accommodation: day.accommodation || ''
+          };
+        });
+
+        // API 응답 데이터를 UI에 맞게 변환
+        setPackageData({
+          id: data.id,
+          title: data.title,
+          subtitle: data.subtitle,
+          description: data.description,
+          region: data.region,
+          duration: data.duration,
+          price: new Intl.NumberFormat('ko-KR').format(data.price) + '원',
+          departureDate: formatDateToKorean(new Date(data.departure_date)),
+          arrivalDate: formatDateToKorean(new Date(data.arrival_date)),
+          maxPeople: data.max_people,
+          currentBookings: data.current_bookings || 0,
+          highlights,
+          images: data.images.map((img: any) => img.image_url),
+          itinerary,
+          included,
+          notIncluded,
+          notes: data.notes || '',
+          customerPromise: data.customer_promise || '',
+          cancellationPolicy: data.cancellation_policy || '',
+          otherInfo: data.other_info || ''
+        });
+      } catch (err) {
+        console.error('Error in fetchPackageData:', err);
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
       }
-    ],
+    };
 
-    included: [
-      "왕복 항공료 (대한항공 직항)",
-      "전 일정 숙박비 (4성급 호텔)",
-      "전 일정 식사 (조식 7회, 중식 6회, 석식 6회)",
-      "전용 관광버스",
-      "현지 가톨릭 가이드",
-      "모든 입장료 및 관람료",
-      "여행자 보험",
-      "팁 (가이드, 기사, 호텔)",
-      "순례 기념품"
-    ],
+    if (packageId) {
+      fetchPackageData();
+    }
+  }, [packageId]);
 
-    notIncluded: [
-      "개인 경비",
-      "여권 발급비",
-      "선택관광비",
-      "물값 및 음료",
-      "세탁비",
-      "전화 및 통신비",
-      "개인 여행자 보험 추가 가입시",
-      "항공료 할증료 (유류할증료 등)"
-    ],
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="space-y-4 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <p className="text-muted-foreground">패키지 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
 
-    notes: `– 지병이나 정신 질환을 가지고 계신 고객, 임신중이거나 장애를 가지고 있는 고객 ,
-고령자 (81세 이상), 특별한 배려를 필요로하시는 고객은 여행 신청시 증상을 포함한 내용을 반드시 알려주셔야 합니다.
-– 당사는 가능한 합리적인 범위내에서 의사의 진단서나 소정의 "여행 동의서"를 제출 요청 드릴 수가 있습니다.
-또한, 경우에 따라서는 참가를 거절하거나 동반자 동행을 조건으로 할 수 있습니다.
-– 단. 만 15세 미만 및 79세 6개월 이상의 고객의 경우 1억원 여행자 보험 플랜으로 적용됩니다.
-※ 여행자보험 담당 : [동부화재] 나성현(보험관련문의만가능)
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="space-y-4 text-center">
+          <AlertTriangle className="h-12 w-12 text-red-500 mx-auto" />
+          <div>
+            <h3 className="text-lg font-medium">오류가 발생했습니다</h3>
+            <p className="text-muted-foreground">{error}</p>
+          </div>
+          <Button onClick={() => window.location.reload()}>
+            다시 시도
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
-Tel)070-434-6601~2 Fax)02-737-3271~2
-– 단 15세 미만의 사망보험금 및 만 79세 6개월 이상의 질병사망에 대해서는 보험 약관에 따라 보험금이 지급되지 않습니다.
-– 자세한 세부사항은 홈페이지 하단 여행보험을 참조 바랍니다.`,
-    customerPromise: `- 카드 결제로 인한 추가 요금 NO! 상품가 보장!
-- 단체별 무조건 전문 인솔자 동반하여 출발 보장!
-- 안정적인 현지일정 및 체계적인 관리
-- 전 지역 호텔 투어리스트 택스 포함
-- 장거리 구간 대형버스(45~55인승) 진행
-- 진주여행사 단독행사 보장! (타 여행사와 연합하여 행사하지 않습니다.)
-♧♣ 전 지역 엄선된 준특급 및 일급 호텔 사용 ♧♣
+  if (!packageData) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="space-y-4 text-center">
+          <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto" />
+          <div>
+            <h3 className="text-lg font-medium">패키지를 찾을 수 없습니다</h3>
+            <p className="text-muted-foreground">요청하신 패키지 정보가 존재하지 않습니다.</p>
+          </div>
+          <Button onClick={() => setCurrentPage("pilgrimage-packages")}>
+            목록으로 돌아가기
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
-♣♧ 각 지역 특식 제공 ♧♣
-1. 만족도 최고! 정통 현지식 제공
-
-♣♧ 고객감사 PLUS 특전 ♧♣
-1. 박물관 관광 시 개인용 수신기 제공
-2. 전 지역 호텔 투어리스트 택스 포함
-3. 각 지역별 네트워크 운영으로 비상시 특화된 서비스 지원가능`,
-    cancellationPolicy: `- 이 상품은 취소시 공정거래 위원회 여행약관(2019년 12월19일 변경공시)과 (주)진주여행사의 특별약관 규정에 기준하여 취소수수료가 발생할 수 있으며, 취소시점에 항공(또는 선박)좌석 또는 호텔객실에 대한 비용을 선납해 놓은 경우, 취소시 별도의 취소료가 적용됨을 양해해 주시기 바랍니다.`,
-    otherInfo: `* NO 필수옵션
-* 지도신부님, 인솔자 동반
-* 선별된 우수가이드
-* 한식 특식
-* 1억원 여행자 보험
-* 최신의 깨끗한 차량을 우선배정
-* 아프거나 사고 발생시 각 지역별 병원과 연계하여 진료를 받도록 현지 의료정보 제공`,
-
-
-  };
-
+  // 패키지 데이터가 있을 때만 렌더링
   return (
     <div className="bg-background min-h-screen">
       {/* 상단 네비게이션 */}
@@ -299,7 +269,7 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
                   />
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {packageData.images.map((image, index) => (
+                  {packageData.images.map((image: string, index: number) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
@@ -360,7 +330,7 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
                 <div>
                   <h3 className="font-medium mb-3">주요 방문지</h3>
                   <div className="flex flex-wrap gap-2">
-                    {packageData.highlights.map((highlight, index) => (
+                    {packageData.highlights.map((highlight: string, index: number) => (
                       <Badge key={index} variant="outline" className="text-sm">
                         {highlight}
                       </Badge>
@@ -384,7 +354,7 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
 
                 <TabsContent value="itinerary" className="space-y-4">
                   <div className="space-y-4">
-                    {packageData.itinerary.map((day) => (
+                    {packageData.itinerary.map((day: PackageData['itinerary'][0]) => (
                       <Card key={day.day}>
                         <CardHeader>
                           <div className="flex items-center justify-between">
@@ -412,7 +382,7 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
                           <div>
                             <h5 className="font-medium mb-2">주요 활동</h5>
                             <ul className="space-y-1">
-                              {day.activities.map((activity, index) => (
+                              {day.activities.map((activity: string, index: number) => (
                                 <li key={index} className="flex items-start space-x-2 text-sm">
                                   <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                                   <span>{activity}</span>
@@ -477,8 +447,6 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
                     </Card>
                   </div>
                 </TabsContent>
-
-
 
                 <TabsContent value="promise" className="space-y-4">
                   <Card>
@@ -664,5 +632,13 @@ Tel)070-434-6601~2 Fax)02-737-3271~2
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PilgrimagePackageDetailPageWithErrorBoundary(props: PilgrimagePackageDetailPageProps) {
+  return (
+    <ErrorBoundary>
+      <PilgrimagePackageDetailPage {...props} />
+    </ErrorBoundary>
   );
 }

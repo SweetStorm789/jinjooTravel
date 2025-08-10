@@ -32,7 +32,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
   useEffect(() => {
     const fetchFeaturedPackages = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/packages');
+        const response = await axios.get(`${BASE_URL}/api/packages`);
         console.log('All packages:', response.data); // 전체 데이터 확인
         
         const publishedPackages = response.data.filter((pkg: any) => pkg.status === 'published');
@@ -50,7 +50,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
             // 이미지 URL 로깅
             if (imageUrl) {
               console.log('Selected image:', imageUrl);
-              console.log('Full image URL:', `http://localhost:5000/uploads/${imageUrl.image_url.split('/').pop()}`);
+              console.log('Full image URL:', `${BASE_URL}/uploads/${imageUrl.image_url.split('/').pop()}`);
             }
 
             return {
@@ -60,7 +60,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
               region: pkg.region,
               duration: pkg.duration,
               price: pkg.price,
-              image_url: imageUrl ? `http://localhost:5000/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
+              image_url: imageUrl ? `${BASE_URL}/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
               status: pkg.status,
               max_people: pkg.max_people,
               rating: 4.8, // 임시 평점

@@ -2,7 +2,27 @@ import { Request, Response } from 'express';
 import pool from '../config/database';
 import { AppError } from '../middleware/errorHandler';
 
+type SqlError = Error & {
+  code?: string;
+  errno?: number;
+  sqlState?: string;
+  sqlMessage?: string;
+  sql?: string;
+};
+
+function logSqlError(prefix: string, error: SqlError) {
+  console.error(prefix, {
+    code: error?.code,
+    errno: error?.errno,
+    sqlState: error?.sqlState,
+    sqlMessage: error?.sqlMessage,
+    sql: error?.sql,
+    message: error?.message,
+  });
+}
+
 export const createPackage = async (req: Request, res: Response) => {
+  console.log('🚀 createPackage function called!');
   try {
     // 기본 데이터와 상세 데이터 분리
     const {
@@ -22,14 +42,15 @@ export const createPackage = async (req: Request, res: Response) => {
       // 상세 정보
       included,
       not_included,
-      insuranceNotes,
+      insurance_notes,
       customer_promise,
       cancellation_policy,
       other_info,
       itinerary,
       ...rest
     } = req.body;
-
+    console.log('[createPackage] insurance_notes value:', insurance_notes);
+    console.log('[createPackage] keys:', Object.keys(req.body));
     // 트랜잭션 시작
     const connection = await pool.getConnection();
     await connection.beginTransaction();
@@ -54,14 +75,14 @@ export const createPackage = async (req: Request, res: Response) => {
       );
       const packageId = (result as any).insertId;
 
-      // 2. 패키지 상세 정보 저장
+      // 2. 패키지 상세 정보 저장 (JSON으로 변환)
       await connection.query(
         'INSERT INTO package_details SET ?',
         {
           package_id: packageId,
-          included,
-          not_included,
-          notes: insuranceNotes, // insuranceNotes를 notes 필드에 저장
+          included: Array.isArray(included) ? JSON.stringify(included) : included,
+          not_included: Array.isArray(not_included) ? JSON.stringify(not_included) : not_included,
+          insurance_notes: insurance_notes, // insuranceNotes를 notes 필드에 저장
           customer_promise,
           cancellation_policy,
           other_info
@@ -75,8 +96,8 @@ export const createPackage = async (req: Request, res: Response) => {
             'INSERT INTO package_itineraries SET ?',
             {
               package_id: packageId,
-              day_number: day.day,
-              day_label: day.dayLabel,
+              day_number: day.day_number,
+              day_label: day.day_label,
               title: day.title,
               description: day.description,
               activities: day.activities,
@@ -92,10 +113,27 @@ export const createPackage = async (req: Request, res: Response) => {
         id: packageId, 
         message: 'Package created successfully' 
       });
-    } catch (error) {
+    } catch (e:any) {
       await connection.rollback();
-      throw error;
-    } finally {
+      console.error('❌ [CreatePackage SQL Error]', {
+        message: e?.message,
+        sqlMessage: e?.sqlMessage,
+        sql: e?.sql,
+        stack: e?.stack,
+        errno: e?.errno,
+        code: e?.code
+      });
+      return res.status(500).json({
+        status: 'error',
+        message: e?.sqlMessage || e?.message || 'Failed to create package',
+        details: {
+          errno: e?.errno,
+          code: e?.code,
+          sql: e?.sql
+        }
+      });
+    } 
+    finally {
       connection.release();
     }
   } catch (error) {
@@ -183,8 +221,7 @@ export const getPackageById = async (req: Request, res: Response) => {
     const responseData = {
       ...package_data,
       ...detailData,
-      insuranceNotes: detailData.notes, // notes를 insuranceNotes로 변환
-      notes: undefined, // notes 필드 제거
+      insuranceNotes: detailData.insurance_notes, // notes를 insuranceNotes로 변환
       itineraries,
       images: imagesWithFullUrls
     };
@@ -219,7 +256,7 @@ export const updatePackage = async (req: Request, res: Response) => {
       // 상세 정보
       included,
       not_included,
-      insuranceNotes,
+      insurance_notes,
       customer_promise,
       cancellation_policy,
       other_info,
@@ -250,13 +287,13 @@ export const updatePackage = async (req: Request, res: Response) => {
         }, id]
       );
 
-      // 2. 패키지 상세 정보 업데이트
+      // 2. 패키지 상세 정보 업데이트 (JSON으로 변환)
       await connection.query(
         'UPDATE package_details SET ? WHERE package_id = ?',
         [{
-          included,
-          not_included,
-          notes: insuranceNotes, // insuranceNotes를 notes 필드에 저장
+          included: Array.isArray(included) ? JSON.stringify(included) : included,
+          not_included: Array.isArray(not_included) ? JSON.stringify(not_included) : not_included,
+          insurance_notes: insurance_notes, // insuranceNotes를 notes 필드에 저장
           customer_promise,
           cancellation_policy,
           other_info

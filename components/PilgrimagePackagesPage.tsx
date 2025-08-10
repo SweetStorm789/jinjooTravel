@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from '@/lib/constants';
 
 interface PilgrimagePackage {
   id: number;
@@ -52,13 +53,52 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   const [packages, setPackages] = useState<PilgrimagePackage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(9);
 
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('http://localhost:5000/api/packages');
-        setPackages(response.data);
+        // const response = await axios.get('http://localhost:5000/api/packages');
+        const response = await axios.get(`${BASE_URL}/api/packages`);
+        console.log('Fetched packages:', response.data);
+
+        const featuredPackages = response.data
+        .map((pkg: any) => {
+          console.log('Package images:', pkg.images); // 이미지 데이터 확인
+          
+          // 메인 이미지 찾기
+          const mainImage = pkg.images?.find((img: any) => img.image_type === 'main');
+          const firstImage = pkg.images?.[0];
+          const imageObj = mainImage || firstImage;
+          
+            // 파일명 안전 추출
+          const filename = imageObj?.image_url?.split?.('/')?.pop?.();
+          const relativeImagePath = filename ? `/uploads/${filename}` : undefined;
+
+          // 이미지 URL 로깅
+          if (imageObj) {
+            console.log('Selected image:', imageObj);
+            console.log('Full image URL:', `${BASE_URL}/uploads/${imageObj.image_url.split('/').pop()}`);
+          }
+
+          return {
+            id: pkg.id,
+            title: pkg.title,
+            subtitle: pkg.subtitle,
+            region: pkg.region,
+            duration: pkg.duration,
+            price: pkg.price,
+            image_url: relativeImagePath,
+            status: pkg.status,
+            max_people: pkg.max_people,
+            rating: 4.8, // 임시 평점
+            reviews: Math.floor(Math.random() * 300) + 100 // 임시 리뷰 수
+          };
+        });
+
+
+        setPackages(featuredPackages);
       } catch (error) {
         console.error('Failed to fetch packages:', error);
         setError('상품 목록을 불러오는데 실패했습니다.');
@@ -92,18 +132,36 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
     );
   }
 
-  const formatDate = (dateString: string) => {
+  // 안전한 날짜 포매터
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '미정';
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '미정';
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
   };
 
+  // 만원 단위 표시 포매터
   const formatPrice = (price: string | number) => {
-    const numericPrice = typeof price === 'string' ? parseInt(price.replace(/[^0-9]/g, '')) : price;
-    return numericPrice.toLocaleString('ko-KR') + '원';
+    let numericPrice: number;
+
+    if (typeof price === 'string') {
+      numericPrice = parseFloat(price.replace(/,/g, '')); // 소수점 유지
+    } else {
+      numericPrice = price ?? 0;
+    }
+
+    // 만원 단위로 변환
+    const manWon = Math.round(numericPrice / 10000);
+    return `${manWon}만원`;
   };
 
-  const getHighlights = (highlightsString: string): string[] => {
-    return highlightsString.split('\n').filter(highlight => highlight.trim() !== '');
+  // 안전한 하이라이트 파서
+  const getHighlights = (highlightsString?: string): string[] => {
+    if (!highlightsString || typeof highlightsString !== 'string') return [];
+    return highlightsString
+      .split('\n')
+      .map(h => h.trim())
+      .filter(Boolean);
   };
 
   const filteredPackages = packages.filter(pkg => {
@@ -167,12 +225,18 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
               <Input
                 placeholder="순례 상품 검색..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setVisibleCount(9);
+                }}
                 className="pl-10"
               />
             </div>
             
-            <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+            <Select value={selectedRegion} onValueChange={(value) => {
+              setSelectedRegion(value);
+              setVisibleCount(9);
+            }}>
               <SelectTrigger>
                 <SelectValue placeholder="지역 선택" />
               </SelectTrigger>
@@ -185,7 +249,10 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
               </SelectContent>
             </Select>
             
-            <Select value={selectedDuration} onValueChange={setSelectedDuration}>
+            <Select value={selectedDuration} onValueChange={(value) => {
+              setSelectedDuration(value);
+              setVisibleCount(9);
+            }}>
               <SelectTrigger>
                 <SelectValue placeholder="기간 선택" />
               </SelectTrigger>
@@ -238,13 +305,13 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filteredPackages.map((pkg) => (
-              <Card key={pkg.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPackages.slice(0, visibleCount).map((pkg) => (
+              <Card key={pkg.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={() => setCurrentPage(`package-detail/${pkg.id}`)}>
                 <div className="relative">
                   <div className="aspect-[16/10] overflow-hidden">
                     <ImageWithFallback
-                      src={pkg.image_url ? `http://localhost:5000${pkg.image_url}` : '/placeholder-image.jpg'}
+                      src={pkg.image_url ? `${BASE_URL}${pkg.image_url}` : '/placeholder-image.jpg'}
                       alt={pkg.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -318,11 +385,18 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
         </div>
 
         {/* 더 보기 버튼 */}
-        <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="px-8">
-            더 많은 상품 보기
-          </Button>
-        </div>
+        {filteredPackages.length > visibleCount && (
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="px-8"
+              onClick={() => setVisibleCount(prev => prev + 9)}
+            >
+              더 많은 상품 보기
+            </Button>
+          </div>
+        )}
 
         {/* 상담 문의 섹션 */}
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-8 mt-12">
