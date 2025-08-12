@@ -1,16 +1,10 @@
 import {
-  MapPin,
-  Calendar,
-  Users,
-  Plane,
-  Clock,
   CheckCircle,
   XCircle,
   ArrowLeft,
   Save,
   Plus,
   Trash2,
-  Upload,
   AlertTriangle,
   Star,
 } from "lucide-react";
@@ -21,18 +15,17 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Separator } from "./ui/separator";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState, useEffect } from "react";
+import React from "react";
 import { ImageUpload } from "./ui/image-upload";
 import axios from "axios";
+import { BASE_URL } from '@/lib/constants';
 
 import { formatDateToKorean, parseDayRange, findLastDay } from "../utils/dateFormat";
 
@@ -42,7 +35,6 @@ interface PilgrimagePackageFormPageProps {
 }
 
 interface ItineraryDay {
-  day: number;
   dayLabel: string; // "Day 1", "Day 2 ~ 3", "Day 1-2" 등 자유 형식
   title: string;
   description: string;
@@ -110,8 +102,7 @@ export default function PilgrimagePackageFormPage({
     arrivalDate: "",
     maxPeople: 0,
     itinerary: [{
-      day: 1,
-      dayLabel: "Day 1",
+      dayLabel: "1일차",
       title: "",
       description: "",
       activities: "",
@@ -133,78 +124,117 @@ export default function PilgrimagePackageFormPage({
     }
   });
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // 수정 모드일 때 기존 데이터 로드
   useEffect(() => {
-    if (isEdit && packageId) {
-      // 실제로는 API에서 데이터를 가져올 예정
-      // 현재는 샘플 데이터로 테스트
-      if (packageId === "1") {
+    const fetchPackageData = async () => {
+      if (!isEdit || !packageId) return;
+      
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await fetch(`${BASE_URL}/api/packages/${packageId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch package data');
+        }
+        const data = await response.json();
+        
+        // 문자열을 배열로 변환하는 함수 
+        const parseTextToArray = (text: string | null | undefined): string => {
+          if (!text) return "";
+          
+          // 이미 JSON 배열인 경우 문자열로 변환
+          if (text.startsWith('[') && text.endsWith(']')) {
+            try {
+              const parsed = JSON.parse(text);
+              return Array.isArray(parsed) ? parsed.join('\n') : text;
+            } catch (e) {
+              return text;
+            }
+          }
+          
+          return text;
+        };
+
+        // itinerary 처리 - API 응답에 맞게 변환
+        const itinerary = (data.itineraries || []).map((day: any) => ({
+          dayLabel: day.day_label || `Day ${day.day_number}`,
+          title: day.title || '',
+          description: day.description || '',
+          activities: parseTextToArray(day.activities),
+          meals: day.meals || '',
+          accommodation: day.accommodation || ''
+        }));
+
+        // 이미지 처리 - 절대 경로로 변환
+        const images = (data.images || []).map((img: any) => ({
+          id: img.id,
+          image_url: img.image_url.startsWith('http') ? img.image_url : `${BASE_URL}${img.image_url}`,
+          display_order: img.display_order,
+          image_type: img.image_type
+        }));
+
+        // 가격 처리 - 숫자를 포맷된 문자열로 변환
+        const formatPrice = (price: number | string) => {
+          let numericPrice: number;
+          if (typeof price === 'string') {
+            // "3000000.00" 같은 문자열에서 소수점 앞의 정수 부분만 추출
+            const cleanedPrice = price.replace(/[^0-9.]/g, ''); // 숫자와 점만 남김
+            numericPrice = parseInt(cleanedPrice.split('.')[0]) || 0; // 소수점 앞부분만 취함
+          } else {
+            // 숫자인 경우 소수점 제거하고 정수로 변환
+            numericPrice = Math.floor(price) || 0;
+          }
+          return new Intl.NumberFormat('ko-KR').format(numericPrice) + '원';
+        };
+
+        // 폼 데이터 설정
         setFormData({
-          title: "바티칸 & 로마 성지순례",
-          subtitle: "가톨릭의 중심지에서 만나는 신앙의 뿌리",
-          description: "베드로 대성당, 시스티나 성당, 바티칸 박물관과 로마의 주요 성지들을 방문하는 특별한 순례로, 2천 년 가톨릭 역사의 심장부에서 신앙을 깊게 하는 거룩한 여정입니다.",
-          images: [
-            {
-              id: 1,
-              image_url: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1200&auto=format&fit=crop",
-              display_order: 1,
-              image_type: 'main'
-            },
-            {
-              id: 2,
-              image_url: "https://images.unsplash.com/photo-1552832230-92e4d7b42344?q=80&w=1200&auto=format&fit=crop",
-              display_order: 2,
-              image_type: 'detail'
-            },
-            {
-              id: 3,
-              image_url: "https://images.unsplash.com/photo-1598969444050-b2d67d7d5a3a?q=80&w=1200&auto=format&fit=crop",
-              display_order: 3,
-              image_type: 'detail'
-            },
-            {
-              id: 4,
-              image_url: "https://images.unsplash.com/photo-1609650982475-8e9bb7e8f7a0?q=80&w=1200&auto=format&fit=crop",
-              display_order: 4,
-              image_type: 'detail'
-            }
-          ],
-          duration: "7박 8일",
-          price: "2,890,000원",
-          region: "유럽",
-          highlights: "베드로 대성당\n시스티나 성당\n산 조반니 라테라노 대성당\n산타 마리아 마조레 대성당",
-          departureDate: "2024-03-15",
-          arrivalDate: "2024-03-22",
-          maxPeople: 25,
-          itinerary: [
-            {
-              day: 1,
-              dayLabel: "Day 1",
-              title: "인천 출발 → 로마 도착",
-              description: "인천국제공항 출발, 로마 레오나르도 다 빈치 공항 도착 후 호텔 체크인",
-              activities: "인천국제공항 출발 (KE927편)\n로마 레오나르도 다 빈치 공항 도착\n호텔 체크인 및 휴식",
-              meals: "기내식, 석식",
-              accommodation: "Rome Marriott Grand Hotel Flora (4성급)"
-            }
-          ],
-          included: "왕복 항공료 (대한항공 직항)\n전 일정 숙박비 (4성급 호텔)\n전 일정 식사\n전용 차량 및 현지 가이드\n바티칸 박물관 입장료\n성지 입장료 및 미사 참례",
-          notIncluded: "개인 경비\n여권 발급비\n선택관광비\n개인 여행자보험\n팁 (가이드, 기사, 호텔)\n개인적인 쇼핑 및 음료",
-          insuranceNotes: "– 지병이나 정신 질환을 가지고 계신 고객, 임신중이거나 장애를 가지고 있는 고객 ,\n고령자 (81세 이상), 특별한 배려를 필요로하시는 고객은 여행 신청시 증상을 포함한 내용을 반드시 알려주셔야 합니다.\n– 당사는 가능한 합리적인 범위내에서 의사의 진단서나 소정의 \"여행 동의서\"를 제출 요청 드릴 수가 있습니다.\n또한, 경우에 따라서는 참가를 거절하거나 동반자 동행을 조건으로 할 수 있습니다.\n– 단. 만 15세 미만 및 79세 6개월 이상의 고객의 경우 1억원 여행자 보험 플랜으로 적용됩니다.\n※ 여행자보험 담당 : [동부화재] 나성현(보험관련문의만가능)\n\nTel)070-434-6601~2 Fax)02-737-3271~2\n– 단 15세 미만의 사망보험금 및 만 79세 6개월 이상의 질병사망에 대해서는 보험 약관에 따라 보험금이 지급되지 않습니다.\n– 자세한 세부사항은 홈페이지 하단 여행보험을 참조 바랍니다.",
-          customerPromise: "- 카드 결제로 인한 추가 요금 NO! 상품가 보장!\n- 단체별 무조건 전문 인솔자 동반하여 출발 보장!\n- 안정적인 현지일정 및 체계적인 관리\n- 전 지역 호텔 투어리스트 택스 포함\n- 장거리 구간 대형버스(45~55인승) 진행\n- 진주여행사 단독행사 보장! (타 여행사와 연합하여 행사하지 않습니다.)\n♧♣ 전 지역 엄선된 준특급 및 일급 호텔 사용 ♧♣\n\n♣♧ 각 지역 특식 제공 ♧♣\n1. 만족도 최고! 정통 현지식 제공\n\n♣♧ 고객감사 PLUS 특전 ♧♣\n1. 박물관 관광 시 개인용 수신기 제공\n2. 전 지역 호텔 투어리스트 택스 포함\n3. 각 지역별 네트워크 운영으로 비상시 특화된 서비스 지원가능",
-          cancellationPolicy: "- 이 상품은 취소시 공정거래 위원회 여행약관(2019년 12월19일 변경공시)과 (주)진주여행사의 특별약관 규정에 기준하여 취소수수료가 발생할 수 있으며, 취소시점에 항공(또는 선박)좌석 또는 호텔객실에 대한 비용을 선납해 놓은 경우, 취소시 별도의 취소료가 적용됨을 양해해 주시기 바랍니다.",
-          otherInfo: "* NO 필수옵션\n* 지도신부님, 인솔자 동반\n* 선별된 우수가이드\n* 한식 특식\n* 1억원 여행자 보험\n* 최신의 깨끗한 차량을 우선배정\n* 아프거나 사고 발생시 각 지역별 병원과 연계하여 진료를 받도록 현지 의료정보 제공",
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          images,
+          duration: data.duration || '',
+          price: formatPrice(data.price || 0),
+          region: data.region || '',
+          highlights: parseTextToArray(data.highlights),
+          departureDate: data.departure_date ? formatYYYYMMDDToInputDate(data.departure_date) : '',
+          arrivalDate: data.arrival_date ? formatYYYYMMDDToInputDate(data.arrival_date) : '',
+          maxPeople: data.max_people || 0,
+          itinerary: itinerary.length > 0 ? itinerary : [{
+            dayLabel: "Day 1",
+            title: "",
+            description: "",
+            activities: "",
+            meals: "",
+            accommodation: ""
+          }],
+          included: parseTextToArray(data.included),
+          notIncluded: parseTextToArray(data.not_included),
+          insuranceNotes: parseTextToArray(data.insurance_notes),
+          customerPromise: parseTextToArray(data.customer_promise),
+          cancellationPolicy: parseTextToArray(data.cancellation_policy),
+          otherInfo: parseTextToArray(data.other_info),
           guide: {
-            name: "김마리아 가이드",
-            experience: "15년",
-            specialty: "바티칸 성지 전문",
-            certification: "공인 바티칸 가이드",
-            language: "한국어, 이탈리아어, 영어"
+            name: "",
+            experience: "",
+            specialty: "",
+            certification: "",
+            language: ""
           }
         });
+      } catch (err) {
+        console.error('Error fetching package data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load package data');
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+
+    fetchPackageData();
   }, [isEdit, packageId]);
 
   const handleInputChange = (field: string, value: any) => {
@@ -212,6 +242,43 @@ export default function PilgrimagePackageFormPage({
       ...prev,
       [field]: value
     }));
+  };
+
+  // 가격 포맷팅 함수
+  const formatPriceInput = (value: string) => {
+    // 숫자만 추출
+    const numericValue = value.replace(/[^0-9]/g, '');
+    if (!numericValue) return '';
+    
+    // 숫자를 콤마로 포맷팅하고 "원" 추가
+    const formattedNumber = new Intl.NumberFormat('ko-KR').format(parseInt(numericValue));
+    return formattedNumber + '원';
+  };
+
+  // 가격 입력 핸들러
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPrice = formatPriceInput(e.target.value);
+    handleInputChange("price", formattedPrice);
+  };
+
+  // YYYYMMDD 형식을 YYYY-MM-DD 형식으로 변환 (HTML input[type="date"]용)
+  const formatYYYYMMDDToInputDate = (dateString: string): string => {
+    if (!dateString) return '';
+    
+    // YYYYMMDD 형식인지 확인
+    if (dateString.length === 8 && /^\d{8}$/.test(dateString)) {
+      const year = dateString.substring(0, 4);
+      const month = dateString.substring(4, 6);
+      const day = dateString.substring(6, 8);
+      return `${year}-${month}-${day}`;
+    }
+    
+    // 기존 형식 처리 (fallback)
+    if (dateString.includes('T')) {
+      return dateString.split('T')[0];
+    }
+    
+    return dateString;
   };
 
 
@@ -231,7 +298,6 @@ export default function PilgrimagePackageFormPage({
       return {
         ...prev,
         itinerary: [...prev.itinerary, {
-          day: nextDay,
           dayLabel: `Day ${nextDay}`,
           title: "",
           description: "",
@@ -246,25 +312,48 @@ export default function PilgrimagePackageFormPage({
   const removeItineraryDay = (index: number) => {
     setFormData(prev => ({
       ...prev,
-      itinerary: prev.itinerary.filter((_, i) => i !== index).map((day, i) => ({
-        ...day,
-        day: i + 1
-      }))
-    }));
-  };
-
-  const handleGuideChange = (field: keyof GuideInfo, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      guide: {
-        ...prev.guide,
-        [field]: value
-      }
+      itinerary: prev.itinerary.filter((_, i) => i !== index)
     }));
   };
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
+      
+      // 기본 유효성 검사
+      if (!formData.title.trim()) {
+        alert('상품명을 입력해주세요.');
+        return;
+      }
+      if (!formData.description.trim()) {
+        alert('상품 설명을 입력해주세요.');
+        return;
+      }
+      if (!formData.duration.trim()) {
+        alert('여행 기간을 입력해주세요.');
+        return;
+      }
+      if (!formData.price.trim()) {
+        alert('순례 금액을 입력해주세요.');
+        return;
+      }
+      if (!formData.departureDate) {
+        alert('출발일을 선택해주세요.');
+        return;
+      }
+      if (!formData.arrivalDate) {
+        alert('도착일을 선택해주세요.');
+        return;
+      }
+      if (!formData.maxPeople || formData.maxPeople <= 0) {
+        alert('최대 인원을 입력해주세요.');
+        return;
+      }
+      if (!formData.region) {
+        alert('지역을 선택해주세요.');
+        return;
+      }
+
       // 데이터 형식 변환
       const packageData = {
         title: formData.title,
@@ -272,7 +361,7 @@ export default function PilgrimagePackageFormPage({
         description: formData.description,
         region: formData.region,
         duration: formData.duration,
-        price: formData.price.replace(/[^0-9]/g, ''), // 숫자만 추출
+        price: parseInt(formData.price.replace(/[^0-9]/g, '')) || 0, // 정수만 추출하여 숫자형으로
         departure_date: formData.departureDate,
         arrival_date: formData.arrivalDate,
         max_people: formData.maxPeople,
@@ -285,10 +374,10 @@ export default function PilgrimagePackageFormPage({
         cancellation_policy: formData.cancellationPolicy,
         other_info: formData.otherInfo,
 
-        // ✅ 반드시 포함
-        itinerary: formData.itinerary.map(d => ({
-          day: d.day,
-          dayLabel: d.dayLabel,
+        // 일정 데이터 변환 (API 스키마에 맞게)
+        itinerary: formData.itinerary.map((d, index) => ({
+          day_number: index + 1, // 인덱스 기반으로 day_number 생성
+          day_label: d.dayLabel, // dayLabel 필드 추가
           title: d.title,
           description: d.description,
           activities: d.activities,
@@ -297,29 +386,75 @@ export default function PilgrimagePackageFormPage({
         })),
       };
 
-      // 1. 상품 정보 저장
-      const response = await axios.post('http://localhost:5000/api/packages', packageData);
+      let responsePackageId;
 
-      const packageId = response.data.id;
+      if (isEdit && packageId) {
+        // 수정 모드: PUT 요청
+        await axios.put(`${BASE_URL}/api/packages/${packageId}`, packageData);
+        responsePackageId = packageId;
+        
+        // 이미지는 개별 API로 관리 (기존 로직 유지)
+        
+        alert("상품이 수정되었습니다.");
+        setCurrentPage(`package-detail-${packageId}`);
+      } else {
+        // 등록 모드: POST 요청
+        const response = await axios.post(`${BASE_URL}/api/packages`, packageData);
+        responsePackageId = response.data.id;
 
-      // 2. 임시 이미지들을 상품과 연결
-      if (formData.images.length > 0) {
-        await axios.put(`http://localhost:5000/api/images/link/${packageId}`, {
-          images: formData.images.map(img => ({
-            id: img.id,
-            display_order: img.display_order,
-            image_type: img.image_type
-          }))
-        });
+        // 임시 이미지들을 상품과 연결
+        if (formData.images.length > 0) {
+          await axios.put(`${BASE_URL}/api/images/link/${responsePackageId}`, {
+            images: formData.images.map(img => ({
+              id: img.id,
+              display_order: img.display_order,
+              image_type: img.image_type
+            }))
+          });
+        }
+
+        alert("상품이 등록되었습니다.");
+        // 옵션: 상세 페이지로 이동하거나 목록으로 이동
+        setCurrentPage("pilgrimage-packages");
+        // 또는 상세 페이지로: setCurrentPage(`package-detail-${responsePackageId}`);
       }
-
-      alert(isEdit ? "상품이 수정되었습니다." : "상품이 등록되었습니다.");
-      setCurrentPage("pilgrimage-packages");
     } catch (error) {
       console.error('상품 저장 실패:', error);
       alert('상품 저장에 실패했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
+
+  // 로딩 상태
+  if (loading && isEdit) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">패키지 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <AlertTriangle className="h-12 w-12 text-red-500 mx-auto" />
+          <div>
+            <h3 className="text-lg font-medium">오류가 발생했습니다</h3>
+            <p className="text-muted-foreground">{error}</p>
+          </div>
+          <Button onClick={() => window.location.reload()}>
+            다시 시도
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background min-h-screen">
@@ -342,12 +477,20 @@ export default function PilgrimagePackageFormPage({
               </h1>
             </div>
             <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm">
+              {/* <Button variant="outline" size="sm">
                 미리보기
-              </Button>
-              <Button onClick={handleSubmit} className="flex items-center space-x-2">
-                <Save className="h-4 w-4" />
-                <span>{isEdit ? "수정" : "등록"}</span>
+              </Button> */}
+              <Button 
+                onClick={handleSubmit} 
+                disabled={loading}
+                className="flex items-center space-x-2"
+              >
+                {loading ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+                <span>{loading ? "저장 중..." : (isEdit ? "수정" : "등록")}</span>
               </Button>
             </div>
           </div>
@@ -436,9 +579,12 @@ export default function PilgrimagePackageFormPage({
                     <Input
                       id="price"
                       value={formData.price}
-                      onChange={(e) => handleInputChange("price", e.target.value)}
-                      placeholder="예: 2,890,000원"
+                      onChange={handlePriceChange}
+                      placeholder="예: 2890000 (숫자만 입력)"
                     />
+                    <p className="text-xs text-muted-foreground">
+                      숫자만 입력하세요. 자동으로 포맷팅됩니다.
+                    </p>
                   </div>
                 </div>
 
@@ -490,10 +636,11 @@ export default function PilgrimagePackageFormPage({
                       Array.from(files).forEach(file => {
                         formData.append('images', file);
                       });
-                      formData.append('package_id', packageId || '0');
+                      formData.append('package_id', (isEdit && packageId) ? packageId : '0');
                       formData.append('image_type', 'detail');
 
-                      const response = await axios.post('http://localhost:5000/api/images', formData, {
+                      //const response = await axios.post('http://localhost:5000/api/images', formData, {
+                      const response = await axios.post(`${BASE_URL}/api/images`, formData, {
                         headers: {
                           'Content-Type': 'multipart/form-data'
                         }
@@ -503,7 +650,8 @@ export default function PilgrimagePackageFormPage({
                         // 이미지 URL을 절대 경로로 변환
                         const imagesWithFullUrls = response.data.images.map((img: PackageImage) => ({
                           ...img,
-                          image_url: `http://localhost:5000${img.image_url}`
+                          //image_url: `http://localhost:5000${img.image_url}`
+                          image_url: `${BASE_URL}${img.image_url}`
                         }));
                         setFormData(prev => ({
                           ...prev,
@@ -519,7 +667,8 @@ export default function PilgrimagePackageFormPage({
                     const image = formData.images[index];
                     if (image.id) {
                       try {
-                        await axios.delete(`http://localhost:5000/api/images/${image.id}`);
+                        //await axios.delete(`http://localhost:5000/api/images/${image.id}`);
+                        await axios.delete(`${BASE_URL}/api/images/${image.id}`);
                       } catch (error) {
                         console.error('이미지 삭제 실패:', error);
                         alert('이미지 삭제에 실패했습니다.');
@@ -544,7 +693,8 @@ export default function PilgrimagePackageFormPage({
                     }));
 
                     try {
-                      await axios.put('http://localhost:5000/api/images/order', {
+                      //  await axios.put('http://localhost:5000/api/images/order', {
+                      await axios.put(`${BASE_URL}/api/images/order`, {
                         images: updatedImages.map(img => ({
                           id: img.id,
                           display_order: img.display_order
@@ -621,7 +771,7 @@ export default function PilgrimagePackageFormPage({
                   <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center space-x-2">
                       <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
-                        {day.day}
+                        {index + 1}
                       </div>
                       <div className="flex flex-col">
                         <span>{day.dayLabel}</span>

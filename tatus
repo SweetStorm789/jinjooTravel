@@ -1,0 +1,5 @@
+[33m9c54b03[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix: package_details 테이블의 notes 컬럼을 insurance_notes로 변경 및 관련 코드 수정
+[33m6ae62b3[m Initial commit: Add project files
+[33m74a069c[m chore: uploads 디렉토리 Git에서 제외
+[33m1d9f33c[m feat: 순례상품 백엔드 연동 및 이미지 업로드 기능 구현
+[33m625936b[m feat: Update banneux location coordinates and reorganize Marian apparition pages

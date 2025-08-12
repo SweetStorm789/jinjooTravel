@@ -7,13 +7,13 @@ import {
   Users,
   Plane,
   Clock,
-  Phone,
-  Mail,
   ArrowLeft,
   Star,
   Heart,
   Share2,
-  Download
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import {
   Card,
@@ -27,9 +27,10 @@ import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Separator } from "./ui/separator";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { formatDateToKorean } from "../utils/dateFormat";
 import { ErrorBoundary } from "./shared/ErrorBoundary";
+import { BASE_URL } from '@/lib/constants';
 
 interface PackageData {
   id: number;
@@ -75,6 +76,7 @@ function PilgrimagePackageDetailPage({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
   
   const [packageData, setPackageData] = useState<PackageData | null>(null);
 
@@ -82,7 +84,8 @@ function PilgrimagePackageDetailPage({
     const fetchPackageData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/api/packages/${packageId}`);
+        //const response = await fetch(`http://localhost:5000/api/packages/${packageId}`);
+        const response = await fetch(`${BASE_URL}/api/packages/${packageId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch package data');
         }
@@ -139,8 +142,8 @@ function PilgrimagePackageDetailPage({
           region: data.region,
           duration: data.duration,
           price: new Intl.NumberFormat('ko-KR').format(data.price) + '원',
-          departureDate: formatDateToKorean(new Date(data.departure_date)),
-          arrivalDate: formatDateToKorean(new Date(data.arrival_date)),
+          departureDate: formatDateToKorean(data.departure_date),
+          arrivalDate: formatDateToKorean(data.arrival_date),
           maxPeople: data.max_people,
           currentBookings: data.current_bookings || 0,
           highlights,
@@ -165,6 +168,68 @@ function PilgrimagePackageDetailPage({
       fetchPackageData();
     }
   }, [packageId]);
+
+  // 삭제 함수
+  const handleDelete = async () => {
+    if (!packageId) return;
+    
+    const confirmDelete = window.confirm(
+      `"${packageData?.title}" 상품을 정말 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`
+    );
+    
+    if (!confirmDelete) return;
+    
+    try {
+      setDeleting(true);
+      
+      const response = await fetch(`${BASE_URL}/api/packages/${packageId}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to delete package');
+      }
+      
+      alert('상품이 성공적으로 삭제되었습니다.');
+      setCurrentPage('pilgrimage-packages');
+    } catch (error) {
+      console.error('Error deleting package:', error);
+      alert('상품 삭제에 실패했습니다.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  // 이미지 네비게이션 함수
+  const goToPreviousImage = useCallback(() => {
+    if (!packageData?.images.length) return;
+    setSelectedImageIndex((prev) => 
+      prev === 0 ? packageData.images.length - 1 : prev - 1
+    );
+  }, [packageData?.images.length]);
+
+  const goToNextImage = useCallback(() => {
+    if (!packageData?.images.length) return;
+    setSelectedImageIndex((prev) => 
+      prev === packageData.images.length - 1 ? 0 : prev + 1
+    );
+  }, [packageData?.images.length]);
+
+  // 키보드 네비게이션
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!packageData?.images.length || packageData.images.length <= 1) return;
+      
+      if (event.key === 'ArrowLeft') {
+        goToPreviousImage();
+      } else if (event.key === 'ArrowRight') {
+        goToNextImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [packageData?.images.length, goToPreviousImage, goToNextImage]);
 
   if (loading) {
     return (
@@ -231,16 +296,32 @@ function PilgrimagePackageDetailPage({
 
             </div>
             <div className="flex items-center space-x-2">
-              {/* 관리자 권한 체크 - 관리자에게만 수정 버튼 표시 */}
+              {/* 관리자 권한 체크 - 관리자에게만 수정/삭제 버튼 표시 */}
               {isAdmin && (
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setCurrentPage(`package-form-edit-${packageId}`)}
-                  className="flex items-center space-x-2"
-                >
-                  <span>수정</span>
-                </Button>
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setCurrentPage(`package-form-edit-${packageId}`)}
+                    className="flex items-center space-x-2"
+                  >
+                    <span>수정</span>
+                  </Button>
+                  <Button 
+                    variant="destructive" 
+                    size="sm"
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    className="flex items-center space-x-2"
+                  >
+                    {deleting ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
+                    <span>{deleting ? "삭제 중..." : "삭제"}</span>
+                  </Button>
+                </>
               )}
               <Button variant="ghost" size="sm">
                 <Heart className="h-4 w-4" />
@@ -261,13 +342,54 @@ function PilgrimagePackageDetailPage({
             <div className="space-y-6">
               {/* 이미지 갤러리 */}
               <div className="space-y-4">
-                <div className="aspect-[16/10] overflow-hidden rounded-lg">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-lg group">
                   <ImageWithFallback
                     src={packageData.images[selectedImageIndex]}
                     alt={packageData.title}
                     className="w-full h-full object-cover"
                   />
+                  
+                  {/* 이미지가 2개 이상일 때만 네비게이션 버튼 표시 */}
+                  {packageData.images.length > 1 && (
+                    <>
+                      {/* 이전 버튼 */}
+                      <button
+                        onClick={goToPreviousImage}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        aria-label="이전 이미지"
+                      >
+                        <ChevronLeft className="h-6 w-6" />
+                      </button>
+                      
+                      {/* 다음 버튼 */}
+                      <button
+                        onClick={goToNextImage}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        aria-label="다음 이미지"
+                      >
+                        <ChevronRight className="h-6 w-6" />
+                      </button>
+                      
+                      {/* 이미지 인디케이터 */}
+                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {packageData.images.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setSelectedImageIndex(index)}
+                            className={`w-2 h-2 rounded-full transition-all ${
+                              selectedImageIndex === index 
+                                ? "bg-white" 
+                                : "bg-white/50 hover:bg-white/70"
+                            }`}
+                            aria-label={`이미지 ${index + 1}로 이동`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
+                
+                {/* 썸네일 그리드 */}
                 <div className="grid grid-cols-4 gap-2">
                   {packageData.images.map((image: string, index: number) => (
                     <button
@@ -541,7 +663,7 @@ function PilgrimagePackageDetailPage({
               {/* 예약 정보 카드 */}
               <Card>
                 <CardHeader>
-                  <CardTitle>예약 정보</CardTitle>
+                  <CardTitle>순례 정보</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
@@ -575,9 +697,9 @@ function PilgrimagePackageDetailPage({
                   </div>
 
                   <Separator />
-
+{/*}
                   <div className="space-y-3">
-                    <Button className="w-full" size="lg">
+   ㄴ                 <Button className="w-full" size="lg">
                       <Phone className="h-4 w-4 mr-2" />
                       전화 예약
                     </Button>
@@ -590,7 +712,7 @@ function PilgrimagePackageDetailPage({
                       상품설명서 다운로드
                     </Button>
                   </div>
-
+*/}
                   <div className="bg-muted/50 p-3 rounded-lg">
                     <div className="text-xs text-muted-foreground leading-relaxed space-y-1">
                       <div>• 예약 문의: 02-1234-5678</div>
@@ -600,7 +722,7 @@ function PilgrimagePackageDetailPage({
                 </CardContent>
               </Card>
 
-              {/* 예약 현황 */}
+              {/* 예약 현황 
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">예약 현황</CardTitle>
@@ -627,6 +749,7 @@ function PilgrimagePackageDetailPage({
                   </div>
                 </CardContent>
               </Card>
+              */}
             </div>
           </div>
         </div>

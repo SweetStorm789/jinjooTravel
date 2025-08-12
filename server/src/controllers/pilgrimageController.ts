@@ -96,8 +96,8 @@ export const createPackage = async (req: Request, res: Response) => {
             'INSERT INTO package_itineraries SET ?',
             {
               package_id: packageId,
-              day_number: day.day,
-              day_label: day.dayLabel,
+              day_number: day.day_number,
+              day_label: day.day_label,
               title: day.title,
               description: day.description,
               activities: day.activities,
@@ -150,7 +150,7 @@ export const getAllPackages = async (req: Request, res: Response) => {
   try {
     // 기본 패키지 정보 조회
     const [packages] = await connection.query(
-      'SELECT * FROM pilgrimage_packages WHERE deleted_at IS NULL ORDER BY created_at DESC'
+      'SELECT id, title, subtitle, description, region, duration, price, DATE_FORMAT(departure_date, \'%Y%m%d\') as departure_date, DATE_FORMAT(arrival_date, \'%Y%m%d\') as arrival_date, max_people, highlights, status, created_at, updated_at, deleted_at FROM pilgrimage_packages WHERE deleted_at IS NULL ORDER BY created_at DESC'
     );
 
     // 각 패키지의 이미지 정보 조회
@@ -308,8 +308,8 @@ export const updatePackage = async (req: Request, res: Response) => {
             'INSERT INTO package_itineraries SET ?',
             {
               package_id: id,
-              day_number: day.day,
-              day_label: day.dayLabel,
+              day_number: day.day_number,
+              day_label: day.day_label,
               title: day.title,
               description: day.description,
               activities: day.activities,

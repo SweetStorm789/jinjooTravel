@@ -2,7 +2,6 @@ import {
   MapPin,
   Calendar,
   Users,
-  Clock,
   Filter,
   Search,
   Plane,
@@ -11,9 +10,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -92,6 +88,8 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             image_url: relativeImagePath,
             status: pkg.status,
             max_people: pkg.max_people,
+            departure_date: pkg.departure_date,
+            arrival_date: pkg.arrival_date,
             rating: 4.8, // 임시 평점
             reviews: Math.floor(Math.random() * 300) + 100 // 임시 리뷰 수
           };
@@ -132,9 +130,19 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
     );
   }
 
-  // 안전한 날짜 포매터
+  // 안전한 날짜 포매터 (YYYYMMDD 형식 처리)
   const formatDate = (dateString?: string) => {
     if (!dateString) return '미정';
+    
+    // YYYYMMDD 형식인지 확인 (8자리 숫자)
+    if (dateString.length === 8 && /^\d{8}$/.test(dateString)) {
+      const year = dateString.substring(0, 4);
+      const month = dateString.substring(4, 6);
+      const day = dateString.substring(6, 8);
+      return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+    }
+    
+    // 기존 날짜 형식 처리 (fallback)
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return '미정';
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
@@ -307,7 +315,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPackages.slice(0, visibleCount).map((pkg) => (
-              <Card key={pkg.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={() => setCurrentPage(`package-detail/${pkg.id}`)}>
+              <Card key={pkg.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}>
                 <div className="relative">
                   <div className="aspect-[16/10] overflow-hidden">
                     <ImageWithFallback
