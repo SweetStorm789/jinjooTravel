@@ -28,6 +28,15 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import sinaiImage from "../images/egypt/mount-sinai-egypt.jpg";
+import cairoImage from "../images/egypt/cairo-egypt.jpg";
+import luxorImage from "../images/egypt/luxor-egypt.jpg";
+import gizaImage from "../images/egypt/giza-egypt.jpg";
+import saintCatherinesMonasteryImage from "../images/egypt/saint-catherines-monastery-egypt.jpg";
+
+
 
 interface EgyptPageProps {
   setCurrentPage: (page: string) => void;
@@ -121,6 +130,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       icon: Mountain,
       color: "from-orange-100 to-red-200",
       iconColor: "text-orange-700",
+      image: sinaiImage,
     },
     {
       name: "카이로",
@@ -130,6 +140,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       icon: Building,
       color: "from-yellow-100 to-amber-200",
       iconColor: "text-yellow-700",
+      image: cairoImage,
     },
     {
       name: "룩소르",
@@ -139,6 +150,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       icon: Pyramid,
       color: "from-amber-100 to-orange-200",
       iconColor: "text-amber-700",
+      image: luxorImage,
     },
     {
       name: "기자",
@@ -148,6 +160,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       icon: Crown,
       color: "from-yellow-100 to-yellow-200",
       iconColor: "text-yellow-700",
+      image: gizaImage,
     },
   ];
 
@@ -437,19 +450,16 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                     <Card key={index} className="overflow-hidden">
                       <div className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}>
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${place.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {place.name}
-                          </h3>
-                        </div>
+                        <ImageWithFallback
+                        src={place.image}
+                        alt={place.name}
+                        className="w-full h-[240px] object-cover"
+                      />
                         {/* 오버레이 텍스트 */}
                         <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
                             <span className="text-sm font-medium text-gray-800">
-                              {place.subtitle}
+                              {place.name} - {place.subtitle}
                             </span>
                           </div>
                         </div>
@@ -495,13 +505,11 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[4/3] bg-gradient-to-br from-orange-100 to-red-200 rounded-lg overflow-hidden">
-                          <div className="w-full h-full flex items-center justify-center">
-                            <div className="text-center space-y-3">
-                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-                                <Mountain className="h-8 w-8 text-orange-700" />
-                              </div>
-                            </div>
-                          </div>
+                          <ImageWithFallback
+                            src={saintCatherinesMonasteryImage}
+                            alt="성녀 카타리나 수도원"
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-orange-900">

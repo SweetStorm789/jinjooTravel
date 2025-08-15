@@ -29,6 +29,7 @@ app.use('/uploads', express.static(uploadsPath));
 import pilgrimageRoutes from './routes/pilgrimageRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import healthRoutes from './routes/healthRoutes';
+import marianMessageRoutes from './routes/marianMessages';
 
 // 기본 라우트
 app.get('/', (req, res) => {
@@ -39,6 +40,7 @@ app.get('/', (req, res) => {
 app.use('/api', pilgrimageRoutes);
 app.use('/api', uploadRoutes);
 app.use('/api', healthRoutes);
+app.use('/api/marian-messages', marianMessageRoutes);
 
 // 에러 핸들링 미들웨어
 app.use(errorHandler);

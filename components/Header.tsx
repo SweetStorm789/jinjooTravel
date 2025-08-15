@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
-import { Phone, Menu, X, ChevronRight } from "lucide-react";
+import { Phone, Menu, X, ChevronRight, Share2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { copyCurrentURL, shareCurrentPage } from "../utils/sharing";
 
 interface HeaderProps {
   currentPage: string;
@@ -21,6 +22,7 @@ export default function Header({
   const [hoveredSubCategory, setHoveredSubCategory] = useState<
     string | null
   >(null);
+  const [shareMessage, setShareMessage] = useState<string>('');
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subHoverTimeoutRef = useRef<NodeJS.Timeout | null>(
     null,
@@ -146,6 +148,24 @@ export default function Header({
     }, 150);
   };
 
+  // 페이지 공유 기능
+  const handleShare = async () => {
+    const success = await shareCurrentPage();
+    if (success) {
+      setShareMessage('공유되었습니다! 📋');
+    } else {
+      const copied = await copyCurrentURL();
+      if (copied) {
+        setShareMessage('URL이 복사되었습니다! 📋');
+      } else {
+        setShareMessage('공유에 실패했습니다 ❌');
+      }
+    }
+    
+    // 3초 후 메시지 제거
+    setTimeout(() => setShareMessage(''), 3000);
+  };
+
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) {
@@ -173,6 +193,23 @@ export default function Header({
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleShare}
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-sm flex items-center space-x-1"
+              >
+                <Share2 className="w-4 h-4" />
+                <span>공유</span>
+              </Button>
+              {shareMessage && (
+                <div className="absolute top-full right-0 mt-1 px-3 py-1 bg-green-600 text-white text-xs rounded shadow-lg whitespace-nowrap z-50">
+                  {shareMessage}
+                </div>
+              )}
+            </div>
+            <span className="text-gray-300">|</span>
             <Button
               variant="ghost"
               size="sm"

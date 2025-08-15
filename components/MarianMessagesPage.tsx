@@ -1,8 +1,8 @@
-import { Plus, Calendar, User, ChevronRight, Home } from "lucide-react";
+import { Plus, Calendar, User, ChevronRight, Home, Loader2, AlertCircle, ChevronLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { useState } from "react";
+import { Alert, AlertDescription } from "./ui/alert";
+import { useState, useEffect } from "react";
 
 interface MarianMessagesPageProps {
   setCurrentPage: (page: string) => void;
@@ -10,11 +10,20 @@ interface MarianMessagesPageProps {
 }
 
 interface MarianMessage {
-  id: number;
-  title: string;
-  author: string;
-  date: string;
-  content: string;
+  id: string;
+  message_date: string;
+  content_message: string;
+  prayer_priest: string;
+  prayer_intent: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
 }
 
 // 메시지 내용에서 요약을 자동 생성하는 함수
@@ -50,37 +59,120 @@ const generateSummary = (content: string, maxLength: number = 200): string => {
   }
 };
 
+// 날짜 포맷팅 함수
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+
+// 제목 생성 함수 (날짜 기반)
+const generateTitle = (messageDate: string) => {
+  const formattedDate = formatDate(messageDate);
+  return `${formattedDate} 평화의 모후 메주고리예 성모님 메시지`;
+};
+
 export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: MarianMessagesPageProps) {
-  const [messages] = useState<MarianMessage[]>([
-    {
-      id: 1,
-      title: "2023년 8월 25일 평화의 모후 메주고리예 성모님 메시지",
-      author: "성모님메시지",
-      date: "2023년 10월 13일",
-      content: "사랑하는 아이들아, 오늘의 시기에 지금, 마음으로는 하느님 쪽을 되돌아보라. 어떤 아이들아, 하느님께서 우리안에서 신앙으로 더 나을 수 있듯이 그 마음을 더듬 신앙 안에서 그 갈 옵니다. 그 사랑을 늘 볼 수 있는 나의 어머니와 기는 마음에 허용됩 함께들을 창의성을 만들어 가고 있습니다. 내가 불을 때 떠들이는 나하기 고딕다. 사랑하는 기는 희망 아이며, 은총이 시기는 성령의이—하느님의 사랑 안에서 평화를 찾으라. 나는 너희와 함께 있으며, 너희의 기도를 통해 세상에 평화를 가져다 줄 것이다. 감사한다."
-    },
-    {
-      id: 2,
-      title: "2023년 6월 25일 평화의 모후 메주고리예 성모님 메시지",
-      author: "성모님메시지",
-      date: "2023년 10월 13일",
-      content: "사랑하는 아이들아, 높으신 분께서 내가 너의 가족과 마음분자 너를 위해 기도하고 아버지늘 아들들이 우아가된다. 어떤 아이들아, 하느님께 들어와라. 기도로 들어온다면. 그리고 하느님께 풍요한 축복을 주고 관 2이다. 내가 불을 때 떠들이는 너하기 고딕다. 천사들은 기도 줄렬과 아버지며. 어떤 메시지를 돌고 독성영역서 성기 임어어 성모칠의 모든 잘될다. 은총 마르크로 무엇과 각 다른 오버데치, 어떤 메시지를 훌링 독성영역서 성기징임어어 소시, 좋은 구호 더니 다입진 밝윗없네네 시큐를 보이는지 유실때---하느님의 은총이 늘 함께하기를."
-    },
-    {
-      id: 3,
-      title: "2023년 5월 25일 평화의 모후 메주고리예 성모님 메시지",
-      author: "성모님메시지",
-      date: "2023년 10월 13일",
-      content: "사랑하는 아이들아, 높으신 분께서 너의 마음 안에서 맘에리고, 또든 마르꿈을 윤약 되느 님의 사랑을 경험이 되었 성영의 힘을 느낄 수 있도록 하며들 준다. 내숙님의 사영어 내어 율흄 훌픔 그래도 합처와 거룰지의 새로운 생명을 되새가도록 하여다. 내가 불을 때 떠들이는 너하기 고딕다. 천사들은 기도 신속이민데도의 밝윗 기룰지의 기측도 상성원이 시구. 좋은 각도 적으니 다정된 빛윽없네네. 영일이 한주 사업의 기측함이 시구도 상정이어 시도, 중좋 자도은 적으니때 적가던 빛윽없네네 해올여...기도 안에서 평화를 찾으십시오."
-    },
-    {
-      id: 4,
-      title: "2023년 4월 25일 평화의 모후 메주고리예 성모님 메시지",
-      author: "성모님메시지",
-      date: "2023년 10월 13일",
-      content: "사랑하는 아이들아, 기도와 성량되이 놀아는는 모든 사람에서 부뜨식면 빽소받의 기쁘지 관플들을 진력는 이들이 되내고 내어 모돌을 추달다다. 예수님의 사랑어 내어 율흄 웨어줄 그래도 함춖 거룰전의 새로운 생명을 평핑하도록 거롭이다. 내가 불을 때 떠들이는 너하기 고딕다. 천리고 높은 사업의 기측함이 씬점맘에 영일이 한주. 올실 모르사라는 기는 둔직 검강미어 무넙기도, 춘영 좋출 정든덤 답는다의아들은...하느님의 사랑이 너희 마음에 가득하기를 바란다."
+  const [messages, setMessages] = useState<MarianMessage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 10
+  });
+
+  // DB에서 메시지 목록 가져오기 (페이징 포함)
+  const fetchMessages = async (page: number = 1, limit: number = 10) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // 먼저 페이징 파라미터 없이 시도, 실패하면 전체 데이터 가져와서 클라이언트 페이징
+      let response;
+      try {
+        response = await fetch(`http://localhost:5000/api/marian-messages?page=${page}&limit=${limit}`);
+      } catch {
+        response = await fetch('http://localhost:5000/api/marian-messages');
+      }
+
+      if (!response.ok) {
+        throw new Error('메시지 목록을 불러오는데 실패했습니다.');
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        const allMessages = data.data || [];
+        
+        // 서버에서 페이징 정보를 제공하는 경우
+        if (data.pagination) {
+          setMessages(allMessages);
+          setPagination({
+            currentPage: data.pagination.currentPage,
+            totalPages: data.pagination.totalPages,
+            totalItems: data.pagination.totalItems,
+            itemsPerPage: data.pagination.itemsPerPage
+          });
+        } else {
+          // 서버에서 페이징을 지원하지 않는 경우 클라이언트에서 처리
+          const totalItems = allMessages.length;
+          const totalPages = Math.ceil(totalItems / limit);
+          const startIndex = (page - 1) * limit;
+          const endIndex = startIndex + limit;
+          const paginatedMessages = allMessages.slice(startIndex, endIndex);
+
+          setMessages(paginatedMessages);
+          setPagination({
+            currentPage: page,
+            totalPages: totalPages,
+            totalItems: totalItems,
+            itemsPerPage: limit
+          });
+        }
+      } else {
+        setError(data.message || '메시지 목록을 불러오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('메시지 목록 로드 실패:', error);
+      setError('서버와의 연결에 문제가 발생했습니다.');
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= pagination.totalPages && page !== pagination.currentPage) {
+      fetchMessages(page, pagination.itemsPerPage);
+      
+      // 페이지 변경 시 화면 상단으로 스크롤
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // 컴포넌트 마운트 시 데이터 로드
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  // 로딩 중인 경우
+  if (loading) {
+    return (
+      <div className="bg-background min-h-screen flex items-center justify-center">
+        <div className="flex items-center space-x-3">
+          <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+          <span className="text-muted-foreground">메시지 목록을 불러오는 중...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background min-h-screen">
@@ -108,11 +200,28 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* 에러 메시지 */}
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         {/* 상단 액션 버튼 */}
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-xl font-medium">
-            총 {messages.length}개의 메시지
-          </h2>
+          <div>
+            <h2 className="text-xl font-medium">
+              총 {pagination.totalItems}개의 메시지
+            </h2>
+            {pagination.totalItems > 0 && (
+              <p className="text-sm text-muted-foreground mt-1">
+                {pagination.currentPage}페이지 / {pagination.totalPages}페이지 
+                ({((pagination.currentPage - 1) * pagination.itemsPerPage) + 1}-
+                {Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)}번째)
+              </p>
+            )}
+          </div>
           
           {isAdmin && (
             <Button 
@@ -124,6 +233,29 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
             </Button>
           )}
         </div>
+
+        {/* 메시지가 없는 경우 */}
+        {messages.length === 0 && !loading && (
+          <Card className="text-center py-12">
+            <CardContent>
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Calendar className="h-8 w-8 text-gray-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900">등록된 메시지가 없습니다</h3>
+                  <p className="text-gray-500 mt-1">첫 번째 성모님 메시지를 등록해보세요</p>
+                </div>
+                {isAdmin && (
+                  <Button onClick={() => setCurrentPage("marian-message-form")} className="mt-4">
+                    <Plus className="h-4 w-4 mr-2" />
+                    메시지 등록하기
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* 메시지 리스트 */}
         <div className="space-y-6">
@@ -137,24 +269,24 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
                 <div className="space-y-4">
                   {/* 제목 - 호버 시 오렌지 색상 */}
                   <h3 className="text-lg font-medium text-foreground hover:text-orange-600 transition-colors duration-200">
-                    {message.title}
+                    {generateTitle(message.message_date)}
                   </h3>
                   
                   {/* 메타 정보 */}
                   <div className="flex items-center space-x-6 text-sm text-muted-foreground">
                     <div className="flex items-center space-x-1">
                       <User className="h-4 w-4" />
-                      <span>{message.author}</span>
+                      <span>성모님메시지</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{message.date}</span>
+                      <span>{new Date(message.created_at).toLocaleDateString('ko-KR')}</span>
                     </div>
                   </div>
                   
                   {/* 자동 생성된 요약 내용 */}
                   <p className="text-foreground leading-relaxed">
-                    {generateSummary(message.content)}
+                    {generateSummary(message.content_message)}
                   </p>
                 </div>
               </CardContent>
@@ -163,17 +295,107 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
         </div>
 
         {/* 페이지네이션 */}
-        <div className="flex justify-center mt-12">
-          <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm">이전</Button>
-            <div className="flex items-center space-x-1">
-              <Button variant="default" size="sm">1</Button>
-              <Button variant="outline" size="sm">2</Button>
-              <Button variant="outline" size="sm">3</Button>
+        {pagination.totalItems > 0 && (
+          <div className="flex justify-center mt-12">
+            <div className="flex items-center space-x-2">
+              {/* 이전 페이지 버튼 */}
+              {pagination.totalPages > 1 && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  disabled={pagination.currentPage === 1}
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  className="flex items-center space-x-1"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  <span>이전</span>
+                </Button>
+              )}
+
+              {/* 페이지 번호들 */}
+              <div className="flex items-center space-x-1">
+                {(() => {
+                  const pages = [];
+                  const maxVisiblePages = 5;
+                  let startPage = Math.max(1, pagination.currentPage - Math.floor(maxVisiblePages / 2));
+                  let endPage = Math.min(pagination.totalPages, startPage + maxVisiblePages - 1);
+                  
+                  // 끝 페이지 기준으로 시작 페이지 재조정
+                  if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                  }
+
+                  // 첫 페이지
+                  if (startPage > 1) {
+                    pages.push(
+                      <Button 
+                        key={1}
+                        variant={1 === pagination.currentPage ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => handlePageChange(1)}
+                        className="min-w-[40px]"
+                      >
+                        1
+                      </Button>
+                    );
+                    if (startPage > 2) {
+                      pages.push(<span key="ellipsis1" className="px-2 text-muted-foreground">...</span>);
+                    }
+                  }
+
+                  // 중간 페이지들
+                  for (let i = startPage; i <= endPage; i++) {
+                    pages.push(
+                      <Button 
+                        key={i}
+                        variant={i === pagination.currentPage ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => handlePageChange(i)}
+                        className="min-w-[40px]"
+                      >
+                        {i}
+                      </Button>
+                    );
+                  }
+
+                  // 마지막 페이지
+                  if (endPage < pagination.totalPages) {
+                    if (endPage < pagination.totalPages - 1) {
+                      pages.push(<span key="ellipsis2" className="px-2 text-muted-foreground">...</span>);
+                    }
+                    pages.push(
+                      <Button 
+                        key={pagination.totalPages}
+                        variant={pagination.totalPages === pagination.currentPage ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => handlePageChange(pagination.totalPages)}
+                        className="min-w-[40px]"
+                      >
+                        {pagination.totalPages}
+                      </Button>
+                    );
+                  }
+
+                  return pages;
+                })()}
+              </div>
+
+              {/* 다음 페이지 버튼 */}
+              {pagination.totalPages > 1 && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  disabled={pagination.currentPage === pagination.totalPages}
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  className="flex items-center space-x-1"
+                >
+                  <span>다음</span>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              )}
             </div>
-            <Button variant="outline" size="sm">다음</Button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

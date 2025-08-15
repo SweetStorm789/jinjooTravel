@@ -1,0 +1,13 @@
+CREATE TABLE mary_message (
+  id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
+
+  message_date DATE NOT NULL COMMENT '메시지 일자 (예: 2025-08-25)',
+
+  content_message MEDIUMTEXT NOT NULL COMMENT '성모님 메시지',
+  prayer_priest  MEDIUMTEXT NULL COMMENT '사제 기도',
+  prayer_intent  MEDIUMTEXT NULL COMMENT '기도 지향',
+
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+             ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='성모님 메시지 게시판';
