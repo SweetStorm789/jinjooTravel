@@ -24,9 +24,9 @@ import LourdesPage from "../marianApparitions/LourdesPage";
 import GuadalupePage from "../marianApparitions/GuadalupePage";
 import BanneuxPage from "../marianApparitions/BanneuxPage";
 import MedjugorjePage from "../marianApparitions/MedjugorjePage";
-import MarianMessagesPage from "../MarianMessagesPage";
-import MarianMessageFormPage from "../MarianMessageFormPage";
-import MarianMessageDetailPage from "../MarianMessageDetailPage";
+import MarianMessagesPageNew from "../MarianMessagesPageNew";
+import MarianMessageFormPageNew from "../MarianMessageFormPageNew";
+import MarianMessageDetailPageNew from "../MarianMessageDetailPageNew";
 import NoticesPage from "../NoticesPage";
 import NoticeFormPage from "../NoticeFormPage";
 import NoticeDetailPage from "../NoticeDetailPage";
@@ -98,20 +98,20 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
 
     // 성모님메세지
     if (currentPage === "marian-messages") {
-      return <MarianMessagesPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+      return <MarianMessagesPageNew setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
     if (currentPage === "marian-message-form") {
-      return <MarianMessageFormPage setCurrentPage={setCurrentPage} />;
+      return <MarianMessageFormPageNew setCurrentPage={setCurrentPage} />;
     }
 
     const marianMessageFormEditMatch = matchRoute(currentPage, "marian-message-form-edit-{id}");
     if (marianMessageFormEditMatch.match) {
-      return <MarianMessageFormPage setCurrentPage={setCurrentPage} messageId={marianMessageFormEditMatch.params.id} />;
+      return <MarianMessageFormPageNew setCurrentPage={setCurrentPage} messageId={marianMessageFormEditMatch.params.id} />;
     }
 
     const marianMessageDetailMatch = matchRoute(currentPage, "marian-message-detail-{id}");
     if (marianMessageDetailMatch.match) {
-      return <MarianMessageDetailPage setCurrentPage={setCurrentPage} messageId={marianMessageDetailMatch.params.id} isAdmin={isAdmin} />;
+      return <MarianMessageDetailPageNew setCurrentPage={setCurrentPage} messageId={marianMessageDetailMatch.params.id} isAdmin={isAdmin} />;
     }
 
     // 공지사항

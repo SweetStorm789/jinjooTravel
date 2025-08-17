@@ -276,6 +276,10 @@ export default function Header({
                       setCurrentPage("marian-messages");
                       setHoveredCategory(null);
                       setHoveredSubCategory(null);
+                    } else if (category === "게시판") {
+                      setCurrentPage("notices");
+                      setHoveredCategory(null);
+                      setHoveredSubCategory(null);
                     }
                   }}
                   className={`px-4 py-3 text-sm font-medium transition-colors duration-200 hover:text-blue-600 hover:bg-gray-50 rounded-lg ${
@@ -543,6 +547,18 @@ export default function Header({
                       onClick={(e) => {
                         e.preventDefault();
                         setCurrentPage("marian-messages");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left font-medium text-gray-900 py-2 px-3 rounded-lg hover:bg-gray-100"
+                    >
+                      {category}
+                    </a>
+                  ) : category === "게시판" ? (
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentPage("notices");
                         setIsMobileMenuOpen(false);
                       }}
                       className="block w-full text-left font-medium text-gray-900 py-2 px-3 rounded-lg hover:bg-gray-100"
