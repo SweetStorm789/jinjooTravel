@@ -2,7 +2,11 @@ import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { Phone, Mail, MapPin, Clock, ArrowUp } from "lucide-react";
 
-export default function Footer() {
+interface FooterProps {
+  setCurrentPage: (page: string) => void;
+}
+
+export default function Footer({ setCurrentPage }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -26,7 +30,7 @@ export default function Footer() {
               </div>
               
               <p className="text-gray-300 mb-8 leading-relaxed max-w-lg">
-                20년간 쌓아온 전문 노하우로 안전하고 의미있는 성지순례 여행을 제공합니다. 
+                30여년간 쌓아온 전문 노하우로 안전하고 의미있는 성지순례 여행을 제공합니다. 
                 믿음과 함께하는 특별한 여행을 경험해보세요.
               </p>
 
@@ -36,8 +40,8 @@ export default function Footer() {
                     <Phone className="w-5 h-5 text-gray-300" />
                   </div>
                   <div>
-                    <div className="font-medium">고객센터</div>
-                    <div className="text-gray-400">1588-1234</div>
+                    <div className="font-medium">전화번호</div>
+                    <div className="text-gray-400">02-738-0747, 02-734-1236</div>
                   </div>
                 </div>
                 
@@ -47,7 +51,7 @@ export default function Footer() {
                   </div>
                   <div>
                     <div className="font-medium">이메일</div>
-                    <div className="text-gray-400">info@jinjutravel.co.kr</div>
+                    <div className="text-gray-400">master@jjtravel.co.kr</div>
                   </div>
                 </div>
               </div>
@@ -85,21 +89,27 @@ export default function Footer() {
                 </div>
                 <div className="space-y-2 text-gray-400 text-sm">
                   <div>평일 09:00 - 18:00</div>
-                  <div>토요일 09:00 - 13:00</div>
-                  <div>일요일 및 공휴일 휴무</div>
+                  <div>토요일, 일요일 및 공휴일 휴무</div>
                 </div>
               </div>
 
               <div className="bg-gray-800 rounded-lg p-6">
-                <div className="flex items-center mb-4">
-                  <MapPin className="w-5 h-5 text-gray-300 mr-3" />
-                  <span className="font-medium">오시는 길</span>
-                </div>
-                <div className="text-gray-400 text-sm leading-relaxed">
-                  서울시 강남구 테헤란로 123
-                  <br />
-                  진주여행사빌딩 5층
-                </div>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage("directions");
+                  }}
+                  className="block hover:bg-gray-700 rounded-lg p-2 -m-2 transition-colors duration-200"
+                >
+                  <div className="flex items-center mb-4">
+                    <MapPin className="w-5 h-5 text-gray-300 mr-3" />
+                    <span className="font-medium text-gray-300 hover:text-white">오시는 길</span>
+                  </div>
+                  <div className="text-gray-400 text-sm leading-relaxed">
+                    서울시 서대문구 서소문로 37 충정로 대우디오빌 801호
+                  </div>
+                </a>
               </div>
             </div>
           </div>

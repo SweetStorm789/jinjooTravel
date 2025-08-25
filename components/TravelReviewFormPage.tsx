@@ -1,541 +1,593 @@
-import {
-  ArrowLeft,
-  Save,
-  Star,
-  MapPin,
-  Calendar,
-  User,
-  FileText,
-  AlertTriangle,
-  Upload,
-  X,
-  Camera,
-  Image as ImageIcon
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
-import { Badge } from "./ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Label } from './ui/label';
+import { Alert, AlertDescription } from './ui/alert';
+import { Instagram, Youtube, Facebook, MessageCircle, Link as LinkIcon, AlertCircle } from 'lucide-react';
+
+//const BASE_URL = 'http://localhost:5000';
+import { BASE_URL } from "../src/lib/constants";
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+}
 
 interface TravelReviewFormPageProps {
   setCurrentPage: (page: string) => void;
-  reviewId?: string;
 }
 
-interface TravelReviewFormData {
-  title: string;
-  author: string;
-  content: string;
-  rating: number;
-  destination: string;
-  travelDate: string;
-  category: "성지순례" | "개별여행" | "단체여행";
-  images: string[];
-  mainImageIndex: number;
-}
+const TravelReviewFormPage: React.FC<TravelReviewFormPageProps> = ({ setCurrentPage }) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [previewData, setPreviewData] = useState<any>(null);
+  const [isLoadingPreview, setIsLoadingPreview] = useState(false);
 
-export default function TravelReviewFormPage({ 
-  setCurrentPage, 
-  reviewId 
-}: TravelReviewFormPageProps) {
-  const isEdit = !!reviewId;
-  
-  const [formData, setFormData] = useState<TravelReviewFormData>({
-    title: "",
-    author: "",
-    content: "",
-    rating: 5,
-    destination: "",
-    travelDate: "",
-    category: "성지순례",
-    images: [],
-    mainImageIndex: 0
+  // 폼 데이터
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    author_name: '',
+    author_email: '',
+    author_phone: '',
+    password: '',
+    password_confirm: '',
+    category_id: '',
+    social_media_url: ''
   });
-  
-  const [dragActive, setDragActive] = useState(false);
-  const [newImageUrl, setNewImageUrl] = useState("");
 
-  // 수정 모드일 때 기존 데이터 로드
-  useEffect(() => {
-    if (isEdit && reviewId) {
-      if (reviewId === "1") {
-        setFormData({
-          title: "메주고리예 성지순례 - 평화와 은총이 가득한 여행",
-          author: "김가톨릭",
-          content: `메주고리예에서의 일주일은 제 신앙생활에 새로운 전환점이 되었습니다. 
+  // 카테고리 목록 조회
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/travel-reviews/categories`);
+      const data = await response.json();
 
-**여행 전 기대와 걱정**
-처음 성지순례를 떠나면서 많은 기대와 함께 약간의 걱정도 있었습니다.
-
-**메주고리예 도착**
-메주고리예에 도착했을 때의 그 평화로운 분위기는 지금도 잊을 수 없습니다.
-
-**성 야고보 성당에서의 미사**
-성 야고보 성당에서 드린 미사는 정말 특별했습니다.
-
-이번 성지순례를 함께해주신 진주여행사와 동행 순례자분들께 감사드립니다.`,
-          rating: 5,
-          destination: "메주고리예",
-          travelDate: "2023년 12월",
-          category: "성지순례",
-          images: [
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
-            "https://images.unsplash.com/photo-1520637836862-4d197d17c915?w=800&h=600&fit=crop",
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
-            "https://images.unsplash.com/photo-1539650116574-75c0c6d73fb6?w=800&h=600&fit=crop"
-          ],
-          mainImageIndex: 0
-        });
+      if (data.success) {
+        setCategories(data.data);
       }
+    } catch (error) {
+      console.error('카테고리 목록 조회 실패:', error);
     }
-  }, [isEdit, reviewId]);
+  };
 
-  const handleInputChange = (field: keyof TravelReviewFormData, value: string | number) => {
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // 폼 데이터 변경 핸들러
+  const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
-  const handleSubmit = () => {
-    // 유효성 검사
-    if (!formData.title.trim() || !formData.content.trim() || !formData.destination.trim()) {
-      alert("필수 항목을 모두 입력해주세요.");
+  // URL 유효성 검사 함수
+  const isValidUrl = (string: string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  // Instagram ID 추출 함수
+  const extractInstagramId = (url: string): string | null => {
+    const match = url.match(/instagram\.com\/([^\/\?]+)/);
+    if (match && match[1] && !match[1].includes('p')) {
+      return match[1];
+    }
+    return null;
+  };
+
+  // 링크 입력 시 자동 미리보기
+  const handleSocialMediaUrlChange = async (value: string) => {
+    setFormData(prev => ({ ...prev, social_media_url: value }));
+    
+    if (value && isValidUrl(value)) {
+      setIsLoadingPreview(true);
+      try {
+        const response = await fetch(`${BASE_URL}/api/travel-reviews/preview`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ url: value }),
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          setPreviewData(data.data);
+          
+          // Instagram ID를 작성자명으로 자동 설정
+          if (data.data.author && data.data.author !== 'undefined' && !formData.author_name) {
+            console.log('백엔드에서 추출한 Instagram ID:', data.data.author);
+            handleInputChange('author_name', data.data.author);
+          } else if (!formData.author_name) {
+            // 백엔드에서 추출하지 못한 경우 URL에서 직접 추출
+            const instagramId = extractInstagramId(value);
+            if (instagramId) {
+              console.log('URL에서 직접 추출한 Instagram ID:', instagramId);
+              handleInputChange('author_name', instagramId);
+            } else {
+              console.log('Instagram ID 추출 실패');
+            }
+          }
+          
+          // Instagram 내용을 자동으로 내용 필드에 설정
+          if (data.data.description && data.data.description !== 'undefined' && !formData.content) {
+            // Instagram 설명이 충분히 길면 내용으로 사용
+            if (data.data.description.length > 20) {
+              // Instagram 설명에서 해시태그나 불필요한 문자 정리
+              let cleanDescription = data.data.description;
+              
+              // Instagram 특유의 문자 정리
+              cleanDescription = cleanDescription
+                .replace(/\.\.\.$/, '') // 끝의 ... 제거
+                .replace(/\s+/g, ' ') // 연속된 공백을 하나로
+                .trim();
+              
+              handleInputChange('content', cleanDescription);
+            }
+          }
+          
+          // 제목 자동 설정
+          if (data.data.title && data.data.title !== 'undefined' && !formData.title) {
+            handleInputChange('title', data.data.title);
+          }
+        }
+      } catch (error) {
+        console.error('미리보기 로드 실패:', error);
+      } finally {
+        setIsLoadingPreview(false);
+      }
+    } else {
+      setPreviewData(null);
+    }
+  };
+
+  // 폼 제출 - SNS 링크만 있어도 가능하도록 수정
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.social_media_url.trim()) {
+      setError('소셜 미디어 링크를 입력해주세요.');
       return;
     }
 
-    // 실제로는 API로 데이터 전송
-    console.log("저장될 데이터:", formData);
-    alert(isEdit ? "여행후기가 수정되었습니다." : "여행후기가 등록되었습니다.");
-    setCurrentPage("travel-reviews");
-  };
-
-  const renderStarRating = () => {
-    return (
-      <div className="flex items-center space-x-1">
-        {Array.from({ length: 5 }, (_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => handleInputChange("rating", i + 1)}
-            className="focus:outline-none"
-          >
-            <Star
-              className={`h-6 w-6 transition-colors ${
-                i < formData.rating
-                  ? 'text-yellow-400 fill-yellow-400'
-                  : 'text-gray-300 hover:text-yellow-300'
-              }`}
-            />
-          </button>
-        ))}
-        <span className="ml-2 text-sm text-muted-foreground">
-          ({formData.rating}/5)
-        </span>
-      </div>
-    );
-  };
-
-  // 사진 URL 추가
-  const addImageUrl = () => {
-    if (newImageUrl.trim()) {
-      const newImages = [...formData.images, newImageUrl.trim()];
-      setFormData(prev => ({
-        ...prev,
-        images: newImages
-      }));
-      setNewImageUrl("");
-    }
-  };
-
-  // 사진 삭제
-  const removeImage = (index: number) => {
-    const newImages = formData.images.filter((_, i) => i !== index);
-    let newMainIndex = formData.mainImageIndex;
+    // 제목이 없으면 SNS에서 가져온 제목 사용
+    const finalTitle = formData.title.trim() || previewData?.title || 'SNS 여행 후기';
     
-    // 대표사진이 삭제된 경우 첫 번째 사진을 대표로 설정
-    if (index === formData.mainImageIndex) {
-      newMainIndex = 0;
-    } else if (index < formData.mainImageIndex) {
-      newMainIndex = formData.mainImageIndex - 1;
+    // 작성자명 우선순위: 1. 수동 입력 2. Instagram ID 3. 기본값
+    let finalAuthorName = formData.author_name.trim();
+    if (!finalAuthorName && previewData?.author && previewData.author !== 'undefined') {
+      finalAuthorName = previewData.author;
+    }
+    if (!finalAuthorName) {
+      // URL에서 직접 Instagram ID 추출 시도
+      const instagramId = extractInstagramId(formData.social_media_url);
+      if (instagramId) {
+        finalAuthorName = instagramId;
+      } else {
+        finalAuthorName = '익명 사용자';
+      }
     }
     
-    setFormData(prev => ({
-      ...prev,
-      images: newImages,
-      mainImageIndex: Math.min(newMainIndex, newImages.length - 1)
-    }));
-  };
+    // 비밀번호가 없으면 자동 생성
+    const finalPassword = formData.password || Math.random().toString(36).substring(2, 8);
 
-  // 대표사진 설정
-  const setMainImage = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      mainImageIndex: index
-    }));
-  };
+    // 소셜 미디어 플랫폼 감지
+    const url = formData.social_media_url.toLowerCase();
+    let instagram_url = null;
+    let youtube_url = null;
+    let facebook_url = null;
+    let threads_url = null;
 
-  // 드래그 앤 드롭 핸들러
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
+    if (url.includes('instagram.com')) {
+      instagram_url = formData.social_media_url;
+    } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      youtube_url = formData.social_media_url;
+    } else if (url.includes('facebook.com')) {
+      facebook_url = formData.social_media_url;
+    } else if (url.includes('threads.net')) {
+      threads_url = formData.social_media_url;
     }
-  };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
+    try {
+      setLoading(true);
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      // 실제 파일 업로드는 여기서 처리
-      // 지금은 시뮬레이션을 위해 샘플 URL 추가
-      const sampleUrls = [
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1520637836862-4d197d17c915?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d73fb6?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800&h=600&fit=crop"
-      ];
-      
-      const randomUrl = sampleUrls[Math.floor(Math.random() * sampleUrls.length)];
-      const newImages = [...formData.images, randomUrl];
-      setFormData(prev => ({
-        ...prev,
-        images: newImages
-      }));
+      const response = await fetch(`${BASE_URL}/api/travel-reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: finalTitle,
+          content: formData.content.trim() || previewData?.description || '',
+          author_name: finalAuthorName,
+          author_email: formData.author_email.trim() || null,
+          author_phone: formData.author_phone.trim() || null,
+          password: finalPassword,
+          category_id: formData.category_id || null,
+          instagram_url,
+          youtube_url,
+          facebook_url,
+          threads_url
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess('여행 후기가 성공적으로 등록되었습니다!');
+        setTimeout(() => {
+          setCurrentPage(`travel-reviews-detail-${data.data.id}`);
+        }, 2000);
+      } else {
+        setError(data.message || '여행 후기 등록에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('여행 후기 등록 오류:', error);
+      setError('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-background min-h-screen">
-      {/* 상단 네비게이션 */}
-      <div className="bg-card border-b sticky top-[140px] z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => setCurrentPage(isEdit ? `travel-review-detail-${reviewId}` : "travel-reviews")}
-                className="flex items-center space-x-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>뒤로가기</span>
-              </Button>
-              <h1 className="text-lg font-medium">
-                {isEdit ? "여행후기 수정" : "여행후기 작성"}
-              </h1>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm">
-                미리보기
-              </Button>
-              <Button onClick={handleSubmit} className="flex items-center space-x-2">
-                <Save className="h-4 w-4" />
-                <span>{isEdit ? "수정" : "등록"}</span>
-              </Button>
-            </div>
-          </div>
-        </div>
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      {/* 헤더 */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">여행 후기 작성</h1>
+        <p className="text-gray-600">소셜 미디어 링크만 입력해도 자동으로 정보를 가져옵니다</p>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="space-y-6">
-          {/* 사진 업로드 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Camera className="h-5 w-5" />
-                <span>여행 사진</span>
-              </CardTitle>
-              <CardDescription>
-                여행에서 찍은 사진들을 업로드해주세요. 첫 번째 사진이 대표사진으로 설정됩니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* 드래그 앤 드롭 영역 */}
-              <div
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                  dragActive 
-                    ? 'border-blue-500 bg-blue-50' 
-                    : 'border-gray-300 hover:border-gray-400'
-                }`}
-                onDragEnter={handleDrag}
-                onDragLeave={handleDrag}
-                onDragOver={handleDrag}
-                onDrop={handleDrop}
-              >
-                <div className="flex flex-col items-center space-y-4">
-                  <Upload className="h-12 w-12 text-muted-foreground" />
-                  <div className="space-y-2">
-                    <p className="text-lg font-medium">사진을 드래그하여 업로드하세요</p>
-                    <p className="text-sm text-muted-foreground">
-                      또는 아래에서 이미지 URL을 직접 입력할 수 있습니다
-                    </p>
-                  </div>
+      {/* 알림 메시지 */}
+      {error && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="mb-6">
+          <AlertDescription>{success}</AlertDescription>
+        </Alert>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* 메인 콘텐츠 */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* SNS 링크 (가장 중요) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <LinkIcon className="h-5 w-5" />
+                  소셜 미디어 링크 *
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="social_media_url" className="text-sm font-medium">
+                    소셜 미디어 링크 *
+                  </Label>
+                  <Input
+                    id="social_media_url"
+                    type="url"
+                    placeholder="Instagram 또는 YouTube 링크를 입력하세요"
+                    value={formData.social_media_url}
+                    onChange={(e) => handleSocialMediaUrlChange(e.target.value)}
+                    className="w-full"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Instagram 또는 YouTube 링크만 지원됩니다. Facebook은 현재 지원하지 않습니다.
+                  </p>
                 </div>
-              </div>
 
-              {/* URL 입력 */}
-              <div className="flex space-x-2">
-                <Input
-                  placeholder="이미지 URL을 입력하세요"
-                  value={newImageUrl}
-                  onChange={(e) => setNewImageUrl(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      addImageUrl();
-                    }
-                  }}
-                />
-                <Button onClick={addImageUrl} disabled={!newImageUrl.trim()}>
-                  <ImageIcon className="h-4 w-4 mr-2" />
-                  추가
-                </Button>
-              </div>
-
-              {/* 업로드된 사진들 */}
-              {formData.images.length > 0 && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Label>업로드된 사진 ({formData.images.length}장)</Label>
-                    <Badge variant="outline">
-                      대표사진: {formData.mainImageIndex + 1}번째
-                    </Badge>
+                <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
+                  <p className="font-medium mb-1">💡 지원하는 플랫폼</p>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    <span className="flex items-center gap-1 px-2 py-1 bg-pink-100 text-pink-700 rounded text-xs">
+                      <Instagram size={12} />
+                      Instagram
+                    </span>
+                    <span className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-700 rounded text-xs">
+                      <Youtube size={12} />
+                      YouTube
+                    </span>
                   </div>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {formData.images.map((image, index) => (
-                      <div 
-                        key={index} 
-                        className={`relative group rounded-lg overflow-hidden border-2 transition-all ${
-                          index === formData.mainImageIndex 
-                            ? 'border-blue-500 ring-2 ring-blue-200' 
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <div className="aspect-square">
-                          <ImageWithFallback
-                            src={image}
-                            alt={`업로드된 사진 ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        
-                        {/* 대표사진 표시 */}
-                        {index === formData.mainImageIndex && (
-                          <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                            대표
+                  <p className="mt-2">• 링크만 입력하면 자동으로 제목과 내용을 가져옵니다.</p>
+                  <p>• 작성자명과 비밀번호는 선택사항입니다.</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 미리보기 정보 */}
+            {isLoadingPreview && (
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                    <span className="text-sm text-gray-600">SNS 정보를 가져오는 중...</span>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {previewData && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>미리보기 정보</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {previewData.image && previewData.image !== 'undefined' ? (
+                    <div className="relative h-48 overflow-hidden rounded-lg bg-gray-100">
+                      <img 
+                        src={`${BASE_URL}/api/travel-reviews/proxy-image?url=${encodeURIComponent(previewData.image)}`}
+                        alt="미리보기" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // 이미지 로드 실패 시 플레이스홀더 표시
+                          e.currentTarget.style.display = 'none';
+                          const placeholder = e.currentTarget.parentElement?.querySelector('.image-placeholder');
+                          if (placeholder) {
+                            (placeholder as HTMLElement).style.display = 'flex';
+                          }
+                        }}
+                      />
+                      <div className="image-placeholder hidden absolute inset-0 items-center justify-center bg-gray-100">
+                        <div className="text-center text-gray-500">
+                          <div className="w-12 h-12 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
                           </div>
-                        )}
-                        
-                        {/* 액션 버튼들 */}
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
-                          {index !== formData.mainImageIndex && (
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              onClick={() => setMainImage(index)}
-                              className="text-xs"
-                            >
-                              대표설정
-                            </Button>
-                          )}
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => removeImage(index)}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                        
-                        {/* 사진 번호 */}
-                        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full">
-                          {index + 1}
+                          <p className="text-sm">이미지를 불러올 수 없습니다</p>
                         </div>
                       </div>
-                    ))}
+                    </div>
+                  ) : (
+                    <div className="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="text-center text-gray-500">
+                        <div className="w-12 h-12 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <p className="text-sm">미리보기 이미지 없음</p>
+                      </div>
+                    </div>
+                  )}
+                  <div>
+                    <Label className="text-sm font-medium">제목</Label>
+                    <p className="text-sm text-gray-600">
+                      {previewData.title && previewData.title !== 'undefined' 
+                        ? previewData.title 
+                        : '제목을 가져올 수 없습니다'}
+                    </p>
                   </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                  <div>
+                    <Label className="text-sm font-medium">설명</Label>
+                    <p className="text-sm text-gray-600">
+                      {previewData.description && previewData.description !== 'undefined' 
+                        ? previewData.description 
+                        : '설명을 가져올 수 없습니다'}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium">플랫폼</Label>
+                    <p className="text-sm text-gray-600">
+                      {previewData.site_name && previewData.site_name !== 'undefined' 
+                        ? previewData.site_name 
+                        : '알 수 없음'}
+                    </p>
+                  </div>
+                  {previewData.author && previewData.author !== 'undefined' && (
+                    <div>
+                      <Label className="text-sm font-medium">Instagram ID</Label>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-gray-600">@{previewData.author}</p>
+                        {previewData.author_url && (
+                          <a
+                            href={previewData.author_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:text-blue-700 text-xs"
+                          >
+                            프로필 보기
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
-          {/* 기본 정보 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <FileText className="h-5 w-5" />
-                <span>기본 정보</span>
-              </CardTitle>
-              <CardDescription>여행후기의 기본 정보를 입력하세요.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="title">후기 제목 *</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
-                  placeholder="여행후기 제목을 입력하세요"
-                />
-              </div>
+                  {previewData.description && previewData.description !== 'undefined' && (
+                    <div>
+                      <Label className="text-sm font-medium">내용 미리보기</Label>
+                      <p className="text-sm text-gray-600 mt-1 line-clamp-3">
+                        {previewData.description}
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="author">작성자 *</Label>
+            {/* 추가 정보 (선택사항) */}
+            <Card>
+              <CardHeader>
+                <CardTitle>추가 정보 (선택사항)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="title">제목 수정</Label>
                   <Input
-                    id="author"
-                    value={formData.author}
-                    onChange={(e) => handleInputChange("author", e.target.value)}
-                    placeholder="작성자명"
+                    id="title"
+                    value={formData.title}
+                    onChange={(e) => handleInputChange('title', e.target.value)}
+                    placeholder="제목을 수정하거나 직접 입력하세요"
+                    maxLength={100}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="category">여행유형 *</Label>
-                  <Select 
-                    value={formData.category} 
-                    onValueChange={(value) => handleInputChange("category", value as "성지순례" | "개별여행" | "단체여행")}
-                  >
+
+                <div>
+                  <Label htmlFor="content">내용 추가</Label>
+                  <Textarea
+                    id="content"
+                    value={formData.content}
+                    onChange={(e) => handleInputChange('content', e.target.value)}
+                    placeholder="추가 설명이나 개인적인 경험을 입력하세요"
+                    rows={4}
+                    maxLength={1000}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="category">카테고리</Label>
+                  <Select value={formData.category_id} onValueChange={(value) => handleInputChange('category_id', value)}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="카테고리를 선택하세요" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="성지순례">성지순례</SelectItem>
-                      <SelectItem value="개별여행">개별여행</SelectItem>
-                      <SelectItem value="단체여행">단체여행</SelectItem>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id.toString()}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
+              </CardContent>
+            </Card>
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="destination">여행지 *</Label>
+          {/* 작성자 정보 (선택사항) */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>작성자 정보 (선택사항)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="author_name">작성자명</Label>
                   <Input
-                    id="destination"
-                    value={formData.destination}
-                    onChange={(e) => handleInputChange("destination", e.target.value)}
-                    placeholder="예: 메주고리예, 로마/바티칸"
+                    id="author_name"
+                    type="text"
+                    placeholder="작성자명 (Instagram ID가 자동으로 채워집니다)"
+                    value={formData.author_name}
+                    onChange={(e) => handleInputChange('author_name', e.target.value)}
+                    className="w-full"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Instagram 링크를 입력하면 작성자 ID가 자동으로 설정됩니다.
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="author_email">이메일</Label>
+                  <Input
+                    id="author_email"
+                    type="email"
+                    value={formData.author_email}
+                    onChange={(e) => handleInputChange('author_email', e.target.value)}
+                    placeholder="이메일 주소 (선택사항)"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="travelDate">여행일자 *</Label>
+
+                <div>
+                  <Label htmlFor="author_phone">연락처</Label>
                   <Input
-                    id="travelDate"
-                    value={formData.travelDate}
-                    onChange={(e) => handleInputChange("travelDate", e.target.value)}
-                    placeholder="예: 2023년 12월"
+                    id="author_phone"
+                    value={formData.author_phone}
+                    onChange={(e) => handleInputChange('author_phone', e.target.value)}
+                    placeholder="연락처 (선택사항)"
                   />
                 </div>
-              </div>
 
-              {/* 별점 평가 */}
-              <div className="space-y-2">
-                <Label>전체 만족도 *</Label>
-                <div className="flex items-center space-x-4">
-                  {renderStarRating()}
+                <div>
+                  <Label htmlFor="password">비밀번호</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => handleInputChange('password', e.target.value)}
+                    placeholder="비밀번호 (비워두면 자동 생성)"
+                    minLength={4}
+                  />
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  별을 클릭하여 만족도를 평가해주세요
-                </p>
-              </div>
-            </CardContent>
-          </Card>
 
-          {/* 여행후기 작성 */}
-          <Card>
-            <CardHeader>
-              <CardTitle>여행후기 내용</CardTitle>
-              <CardDescription>
-                여행에서 경험하신 소중한 순간들을 자세히 작성해주세요.
-                사진과 함께 생생한 후기를 기대합니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="content">후기 내용 *</Label>
-                <Textarea
-                  id="content"
-                  value={formData.content}
-                  onChange={(e) => handleInputChange("content", e.target.value)}
-                  placeholder="여행에서 경험하신 내용을 자세히 작성해주세요.&#10;&#10;예시:&#10;- 인상 깊었던 장소나 순간&#10;- 현지 문화나 음식 경험&#10;- 가이드나 서비스에 대한 평가&#10;- 다른 여행객들에게 추천하고 싶은 포인트&#10;- 아쉬웠던 점이나 개선 제안&#10;&#10;사진과 함께 설명해주시면 더욱 좋습니다!&#10;**굵은글씨**나 - 리스트 형식으로 작성하시면 더욱 읽기 좋습니다."
-                  rows={20}
-                  className="font-mono"
-                />
-                <div className="text-xs text-muted-foreground space-y-1">
-                  <p>• 업로드한 사진들과 관련된 내용을 포함해주세요.</p>
-                  <p>• **텍스트**로 굵은 글씨, - 리스트 등 간단한 마크다운 문법을 사용할 수 있습니다.</p>
-                  <p>• 솔직하고 자세한 후기일수록 다른 고객분들께 더 많은 도움이 됩니다.</p>
+                <div>
+                  <Label htmlFor="password_confirm">비밀번호 확인</Label>
+                  <Input
+                    id="password_confirm"
+                    type="password"
+                    value={formData.password_confirm}
+                    onChange={(e) => handleInputChange('password_confirm', e.target.value)}
+                    placeholder="비밀번호 확인 (선택사항)"
+                    minLength={4}
+                  />
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          {/* 사진 업로드 가이드라인 */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-blue-600">
-                <AlertTriangle className="h-5 w-5" />
-                <span>사진 업로드 가이드라인</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 text-sm text-muted-foreground">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-blue-800 font-medium mb-2">사진 업로드 팁:</p>
-                  <ul className="text-blue-700 space-y-1">
-                    <li>• 여행의 하이라이트가 담긴 사진을 대표사진으로 설정해주세요</li>
-                    <li>• 사진 개수에 제한은 없으니 자유롭게 업로드해주세요</li>
-                    <li>• 성지, 풍경, 음식, 동행 등 다양한 사진을 포함해주세요</li>
-                    <li>• 사진 순서는 여행 일정 순으로 정렬하시면 좋습니다</li>
-                    <li>• 각 사진에 대한 설명을 후기 내용에 포함해주세요</li>
-                  </ul>
+            {/* 작성 안내 */}
+            <Card>
+              <CardHeader>
+                <CardTitle>간편 작성 안내</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-gray-600">
+                <div className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>소셜 미디어 링크만 입력하면 자동으로 정보를 가져옵니다.</p>
                 </div>
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                  <p className="text-amber-800 font-medium mb-2">주의사항:</p>
-                  <ul className="text-amber-700 space-y-1">
-                    <li>• 개인정보가 식별될 수 있는 사진은 업로드하지 마세요</li>
-                    <li>• 저작권이 있는 이미지는 사용하지 마세요</li>
-                    <li>• 부적절하거나 선정적인 이미지는 금지됩니다</li>
-                    <li>• 타인의 초상권을 침해하지 않도록 주의해주세요</li>
-                  </ul>
+                <div className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>작성자명과 비밀번호는 선택사항입니다.</p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 하단 액션 버튼 */}
-          <div className="flex justify-center space-x-4 pt-6">
-            <Button 
-              variant="outline" 
-              onClick={() => setCurrentPage("travel-reviews")}
-            >
-              취소
-            </Button>
-            <Button onClick={handleSubmit} className="px-8">
-              {isEdit ? "수정 완료" : "후기 등록"}
-            </Button>
+                <div className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>제목과 내용은 SNS에서 가져온 후 수정 가능합니다.</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>개인정보는 공개되지 않습니다.</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
-      </div>
+
+        {/* 제출 버튼 */}
+        <div className="flex justify-end gap-4 mt-8">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setCurrentPage('travel-reviews')}
+          >
+            취소
+          </Button>
+          <Button
+            type="submit"
+            disabled={loading}
+            className="min-w-32"
+          >
+            {loading ? '등록 중...' : '여행 후기 등록'}
+          </Button>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default TravelReviewFormPage;

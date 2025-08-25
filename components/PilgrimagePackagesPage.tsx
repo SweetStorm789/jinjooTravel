@@ -55,7 +55,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
     const fetchPackages = async () => {
       try {
         setIsLoading(true);
-        // const response = await axios.get('http://localhost:5000/api/packages');
+        // const response = await axios.get(`${BASE_URL}/api/packages`);
         const response = await axios.get(`${BASE_URL}/api/packages`);
         console.log('Fetched packages:', response.data);
 

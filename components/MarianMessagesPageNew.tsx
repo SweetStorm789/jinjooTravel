@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 
 interface MarianMessagesPageProps {
   setCurrentPage: (page: string) => void;
@@ -100,7 +101,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
         params.append('search', searchTerm);
       }
 
-      const response = await fetch(`http://localhost:5000/api/board?${params}`);
+      const response = await fetch(`${BASE_URL}/api/board?${params}`);
       if (!response.ok) {
         throw new Error('성모님 메시지를 불러오는데 실패했습니다.');
       }

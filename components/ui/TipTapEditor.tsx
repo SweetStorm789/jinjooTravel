@@ -4,6 +4,8 @@ import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
+import Placeholder from '@tiptap/extension-placeholder'
+
 import { 
   Bold, 
   Italic, 
@@ -73,9 +75,22 @@ const TipTapEditor = ({
       Highlight.configure({
         multicolor: true,
       }),
+      Placeholder.configure({             // (2) ✅ placeholder 확장 설정
+        placeholder,
+        showOnlyWhenEditable: true,
+        includeChildren: true,
+      }),
     ],
     content,
     editable: !readOnly,
+    autofocus: 'end', 
+    editorProps: {
+      attributes: {
+        // 루트 ProseMirror 엘리먼트에 직접 클래스 부여
+        class:
+          'prose max-w-none min-h-[300px] outline-none focus:outline-none',
+      },
+    },
     onUpdate: ({ editor }) => {
       if (onChange) {
         const html = editor.getHTML();

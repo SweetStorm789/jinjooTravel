@@ -7,7 +7,7 @@ import milanoImage from "../images/italy/milano-duomo.jpg";
 import sagradaImage from "../images/spain/sagrada-familia.jpg";
 import santiagoImage from "../images/spain/santiago-de-compostela.jpg";
 
-export default function HeroSection() {
+export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
@@ -97,6 +97,9 @@ export default function HeroSection() {
                 <Button
                   size="lg"
                   className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg"
+                  onClick={() => {
+                    setCurrentPage("pilgrimage-packages");
+                  }}
                 >
                   성지순례 일정 보기
                   <ArrowRight className="w-5 h-5 ml-2" />

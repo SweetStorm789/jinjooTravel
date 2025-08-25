@@ -37,8 +37,13 @@ import QnaPage from "../QnaPage";
 import QnaDetailPage from "../QnaDetailPage";
 import QnaFormPage from "../QnaFormPage";
 import FreeBoardPage from "../FreeBoardPage";
+import FreeBoardFormPage from "../FreeBoardFormPage";
+import FreeBoardDetailPage from "../FreeBoardDetailPage";
 import PhotoGalleryPage from "../PhotoGalleryPage";
+import PhotoGalleryFormPage from "../PhotoGalleryFormPage";
+import PhotoGalleryDetailPage from "../PhotoGalleryDetailPage";
 import CompanyHistoryPage from "../CompanyHistoryPage";
+import CompanyIntroPage from "../CompanyIntroPage";
 import DirectionsPage from "../DirectionsPage";
 import TravelTermsPage from "../TravelTermsPage";
 import PrivacyPolicyPage from "../PrivacyPolicyPage";
@@ -57,11 +62,16 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
     if (currentPage === "home") {
       return (
         <>
-          <HeroSection />
+          <HeroSection setCurrentPage={setCurrentPage} />
           <FeaturedPackages setCurrentPage={setCurrentPage} />
           <CompanyFeatures />
         </>
       );
+    }
+
+    // 회사소개
+    if (currentPage === "company") {
+      return <CompanyIntroPage setCurrentPage={setCurrentPage} />;
     }
 
     // 가톨릭성지순례 상품
@@ -132,22 +142,17 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
       return <NoticeDetailPage setCurrentPage={setCurrentPage} noticeId={noticeDetailMatch.params.id} isAdmin={isAdmin} />;
     }
 
-    // 여행후기
+    // 여행후기 (개발 중 - 주석처리)
     if (currentPage === "travel-reviews") {
-      return <TravelReviewsPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+      return <TravelReviewsPage setCurrentPage={setCurrentPage} />;
     }
-    if (currentPage === "travel-review-form") {
+    if (currentPage === "travel-reviews-write") {
       return <TravelReviewFormPage setCurrentPage={setCurrentPage} />;
     }
 
-    const travelReviewFormEditMatch = matchRoute(currentPage, "travel-review-form-edit-{id}");
-    if (travelReviewFormEditMatch.match) {
-      return <TravelReviewFormPage setCurrentPage={setCurrentPage} reviewId={travelReviewFormEditMatch.params.id} />;
-    }
-
-    const travelReviewDetailMatch = matchRoute(currentPage, "travel-review-detail-{id}");
+    const travelReviewDetailMatch = matchRoute(currentPage, "travel-reviews-detail-{id}");
     if (travelReviewDetailMatch.match) {
-      return <TravelReviewDetailPage setCurrentPage={setCurrentPage} reviewId={travelReviewDetailMatch.params.id} isAdmin={isAdmin} />;
+      return <TravelReviewDetailPage setCurrentPage={setCurrentPage} reviewId={travelReviewDetailMatch.params.id} />;
     }
 
     // 질문답변
@@ -172,10 +177,34 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
     if (currentPage === "freeboard") {
       return <FreeBoardPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
+    
+    if (currentPage === "freeboard-form") {
+      return <FreeBoardFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    }
+    
+    if (currentPage.startsWith("freeboard-form-edit-")) {
+      return <FreeBoardFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    }
+    
+    if (currentPage.startsWith("freeboard-detail-")) {
+      return <FreeBoardDetailPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    }
 
     // 포토갤러리
     if (currentPage === "photo-gallery") {
       return <PhotoGalleryPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    }
+    
+    if (currentPage === "gallery-form") {
+      return <PhotoGalleryFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    }
+    
+    if (currentPage.startsWith("gallery-form-edit-")) {
+      return <PhotoGalleryFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    }
+    
+    if (currentPage.startsWith("gallery-detail-")) {
+      return <PhotoGalleryDetailPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
 
     // 회사소개
@@ -219,7 +248,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: Pag
     // 기본값 (홈페이지)
     return (
       <>
-        <HeroSection />
+        <HeroSection setCurrentPage={setCurrentPage}  />
         <FeaturedPackages setCurrentPage={setCurrentPage} />
         <CompanyFeatures />
       </>

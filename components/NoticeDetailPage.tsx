@@ -17,6 +17,7 @@ import {
   Home,
   ChevronRight
 } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 
 interface NoticeDetailPageProps {
   setCurrentPage: (page: string) => void;
@@ -73,7 +74,7 @@ export default function NoticeDetailPage({
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`http://localhost:5000/api/board/${noticeId}`);
+        const response = await fetch(`${BASE_URL}/api/board/${noticeId}`);
         if (!response.ok) {
           throw new Error('공지사항을 불러오는데 실패했습니다.');
         }
@@ -104,7 +105,7 @@ export default function NoticeDetailPage({
     try {
       setDeleting(true);
       
-      const response = await fetch(`http://localhost:5000/api/board/${noticeId}`, {
+      const response = await fetch(`${BASE_URL}/api/board/${noticeId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

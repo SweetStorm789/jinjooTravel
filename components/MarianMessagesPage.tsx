@@ -1,4 +1,5 @@
 import { Plus, Calendar, User, ChevronRight, Home, Loader2, AlertCircle, ChevronLeft } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
@@ -95,9 +96,9 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
       // 먼저 페이징 파라미터 없이 시도, 실패하면 전체 데이터 가져와서 클라이언트 페이징
       let response;
       try {
-        response = await fetch(`http://localhost:5000/api/marian-messages?page=${page}&limit=${limit}`);
+        response = await fetch(`${BASE_URL}/api/marian-messages?page=${page}&limit=${limit}`);
       } catch {
-        response = await fetch('http://localhost:5000/api/marian-messages');
+        response = await fetch(`${BASE_URL}/api/marian-messages`);
       }
 
       if (!response.ok) {

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Label } from "./ui/label";
 
 import { ArrowLeft, Calendar, Save, Loader2, AlertCircle } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 import { Alert, AlertDescription } from "./ui/alert";
 import TipTapEditor from "./ui/TipTapEditor";
 
@@ -55,7 +56,7 @@ export default function NoticeFormPage({
           setLoading(true);
           setError(null);
 
-          const response = await fetch(`http://localhost:5000/api/board/${noticeId}`);
+          const response = await fetch(`${BASE_URL}/api/board/${noticeId}`);
           if (!response.ok) {
             throw new Error('공지사항을 불러오는데 실패했습니다.');
           }
@@ -160,8 +161,8 @@ export default function NoticeFormPage({
       };
 
       const url = isEdit 
-        ? `http://localhost:5000/api/board/${noticeId}`
-        : 'http://localhost:5000/api/board';
+        ? `${BASE_URL}/api/board/${noticeId}`
+        : `${BASE_URL}/api/board`;
       
       const method = isEdit ? 'PUT' : 'POST';
 

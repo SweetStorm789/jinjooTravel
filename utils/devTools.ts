@@ -154,7 +154,6 @@ export const showDevPanel = (currentPage: string) => {
  * 전체 디버깅 정보 출력
  */
 export const debugAll = (currentPage: string) => {
-  console.clear();
   console.log('🚀 진주여행사 디버깅 시작');
   
   logAppState(currentPage);

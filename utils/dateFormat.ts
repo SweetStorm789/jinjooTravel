@@ -1,4 +1,96 @@
-// 날짜를 YYYY년 MM월 DD일 형식으로 포맷팅하는 함수
+/**
+ * 날짜를 한국어 형식으로 포맷팅
+ */
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  
+  // 유효하지 않은 날짜인 경우
+  if (isNaN(date.getTime())) {
+    return '날짜 없음';
+  }
+
+  const now = new Date();
+  const diffTime = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+  const diffMinutes = Math.floor(diffTime / (1000 * 60));
+
+  // 1분 미만
+  if (diffMinutes < 1) {
+    return '방금 전';
+  }
+  
+  // 1시간 미만
+  if (diffHours < 1) {
+    return `${diffMinutes}분 전`;
+  }
+  
+  // 24시간 미만
+  if (diffDays < 1) {
+    return `${diffHours}시간 전`;
+  }
+  
+  // 7일 미만
+  if (diffDays < 7) {
+    return `${diffDays}일 전`;
+  }
+  
+  // 30일 미만
+  if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    return `${weeks}주 전`;
+  }
+  
+  // 365일 미만
+  if (diffDays < 365) {
+    const months = Math.floor(diffDays / 30);
+    return `${months}개월 전`;
+  }
+  
+  // 1년 이상
+  const years = Math.floor(diffDays / 365);
+  return `${years}년 전`;
+};
+
+/**
+ * 날짜를 상세한 형식으로 포맷팅
+ */
+export const formatDateDetailed = (dateString: string): string => {
+  const date = new Date(dateString);
+  
+  if (isNaN(date.getTime())) {
+    return '날짜 없음';
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}`;
+};
+
+/**
+ * 날짜를 간단한 형식으로 포맷팅
+ */
+export const formatDateSimple = (dateString: string): string => {
+  const date = new Date(dateString);
+  
+  if (isNaN(date.getTime())) {
+    return '날짜 없음';
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
+/**
+ * 날짜를 YYYY년 MM월 DD일 형식으로 포맷팅하는 함수
+ */
 export const formatDateToKorean = (date: Date | string): string => {
   // YYYYMMDD 형식 문자열인 경우
   if (typeof date === 'string' && date.length === 8 && /^\d{8}$/.test(date)) {

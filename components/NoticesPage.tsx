@@ -1,4 +1,5 @@
 import { Plus, Calendar, User, ChevronRight, Home, Loader2, AlertCircle, ChevronLeft, Search, Filter } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
@@ -126,7 +127,7 @@ export default function NoticesPage({ setCurrentPage, isAdmin = false }: Notices
 
 
 
-      const response = await fetch(`http://localhost:5000/api/board?${params}`);
+      const response = await fetch(`${BASE_URL}/api/board?${params}`);
       if (!response.ok) {
         throw new Error('공지사항을 불러오는데 실패했습니다.');
       }

@@ -1,4 +1,5 @@
 import { ArrowLeft, Calendar, User, Edit, Share2, Home, ChevronRight, Trash2, Loader2, AlertCircle } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -38,7 +39,7 @@ export default function MarianMessageDetailPage({
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`http://localhost:5000/api/marian-messages/${messageId}`);
+        const response = await fetch(`${BASE_URL}/api/marian-messages/${messageId}`);
         if (!response.ok) {
           throw new Error('메시지를 불러오는데 실패했습니다.');
         }
@@ -69,7 +70,7 @@ export default function MarianMessageDetailPage({
     try {
       setDeleting(true);
       
-      const response = await fetch(`http://localhost:5000/api/marian-messages/${messageId}`, {
+      const response = await fetch(`${BASE_URL}/api/marian-messages/${messageId}`, {
         method: 'DELETE',
       });
 

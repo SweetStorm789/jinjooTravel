@@ -84,7 +84,7 @@ function PilgrimagePackageDetailPage({
     const fetchPackageData = async () => {
       try {
         setLoading(true);
-        //const response = await fetch(`http://localhost:5000/api/packages/${packageId}`);
+        //const response = await fetch(`${BASE_URL}/api/packages/${packageId}`);
         const response = await fetch(`${BASE_URL}/api/packages/${packageId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch package data');

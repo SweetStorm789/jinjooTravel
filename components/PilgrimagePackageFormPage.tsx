@@ -639,7 +639,7 @@ export default function PilgrimagePackageFormPage({
                       formData.append('package_id', (isEdit && packageId) ? packageId : '0');
                       formData.append('image_type', 'detail');
 
-                      //const response = await axios.post('http://localhost:5000/api/images', formData, {
+                      //const response = await axios.post(`${BASE_URL}/api/images`, formData, {
                       const response = await axios.post(`${BASE_URL}/api/images`, formData, {
                         headers: {
                           'Content-Type': 'multipart/form-data'
@@ -650,7 +650,7 @@ export default function PilgrimagePackageFormPage({
                         // 이미지 URL을 절대 경로로 변환
                         const imagesWithFullUrls = response.data.images.map((img: PackageImage) => ({
                           ...img,
-                          //image_url: `http://localhost:5000${img.image_url}`
+                          //image_url: `${BASE_URL}${img.image_url}`
                           image_url: `${BASE_URL}${img.image_url}`
                         }));
                         setFormData(prev => ({
@@ -667,7 +667,7 @@ export default function PilgrimagePackageFormPage({
                     const image = formData.images[index];
                     if (image.id) {
                       try {
-                        //await axios.delete(`http://localhost:5000/api/images/${image.id}`);
+                        //await axios.delete(`${BASE_URL}/api/images/${image.id}`);
                         await axios.delete(`${BASE_URL}/api/images/${image.id}`);
                       } catch (error) {
                         console.error('이미지 삭제 실패:', error);
@@ -693,7 +693,7 @@ export default function PilgrimagePackageFormPage({
                     }));
 
                     try {
-                      //  await axios.put('http://localhost:5000/api/images/order', {
+                      //  await axios.put(`${BASE_URL}/api/images/order`, {
                       await axios.put(`${BASE_URL}/api/images/order`, {
                         images: updatedImages.map(img => ({
                           id: img.id,

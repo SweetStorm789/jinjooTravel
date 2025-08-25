@@ -45,6 +45,9 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
   // 홈
   { pattern: "home", component: "home" },
   
+  // 회사소개
+  { pattern: "company", component: "CompanyIntro" },
+  
   // 가톨릭성지순례 상품
   { pattern: "pilgrimage-packages", component: "PilgrimagePackages" },
   { pattern: "pilgrimage-packages-europe", component: "PilgrimagePackages", props: { initialRegion: "유럽" } },
@@ -67,11 +70,10 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
   { pattern: "notice-form-edit-{id}", component: "NoticeForm" },
   { pattern: "notice-detail-{id}", component: "NoticeDetail" },
   
-  // 여행후기
-  { pattern: "travel-reviews", component: "TravelReviews" },
-  { pattern: "travel-review-form", component: "TravelReviewForm" },
-  { pattern: "travel-review-form-edit-{id}", component: "TravelReviewForm" },
-  { pattern: "travel-review-detail-{id}", component: "TravelReviewDetail" },
+  // 여행후기 (개발 중 - 주석처리)
+  // { pattern: "travel-reviews", component: "TravelReviewsPage" },
+  // { pattern: "travel-reviews-write", component: "TravelReviewFormPage" },
+  // { pattern: "travel-reviews-detail-{id}", component: "TravelReviewDetailPage" },
   
   // 질문답변
   { pattern: "qna", component: "Qna" },

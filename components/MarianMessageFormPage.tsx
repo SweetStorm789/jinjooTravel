@@ -5,6 +5,7 @@ import { Textarea } from "./ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Label } from "./ui/label";
 import { ArrowLeft, Calendar, Save, Loader2, AlertCircle } from "lucide-react";
+import { BASE_URL } from '@/lib/constants';
 import { Alert, AlertDescription } from "./ui/alert";
 
 interface MarianMessageFormPageProps {
@@ -56,7 +57,7 @@ export default function MarianMessageFormPage({
           setLoading(true);
           setError(null);
 
-          const response = await fetch(`http://localhost:5000/api/marian-messages/${messageId}`);
+          const response = await fetch(`${BASE_URL}/api/marian-messages/${messageId}`);
           if (!response.ok) {
             throw new Error('메시지를 불러오는데 실패했습니다.');
           }
@@ -125,8 +126,8 @@ export default function MarianMessageFormPage({
       setSuccessMessage(null);
 
       const url = isEdit 
-        ? `http://localhost:5000/api/marian-messages/${messageId}`
-        : 'http://localhost:5000/api/marian-messages';
+        ? `${BASE_URL}/api/marian-messages/${messageId}`
+        : `${BASE_URL}/api/marian-messages`;
       
       const method = isEdit ? 'PUT' : 'POST';
 

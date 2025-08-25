@@ -10,7 +10,6 @@ import {
   setupHistoryListener 
 } from "../utils/history";
 import { setupKeyboardShortcuts } from "../utils/keyboard";
-import { setupDebugShortcuts } from "../utils/devTools";
 import { useState, useEffect, useCallback } from "react";
 
 export default function App() {
@@ -52,13 +51,7 @@ export default function App() {
     return cleanup;
   }, [setCurrentPageWithHistory]);
 
-  // 개발자 도구 단축키 설정 (개발 환경에서만)
-  useEffect(() => {
-    if (import.meta.env.DEV) {
-      const cleanup = setupDebugShortcuts(() => currentPage);
-      return cleanup;
-    }
-  }, [currentPage]);
+
 
   // 페이지 변경 시 스크롤을 최상단으로 이동
   useEffect(() => {
@@ -78,7 +71,7 @@ export default function App() {
           setCurrentPage={setCurrentPageWithHistory} 
           isAdmin={isAdmin} 
         />
-        <Footer />
+        <Footer setCurrentPage={setCurrentPageWithHistory} />
       </div>
     </div>
   );

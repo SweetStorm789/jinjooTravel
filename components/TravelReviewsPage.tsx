@@ -1,297 +1,368 @@
-import { Plus, Calendar, User, ChevronRight, Home, Eye, Star, MapPin, Camera } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Badge } from './ui/badge';
+import { Calendar, Eye, Heart, MessageCircle, ExternalLink, Instagram, Youtube, Facebook } from 'lucide-react';
+import { formatDate } from '../utils/dateFormat';
 
-interface TravelReviewsPageProps {
-  setCurrentPage: (page: string) => void;
-  isAdmin?: boolean;
-}
+import { BASE_URL } from "../src/lib/constants";
+//const BASE_URL = 'http://localhost:5000';
 
 interface TravelReview {
   id: number;
   title: string;
-  author: string;
-  date: string;
   content: string;
-  views: number;
-  rating: number;
-  destination: string;
-  travelDate: string;
-  category: "성지순례" | "개별여행" | "단체여행";
-  images: string[];
-  mainImageIndex: number;
+  author_name: string;
+  created_at: string;
+  view_count: number;
+  like_count: number;
+  comment_count: number;
+  preview_image?: string;
+  preview_title?: string;
+  preview_description?: string;
+  instagram_url?: string;
+  youtube_url?: string;
+  facebook_url?: string;
+  threads_url?: string;
+  category_name?: string;
+  category_slug?: string;
 }
 
-export default function TravelReviewsPage({ setCurrentPage, isAdmin = false }: TravelReviewsPageProps) {
-  const [reviews] = useState<TravelReview[]>([
-    {
-      id: 1,
-      title: "메주고리예 성지순례 - 평화와 은총이 가득한 여행",
-      author: "김가톨릭",
-      date: "2024년 1월 15일",
-      content: "메주고리예에서의 일주일은 제 신앙생활에 새로운 전환점이 되었습니다. 성모님의 현현지에서 느낀 평화와 은총은 말로 표현할 수 없을 정도였습니다. 특히 성 야고보 성당에서의 미사와 십자가의 길 기도는 깊은 감동을 주었습니다.",
-      views: 234,
-      rating: 5,
-      destination: "메주고리예",
-      travelDate: "2023년 12월",
-      category: "성지순례",
-      images: [
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1520637836862-4d197d17c915?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d73fb6?w=300&h=200&fit=crop"
-      ],
-      mainImageIndex: 0
-    },
-    {
-      id: 2,
-      title: "로마 & 바티칸 성지순례 후기 - 사도들의 발자취를 따라",
-      author: "박베드로",
-      date: "2024년 1월 12일",
-      content: "로마와 바티칸에서의 성지순례는 초대교회의 역사를 직접 체험할 수 있는 소중한 시간이었습니다. 성 베드로 대성당에서의 교황님 알현과 콜로세움에서의 순교자들을 기억하는 기도시간이 특히 인상 깊었습니다.",
-      views: 187,
-      rating: 5,
-      destination: "로마/바티칸",
-      travelDate: "2023년 11월",
-      category: "성지순례",
-      images: [
-        "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=300&h=200&fit=crop"
-      ],
-      mainImageIndex: 0
-    },
-    {
-      id: 3,
-      title: "파티마 성지순례 - 성모님의 발현지에서의 기적 같은 체험",
-      author: "이루치아",
-      date: "2024년 1월 10일",
-      content: "파티마 성모님 발현지에서의 순례는 제 마음에 깊은 변화를 가져다주었습니다. 로사리오 성당에서의 철야기도와 파티마 성모님께 올린 기도는 평생 잊지 못할 추억이 되었습니다.",
-      views: 156,
-      rating: 5,
-      destination: "파티마",
-      travelDate: "2023년 10월",
-      category: "성지순례",
-      images: [
-        "https://images.unsplash.com/photo-1520637836862-4d197d17c915?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=300&h=200&fit=crop"
-      ],
-      mainImageIndex: 0
-    },
-    {
-      id: 4,
-      title: "루르드 성지 개별순례 - 치유와 은총의 샘터에서",
-      author: "최베르나데트",
-      date: "2024년 1월 8일",
-      content: "루르드 성지에서의 개별순례는 조용히 성모님과 대화할 수 있는 시간이었습니다. 성수를 마시고 동굴에서 기도하며 많은 은총을 받았습니다. 가족의 건강을 위해 바친 기도가 응답받은 것 같습니다.",
-      views: 143,
-      rating: 4,
-      destination: "루르드",
-      travelDate: "2023년 9월",
-      category: "개별여행",
-      images: [
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1520637836862-4d197d17c915?w=300&h=200&fit=crop"
-      ],
-      mainImageIndex: 0
-    },
-    {
-      id: 5,
-      title: "아시시 성 프란치스코 성지순례 - 가난과 겸손의 길",
-      author: "정프란치스코",
-      date: "2024년 1월 5일",
-      content: "아시시에서 성 프란치스코의 삶을 따라가며 진정한 가난과 겸손이 무엇인지 깨달았습니다. 산 다미아노 성당과 포르치운쿨라에서의 기도시간이 특별했습니다.",
-      views: 167,
-      rating: 5,
-      destination: "아시시",
-      travelDate: "2023년 8월",
-      category: "성지순례",
-      images: [
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d73fb6?w=300&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=300&h=200&fit=crop"
-      ],
-      mainImageIndex: 0
-    }
-  ]);
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+}
 
-  const getCategoryColor = (category: TravelReview['category']) => {
-    switch (category) {
-      case "성지순례": return "bg-blue-100 text-blue-800";
-      case "개별여행": return "bg-green-100 text-green-800";
-      case "단체여행": return "bg-purple-100 text-purple-800";
-      default: return "bg-gray-100 text-gray-800";
+interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+interface TravelReviewsPageProps {
+  setCurrentPage: (page: string) => void;
+}
+
+const TravelReviewsPage: React.FC<TravelReviewsPageProps> = ({ setCurrentPage }) => {
+  const [reviews, setReviews] = useState<TravelReview[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [currentPageState, setCurrentPageState] = useState(1);
+
+  // 여행 후기 목록 조회
+  const fetchReviews = async (page = 1, category = '', search = '') => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '12'
+      });
+      
+      if (category && category !== 'all') params.append('category', category);
+      if (search) params.append('search', search);
+
+      const response = await fetch(`${BASE_URL}/api/travel-reviews?${params}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setReviews(data.data.posts);
+        setPagination(data.data.pagination);
+      }
+    } catch (error) {
+      console.error('여행 후기 목록 조회 실패:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`h-4 w-4 ${
-          i < rating 
-            ? 'text-yellow-400 fill-yellow-400' 
-            : 'text-gray-300'
-        }`}
-      />
-    ));
+  // 카테고리 목록 조회
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/travel-reviews/categories`);
+      const data = await response.json();
+
+      if (data.success) {
+        setCategories(data.data);
+      }
+    } catch (error) {
+      console.error('카테고리 목록 조회 실패:', error);
+    }
   };
 
-  return (
-    <div className="bg-background min-h-screen">
-      {/* 헤더 섹션 */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-medium text-foreground mb-2">
-                여행후기
-              </h1>
-              <p className="text-muted-foreground">
-                진주여행사와 함께한 고객들의 소중한 여행 경험담을 확인하세요
-              </p>
-            </div>
-            
-            {/* 브레드크럼 */}
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <Home className="h-4 w-4" />
-              <ChevronRight className="h-4 w-4" />
-              <span>게시판</span>
-              <ChevronRight className="h-4 w-4" />
-              <span>여행후기</span>
-            </div>
-          </div>
+  useEffect(() => {
+    fetchCategories();
+    fetchReviews();
+  }, []);
+
+  // 검색 및 필터링
+  const handleSearch = () => {
+    setCurrentPageState(1);
+    fetchReviews(1, selectedCategory, searchTerm);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentPageState(1);
+    fetchReviews(1, category, searchTerm);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPageState(page);
+    fetchReviews(page, selectedCategory, searchTerm);
+  };
+
+  // 소셜 미디어 아이콘 렌더링
+  const renderSocialIcons = (review: TravelReview) => {
+    const icons = [];
+    
+    if (review.instagram_url) {
+      icons.push(
+        <a key="instagram" href={review.instagram_url} target="_blank" rel="noopener noreferrer" className="text-pink-500 hover:text-pink-600">
+          <Instagram size={16} />
+        </a>
+      );
+    }
+    
+    if (review.youtube_url) {
+      icons.push(
+        <a key="youtube" href={review.youtube_url} target="_blank" rel="noopener noreferrer" className="text-red-500 hover:text-red-600">
+          <Youtube size={16} />
+        </a>
+      );
+    }
+    
+    if (review.facebook_url) {
+      icons.push(
+        <a key="facebook" href={review.facebook_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+          <Facebook size={16} />
+        </a>
+      );
+    }
+
+    return icons.length > 0 ? (
+      <div className="flex gap-2 mt-2">
+        {icons}
+      </div>
+    ) : null;
+  };
+
+  // 미리보기 이미지 렌더링
+  const renderPreviewImage = (review: TravelReview) => {
+    if (review.preview_image) {
+      return (
+        <div className="relative h-48 overflow-hidden rounded-lg">
+          <img
+            src={`${BASE_URL}/api/travel-reviews/proxy-image?url=${encodeURIComponent(review.preview_image)}`}
+            alt={review.preview_title || review.title}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // 이미지 로드 실패 시 숨김
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        </div>
+      );
+    }
+    return null;
+  };
+
+  if (loading && reviews.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">여행 후기를 불러오는 중...</p>
         </div>
       </div>
+    );
+  }
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* 상단 액션 버튼 */}
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-xl font-medium">
-            총 {reviews.length}개의 여행후기
-          </h2>
-          
-          <Button 
-            onClick={() => setCurrentPage("travel-review-form")}
-            className="flex items-center space-x-2"
-          >
-            <Plus className="h-4 w-4" />
-            <span>후기 작성하기</span>
+  return (
+    <div className="container mx-auto px-4 py-8">
+      {/* 헤더 */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">여행 후기</h1>
+        <p className="text-gray-600">다른 여행자들의 소중한 경험을 공유해보세요</p>
+      </div>
+
+      {/* 검색 및 필터 */}
+      <div className="mb-6 flex flex-col sm:flex-row gap-4">
+        <div className="flex-1">
+          <Input
+            placeholder="여행 후기 검색..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          />
+        </div>
+        <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="카테고리 선택" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">전체</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.slug}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button onClick={handleSearch} className="w-full sm:w-auto">
+          검색
+        </Button>
+        <Button 
+          onClick={() => setCurrentPage('travel-reviews-write')} 
+          variant="default" 
+          className="w-full sm:w-auto"
+        >
+          후기 작성
+        </Button>
+      </div>
+
+      {/* 여행 후기 목록 */}
+      {reviews.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="text-gray-400 mb-4">
+            <Calendar size={48} className="mx-auto" />
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">아직 여행 후기가 없습니다</h3>
+          <p className="text-gray-600 mb-4">첫 번째 여행 후기를 작성해보세요!</p>
+          <Button onClick={() => setCurrentPage('travel-reviews-write')}>
+            후기 작성하기
           </Button>
         </div>
-
-        {/* 여행후기 리스트 */}
-        <div className="space-y-6">
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review) => (
-            <Card 
-              key={review.id} 
-              className="overflow-hidden hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-[1.005]"
-              onClick={() => setCurrentPage(`travel-review-detail-${review.id}`)}
-            >
-              <CardContent className="p-0">
-                <div className="flex">
-                  {/* 대표사진 썸네일 */}
-                  <div className="w-48 h-40 flex-shrink-0 relative">
-                    <ImageWithFallback
-                      src={review.images[review.mainImageIndex]}
-                      alt={review.title}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* 사진 개수 표시 */}
-                    <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full flex items-center space-x-1">
-                      <Camera className="h-3 w-3" />
-                      <span>{review.images.length}</span>
-                    </div>
-                    {/* 카테고리 배지 */}
-                    <div className="absolute top-3 left-3">
-                      <Badge className={getCategoryColor(review.category)}>
-                        {review.category}
+            <Card key={review.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <CardTitle className="text-lg line-clamp-2 mb-2">
+                      <button 
+                        onClick={() => setCurrentPage(`travel-reviews-detail-${review.id}`)}
+                        className="hover:text-blue-600 transition-colors text-left"
+                      >
+                        {review.title}
+                      </button>
+                    </CardTitle>
+                    {review.category_name && (
+                      <Badge variant="secondary" className="mb-2">
+                        {review.category_name}
                       </Badge>
-                    </div>
+                    )}
                   </div>
-                  
-                  {/* 텍스트 콘텐츠 */}
-                  <div className="flex-1 p-6">
-                    <div className="space-y-4">
-                      {/* 제목과 별점 */}
-                      <div className="space-y-2">
-                        <h3 className="text-lg font-medium text-foreground hover:text-blue-600 transition-colors duration-200 line-clamp-1">
-                          {review.title}
-                        </h3>
-                        <div className="flex items-center space-x-1">
-                          {renderStars(review.rating)}
-                          <span className="text-sm text-muted-foreground ml-2">
-                            ({review.rating}/5)
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {/* 여행 정보 */}
-                      <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-                        <div className="flex items-center space-x-1">
-                          <User className="h-4 w-4" />
-                          <span>{review.author}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Calendar className="h-4 w-4" />
-                          <span>{review.date}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <MapPin className="h-4 w-4" />
-                          <span>{review.destination}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Eye className="h-4 w-4" />
-                          <span>{review.views.toLocaleString()}</span>
-                        </div>
-                      </div>
-                      
-                      {/* 내용 미리보기 */}
-                      <p className="text-foreground leading-relaxed line-clamp-2">
-                        {review.content}
+                </div>
+              </CardHeader>
+              
+              <CardContent className="pt-0">
+                {/* 미리보기 이미지 */}
+                {renderPreviewImage(review)}
+                
+                {/* 미리보기 정보 */}
+                {review.preview_title && (
+                  <div className="mb-3">
+                    <h4 className="font-medium text-sm text-gray-900 line-clamp-1">
+                      {review.preview_title}
+                    </h4>
+                    {review.preview_description && (
+                      <p className="text-sm text-gray-600 line-clamp-2 mt-1">
+                        {review.preview_description}
                       </p>
+                    )}
+                  </div>
+                )}
 
-                      {/* 여행일자 */}
-                      <div className="text-sm text-muted-foreground">
-                        여행일자: {review.travelDate}
-                      </div>
-                    </div>
+                {/* 소셜 미디어 링크 */}
+                {renderSocialIcons(review)}
+
+                {/* 메타 정보 */}
+                <div className="flex items-center justify-between text-sm text-gray-500 mt-4">
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1">
+                      <Eye size={14} />
+                      {review.view_count}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Heart size={14} />
+                      {review.like_count}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MessageCircle size={14} />
+                      {review.comment_count}
+                    </span>
+                  </div>
+                  <span>{formatDate(review.created_at)}</span>
+                </div>
+
+                {/* 작성자 정보 */}
+                <div className="mt-3 pt-3 border-t border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">
+                      작성자: {review.author_name}
+                    </span>
+                    <button 
+                      onClick={() => setCurrentPage(`travel-reviews-detail-${review.id}`)}
+                      className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1"
+                    >
+                      자세히 보기
+                      <ExternalLink size={14} />
+                    </button>
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
+      )}
 
-        {/* 후기 작성 안내 */}
-        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-blue-900 mb-4">
-            여행후기 작성 안내
-          </h3>
-          <div className="space-y-2 text-sm text-blue-800">
-            <p>• 여행에서 찍은 사진과 함께 생생한 후기를 작성해주세요.</p>
-            <p>• 사진은 개수 제한 없이 업로드할 수 있으며, 대표사진을 선택할 수 있습니다.</p>
-            <p>• 다른 고객분들께 도움이 되는 구체적인 정보를 포함해주시면 더욱 좋습니다.</p>
-            <p>• 개인정보나 연락처는 작성하지 마세요.</p>
+      {/* 페이지네이션 */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex justify-center mt-8">
+          <div className="flex gap-2">
+            {pagination.hasPrev && (
+              <Button
+                variant="outline"
+                onClick={() => handlePageChange(pagination.page - 1)}
+              >
+                이전
+              </Button>
+            )}
+            
+            {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={page === pagination.page ? "default" : "outline"}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </Button>
+            ))}
+            
+            {pagination.hasNext && (
+              <Button
+                variant="outline"
+                onClick={() => handlePageChange(pagination.page + 1)}
+              >
+                다음
+              </Button>
+            )}
           </div>
         </div>
-
-        {/* 페이지네이션 */}
-        <div className="flex justify-center mt-12">
-          <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm">이전</Button>
-            <div className="flex items-center space-x-1">
-              <Button variant="default" size="sm">1</Button>
-              <Button variant="outline" size="sm">2</Button>
-              <Button variant="outline" size="sm">3</Button>
-            </div>
-            <Button variant="outline" size="sm">다음</Button>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
-}
+};
+
+export default TravelReviewsPage;

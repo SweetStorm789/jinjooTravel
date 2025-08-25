@@ -12,8 +12,8 @@ const app = express();
 
 // 미들웨어 설정
 app.use(cors(corsOptions));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
 // 정적 파일 제공
 //app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
@@ -31,6 +31,10 @@ import uploadRoutes from './routes/uploadRoutes';
 import healthRoutes from './routes/healthRoutes';
 import marianMessageRoutes from './routes/marianMessages';
 import boardRoutes from './routes/boardRoutes';
+import qnaRoutes from './routes/qnaRoutes';
+import freeboardRoutes from './routes/freeboardRoutes';
+import galleryRoutes from './routes/galleryRoutes';
+import travelReviewRoutes from './routes/travelReviewRoutes';
 
 // 기본 라우트
 app.get('/', (req, res) => {
@@ -43,6 +47,10 @@ app.use('/api', uploadRoutes);
 app.use('/api', healthRoutes);
 app.use('/api/marian-messages', marianMessageRoutes);
 app.use('/api/board', boardRoutes);
+app.use('/api/qna', qnaRoutes);
+app.use('/api/freeboard', freeboardRoutes);
+app.use('/api/gallery', galleryRoutes);
+app.use('/api/travel-reviews', travelReviewRoutes);
 
 // 에러 핸들링 미들웨어
 app.use(errorHandler);
