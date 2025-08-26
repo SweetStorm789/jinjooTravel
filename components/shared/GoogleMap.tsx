@@ -100,11 +100,13 @@ export default function GoogleMap({
         if (marker.content) {
           const infoWindow = new window.google.maps.InfoWindow({
             content: `
-              <div class="p-2">
-                <h3 class="font-medium mb-1">${marker.title}</h3>
-                <p class="text-sm text-gray-600">${marker.content}</p>
+              <div style="padding: 12px; max-width: 250px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                <h3 style="font-weight: 600; margin: 0 0 8px 0; color: #1f2937; font-size: 14px;">${marker.title}</h3>
+                <p style="margin: 0; color: #6b7280; font-size: 12px; line-height: 1.4;">${marker.content}</p>
               </div>
-            `
+            `,
+            maxWidth: 280,
+            pixelOffset: new window.google.maps.Size(0, -10)
           });
           // ✅ 지도 로드시 자동으로 InfoWindow 열기
           infoWindow.open(map, mapMarker);

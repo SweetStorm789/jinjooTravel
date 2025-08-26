@@ -99,8 +99,12 @@ export default function PhotoGalleryDetailPage({ setCurrentPage, isAdmin = false
   const handleDelete = async () => {
     if (!post || !postId) return;
 
-    const password = prompt('갤러리 삭제를 위해 비밀번호를 입력해주세요:');
-    if (!password) return;
+    // Admin은 비밀번호 없이 삭제 가능
+    let password = '';
+    if (!isAdmin) {
+      password = prompt('갤러리 삭제를 위해 비밀번호를 입력해주세요:');
+      if (!password) return;
+    }
 
     try {
       const response = await fetch(`${BASE_URL}/api/gallery/${postId}`, {

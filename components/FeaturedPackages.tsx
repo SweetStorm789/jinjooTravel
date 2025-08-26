@@ -181,10 +181,10 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 
                 {/* Rating */}
-                <div className="absolute top-4 right-4 flex items-center bg-white/90 rounded-full px-3 py-1">
+                {/* <div className="absolute top-4 right-4 flex items-center bg-white/90 rounded-full px-3 py-1">
                   <Star className="w-4 h-4 text-yellow-500 mr-1" />
                   <span className="text-sm font-medium">{pkg.rating}</span>
-                </div>
+                </div> */}
 
                 {/* Bottom gradient overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">

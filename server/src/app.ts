@@ -35,6 +35,7 @@ import qnaRoutes from './routes/qnaRoutes';
 import freeboardRoutes from './routes/freeboardRoutes';
 import galleryRoutes from './routes/galleryRoutes';
 import travelReviewRoutes from './routes/travelReviewRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 // 기본 라우트
 app.get('/', (req, res) => {
@@ -51,6 +52,7 @@ app.use('/api/qna', qnaRoutes);
 app.use('/api/freeboard', freeboardRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/travel-reviews', travelReviewRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 에러 핸들링 미들웨어
 app.use(errorHandler);

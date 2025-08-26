@@ -14,7 +14,8 @@ import {
   Unlock,
   Loader2,
   AlertTriangle,
-  Send
+  Send,
+  Trash2
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
@@ -77,6 +78,7 @@ export default function QnaDetailPage({
   const [showAnswerForm, setShowAnswerForm] = useState(false);
   const [answerContent, setAnswerContent] = useState("");
   const [submittingAnswer, setSubmittingAnswer] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // QnA 상세 정보 조회
   const fetchQnaDetail = async () => {
@@ -146,6 +148,42 @@ export default function QnaDetailPage({
       alert(err instanceof Error ? err.message : '답변 등록에 실패했습니다.');
     } finally {
       setSubmittingAnswer(false);
+    }
+  };
+
+  // QnA 삭제 핸들러
+  const handleDelete = async () => {
+    if (!confirm('정말로 이 QnA를 삭제하시겠습니까? 삭제된 QnA는 복구할 수 없습니다.')) {
+      return;
+    }
+
+    try {
+      setDeleting(true);
+      
+      const response = await fetch(`${BASE_URL}/api/qna/${qnaId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('삭제에 실패했습니다.');
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        alert('QnA가 성공적으로 삭제되었습니다.');
+        setCurrentPage('qna');
+      } else {
+        throw new Error(data.message || '삭제에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('삭제 실패:', error);
+      alert('삭제에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -260,6 +298,22 @@ export default function QnaDetailPage({
               <Share2 className="h-4 w-4 mr-2" />
               공유
             </Button>
+            {isAdmin && (
+              <Button 
+                onClick={handleDelete}
+                variant="destructive"
+                size="sm"
+                disabled={deleting}
+                className="flex items-center space-x-2"
+              >
+                {deleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+                <span>{deleting ? "삭제 중..." : "삭제"}</span>
+              </Button>
+            )}
             {!isAdmin && (
               <Button 
                 onClick={() => setCurrentPage(`qna-form-edit-${qna.id}`)}

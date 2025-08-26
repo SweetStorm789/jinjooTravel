@@ -250,6 +250,17 @@ export default function QnaPage({ setCurrentPage, isAdmin = false }: QnaPageProp
             )}
           </div>
           
+          {/* Admin 권한 체크 - 관리자에게만 등록 버튼 표시 */}
+          {isAdmin && (
+            <Button 
+              onClick={() => setCurrentPage("qna-form")}
+              className="flex items-center space-x-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span>새 질문 등록</span>
+            </Button>
+          )}
+          
           <Button 
             onClick={() => setCurrentPage("qna-form")}
             className="flex items-center space-x-2"

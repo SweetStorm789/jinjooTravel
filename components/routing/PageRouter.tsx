@@ -46,6 +46,7 @@ import CompanyHistoryPage from "../CompanyHistoryPage";
 import CompanyIntroPage from "../CompanyIntroPage";
 import DirectionsPage from "../DirectionsPage";
 import TravelTermsPage from "../TravelTermsPage";
+import AdminLoginPage from "../AdminLoginPage";
 import PrivacyPolicyPage from "../PrivacyPolicyPage";
 import { ROUTE_CONFIGS, matchRoute } from "./routeConfigs";
 
@@ -53,11 +54,22 @@ interface PageRouterProps {
   currentPage: string;
   setCurrentPage: (page: string) => void;
   isAdmin: boolean;
+  onAdminLogin?: () => void;
 }
 
-export default function PageRouter({ currentPage, setCurrentPage, isAdmin }: PageRouterProps) {
+export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdminLogin }: PageRouterProps) {
   // 라우트 매칭 및 렌더링
   const renderPage = () => {
+    // Admin 로그인
+    if (currentPage === "admin-login") {
+      return <AdminLoginPage setCurrentPage={setCurrentPage} onAdminLogin={onAdminLogin} />;
+    }
+
+    // 개인정보처리방침
+    if (currentPage === "privacy-policy") {
+      return <PrivacyPolicyPage setCurrentPage={setCurrentPage} />;
+    }
+
     // 홈페이지는 특별 처리
     if (currentPage === "home") {
       return (

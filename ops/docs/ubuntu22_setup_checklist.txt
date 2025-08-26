@@ -1,0 +1,44 @@
+🚀 Ubuntu 22.04 가상클라우드 초기 세팅 체크리스트 (카페24 VM)
+
+1. 서버 접속
+   ssh root@서버IP
+   → 카페24에서 받은 IP, root 비밀번호로 접속
+
+2. 패키지 업데이트
+   apt update && apt upgrade -y
+
+3. 필수 프로그램 설치
+   apt install -y git curl ufw
+
+4. Node.js & npm 설치 (18.x 기준)
+   curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+   apt install -y nodejs
+
+5. PM2 설치 (Node.js 프로세스 매니저)
+   npm install -g pm2
+
+6. MariaDB 설치
+   apt install -y mariadb-server
+   mysql_secure_installation   # 보안 설정 (root 비번 설정 등)
+
+7. Nginx 설치 (웹 서버)
+   apt install -y nginx
+   systemctl enable nginx
+   systemctl start nginx
+
+8. 방화벽(UFW) 설정
+   ufw allow ssh
+   ufw allow http
+   ufw allow https
+   ufw enable   # y 입력
+
+9. SSH 키 인증 설정 (보안 강화)
+   - 로컬에서 ssh-keygen 실행 → 공개키(id_rsa.pub) 생성
+   - 서버 ~/.ssh/authorized_keys 에 등록
+   - /etc/ssh/sshd_config 에서 PasswordAuthentication no (선택)
+
+10. 프로젝트 배포 준비
+   - git clone <repo-url> 로 프로젝트 가져오기
+   - React: npm run build → /var/www/html 배포
+   - Node.js: pm2 start server.js 실행
+   - Nginx: React + API 서버 리버스 프록시 설정

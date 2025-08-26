@@ -160,7 +160,7 @@ export default function MedjugorjePage({ setCurrentPage }: MedjugorjePageProps) 
 
             {/* 이미지 갤러리 모달 - 완벽한 중앙 정렬 */}
             <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
-              <DialogContent className="max-w-[95vw] max-h-[95vh] w-auto h-auto p-0 bg-transparent">
+              <DialogContent className="max-w-[95vw] max-h-[95vh] w-auto h-auto p-0 bg-transparent border-0 shadow-none">
                 {/* 접근성을 위한 숨겨진 제목과 설명 */}
                 <DialogTitle className="sr-only">
                   메주고리예 성지 사진 갤러리 - {medjugorjeImages[currentImageIndex].alt}
@@ -171,15 +171,15 @@ export default function MedjugorjePage({ setCurrentPage }: MedjugorjePageProps) 
                 
                 {/* 고정된 모달 틀 */}
                 <div className="relative w-full h-full min-h-[80vh]">
-                  {/* 닫기 버튼 - 모달 우상단 고정 */}
-                  <Button
+                  {/* 닫기 버튼 - 숨김 처리 */}
+                  {/* <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setIsGalleryOpen(false)}
                     className="absolute top-4 right-4 z-40 bg-white hover:bg-white/90 shadow-lg border border-gray-300"
                   >
                     <X className="h-4 w-4" />
-                  </Button>
+                  </Button> */}
 
                   {/* 이미지와 네비게이션 버튼 컨테이너 - 모달 중앙에 배치 */}
                   <div className="absolute inset-0 flex items-center justify-center">

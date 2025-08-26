@@ -48,13 +48,15 @@ interface TravelReview {
 interface TravelReviewDetailPageProps {
   setCurrentPage: (page: string) => void;
   reviewId: string;
+  isAdmin?: boolean;
 }
 
-const TravelReviewDetailPage: React.FC<TravelReviewDetailPageProps> = ({ setCurrentPage, reviewId }) => {
+const TravelReviewDetailPage: React.FC<TravelReviewDetailPageProps> = ({ setCurrentPage, reviewId, isAdmin = false }) => {
   const id = reviewId;
   const [review, setReview] = useState<TravelReview | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   // 여행 후기 상세 조회
   const fetchReviewDetail = async () => {
@@ -81,6 +83,42 @@ const TravelReviewDetailPage: React.FC<TravelReviewDetailPageProps> = ({ setCurr
       fetchReviewDetail();
     }
   }, [id]);
+
+  // 여행 후기 삭제 핸들러
+  const handleDelete = async () => {
+    if (!confirm('정말로 이 여행 후기를 삭제하시겠습니까? 삭제된 후기는 복구할 수 없습니다.')) {
+      return;
+    }
+
+    try {
+      setDeleting(true);
+      
+      const response = await fetch(`${BASE_URL}/api/travel-reviews/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('삭제에 실패했습니다.');
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        alert('여행 후기가 성공적으로 삭제되었습니다.');
+        setCurrentPage('travel-reviews');
+      } else {
+        throw new Error(data.message || '삭제에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('삭제 실패:', error);
+      alert('삭제에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   // 소셜 미디어 링크 렌더링
   const renderSocialLinks = () => {
@@ -240,13 +278,24 @@ const TravelReviewDetailPage: React.FC<TravelReviewDetailPageProps> = ({ setCurr
           </div>
           
           <div className="flex gap-2">
+            {isAdmin && (
+              <Button 
+                variant="destructive" 
+                size="sm"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                ) : (
+                  <Trash2 size={16} className="mr-2" />
+                )}
+                {deleting ? "삭제 중..." : "삭제"}
+              </Button>
+            )}
             <Button variant="outline" size="sm">
               <Edit size={16} className="mr-2" />
               수정
-            </Button>
-            <Button variant="outline" size="sm">
-              <Trash2 size={16} className="mr-2" />
-              삭제
             </Button>
           </div>
         </div>

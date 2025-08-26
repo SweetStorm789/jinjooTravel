@@ -104,14 +104,14 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
                   성지순례 일정 보기
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
-                <Button
+                {/* <Button
                   size="lg"
                   variant="ghost"
                   className="text-white border-white hover:bg-white/20 px-8 py-4 text-lg"
                 >
                   <Play className="w-5 h-5 mr-2" />
                   소개영상 보기
-                </Button>
+                </Button> */}
               </div>
 
               <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/20">

@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageRouter from "../components/routing/PageRouter";
-import { checkAdminPermission } from "../utils/auth";
+import { isAdminLoggedIn, verifyAdminToken, adminLogout } from "../utils/adminAuth";
 import { 
   getPageFromURL, 
   pushPageToHistory, 
@@ -15,7 +15,7 @@ import { useState, useEffect, useCallback } from "react";
 export default function App() {
   // URL에서 초기 페이지 상태를 가져옴
   const [currentPage, setCurrentPage] = useState<string>(() => getPageFromURL());
-  const [isAdmin] = useState<boolean>(checkAdminPermission());
+  const [isAdmin, setIsAdmin] = useState<boolean>(isAdminLoggedIn());
 
   // 히스토리를 관리하는 페이지 변경 함수
   const setCurrentPageWithHistory = useCallback((page: string, replace: boolean = false) => {
@@ -51,6 +51,27 @@ export default function App() {
     return cleanup;
   }, [setCurrentPageWithHistory]);
 
+  // Admin 토큰 검증
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (isAdminLoggedIn()) {
+        const isValid = await verifyAdminToken();
+        if (!isValid) {
+          setIsAdmin(false);
+        }
+      }
+    };
+
+    checkAdminStatus();
+  }, []);
+
+  // Admin 로그아웃 핸들러
+  const handleAdminLogout = () => {
+    adminLogout();
+    setIsAdmin(false);
+    setCurrentPageWithHistory("home", true);
+  };
+
 
 
   // 페이지 변경 시 스크롤을 최상단으로 이동
@@ -63,13 +84,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header currentPage={currentPage} setCurrentPage={setCurrentPageWithHistory} />
+      <Header 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPageWithHistory} 
+        isAdmin={isAdmin}
+        onAdminLogout={handleAdminLogout}
+      />
       {/* Header height compensation - approximately 140px for single tier + utility bar */}
       <div className="pt-[140px]">
         <PageRouter 
           currentPage={currentPage} 
           setCurrentPage={setCurrentPageWithHistory} 
           isAdmin={isAdmin} 
+          onAdminLogin={() => setIsAdmin(true)}
         />
         <Footer setCurrentPage={setCurrentPageWithHistory} />
       </div>

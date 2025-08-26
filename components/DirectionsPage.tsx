@@ -1,10 +1,8 @@
 import { Button } from "./ui/button";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { MapPin, Phone, Mail } from "lucide-react";
-
-// 구글맵 주소
-const companyAddress = "서울특별시 서대문구 서소문로 37 충정로 대우디오빌 801호";
-const googleMapsUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(companyAddress)}`;
+import GoogleMap from "./shared/GoogleMap";
+import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface DirectionsPageProps {
   setCurrentPage: (page: string) => void;
@@ -23,18 +21,19 @@ export default function DirectionsPage({ setCurrentPage }: DirectionsPageProps) 
       <h1 className="text-3xl font-bold mb-8">오시는 길</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <div className="w-full h-96 rounded-lg shadow-lg overflow-hidden">
-            <iframe
-              src={googleMapsUrl}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="진주여행사 위치"
-            />
-          </div>
+          <GoogleMap
+            center={{ lat: 37.560774, lng: 126.965551 }}
+            markers={[
+              {
+                position: { lat: 37.560774, lng: 126.965551 },
+                title: "진주여행사",
+                content: "서울특별시 서대문구 서소문로 37 충정로 대우디오빌 801호"
+              }
+            ]}
+            zoom={17}
+            height="400px"
+            className="w-full"
+          />
         </div>
         <div className="space-y-6">
           <div>

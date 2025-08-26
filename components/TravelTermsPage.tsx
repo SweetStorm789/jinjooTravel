@@ -547,6 +547,7 @@ export default function TravelTermsPageFull({
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* 사이드바 - 주석처리 (나중에 필요시 활성화)
           <div className="lg:col-span-1">
             <div className="sticky top-32 space-y-6">
               <Card>
@@ -652,8 +653,9 @@ export default function TravelTermsPageFull({
               </Card>
             </div>
           </div>
+          */}
 
-          <div className="lg:col-span-3">
+                      <div className="lg:col-span-4">
             <Tabs
               value={activeTab}
               onValueChange={setActiveTab}
@@ -722,7 +724,7 @@ export default function TravelTermsPageFull({
                 </Card>
               )}
 
-              <Accordion type="multiple" className="space-y-4">
+              <Accordion type="multiple" value={filteredTerms.map(term => term.id)} className="space-y-4">
                 {filteredTerms.map((term, index) => (
                   <AccordionItem
                     key={term.id}

@@ -1,6 +1,7 @@
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { Phone, Mail, MapPin, Clock, ArrowUp } from "lucide-react";
+import Logo from "./Logo";
 
 interface FooterProps {
   setCurrentPage: (page: string) => void;
@@ -16,7 +17,7 @@ export default function Footer({ setCurrentPage }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4">
         {/* Main footer content */}
         <div className="py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Company Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center mb-8">
@@ -24,7 +25,7 @@ export default function Footer({ setCurrentPage }: FooterProps) {
                   <span className="text-xl text-gray-900">⛪</span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold">진주여행사</h3>
+                  <h3 className="text-2xl font-bold">(주)진주여행사</h3>
                   <span className="text-gray-400">성지순례 전문여행사</span>
                 </div>
               </div>
@@ -57,26 +58,7 @@ export default function Footer({ setCurrentPage }: FooterProps) {
               </div>
             </div>
 
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6">서비스</h4>
-              <ul className="space-y-4">
-                {[
-                  "성지순례",
-                  "패키지여행", 
-                  "맞춤여행",
-                  "여행후기",
-                  "공지사항",
-                  "회사소개"
-                ].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+
 
             {/* Contact & Hours */}
             <div>
@@ -125,13 +107,31 @@ export default function Footer({ setCurrentPage }: FooterProps) {
             </div>
             
             <div className="flex items-center space-x-6">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
-                이용약관
+              <a href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentPage("company");
+                }}
+              className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+                회사소개
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm font-medium">
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentPage("privacy-policy");
+                }}
+                className="text-gray-400 hover:text-white transition-colors duration-200 text-sm font-medium"
+              >
                 개인정보처리방침
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+              <a href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentPage("travel-terms");
+                }}
+                className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+              >
                 여행약관
               </a>
               <Button

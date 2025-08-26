@@ -11,30 +11,30 @@ export default function CompanyFeatures() {
     },
     {
       icon: Users,
-      title: "20년 경험",
+      title: "30년 경험",
       description: "축적된 전문 노하우와 현지 네트워크",
       stats: "5,000+ 고객"
     },
     {
       icon: Award,
       title: "품질 보증",
-      description: "고객만족도 1위 검증된 프로그램",
+      description: "고객만족도 검증된 프로그램",
       stats: "98% 만족도"
     },
     {
       icon: Clock,
-      title: "24시간 지원",
-      description: "여행 전/중/후 완벽한 고객지원",
-      stats: "24/7 서비스"
+      title: "현지 전문가",
+      description: "각 지역별 전문 현지 가이드와 현지 네트워크",
+      stats: "현지 전문 가이드"
     }
   ];
 
   const testimonials = [
     {
-      name: "김영희",
+      name: "박 바오로",
       rating: 5,
-      comment: "정말 의미있는 성지순례였습니다. 전문 가이드의 해설이 인상적이었어요.",
-      location: "서울"
+      comment: "수백 명의 기도식구들은 쏟아지는 은총에 기쁨 넘쳐 순례길에서 돌아온다. 그리고 그 순례의 삶을 우리 현장에서 살기 위해 애를 쓴다..",
+      location: "부산"
     },
     {
       name: "박민수",

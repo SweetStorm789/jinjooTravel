@@ -45,6 +45,10 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
   // 홈
   { pattern: "home", component: "home" },
   
+  // Admin 로그인
+  { pattern: "admin-login", component: "AdminLogin" },
+  { pattern: "privacy-policy", component: "PrivacyPolicy" },
+  
   // 회사소개
   { pattern: "company", component: "CompanyIntro" },
   

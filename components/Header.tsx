@@ -2,15 +2,22 @@ import { Button } from "./ui/button";
 import { Phone, Menu, X, ChevronRight, Share2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { copyCurrentURL, shareCurrentPage } from "../utils/sharing";
+import Logo from "./Logo";
 
 interface HeaderProps {
   currentPage: string;
   setCurrentPage: (page: string) => void;
+  isAdmin?: boolean;
+  onAdminLogout?: () => void;
+  logoVariant?: 'gradient' | 'classic' | 'modern' | 'elegant' | 'premium';
 }
 
 export default function Header({
   currentPage,
   setCurrentPage,
+  isAdmin = false,
+  onAdminLogout,
+  logoVariant = 'gradient'
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMainCategory, setActiveMainCategory] = useState("가톨릭성지순례");
@@ -62,7 +69,7 @@ export default function Header({
     성모님메세지: [],
     게시판: [
       { name: "공지사항", hasSubMenu: false },
-      { name: "여행후기", hasSubMenu: false },
+      // { name: "여행후기", hasSubMenu: false },
       { name: "질문답변", hasSubMenu: false },
       { name: "자유게시판", hasSubMenu: false },
       { name: "포토갤러리", hasSubMenu: false },
@@ -120,20 +127,26 @@ export default function Header({
   const handleSubItemLeave = () => {
     subHoverTimeoutRef.current = setTimeout(() => {
       setHoveredSubCategory(null);
-    }, 150);
+    }, 300);
   };
 
   const handleThirdDepthEnter = () => {
+    console.log('3depth 메뉴 진입');
     if (subHoverTimeoutRef.current) {
       clearTimeout(subHoverTimeoutRef.current);
       subHoverTimeoutRef.current = null;
     }
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
   };
 
   const handleThirdDepthLeave = () => {
+    console.log('3depth 메뉴 이탈');
     subHoverTimeoutRef.current = setTimeout(() => {
       setHoveredSubCategory(null);
-    }, 150);
+    }, 300);
   };
 
   // 페이지 공유 기능
@@ -211,22 +224,34 @@ export default function Header({
               )}
             </div>
             <span className="text-gray-300">|</span>
-            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-sm">
-              로그인
-            </Button>
-            <span className="text-gray-300">|</span>
-            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-sm">
-              회원가입
-            </Button>
+            {isAdmin ? (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-red-600 hover:text-red-700 hover:bg-red-50 text-sm"
+                onClick={onAdminLogout}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-sm"
+                onClick={() => setCurrentPage("admin-login")}
+              >
+                관리자
+              </Button>
+            )}
           </div>
         </div>
       </div>
 
       {/* Main header with logo, navigation, and CTA */}
-      <div className="px-4 py-4 relative">
+      <div className="px-10 py-0 relative">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-xl text-white">⛪</span>
@@ -236,7 +261,13 @@ export default function Header({
                 <span className="text-sm text-gray-500">성지순례 전문여행사</span>
               </div>
             </div>
+          </div> */}
+          {/* Logo */}
+          <div className="flex items-center">
+            {/* 로고 - 이미지 로고 사용 */}
+            <Logo variant="image" size="md" />
           </div>
+          {/* Logo */}
 
           {/* Desktop Navigation menu */}
           <nav className="hidden xl:flex items-center space-x-1 relative">

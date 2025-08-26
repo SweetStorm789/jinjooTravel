@@ -146,7 +146,7 @@ export default function CompanyIntroPage({ setCurrentPage }: CompanyIntroPagePro
                 </div> */}
                 <div className="bg-white p-4 rounded-lg shadow-sm max-w-xs mx-auto">
                   <p className="text-sm text-gray-700 italic">
-                    "하느님의 은총 안에서 함께 걸어가는 신앙의 여정"
+                    "하느님의 은총 안에서 함께 걸어가는 평화의 여정"
                   </p>
                 </div>
               </div>
