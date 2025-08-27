@@ -207,7 +207,7 @@ export default function QnaDetailPage({
   // 카테고리 색상 반환
   const getCategoryColor = (categoryName?: string) => {
     switch (categoryName) {
-      case "상품문의": return "bg-blue-100 text-blue-800";
+      case "성지순례문의": return "bg-blue-100 text-blue-800";
       case "예약문의": return "bg-green-100 text-green-800";
       case "일반문의": return "bg-gray-100 text-gray-800";
       case "취소/환불": return "bg-red-100 text-red-800";

@@ -3,9 +3,10 @@ import { Cross, Church, Compass, Heart, Star, Crown, Shield } from "lucide-react
 interface LogoProps {
   variant?: 'gradient' | 'classic' | 'modern' | 'elegant' | 'premium' | 'image';
   size?: 'sm' | 'md' | 'lg';
+  setCurrentPage: (page: string) => void;
 }
 
-export default function Logo({ variant = 'gradient', size = 'md' }: LogoProps) {
+export default function Logo({ variant = 'gradient', size = 'md', setCurrentPage }: LogoProps) {
   const sizeClasses = {
     sm: 'w-10 h-10',
     md: 'w-14 h-14', 
@@ -192,9 +193,13 @@ export default function Logo({ variant = 'gradient', size = 'md' }: LogoProps) {
     return (
       <div className="flex items-center">
         <img 
+          onClick={() => {
+            setCurrentPage("home");
+          }}
           src="/images/logo/jinjoo-logo.png" 
           alt="JINJOO travel co. ltd" 
           className={`${imageSizeClasses[size]} object-contain`}
+          style={{ cursor: 'pointer' }}
         />
       </div>
     );

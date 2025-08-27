@@ -174,7 +174,7 @@ function PilgrimagePackageDetailPage({
     if (!packageId) return;
     
     const confirmDelete = window.confirm(
-      `"${packageData?.title}" 상품을 정말 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`
+      `"${packageData?.title}" 성지순례 일정을 정말 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`
     );
     
     if (!confirmDelete) return;
@@ -190,11 +190,11 @@ function PilgrimagePackageDetailPage({
         throw new Error('Failed to delete package');
       }
       
-      alert('상품이 성공적으로 삭제되었습니다.');
+      alert('성지순례 일정이 성공적으로 삭제되었습니다.');
       setCurrentPage('pilgrimage-packages');
     } catch (error) {
       console.error('Error deleting package:', error);
-      alert('상품 삭제에 실패했습니다.');
+      alert('성지순례 일정 삭제에 실패했습니다.');
     } finally {
       setDeleting(false);
     }

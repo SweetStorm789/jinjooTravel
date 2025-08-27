@@ -99,7 +99,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
         setPackages(featuredPackages);
       } catch (error) {
         console.error('Failed to fetch packages:', error);
-        setError('상품 목록을 불러오는데 실패했습니다.');
+        setError('성지순례 일정 목록을 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
       }
@@ -113,7 +113,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">상품 목록을 불러오는 중...</p>
+          <p className="text-muted-foreground">성지순례 일정 목록을 불러오는 중...</p>
         </div>
       </div>
     );
@@ -200,7 +200,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             </div>
             
             <h1 className="text-4xl font-medium text-foreground mb-4">
-              가톨릭 성지순례 상품
+              가톨릭 성지순례 일정정
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               하느님의 은총이 깃든 성지들을 방문하여 신앙을 깊게 하고 영적 성장을 경험하는 특별한 여정입니다.
@@ -231,7 +231,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder="순례 상품 검색..."
+                placeholder="성지순례 일정 검색..."
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -292,7 +292,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                   onClick={() => setCurrentPage("package-form")}
                   className="flex items-center space-x-2"
                 >
-                  <span>새 상품 등록</span>
+                  <span>성지순례 일정 등록</span>
                 </Button>
               )}
               

@@ -265,7 +265,7 @@ export default function Header({
           {/* Logo */}
           <div className="flex items-center">
             {/* 로고 - 이미지 로고 사용 */}
-            <Logo variant="image" size="md" />
+            <Logo variant="image" size="md" setCurrentPage={setCurrentPage} />
           </div>
           {/* Logo */}
 
@@ -324,7 +324,10 @@ export default function Header({
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-3">
-            {/* <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">
+            <Button 
+              className="md:hidden bg-blue-600 hover:bg-blue-700 text-white px-4 py-2"
+              onClick={() => window.location.href = 'tel:02-738-0747'}
+            >
               <Phone className="w-4 h-4 mr-2" />
               상담문의
             </Button>
@@ -335,7 +338,7 @@ export default function Header({
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button> */}
+            </Button>
           </div>
         </div>
       </div>

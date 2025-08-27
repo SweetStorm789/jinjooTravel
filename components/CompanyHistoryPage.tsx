@@ -24,7 +24,7 @@ export default function CompanyHistoryPage({ setCurrentPage }) {
       year: "2022",
       events: [
         "회사 설립",
-        "첫 성지순례 상품 출시"
+        "첫 성지순례 시작"
       ]
     }
   ];

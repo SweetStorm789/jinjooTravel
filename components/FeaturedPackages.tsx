@@ -151,7 +151,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-20">
           <div className="inline-flex items-center bg-gray-100 rounded-full px-4 py-2 mb-6">
-            <span className="text-sm font-medium text-gray-600">추천 여행상품</span>
+            <span className="text-sm font-medium text-gray-600">추천 성지순례</span>
           </div>
           <h2 className="text-5xl font-bold text-gray-900 mb-6">
             믿음의 여행을
@@ -159,7 +159,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
             <span className="text-gray-600">함께 시작하세요</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            전문 가이드와 함께하는 안전하고 의미있는 성지순례 여행상품을 소개합니다.
+            전문 가이드와 함께하는 안전하고 의미있는 성지순례를 소개합니다.
           </p>
         </div>
 
@@ -238,7 +238,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
             className="px-8 py-4 text-gray-900 border-gray-300 hover:bg-gray-50"
             onClick={() => setCurrentPage("pilgrimage-packages")}
           >
-            모든 상품 보기
+            성지순례 일정 보기
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
