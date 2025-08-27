@@ -13,7 +13,7 @@ const db = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   authPlugins: {
-    mysql_clear_password: () => () => Buffer.from([process.env.DB_PASSWORD || ''])
+    mysql_clear_password: () => () => Buffer.from(process.env.DB_PASSWORD || '')
   }
 });
 

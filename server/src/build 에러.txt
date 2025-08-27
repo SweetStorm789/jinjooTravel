@@ -1,0 +1,1067 @@
+
+components/AssisiPage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/AssisiPage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/AssisiPage.tsx:15:3 - error TS6133: 'Cross' is declared but its value is never read.
+
+15   Cross,
+     ~~~~~
+
+components/AssisiPage.tsx:27:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+27 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/CompanyHistoryPage.tsx:2:1 - error TS6133: 'ImageWithFallback' is declared but its value is never read.
+
+2 import { ImageWithFallback } from "./figma/ImageWithFallback";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/CompanyHistoryPage.tsx:7:44 - error TS6133: 'setCurrentPage' is declared but its value is never read.
+
+7 export default function CompanyHistoryPage({ setCurrentPage }) {
+                                             ~~~~~~~~~~~~~~~~~~
+
+components/CompanyHistoryPage.tsx:7:46 - error TS7031: Binding element 'setCurrentPage' implicitly has an 'any' type.
+
+7 export default function CompanyHistoryPage({ setCurrentPage }) {
+                                               ~~~~~~~~~~~~~~
+
+components/CompanyIntroPage.tsx:1:1 - error TS6133: 'React' is declared but its value is never read.
+
+1 import React from 'react';
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/CompanyIntroPage.tsx:3:33 - error TS6133: 'Users' is declared but its value is never read.
+
+3 import { Building, Star, Heart, Users, Award, Globe, MapPin, Phone, Mail } from 'lucide-react';
+                                  ~~~~~
+
+components/CompanyIntroPage.tsx:11:42 - error TS6133: 'setCurrentPage' is declared but its value is never read.
+
+11 export default function CompanyIntroPage({ setCurrentPage }: CompanyIntroPageProps) {
+                                            ~~~~~~~~~~~~~~~~~~
+
+components/DirectionsPage.tsx:1:1 - error TS6133: 'Button' is declared but its value is never read.
+
+1 import { Button } from "./ui/button";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/DirectionsPage.tsx:2:1 - error TS6133: 'ImageWithFallback' is declared but its value is never read.
+
+2 import { ImageWithFallback } from "./figma/ImageWithFallback";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/DirectionsPage.tsx:5:1 - error TS6133: 'holyPlacesLocations' is declared but its value is never read.
+
+5 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/DirectionsPage.tsx:11:40 - error TS6133: 'setCurrentPage' is declared but its value is never read.
+
+11 export default function DirectionsPage({ setCurrentPage }: DirectionsPageProps) {
+                                          ~~~~~~~~~~~~~~~~~~
+
+components/EgyptPage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/EgyptPage.tsx:9:3 - error TS6133: 'Church' is declared but its value is never read.
+
+9   Church,
+    ~~~~~~
+
+components/EgyptPage.tsx:27:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+27 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/EgyptPage.tsx:448:25 - error TS6133: 'IconComponent' is declared but its value is never read.
+
+448                   const IconComponent = place.icon;
+                            ~~~~~~~~~~~~~
+
+components/FeaturedPackages.tsx:1:29 - error TS6133: 'CardDescription' is declared but its value is never read.
+
+1 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+                              ~~~~~~~~~~~~~~~
+
+components/FeaturedPackages.tsx:1:46 - error TS6133: 'CardHeader' is declared but its value is never read.
+
+1 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+                                               ~~~~~~~~~~
+
+components/FeaturedPackages.tsx:1:58 - error TS6133: 'CardTitle' is declared but its value is never read.
+
+1 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+                                                           ~~~~~~~~~
+
+components/FeaturedPackages.tsx:2:1 - error TS6133: 'Badge' is declared but its value is never read.
+
+2 import { Badge } from "./ui/badge";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/FeaturedPackages.tsx:5:35 - error TS6133: 'Star' is declared but its value is never read.
+
+5 import { MapPin, Calendar, Users, Star, ArrowRight } from "lucide-react";
+                                    ~~~~
+
+components/FeaturedPackages.tsx:107:9 - error TS6133: 'dummyPackages' is declared but its value is never read.
+
+107   const dummyPackages = [
+            ~~~~~~~~~~~~~
+
+components/Footer.tsx:4:1 - error TS6133: 'Logo' is declared but its value is never read.
+
+4 import Logo from "./Logo";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/FrancePage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/FrancePage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/FrancePage.tsx:17:3 - error TS6133: 'Heart' is declared but its value is never read.
+
+17   Heart,
+     ~~~~~
+
+components/FrancePage.tsx:28:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+28 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/FreeBoardDetailPage.tsx:106:7 - error TS2322: Type 'string | null' is not assignable to type 'string'.
+  Type 'null' is not assignable to type 'string'.
+
+106       password = prompt('게시글 삭제를 위해 비밀번호를 입력해주세요:');
+          ~~~~~~~~
+
+components/FreeBoardFormPage.tsx:7:1 - error TS6133: 'Switch' is declared but its value is never read.
+
+7 import { Switch } from "./ui/switch";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/FreeBoardFormPage.tsx:40:61 - error TS6133: 'isAdmin' is declared but its value is never read.
+
+40 export default function FreeBoardFormPage({ setCurrentPage, isAdmin = false }: FreeBoardFormPageProps) {
+                                                               ~~~~~~~
+
+components/FreeBoardPage.tsx:52:57 - error TS6133: 'isAdmin' is declared but its value is never read.
+
+52 export default function FreeBoardPage({ setCurrentPage, isAdmin = false }: FreeBoardPageProps) {
+                                                           ~~~~~~~
+
+components/GreecePage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/GreecePage.tsx:8:3 - error TS6133: 'Waves' is declared but its value is never read.
+
+8   Waves,
+    ~~~~~
+
+components/GreecePage.tsx:10:3 - error TS6133: 'Church' is declared but its value is never read.
+
+10   Church,
+     ~~~~~~
+
+components/GreecePage.tsx:27:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+27 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/Header.tsx:16:3 - error TS6133: 'currentPage' is declared but its value is never read.
+
+16   currentPage,
+     ~~~~~~~~~~~
+
+components/Header.tsx:20:3 - error TS6133: 'logoVariant' is declared but its value is never read.
+
+20   logoVariant = 'gradient'
+     ~~~~~~~~~~~
+
+components/Header.tsx:98:9 - error TS6133: 'handleMenuLeave' is declared but its value is never read.
+
+98   const handleMenuLeave = () => {
+           ~~~~~~~~~~~~~~~
+
+components/Header2.tsx:12:3 - error TS6133: 'currentPage' is declared but its value is never read.
+
+12   currentPage,
+     ~~~~~~~~~~~
+
+components/Header2.tsx:91:9 - error TS6133: 'handleMenuLeave' is declared but its value is never read.
+
+91   const handleMenuLeave = () => {
+           ~~~~~~~~~~~~~~~
+
+components/HeroSection.tsx:4:22 - error TS6133: 'Play' is declared but its value is never read.
+
+4 import { ArrowRight, Play } from "lucide-react";
+                       ~~~~
+
+components/IsraelPage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/IsraelPage.tsx:26:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+26 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/IsraelPage.tsx:340:25 - error TS6133: 'IconComponent' is declared but its value is never read.
+
+340                   const IconComponent = place.icon;
+                            ~~~~~~~~~~~~~
+
+components/ItalyPage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/ItalyPage.tsx:29:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+29 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ItalyPage.tsx:411:36 - error TS6133: 'index' is declared but its value is never read.
+
+411                 {cities.map((city, index) => {
+                                       ~~~~~
+
+components/LancianoPage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/LancianoPage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/LancianoPage.tsx:15:3 - error TS6133: 'Heart' is declared but its value is never read.
+
+15   Heart,
+     ~~~~~
+
+components/LancianoPage.tsx:17:3 - error TS6133: 'Crown' is declared but its value is never read.
+
+17   Crown,
+     ~~~~~
+
+components/LancianoPage.tsx:29:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+29 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/LorettoPage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/LorettoPage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/LorettoPage.tsx:14:3 - error TS6133: 'Cross' is declared but its value is never read.
+
+14   Cross,
+     ~~~~~
+
+components/LorettoPage.tsx:15:3 - error TS6133: 'Heart' is declared but its value is never read.
+
+15   Heart,
+     ~~~~~
+
+components/LorettoPage.tsx:28:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+28 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/NoticesPage.tsx:1:95 - error TS6133: 'Filter' is declared but its value is never read.
+
+1 import { Plus, Calendar, User, ChevronRight, Home, Loader2, AlertCircle, ChevronLeft, Search, Filter } from "lucide-react";
+                                                                                                ~~~~~~
+
+components/NoticesPage.tsx:7:1 - error TS6133: 'Badge' is declared but its value is never read.
+
+7 import { Badge } from "./ui/badge";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/NoticesPage.tsx:8:1 - error TS6192: All imports in import declaration are unused.
+
+8 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/OrviettooPage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/OrviettooPage.tsx:6:3 - error TS6133: 'Globe' is declared but its value is never read.
+
+6   Globe,
+    ~~~~~
+
+components/OrviettooPage.tsx:14:3 - error TS6133: 'Cross' is declared but its value is never read.
+
+14   Cross,
+     ~~~~~
+
+components/OrviettooPage.tsx:15:3 - error TS6133: 'Heart' is declared but its value is never read.
+
+15   Heart,
+     ~~~~~
+
+components/OrviettooPage.tsx:19:3 - error TS6133: 'Wine' is declared but its value is never read.
+
+19   Wine,
+     ~~~~
+
+components/OrviettooPage.tsx:29:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+29 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/PhotoGalleryDetailPage.tsx:105:7 - error TS2322: Type 'string | null' is not assignable to type 'string'.
+  Type 'null' is not assignable to type 'string'.
+
+105       password = prompt('갤러리 삭제를 위해 비밀번호를 입력해주세요:');
+          ~~~~~~~~
+
+components/PhotoGalleryFormPage.tsx:1:73 - error TS6133: 'ImageIcon' is declared but its value is never read.
+
+1 import { ArrowLeft, Save, AlertCircle, CheckCircle, Upload, X, Image as ImageIcon } from "lucide-react";
+                                                                          ~~~~~~~~~
+
+components/PhotoGalleryFormPage.tsx:39:64 - error TS6133: 'isAdmin' is declared but its value is never read.
+
+39 export default function PhotoGalleryFormPage({ setCurrentPage, isAdmin = false }: PhotoGalleryFormPageProps) {
+                                                                  ~~~~~~~
+
+components/PhotoGalleryFormPage.tsx:299:37 - error TS6133: 'index' is declared but its value is never read.
+
+299       selectedImages.forEach((file, index) => {
+                                        ~~~~~
+
+components/PhotoGalleryPage.tsx:53:60 - error TS6133: 'isAdmin' is declared but its value is never read.
+
+53 export default function PhotoGalleryPage({ setCurrentPage, isAdmin = false }: PhotoGalleryPageProps) {
+                                                              ~~~~~~~
+
+components/PrivacyPolicyPage.tsx:3:29 - error TS6133: 'CardHeader' is declared but its value is never read.
+
+3 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+                              ~~~~~~~~~~
+
+components/PrivacyPolicyPage.tsx:3:41 - error TS6133: 'CardTitle' is declared but its value is never read.
+
+3 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+                                          ~~~~~~~~~
+
+components/QnaDetailPage.tsx:14:3 - error TS6133: 'Unlock' is declared but its value is never read.
+
+14   Unlock,
+     ~~~~~~
+
+components/QnaDetailPage.tsx:27:1 - error TS6133: 'TipTapEditor' is declared but its value is never read.
+
+27 import TipTapEditor from "./ui/TipTapEditor";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/RomePage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/RomePage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/RomePage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/RomePage.tsx:27:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+27 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/SanGiovanniRotondoPage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/SanGiovanniRotondoPage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/SanGiovanniRotondoPage.tsx:17:3 - error TS6133: 'Crown' is declared but its value is never read.
+
+17   Crown,
+     ~~~~~
+
+components/SanGiovanniRotondoPage.tsx:27:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+27 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/SienaPage.tsx:5:3 - error TS6133: 'Clock' is declared but its value is never read.
+
+5   Clock,
+    ~~~~~
+
+components/SienaPage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/SienaPage.tsx:14:3 - error TS6133: 'Cross' is declared but its value is never read.
+
+14   Cross,
+     ~~~~~
+
+components/SienaPage.tsx:15:3 - error TS6133: 'Heart' is declared but its value is never read.
+
+15   Heart,
+     ~~~~~
+
+components/SienaPage.tsx:29:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+29 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/SpainPage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/SpainPage.tsx:8:3 - error TS6133: 'Mountain' is declared but its value is never read.
+
+8   Mountain,
+    ~~~~~~~~
+
+components/SpainPage.tsx:25:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+25 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/TravelReviewFormPage.tsx:9:30 - error TS6133: 'Facebook' is declared but its value is never read.
+
+9 import { Instagram, Youtube, Facebook, MessageCircle, Link as LinkIcon, AlertCircle } from 'lucide-react';
+                               ~~~~~~~~
+
+components/TravelReviewFormPage.tsx:9:40 - error TS6133: 'MessageCircle' is declared but its value is never read.
+
+9 import { Instagram, Youtube, Facebook, MessageCircle, Link as LinkIcon, AlertCircle } from 'lucide-react';
+                                         ~~~~~~~~~~~~~
+
+components/TravelReviewsPage.tsx:60:10 - error TS6133: 'currentPageState' is declared but its value is never read.
+
+60   const [currentPageState, setCurrentPageState] = useState(1);
+            ~~~~~~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:4:3 - error TS6133: 'FileText' is declared but its value is never read.
+
+4   FileText,
+    ~~~~~~~~
+
+components/TravelTermsPage.tsx:5:3 - error TS6133: 'Download' is declared but its value is never read.
+
+5   Download,
+    ~~~~~~~~
+
+components/TravelTermsPage.tsx:6:3 - error TS6133: 'Printer' is declared but its value is never read.
+
+6   Printer,
+    ~~~~~~~
+
+components/TravelTermsPage.tsx:8:3 - error TS6133: 'Scale' is declared but its value is never read.
+
+8   Scale,
+    ~~~~~
+
+components/TravelTermsPage.tsx:10:3 - error TS6133: 'AlertCircle' is declared but its value is never read.
+
+10   AlertCircle,
+     ~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:21:1 - error TS6133: 'Input' is declared but its value is never read.
+
+21 import { Input } from "./ui/input";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:55:22 - error TS6133: 'setSearchTerm' is declared but its value is never read.
+
+55   const [searchTerm, setSearchTerm] = useState("");
+                        ~~~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:469:9 - error TS6133: 'tableOfContents' is declared but its value is never read.
+
+469   const tableOfContents = [
+            ~~~~~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:507:9 - error TS6133: 'scrollToSection' is declared but its value is never read.
+
+507   const scrollToSection = (id: string) => {
+            ~~~~~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:516:9 - error TS6133: 'handlePrint' is declared but its value is never read.
+
+516   const handlePrint = () => {
+            ~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:519:9 - error TS6133: 'handleDownload' is declared but its value is never read.
+
+519   const handleDownload = () => {
+            ~~~~~~~~~~~~~~
+
+components/TravelTermsPage.tsx:728:43 - error TS6133: 'index' is declared but its value is never read.
+
+728                 {filteredTerms.map((term, index) => (
+                                              ~~~~~
+
+components/TurkiyePage.tsx:4:3 - error TS6133: 'Calendar' is declared but its value is never read.
+
+4   Calendar,
+    ~~~~~~~~
+
+components/TurkiyePage.tsx:9:3 - error TS6133: 'Church' is declared but its value is never read.
+
+9   Church,
+    ~~~~~~
+
+components/TurkiyePage.tsx:27:1 - error TS6133: 'Separator' is declared but its value is never read.
+
+27 import { Separator } from "./ui/separator";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/VaticanPage.tsx:8:3 - error TS6133: 'Crown' is declared but its value is never read.
+
+8   Crown,
+    ~~~~~
+
+components/marianApparitions/FatimaPage.tsx:6:3 - error TS6133: 'Church' is declared but its value is never read.
+
+6   Church,
+    ~~~~~~
+
+components/marianApparitions/LourdesPage.tsx:6:3 - error TS6133: 'Church' is declared but its value is never read.
+
+6   Church,
+    ~~~~~~
+
+components/marianApparitions/LourdesPage.tsx:8:3 - error TS6133: 'Phone' is declared but its value is never read.
+
+8   Phone,
+    ~~~~~
+
+components/marianApparitions/LourdesPage.tsx:9:3 - error TS6133: 'Mail' is declared but its value is never read.
+
+9   Mail,
+    ~~~~
+
+components/marianApparitions/LourdesPage.tsx:10:3 - error TS6133: 'Globe' is declared but its value is never read.
+
+10   Globe,
+     ~~~~~
+
+components/marianApparitions/LourdesPage.tsx:19:1 - error TS6133: 'ImageWithFallback' is declared but its value is never read.
+
+19 import { ImageWithFallback } from "../figma/ImageWithFallback";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/marianApparitions/LourdesPage.tsx:20:29 - error TS6133: 'CardDescription' is declared but its value is never read.
+
+20 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+                               ~~~~~~~~~~~~~~~
+
+components/marianApparitions/LourdesPage.tsx:21:1 - error TS6133: 'Badge' is declared but its value is never read.
+
+21 import { Badge } from "../ui/badge";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/marianApparitions/LourdesPage.tsx:24:65 - error TS6133: 'DialogTrigger' is declared but its value is never read.
+
+24 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
+                                                                   ~~~~~~~~~~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:8:3 - error TS6133: 'Phone' is declared but its value is never read.
+
+8   Phone,
+    ~~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:9:3 - error TS6133: 'Mail' is declared but its value is never read.
+
+9   Mail,
+    ~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:10:3 - error TS6133: 'Globe' is declared but its value is never read.
+
+10   Globe,
+     ~~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:17:3 - error TS6133: 'X' is declared but its value is never read.
+
+17   X
+     ~
+
+components/marianApparitions/MedjugorjePage.tsx:19:1 - error TS6133: 'ImageWithFallback' is declared but its value is never read.
+
+19 import { ImageWithFallback } from "../figma/ImageWithFallback";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:20:29 - error TS6133: 'CardDescription' is declared but its value is never read.
+
+20 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+                               ~~~~~~~~~~~~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:21:1 - error TS6133: 'Badge' is declared but its value is never read.
+
+21 import { Badge } from "../ui/badge";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/marianApparitions/MedjugorjePage.tsx:24:65 - error TS6133: 'DialogTrigger' is declared but its value is never read.
+
+24 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
+                                                                   ~~~~~~~~~~~~~
+
+components/routing/PageRouter.tsx:51:10 - error TS6133: 'ROUTE_CONFIGS' is declared but its value is never read.
+
+51 import { ROUTE_CONFIGS, matchRoute } from "./routeConfigs";
+            ~~~~~~~~~~~~~
+
+components/shared/GoogleMap.tsx:2:29 - error TS6133: 'CardHeader' is declared but its value is never read.
+
+2 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+                              ~~~~~~~~~~
+
+components/shared/GoogleMap.tsx:2:41 - error TS6133: 'CardTitle' is declared but its value is never read.
+
+2 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+                                          ~~~~~~~~~
+
+components/shared/LocationMap.tsx:20:9 - error TS6133: 'getEmbedUrl' is declared but its value is never read.
+
+20   const getEmbedUrl = () => {
+           ~~~~~~~~~~~
+
+components/ui/TipTapEditor.tsx:12:3 - error TS6133: 'Underline' is declared but its value is never read.
+
+12   Underline,
+     ~~~~~~~~~
+
+components/ui/TipTapEditor.tsx:49:10 - error TS6133: 'isLinkModalOpen' is declared but its value is never read.
+
+49   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+            ~~~~~~~~~~~~~~~
+
+components/ui/TipTapEditor.tsx:49:27 - error TS6133: 'setIsLinkModalOpen' is declared but its value is never read.
+
+49   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+                             ~~~~~~~~~~~~~~~~~~
+
+components/ui/TipTapEditor.tsx:50:10 - error TS6133: 'linkUrl' is declared but its value is never read.
+
+50   const [linkUrl, setLinkUrl] = useState('');
+            ~~~~~~~
+
+components/ui/TipTapEditor.tsx:50:19 - error TS6133: 'setLinkUrl' is declared but its value is never read.
+
+50   const [linkUrl, setLinkUrl] = useState('');
+                     ~~~~~~~~~~
+
+components/ui/alert-dialog.tsx:4:39 - error TS2307: Cannot find module '@radix-ui/react-alert-dialog@1.1.6' or its corresponding type declarations.
+
+4 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog@1.1.6";
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/aspect-ratio.tsx:3:39 - error TS2307: Cannot find module '@radix-ui/react-aspect-ratio@1.1.2' or its corresponding type declarations.
+
+3 import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio@1.1.2";
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/avatar.tsx:4:34 - error TS2307: Cannot find module '@radix-ui/react-avatar@1.1.3' or its corresponding type declarations.
+
+4 import * as AvatarPrimitive from "@radix-ui/react-avatar@1.1.3";
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/breadcrumb.tsx:2:22 - error TS2307: Cannot find module '@radix-ui/react-slot@1.1.2' or its corresponding type declarations.
+
+2 import { Slot } from "@radix-ui/react-slot@1.1.2";
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/breadcrumb.tsx:3:46 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+3 import { ChevronRight, MoreHorizontal } from "lucide-react@0.487.0";
+                                               ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/calendar.tsx:4:43 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+4 import { ChevronLeft, ChevronRight } from "lucide-react@0.487.0";
+                                            ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/calendar.tsx:5:27 - error TS2307: Cannot find module 'react-day-picker@8.10.1' or its corresponding type declarations.
+
+5 import { DayPicker } from "react-day-picker@8.10.1";
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/calendar.tsx:63:22 - error TS7031: Binding element 'className' implicitly has an 'any' type.
+
+63         IconLeft: ({ className, ...props }) => (
+                        ~~~~~~~~~
+
+components/ui/calendar.tsx:66:23 - error TS7031: Binding element 'className' implicitly has an 'any' type.
+
+66         IconRight: ({ className, ...props }) => (
+                         ~~~~~~~~~
+
+components/ui/chart.tsx:4:36 - error TS2307: Cannot find module 'recharts@2.15.2' or its corresponding type declarations.
+
+4 import * as RechartsPrimitive from "recharts@2.15.2";
+                                     ~~~~~~~~~~~~~~~~~
+
+components/ui/chart.tsx:182:23 - error TS7006: Parameter 'item' implicitly has an 'any' type.
+
+182         {payload.map((item, index) => {
+                          ~~~~
+
+components/ui/chart.tsx:182:29 - error TS7006: Parameter 'index' implicitly has an 'any' type.
+
+182         {payload.map((item, index) => {
+                                ~~~~~
+
+components/ui/chart.tsx:278:21 - error TS7006: Parameter 'item' implicitly has an 'any' type.
+
+278       {payload.map((item) => {
+                        ~~~~
+
+components/ui/checkbox.tsx:4:36 - error TS2307: Cannot find module '@radix-ui/react-checkbox@1.1.4' or its corresponding type declarations.
+
+4 import * as CheckboxPrimitive from "@radix-ui/react-checkbox@1.1.4";
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/checkbox.tsx:5:27 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { CheckIcon } from "lucide-react@0.487.0";
+                            ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/collapsible.tsx:3:39 - error TS2307: Cannot find module '@radix-ui/react-collapsible@1.1.3' or its corresponding type declarations.
+
+3 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible@1.1.3";
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/command.tsx:4:45 - error TS2307: Cannot find module 'cmdk@1.1.1' or its corresponding type declarations.
+
+4 import { Command as CommandPrimitive } from "cmdk@1.1.1";
+                                              ~~~~~~~~~~~~
+
+components/ui/command.tsx:5:28 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { SearchIcon } from "lucide-react@0.487.0";
+                             ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/context-menu.tsx:4:39 - error TS2307: Cannot find module '@radix-ui/react-context-menu@2.2.6' or its corresponding type declarations.
+
+4 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu@2.2.6";
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/context-menu.tsx:5:57 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react@0.487.0";
+                                                          ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/drawer.tsx:4:43 - error TS2307: Cannot find module 'vaul@1.1.2' or its corresponding type declarations.
+
+4 import { Drawer as DrawerPrimitive } from "vaul@1.1.2";
+                                            ~~~~~~~~~~~~
+
+components/ui/dropdown-menu.tsx:4:40 - error TS2307: Cannot find module '@radix-ui/react-dropdown-menu@2.1.6' or its corresponding type declarations.
+
+4 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu@2.1.6";
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/dropdown-menu.tsx:5:57 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react@0.487.0";
+                                                          ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/form.tsx:4:33 - error TS2307: Cannot find module '@radix-ui/react-label@2.1.2' or its corresponding type declarations.
+
+4 import * as LabelPrimitive from "@radix-ui/react-label@2.1.2";
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/form.tsx:5:22 - error TS2307: Cannot find module '@radix-ui/react-slot@1.1.2' or its corresponding type declarations.
+
+5 import { Slot } from "@radix-ui/react-slot@1.1.2";
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/form.tsx:14:8 - error TS2307: Cannot find module 'react-hook-form@7.55.0' or its corresponding type declarations.
+
+14 } from "react-hook-form@7.55.0";
+          ~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/hover-card.tsx:4:37 - error TS2307: Cannot find module '@radix-ui/react-hover-card@1.1.6' or its corresponding type declarations.
+
+4 import * as HoverCardPrimitive from "@radix-ui/react-hover-card@1.1.6";
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/image-upload.tsx:2:1 - error TS6133: 'Button' is declared but its value is never read.
+
+2 import { Button } from './button';
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/input-otp.tsx:4:43 - error TS2307: Cannot find module 'input-otp@1.4.2' or its corresponding type declarations.
+
+4 import { OTPInput, OTPInputContext } from "input-otp@1.4.2";
+                                            ~~~~~~~~~~~~~~~~~
+
+components/ui/input-otp.tsx:5:27 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { MinusIcon } from "lucide-react@0.487.0";
+                            ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/input-otp.tsx:47:61 - error TS2339: Property 'slots' does not exist on type '{}'.
+
+47   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
+                                                               ~~~~~
+
+components/ui/menubar.tsx:4:35 - error TS2307: Cannot find module '@radix-ui/react-menubar@1.1.6' or its corresponding type declarations.
+
+4 import * as MenubarPrimitive from "@radix-ui/react-menubar@1.1.6";
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/menubar.tsx:5:57 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react@0.487.0";
+                                                          ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/navigation-menu.tsx:2:42 - error TS2307: Cannot find module '@radix-ui/react-navigation-menu@1.2.5' or its corresponding type declarations.
+
+2 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu@1.2.5";
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/navigation-menu.tsx:3:21 - error TS2307: Cannot find module 'class-variance-authority@0.7.1' or its corresponding type declarations.
+
+3 import { cva } from "class-variance-authority@0.7.1";
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/navigation-menu.tsx:4:33 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+4 import { ChevronDownIcon } from "lucide-react@0.487.0";
+                                  ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/pagination.tsx:6:8 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+6 } from "lucide-react@0.487.0";
+         ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/popover.tsx:4:35 - error TS2307: Cannot find module '@radix-ui/react-popover@1.1.6' or its corresponding type declarations.
+
+4 import * as PopoverPrimitive from "@radix-ui/react-popover@1.1.6";
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/progress.tsx:4:36 - error TS2307: Cannot find module '@radix-ui/react-progress@1.1.2' or its corresponding type declarations.
+
+4 import * as ProgressPrimitive from "@radix-ui/react-progress@1.1.2";
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/radio-group.tsx:4:38 - error TS2307: Cannot find module '@radix-ui/react-radio-group@1.2.3' or its corresponding type declarations.
+
+4 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group@1.2.3";
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/radio-group.tsx:5:28 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { CircleIcon } from "lucide-react@0.487.0";
+                             ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/resizable.tsx:4:34 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+4 import { GripVerticalIcon } from "lucide-react@0.487.0";
+                                   ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/resizable.tsx:5:37 - error TS2307: Cannot find module 'react-resizable-panels@2.1.7' or its corresponding type declarations.
+
+5 import * as ResizablePrimitive from "react-resizable-panels@2.1.7";
+                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/scroll-area.tsx:4:38 - error TS2307: Cannot find module '@radix-ui/react-scroll-area@1.2.3' or its corresponding type declarations.
+
+4 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area@1.2.3";
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/sheet.tsx:4:33 - error TS2307: Cannot find module '@radix-ui/react-dialog@1.1.6' or its corresponding type declarations.
+
+4 import * as SheetPrimitive from "@radix-ui/react-dialog@1.1.6";
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/sheet.tsx:5:23 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+5 import { XIcon } from "lucide-react@0.487.0";
+                        ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/sidebar.tsx:4:22 - error TS2307: Cannot find module '@radix-ui/react-slot@1.1.2' or its corresponding type declarations.
+
+4 import { Slot } from "@radix-ui/react-slot@1.1.2";
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/sidebar.tsx:5:35 - error TS2307: Cannot find module 'class-variance-authority@0.7.1' or its corresponding type declarations.
+
+5 import { VariantProps, cva } from "class-variance-authority@0.7.1";
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/sidebar.tsx:6:31 - error TS2307: Cannot find module 'lucide-react@0.487.0' or its corresponding type declarations.
+
+6 import { PanelLeftIcon } from "lucide-react@0.487.0";
+                                ~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/slider.tsx:4:34 - error TS2307: Cannot find module '@radix-ui/react-slider@1.2.3' or its corresponding type declarations.
+
+4 import * as SliderPrimitive from "@radix-ui/react-slider@1.2.3";
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/sonner.tsx:3:26 - error TS2307: Cannot find module 'next-themes@0.4.6' or its corresponding type declarations.
+
+3 import { useTheme } from "next-themes@0.4.6";
+                           ~~~~~~~~~~~~~~~~~~~
+
+components/ui/sonner.tsx:4:49 - error TS2307: Cannot find module 'sonner@2.0.3' or its corresponding type declarations.
+
+4 import { Toaster as Sonner, ToasterProps } from "sonner@2.0.3";
+                                                  ~~~~~~~~~~~~~~
+
+components/ui/toggle-group.tsx:4:39 - error TS2307: Cannot find module '@radix-ui/react-toggle-group@1.1.2' or its corresponding type declarations.
+
+4 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group@1.1.2";
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/toggle-group.tsx:5:35 - error TS2307: Cannot find module 'class-variance-authority@0.7.1' or its corresponding type declarations.
+
+5 import { type VariantProps } from "class-variance-authority@0.7.1";
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/toggle.tsx:4:34 - error TS2307: Cannot find module '@radix-ui/react-toggle@1.1.2' or its corresponding type declarations.
+
+4 import * as TogglePrimitive from "@radix-ui/react-toggle@1.1.2";
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/toggle.tsx:5:40 - error TS2307: Cannot find module 'class-variance-authority@0.7.1' or its corresponding type declarations.
+
+5 import { cva, type VariantProps } from "class-variance-authority@0.7.1";
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+components/ui/tooltip.tsx:4:35 - error TS2307: Cannot find module '@radix-ui/react-tooltip@1.1.8' or its corresponding type declarations.
+
+4 import * as TooltipPrimitive from "@radix-ui/react-tooltip@1.1.8";
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+utils/keyboard.ts:15:40 - error TS6133: 'setCurrentPage' is declared but its value is never read.
+
+15 export const setupKeyboardShortcuts = (setCurrentPage: (page: string) => void) => {
+                                          ~~~~~~~~~~~~~~
+
+utils/sharing.ts:90:29 - error TS2339: Property 'standalone' does not exist on type 'Navigator'.
+
+90     isPWA: window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches
+                               ~~~~~~~~~~
+
+
+Found 197 errors in 75 files.
+
+Errors  Files
+     4  components/AssisiPage.tsx:5
+     3  components/CompanyHistoryPage.tsx:2
+     3  components/CompanyIntroPage.tsx:1
+     4  components/DirectionsPage.tsx:1
+     4  components/EgyptPage.tsx:4
+     6  components/FeaturedPackages.tsx:1
+     1  components/Footer.tsx:4
+     4  components/FrancePage.tsx:4
+     1  components/FreeBoardDetailPage.tsx:106
+     2  components/FreeBoardFormPage.tsx:7
+     1  components/FreeBoardPage.tsx:52
+     4  components/GreecePage.tsx:4
+     3  components/Header.tsx:16
+     2  components/Header2.tsx:12
+     1  components/HeroSection.tsx:4
+     3  components/IsraelPage.tsx:4
+     3  components/ItalyPage.tsx:4
+     5  components/LancianoPage.tsx:5
+     5  components/LorettoPage.tsx:5
+     3  components/NoticesPage.tsx:1
+     6  components/OrviettooPage.tsx:5
+     1  components/PhotoGalleryDetailPage.tsx:105
+     3  components/PhotoGalleryFormPage.tsx:1
+     1  components/PhotoGalleryPage.tsx:53
+     2  components/PrivacyPolicyPage.tsx:3
+     2  components/QnaDetailPage.tsx:14
+     4  components/RomePage.tsx:4
+     4  components/SanGiovanniRotondoPage.tsx:5
+     5  components/SienaPage.tsx:5
+     3  components/SpainPage.tsx:4
+     2  components/TravelReviewFormPage.tsx:9
+     1  components/TravelReviewsPage.tsx:60
+    12  components/TravelTermsPage.tsx:4
+     3  components/TurkiyePage.tsx:4
+     1  components/VaticanPage.tsx:8
+     1  components/marianApparitions/FatimaPage.tsx:6
+     8  components/marianApparitions/LourdesPage.tsx:6
+     8  components/marianApparitions/MedjugorjePage.tsx:8
+     1  components/routing/PageRouter.tsx:51
+     2  components/shared/GoogleMap.tsx:2
+     1  components/shared/LocationMap.tsx:20
+     5  components/ui/TipTapEditor.tsx:12
+     1  components/ui/alert-dialog.tsx:4
+     1  components/ui/aspect-ratio.tsx:3
+     1  components/ui/avatar.tsx:4
+     2  components/ui/breadcrumb.tsx:2
+     4  components/ui/calendar.tsx:4
+     4  components/ui/chart.tsx:4
+     2  components/ui/checkbox.tsx:4
+     1  components/ui/collapsible.tsx:3
+     2  components/ui/command.tsx:4
+     2  components/ui/context-menu.tsx:4
+     1  components/ui/drawer.tsx:4
+     2  components/ui/dropdown-menu.tsx:4
+     3  components/ui/form.tsx:4
+     1  components/ui/hover-card.tsx:4
+     1  components/ui/image-upload.tsx:2
+     3  components/ui/input-otp.tsx:4
+     2  components/ui/menubar.tsx:4
+     3  components/ui/navigation-menu.tsx:2
+     1  components/ui/pagination.tsx:6
+     1  components/ui/popover.tsx:4
+     1  components/ui/progress.tsx:4
+     2  components/ui/radio-group.tsx:4
+     2  components/ui/resizable.tsx:4
+     1  components/ui/scroll-area.tsx:4
+     2  components/ui/sheet.tsx:4
+     3  components/ui/sidebar.tsx:4
+     1  components/ui/slider.tsx:4
+     2  components/ui/sonner.tsx:3
+     2  components/ui/toggle-group.tsx:4
+     2  components/ui/toggle.tsx:4
+     1  components/ui/tooltip.tsx:4
+     1  utils/keyboard.ts:15
+     1  utils/sharing.ts:90

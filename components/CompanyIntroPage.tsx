@@ -1,6 +1,5 @@
-import React from 'react';
 import { Card, CardContent } from './ui/card';
-import { Building, Star, Heart, Users, Award, Globe, MapPin, Phone, Mail } from 'lucide-react';
+import { Building, Star, Heart, Award, Globe, MapPin, Phone, Mail } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import companyLogo from '../images/company/company.png';
 

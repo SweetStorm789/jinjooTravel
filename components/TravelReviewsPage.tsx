@@ -123,7 +123,7 @@ const TravelReviewsPage: React.FC<TravelReviewsPageProps> = ({ setCurrentPage })
 
   // 소셜 미디어 아이콘 렌더링
   const renderSocialIcons = (review: TravelReview) => {
-    const icons = [];
+    const icons: any[] = [];
     
     if (review.instagram_url) {
       icons.push(

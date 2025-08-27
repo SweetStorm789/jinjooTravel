@@ -87,7 +87,7 @@ export const getBrowserCapabilities = () => {
     canCopy: !!navigator.clipboard,
     canPushNotifications: 'Notification' in window,
     isStandalone: window.matchMedia('(display-mode: standalone)').matches,
-    isPWA: window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches
+    isPWA: (window.navigator as any).standalone || window.matchMedia('(display-mode: standalone)').matches
   };
 };
 

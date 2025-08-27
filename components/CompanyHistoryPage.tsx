@@ -1,10 +1,14 @@
 import { Badge } from "./ui/badge";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 // 임시 이미지 URL 사용
 const companyImage = "https://via.placeholder.com/800x400?text=Company+History";
 
-export default function CompanyHistoryPage({ setCurrentPage }) {
+interface CompanyHistoryPageProps {
+  setCurrentPage: (page: string) => void;
+}
+
+export default function CompanyHistoryPage({ setCurrentPage }: CompanyHistoryPageProps) {
+  // setCurrentPage is used for navigation but not directly in this component
   const historyData = [
     {
       year: "2024",

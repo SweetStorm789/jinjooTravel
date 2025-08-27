@@ -1,8 +1,5 @@
-import { Button } from "./ui/button";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { MapPin, Phone, Mail } from "lucide-react";
 import GoogleMap from "./shared/GoogleMap";
-import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 
 interface DirectionsPageProps {
   setCurrentPage: (page: string) => void;

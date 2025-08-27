@@ -2,17 +2,14 @@ import {
   MapPin,
   Users,
   Calendar,
-  Clock,
   Globe,
   Building,
-  Mountain,
   Church,
   ArrowRight,
   Info,
   ChevronDown,
   ChevronRight,
   Crown,
-  Cross,
   Heart,
   Star,
 } from "lucide-react";
@@ -24,7 +21,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Separator } from "./ui/separator";
+
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";

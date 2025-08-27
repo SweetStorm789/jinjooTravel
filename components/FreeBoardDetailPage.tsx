@@ -103,7 +103,8 @@ export default function FreeBoardDetailPage({ setCurrentPage, isAdmin = false }:
     // Admin은 비밀번호 없이 삭제 가능
     let password = '';
     if (!isAdmin) {
-      password = prompt('게시글 삭제를 위해 비밀번호를 입력해주세요:');
+      const inputPassword = prompt('게시글 삭제를 위해 비밀번호를 입력해주세요:');
+      password = inputPassword || '';
       if (!password) return;
     }
 

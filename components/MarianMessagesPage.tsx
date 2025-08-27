@@ -316,7 +316,7 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
               {/* 페이지 번호들 */}
               <div className="flex items-center space-x-1">
                 {(() => {
-                  const pages = [];
+                  const pages: any[] = [];
                   const maxVisiblePages = 5;
                   let startPage = Math.max(1, pagination.currentPage - Math.floor(maxVisiblePages / 2));
                   let endPage = Math.min(pagination.totalPages, startPage + maxVisiblePages - 1);

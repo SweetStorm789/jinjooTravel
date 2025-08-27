@@ -1,0 +1,94 @@
+[jinjooTravel] sharp 소스 빌드 고정 절차 (prebuilt 차단)
+
+※ 목적
+- x86-64 v1(구형 CPU) 환경에서 sharp가 prebuilt 바이너리를 내려받아 'Unsupported CPU' 에러가 나는 문제를 차단하고,
+  소스에서 직접 빌드하도록 강제하는 절차를 정리.
+
+※ 전제
+- 프로젝트 경로: /root/jinjooTravel/server
+- Node.js v18.x 권장
+- apt로 libvips-dev 설치 가능(선호) / 불가 시에도 로컬 빌드로 진행 가능
+
+============================================================
+0) (최초 1회) 빌드 도구/의존성 설치
+============================================================
+sudo apt-get update
+sudo apt-get install -y build-essential python3 python-is-python3 make g++ pkg-config curl libvips-dev
+
+(참고) libvips 버전 확인:
+pkg-config --modversion vips
+
+============================================================
+1) 기존 sharp/캐시 완전 삭제 (깨끗한 상태 만들기)
+============================================================
+cd /root/jinjooTravel/server
+rm -rf node_modules package-lock.json
+npm cache clean --force
+rm -rf ~/.npm/_libvips ~/.npm/_prebuilds ~/.npm/_cacache
+
+============================================================
+2) 환경변수로 prebuilt 무시 & 소스 빌드 강제
+============================================================
+# 소스에서 무조건 빌드
+export npm_config_build_from_source=true
+
+# 시스템 libvips 무시하고 로컬에 libvips까지 함께 빌드(가장 확실)
+export SHARP_IGNORE_GLOBAL_LIBVIPS=1
+export SHARP_FORCE_LOCAL=1
+
+# 플랫폼/아키 검출 꼬임 방지
+export npm_config_platform=linux
+export npm_config_arch=x64
+
+============================================================
+3) sharp 설치 (소스 빌드)  - 반드시 --verbose!
+============================================================
+npm install sharp@0.32.6 --build-from-source --verbose
+
+# 로그에서 아래를 확인:
+# - 'Downloading sharp' 문구가 없어야 좋음
+# - CC, CXX, make, node-gyp rebuild 등 컴파일 로그가 보여야 함
+# - 설치 스크립트 종료 코드가 0이어야 함
+
+============================================================
+4) 설치 확인
+============================================================
+node -e "require('sharp'); console.log('sharp OK')"
+
+# 'sharp OK'가 출력되면 정상 로드
+
+============================================================
+5) 나머지 의존성 설치 → 빌드 → 실행
+============================================================
+npm install
+npm run build
+npm run start
+# (배포 모드 상시 실행)
+# pm2 start npm --name "jinjoo-server" -- run start
+# pm2 save
+# pm2 startup
+
+============================================================
+트러블슈팅
+============================================================
+- 그래도 prebuilt를 잡는 경우(Unsupported CPU 재발):
+  1) 1)~3)번을 다시 수행(캐시/노드모듈 완전 삭제)
+  2) 3)에서 버전을 낮춰 재시도:
+     npm install sharp@0.31.3 --build-from-source --verbose
+  3) 설치 직후 반드시 로드 테스트:
+     node -e "require('sharp'); console.log('sharp OK')"
+
+- libvips-dev이 설치되지 않는 환경(또는 충돌)에서 시간 오래 걸릴 수 있음.
+  그래도 SHARP_FORCE_LOCAL=1이면 로컬로 libvips까지 빌드하므로 최종적으로는 동작함.
+
+- 급하게 서비스 먼저 띄워야 하는 경우(임시 우회):
+  npm uninstall sharp
+  npm install jimp
+  (이미지 리사이즈/썸네일 로직만 jimp로 바꿔서 임시 운영. 성능은 낮음)
+
+============================================================
+메모
+============================================================
+- node_modules를 삭제하거나 CI/CD에서 새로 설치할 때는 반드시 본 문서 1)~3) 절차를 적용.
+- package.json에 sharp 버전을 고정("sharp": "0.32.6")해 두는 것을 권장.
+- 필요 시 postinstall 스크립트로 환경변수 주입 가능하지만, 서버 프로필(.bashrc 등)에 export를 넣어두면 편함.

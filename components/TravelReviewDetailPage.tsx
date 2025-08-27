@@ -122,7 +122,7 @@ const TravelReviewDetailPage: React.FC<TravelReviewDetailPageProps> = ({ setCurr
 
   // 소셜 미디어 링크 렌더링
   const renderSocialLinks = () => {
-    const links = [];
+    const links: any[] = [];
     
     if (review?.instagram_url) {
       links.push(

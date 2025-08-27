@@ -187,19 +187,19 @@ const TravelReviewFormPage: React.FC<TravelReviewFormPageProps> = ({ setCurrentP
 
     // 소셜 미디어 플랫폼 감지
     const url = formData.social_media_url.toLowerCase();
-    let instagram_url = null;
-    let youtube_url = null;
-    let facebook_url = null;
-    let threads_url = null;
+    let instagram_url: string | null = null;
+    let youtube_url: string | null = null;
+    let facebook_url: string | null = null;
+    let threads_url: string | null = null;
 
     if (url.includes('instagram.com')) {
-      instagram_url = formData.social_media_url;
+      instagram_url = formData.social_media_url || null;
     } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      youtube_url = formData.social_media_url;
+      youtube_url = formData.social_media_url || null;
     } else if (url.includes('facebook.com')) {
-      facebook_url = formData.social_media_url;
+      facebook_url = formData.social_media_url || null;
     } else if (url.includes('threads.net')) {
-      threads_url = formData.social_media_url;
+      threads_url = formData.social_media_url || null;
     }
 
     try {
