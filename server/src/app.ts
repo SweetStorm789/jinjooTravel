@@ -38,9 +38,9 @@ import travelReviewRoutes from './routes/travelReviewRoutes';
 import adminRoutes from './routes/adminRoutes';
 
 // 기본 라우트
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to Jinjoo Travel API' });
-});
+// app.get('/', (req, res) => {
+//   res.json({ message: 'Welcome to Jinjoo Travel API' });
+// });
 
 // API 라우트
 app.use('/api', pilgrimageRoutes);
@@ -61,4 +61,9 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+// 헬스체크 (NGINX 프록시 확인용)
+app.get('/api', (_req, res) => {
+  res.json({ message: 'Welcome to Jinjoo Travel API' });
 });

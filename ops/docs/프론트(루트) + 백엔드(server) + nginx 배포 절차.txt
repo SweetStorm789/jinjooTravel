@@ -1,0 +1,172 @@
+1) 프론트 빌드 (jinjooTravel 루트)
+
+프론트엔드 package.json이 **루트(jinjooTravel/)**에 있으니 여기서 빌드하면 돼.
+
+cd ~/jinjooTravel
+npm ci        # 처음 한 번 또는 lock 바뀌었을 때
+npm run build # 결과물: ./dist/
+
+
+Vite 기본 outDir이 dist야. (변경했다면 거기에 맞춰줘)
+
+2) nginx 정적 루트 준비 (최초 1회)
+sudo mkdir -p /var/www/jinjoo-frontend
+sudo chown -R $USER:$USER /var/www/jinjoo-frontend
+sudo chmod -R 755 /var/www/jinjoo-frontend
+
+
+빌드 산출물 배포:
+
+sudo rm -rf /var/www/jinjoo-frontend/*
+sudo cp -r ~/jinjooTravel/dist/* /var/www/jinjoo-frontend/
+sudo chown -R www-data:www-data /var/www/jinjoo-frontend
+
+3) nginx 서버 블록 (프론트 + API + 업로드)
+
+/etc/nginx/sites-available/jinjoo.conf 생성/수정:
+
+server {
+    listen 80;
+    server_name 222.122.81.88;  # 도메인 붙이면 교체
+
+    # 1) 프론트(정적 빌드)
+    root /var/www/jinjoo-frontend;
+    index index.html;
+
+    # SPA 라우팅 지원
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 2) API는 Express(:5000)로 프록시
+    location /api/ {
+        proxy_pass http://127.0.0.1:5000/;
+        proxy_http_version 1.1;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
+    }
+
+    # 3) 업로드 파일 정적 제공 (이미지 등)
+    #    server/uploads 를 /uploads 경로로 매핑
+    location /uploads/ {
+        alias /root/jinjooTravel/server/uploads/;
+        # ↑ 실제 서버 경로에 맞춰 조정
+        # 디렉토리 리스팅 금지
+        autoindex off;
+        add_header Cache-Control "public, max-age=86400";
+    }
+
+    # 캐시/보안/압축 (선택)
+    location ~* \.(?:ico|css|js|gif|jpe?g|png|webp|woff2?|eot|ttf|svg)$ {
+        expires 6M;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options SAMEORIGIN;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript application/xml+rss image/svg+xml;
+}
+
+
+활성화 & 적용:
+
+sudo ln -s /etc/nginx/sites-available/jinjoo.conf /etc/nginx/sites-enabled/jinjoo.conf
+sudo nginx -t
+sudo systemctl reload nginx
+
+4) Express 라우트 점검 (중요)
+
+server/src/app.ts에서 API 접두사를 /api로 통일해야 nginx 설정과 딱 맞아.
+
+// server/src/app.ts (핵심 예시)
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+app.use(express.json());
+
+// 개발 중 프론트가 다른 포트일 때만 CORS 허용 (배포 후 동일 도메인이면 보통 불필요)
+app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+
+// 여기서부터는 전부 /api 하위로
+import adminRouter from './routes/admin';
+import pilgrimageRouter from './routes/pilgrimage';
+import marianMessageRouter from './routes/marianMessage';
+
+app.use('/api/admin', adminRouter);
+app.use('/api/pilgrimages', pilgrimageRouter);
+app.use('/api/marian-messages', marianMessageRouter);
+
+// 헬스체크
+app.get('/api', (_, res) => res.json({ message: 'Welcome to Jinjoo Travel API' }));
+
+export default app;
+
+
+프론트에서 호출도 전부 /api/...로 맞추기 (예: axios.get('/api/pilgrimages'))
+
+5) 업로드 경로 일치시키기
+
+프론트에서 업로드 이미지를 /uploads/파일명으로 요청하면
+nginx가 server/uploads/ 실제 파일을 서빙해.
+서버 저장 경로가 다르면 nginx alias 경로를 해당 경로로 바꿔줘.
+
+6) 빠른 점검 커맨드
+# 프론트 파일 있는지
+ls -al /var/www/jinjoo-frontend | head
+
+# nginx가 받는지
+curl -I http://127.0.0.1
+curl -I http://222.122.81.88
+
+# API 프록시
+curl -s http://222.122.81.88/api
+
+# 업로드(예: sample.jpg가 있을 때)
+curl -I http://222.122.81.88/uploads/sample.jpg
+
+# 로그
+sudo tail -n 50 /var/log/nginx/access.log
+sudo tail -n 50 /var/log/nginx/error.log
+
+7) (편의) 초간단 배포 스크립트
+
+매번 명령 치기 귀찮으면 한 번 만들어 둬.
+
+mkdir -p ~/scripts
+nano ~/scripts/deploy_front.sh
+
+#!/usr/bin/env bash
+set -e
+cd ~/jinjooTravel
+npm ci
+npm run build
+sudo rm -rf /var/www/jinjoo-frontend/*
+sudo cp -r dist/* /var/www/jinjoo-frontend/
+sudo chown -R www-data:www-data /var/www/jinjoo-frontend
+echo "✅ 프론트 배포 완료"
+
+chmod +x ~/scripts/deploy_front.sh
+# 배포할 때마다
+~/scripts/deploy_front.sh
+
+흔한 오류 체크
+
+/ 가 빈 화면: try_files ... /index.html 누락 여부, 프론트 빌드 재복사
+
+/api 404: 라우터가 /api로 붙었는지, 서버 5000 포트가 살아있는지
+
+업로드 404: nginx alias 실제 경로 재확인, 파일 퍼미션
+
+JS/CSS 404: 빌드 산출물 제대로 복사됐는지, 캐시 강새로고침(Ctrl+F5)
+
+이대로 하면 http://222.122.81.88/에 홈페이지 화면, http://222.122.81.88/api에 API JSON, http://222.122.81.88/uploads/...에 업로드 파일이 잘 보여야 해.
+문제 생기면 증상(에러 화면/로그 한 줄)만 알려줘. 바로 잡아줄게.
