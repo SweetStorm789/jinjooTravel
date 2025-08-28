@@ -4,6 +4,7 @@ import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Alert, AlertDescription } from './ui/alert';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
+import { BASE_URL } from '../src/lib/constants';
 
 interface AdminLoginPageProps {
   setCurrentPage: (page: string) => void;
@@ -23,7 +24,7 @@ const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ setCurrentPage, onAdmin
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
+      const response = await fetch(`${BASE_URL}/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

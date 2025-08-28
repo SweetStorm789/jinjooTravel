@@ -214,7 +214,7 @@ export const getPackageById = async (req: Request, res: Response) => {
     // 이미지 URL을 절대 경로로 변환
     const imagesWithFullUrls = (images as any[]).map(img => ({
       ...img,
-      image_url: `http://localhost:5000${img.image_url}`
+                  image_url: `${process.env.BASE_URL || 'http://localhost:5000'}${img.image_url}`
     }));
 
     const detailData = (details as any[])[0] || {};
