@@ -6,7 +6,7 @@ BRANCH="${1:-main}"
 ROOT="/root/jinjooTravel"             # 프로젝트 루트
 SERVER_DIR="$ROOT/server"
 NGINX_ROOT="/var/www/jinjoo-frontend" # 프론트 정적 배포 위치
-APP_NAME="jinjoo-api"                  # PM2 앱 이름 (네가 쓰는 이름으로!)
+APP_NAME="jinjoo-server"                  # PM2 앱 이름 (네가 쓰는 이름으로!)
 
 echo "==> [1/6] Git pull ($BRANCH)"
 cd "$ROOT"
