@@ -24,13 +24,32 @@ const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ setCurrentPage, onAdmin
     setError('');
 
     try {
-      const response = await fetch(`${BASE_URL}/admin/login`, {
+      const response = await fetch(`${BASE_URL}/api/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
-      });
+      }).catch(() => null); // 네트워크 오류 시 null 반환
+
+      if (!response) {
+        setError('서버 연결에 실패했습니다.');
+        return;
+      }
+
+      // HTTP 상태 코드 확인
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError('사용자명 또는 비밀번호가 올바르지 않습니다.');
+          return;
+        } else if (response.status === 500) {
+          setError('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+          return;
+        } else {
+          setError(`로그인에 실패했습니다. (${response.status})`);
+          return;
+        }
+      }
 
       const data = await response.json();
 
@@ -49,9 +68,6 @@ const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ setCurrentPage, onAdmin
       } else {
         setError(data.message || '로그인에 실패했습니다.');
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('서버 연결에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }

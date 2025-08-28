@@ -45,13 +45,17 @@ export const verifyAdminToken = async (): Promise<boolean> => {
   if (!token) return false;
 
   try {
-    const response = await fetch(`${BASE_URL}/admin/verify`, {
+    const response = await fetch(`${BASE_URL}/api/admin/verify`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
+
+    if (!response.ok) {
+      return false;
+    }
 
     const data = await response.json();
     return data.success;
