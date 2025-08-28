@@ -24,7 +24,7 @@ const AdminLoginPage: React.FC<AdminLoginPageProps> = ({ setCurrentPage, onAdmin
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
+      const response = await fetch(`${BASE_URL}/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
