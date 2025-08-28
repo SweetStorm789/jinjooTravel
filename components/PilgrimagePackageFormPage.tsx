@@ -169,13 +169,27 @@ export default function PilgrimagePackageFormPage({
           accommodation: day.accommodation || ''
         }));
 
-        // 이미지 처리 - 절대 경로로 변환
-        const images = (data.images || []).map((img: any) => ({
-          id: img.id,
-          image_url: img.image_url.startsWith('http') ? img.image_url : `${BASE_URL}${img.image_url}`,
-          display_order: img.display_order,
-          image_type: img.image_type
-        }));
+        // 이미지 처리 - 상대 경로로 변환 (PilgrimagePackagesPage와 동일하게)
+        const images = (data.images || []).map((img: any) => {
+          const imageUrl = img.image_url;
+          let processedUrl;
+          
+          if (imageUrl.startsWith('http')) {
+            // 절대 경로에서 파일명만 추출
+            const filename = imageUrl.split('/').pop();
+            processedUrl = filename ? `${BASE_URL}/uploads/${filename}` : imageUrl;
+          } else {
+            // 상대 경로인 경우 BASE_URL과 결합
+            processedUrl = `${BASE_URL}${imageUrl}`;
+          }
+          
+          return {
+            id: img.id,
+            image_url: processedUrl,
+            display_order: img.display_order,
+            image_type: img.image_type
+          };
+        });
 
         // 가격 처리 - 숫자를 포맷된 문자열로 변환
         const formatPrice = (price: number | string) => {

@@ -147,7 +147,16 @@ function PilgrimagePackageDetailPage({
           maxPeople: data.max_people,
           currentBookings: data.current_bookings || 0,
           highlights,
-          images: data.images.map((img: any) => img.image_url),
+          images: data.images.map((img: any) => {
+            // 서버에서 절대 경로로 받아온 경우 상대 경로로 변환
+            const imageUrl = img.image_url;
+            if (imageUrl.startsWith('http')) {
+              // 절대 경로에서 파일명만 추출
+              const filename = imageUrl.split('/').pop();
+              return filename ? `${BASE_URL}/uploads/${filename}` : imageUrl;
+            }
+            return imageUrl;
+          }),
           itinerary,
           included,
           notIncluded,
