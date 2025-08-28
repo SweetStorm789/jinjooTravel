@@ -1,4 +1,5 @@
 import { Cross, Church, Compass, Heart, Star, Crown, Shield } from "lucide-react";
+import logoImage from '../images/logo/jinjoo-logo.png';
 
 interface LogoProps {
   variant?: 'gradient' | 'classic' | 'modern' | 'elegant' | 'premium' | 'image';
@@ -196,7 +197,7 @@ export default function Logo({ variant = 'gradient', size = 'md', setCurrentPage
           onClick={() => {
             setCurrentPage("home");
           }}
-          src="/images/logo/jinjoo-logo.png" 
+          src={logoImage} 
           alt="JINJOO travel co. ltd" 
           className={`${imageSizeClasses[size]} object-contain`}
           style={{ cursor: 'pointer' }}
