@@ -49,16 +49,37 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   const [packages, setPackages] = useState<PilgrimagePackage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState<number>(9);
+  const [currentPage, setCurrentPageState] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [hasNext, setHasNext] = useState(false);
+  const [hasPrev, setHasPrev] = useState(false);
 
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         setIsLoading(true);
-        // const response = await axios.get(`${BASE_URL}/api/packages`);
-        const response = await axios.get(`${BASE_URL}/api/packages`);
+        
+        // 쿼리 파라미터 구성
+        const params = new URLSearchParams({
+          page: currentPage.toString(),
+          limit: '12'
+        });
+        
+        if (selectedRegion !== 'all') {
+          params.append('region', selectedRegion);
+        }
+        
+        if (searchTerm.trim()) {
+          params.append('search', searchTerm.trim());
+        }
 
-        const featuredPackages = response.data
+        const response = await axios.get(`${BASE_URL}/api/packages?${params}`);
+        
+        const responseData = response.data;
+        const packagesData = responseData.packages || responseData; // 기존 API 호환성 유지
+        
+        const featuredPackages = packagesData
         .map((pkg: any) => {
           
           // 메인 이미지 찾기
@@ -66,11 +87,9 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           const firstImage = pkg.images?.[0];
           const imageObj = mainImage || firstImage;
           
-            // 파일명 안전 추출
+          // 파일명 안전 추출
           const filename = imageObj?.image_url?.split?.('/')?.pop?.();
           const relativeImagePath = filename ? `/uploads/${filename}` : undefined;
-
-
 
           return {
             id: pkg.id,
@@ -89,8 +108,15 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           };
         });
 
-
         setPackages(featuredPackages);
+        
+        // 페이징 정보 설정
+        if (responseData.pagination) {
+          setTotalPages(responseData.pagination.total_pages);
+          setTotalItems(responseData.pagination.total_items);
+          setHasNext(responseData.pagination.has_next);
+          setHasPrev(responseData.pagination.has_prev);
+        }
       } catch (error) {
         console.error('Failed to fetch packages:', error);
         setError('성지순례 일정 목록을 불러오는데 실패했습니다.');
@@ -100,7 +126,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
     };
 
     fetchPackages();
-  }, []);
+  }, [currentPage, selectedRegion, searchTerm]);
 
   if (isLoading) {
     return (
@@ -229,7 +255,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
-                  setVisibleCount(9);
+                  setCurrentPageState(1); // 검색어 변경 시 페이지 초기화
                 }}
                 className="pl-10"
               />
@@ -237,7 +263,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             
             <Select value={selectedRegion} onValueChange={(value) => {
               setSelectedRegion(value);
-              setVisibleCount(9);
+              setCurrentPageState(1); // 지역 변경 시 페이지 초기화
             }}>
               <SelectTrigger>
                 <SelectValue placeholder="지역 선택" />
@@ -253,7 +279,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             
             <Select value={selectedDuration} onValueChange={(value) => {
               setSelectedDuration(value);
-              setVisibleCount(9);
+              setCurrentPageState(1); // 기간 변경 시 페이지 초기화
             }}>
               <SelectTrigger>
                 <SelectValue placeholder="기간 선택" />
@@ -277,7 +303,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-medium">
-              총 {filteredPackages.length}개의 성지순례 일정
+              총 {totalItems}개의 성지순례 일정
             </h2>
             <div className="flex items-center space-x-4">
               {/* 관리자 권한 체크 - 관리자에게만 등록 버튼 표시 */}
@@ -308,7 +334,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPackages.slice(0, visibleCount).map((pkg) => (
+            {filteredPackages.map((pkg) => (
               <Card key={pkg.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}>
                 <div className="relative">
                   <div className="aspect-[16/10] overflow-hidden">
@@ -386,40 +412,29 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           </div>
         </div>
 
-        {/* 더 보기 버튼 */}
-        {filteredPackages.length > visibleCount && (
-          <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="px-8"
-              onClick={() => setVisibleCount(prev => prev + 9)}
+        {/* 페이지네이션 */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center space-x-2 mt-12">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPageState(prev => Math.max(1, prev - 1))}
+              disabled={!hasPrev}
             >
-              더 많은 성지순례 일정 보기
+              이전
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              페이지 {currentPage} / {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPageState(prev => Math.min(totalPages, prev + 1))}
+              disabled={!hasNext}
+            >
+              다음
             </Button>
           </div>
         )}
 
-        {/* 상담 문의 섹션 */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-8 mt-12">
-          <div className="text-center space-y-4">
-            <h3 className="text-xl font-medium">맞춤 순례 상담</h3>
-            <p className="text-muted-foreground">
-              원하시는 성지나 특별한 요청사항이 있으시면 언제든 상담해 드립니다.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="px-8">
-                전화 상담 신청
-              </Button>
-              <Button variant="outline" size="lg" className="px-8">
-                온라인 상담
-              </Button>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              상담 시간: 평일 09:00 - 18:00 | 전화: 02-1234-5678
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

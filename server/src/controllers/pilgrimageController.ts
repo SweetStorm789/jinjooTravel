@@ -148,24 +148,98 @@ export const createPackage = async (req: Request, res: Response) => {
 export const getAllPackages = async (req: Request, res: Response) => {
   const connection = await pool.getConnection();
   try {
-    // 기본 패키지 정보 조회
+    // 쿼리 파라미터 추출
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 12;
+    const offset = (page - 1) * limit;
+    const region = req.query.region as string;
+    const search = req.query.search as string;
+
+    // WHERE 조건 구성
+    let whereClause = 'WHERE p.deleted_at IS NULL';
+    const params: any[] = [];
+
+    if (region && region !== 'all') {
+      whereClause += ' AND p.region = ?';
+      params.push(region);
+    }
+
+    if (search) {
+      whereClause += ' AND (p.title LIKE ? OR p.subtitle LIKE ? OR p.description LIKE ?)';
+      const searchPattern = `%${search}%`;
+      params.push(searchPattern, searchPattern, searchPattern);
+    }
+
+    // 전체 개수 조회
+    const [countResult] = await connection.query(
+      `SELECT COUNT(*) as total FROM pilgrimage_packages p ${whereClause}`,
+      params
+    );
+    const total = (countResult as any[])[0].total;
+
+    // 패키지 목록 조회 (LEFT JOIN으로 이미지도 함께 가져오기)
     const [packages] = await connection.query(
-      'SELECT id, title, subtitle, description, region, duration, price, DATE_FORMAT(departure_date, \'%Y%m%d\') as departure_date, DATE_FORMAT(arrival_date, \'%Y%m%d\') as arrival_date, max_people, highlights, status, created_at, updated_at, deleted_at FROM pilgrimage_packages WHERE deleted_at IS NULL ORDER BY created_at DESC'
+      `SELECT 
+        p.id, 
+        p.title, 
+        p.subtitle, 
+        p.description, 
+        p.region, 
+        p.duration, 
+        p.price, 
+        DATE_FORMAT(p.departure_date, '%Y%m%d') as departure_date, 
+        DATE_FORMAT(p.arrival_date, '%Y%m%d') as arrival_date, 
+        p.max_people, 
+        p.highlights, 
+        p.status, 
+        p.created_at, 
+        p.updated_at,
+        GROUP_CONCAT(
+          JSON_OBJECT(
+            'id', pi.id,
+            'image_url', pi.image_url,
+            'display_order', pi.display_order,
+            'image_type', pi.image_type
+          ) ORDER BY pi.display_order SEPARATOR '||'
+        ) as images_json
+      FROM pilgrimage_packages p
+      LEFT JOIN package_images pi ON p.id = pi.package_id
+      ${whereClause}
+      GROUP BY p.id
+      ORDER BY p.created_at DESC
+      LIMIT ? OFFSET ?`,
+      [...params, limit, offset]
     );
 
-    // 각 패키지의 이미지 정보 조회
-    const packagesWithImages = await Promise.all((packages as any[]).map(async (pkg) => {
-      const [images] = await connection.query(
-        'SELECT * FROM package_images WHERE package_id = ? ORDER BY display_order',
-        [pkg.id]
-      );
+    // 이미지 JSON 파싱
+    const packagesWithImages = (packages as any[]).map(pkg => {
+      let images = [];
+      if (pkg.images_json) {
+        try {
+          images = pkg.images_json.split('||').map((imgStr: string) => JSON.parse(imgStr));
+        } catch (e) {
+          console.error('Error parsing images JSON:', e);
+          images = [];
+        }
+      }
+      
       return {
         ...pkg,
         images: images
       };
-    }));
+    });
 
-    res.json(packagesWithImages);
+    res.json({
+      packages: packagesWithImages,
+      pagination: {
+        current_page: page,
+        total_pages: Math.ceil(total / limit),
+        total_items: total,
+        items_per_page: limit,
+        has_next: page < Math.ceil(total / limit),
+        has_prev: page > 1
+      }
+    });
   } catch (error) {
     console.error('Error fetching packages:', error);
     if (error instanceof AppError) {
