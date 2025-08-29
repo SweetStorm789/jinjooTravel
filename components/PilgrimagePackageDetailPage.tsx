@@ -91,8 +91,7 @@ function PilgrimagePackageDetailPage({
         }
         const data = await response.json();
         
-        // 디버깅을 위해 데이터 로깅
-        console.log('Raw data:', data);
+
         
         // 문자열을 배열로 변환하는 함수
         const parseTextToArray = (text: string | null | undefined, defaultValue: any[] = []): any[] => {
@@ -104,7 +103,7 @@ function PilgrimagePackageDetailPage({
               const parsed = JSON.parse(text);
               return Array.isArray(parsed) ? parsed : defaultValue;
             } catch (e) {
-              console.log('Not a valid JSON array, treating as text');
+              // JSON 파싱 실패 시 텍스트로 처리
             }
           }
           

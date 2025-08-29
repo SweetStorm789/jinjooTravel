@@ -57,11 +57,9 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
         setIsLoading(true);
         // const response = await axios.get(`${BASE_URL}/api/packages`);
         const response = await axios.get(`${BASE_URL}/api/packages`);
-        console.log('Fetched packages:', response.data);
 
         const featuredPackages = response.data
         .map((pkg: any) => {
-          console.log('Package images:', pkg.images); // 이미지 데이터 확인
           
           // 메인 이미지 찾기
           const mainImage = pkg.images?.find((img: any) => img.image_type === 'main');
@@ -72,11 +70,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           const filename = imageObj?.image_url?.split?.('/')?.pop?.();
           const relativeImagePath = filename ? `/uploads/${filename}` : undefined;
 
-          // 이미지 URL 로깅
-          if (imageObj) {
-            console.log('Selected image:', imageObj);
-            console.log('Full image URL:', `${BASE_URL}/uploads/${imageObj.image_url.split('/').pop()}`);
-          }
+
 
           return {
             id: pkg.id,
@@ -200,7 +194,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             </div>
             
             <h1 className="text-4xl font-medium text-foreground mb-4">
-              가톨릭 성지순례 일정정
+              가톨릭 성지순례 일정
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               하느님의 은총이 깃든 성지들을 방문하여 신앙을 깊게 하고 영적 성장을 경험하는 특별한 여정입니다.
@@ -279,11 +273,11 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           </div>
         </div>
 
-        {/* 상품 리스트 */}
+        {/* 성지순례례 리스트 */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-medium">
-              총 {filteredPackages.length}개의 순례 상품
+              총 {filteredPackages.length}개의 성지순례 일정
             </h2>
             <div className="flex items-center space-x-4">
               {/* 관리자 권한 체크 - 관리자에게만 등록 버튼 표시 */}
@@ -401,7 +395,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
               className="px-8"
               onClick={() => setVisibleCount(prev => prev + 9)}
             >
-              더 많은 상품 보기
+              더 많은 성지순례 일정 보기
             </Button>
           </div>
         )}

@@ -33,25 +33,18 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
     const fetchFeaturedPackages = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/packages`);
-        console.log('All packages:', response.data); // 전체 데이터 확인
         
         const publishedPackages = response.data.filter((pkg: any) => pkg.status === 'published');
-        console.log('Published packages:', publishedPackages); // published 상태인 데이터 확인
         
         const featuredPackages = publishedPackages.slice(0, 3)
           .map((pkg: any) => {
-            console.log('Package images:', pkg.images); // 이미지 데이터 확인
             
             // 메인 이미지 찾기
             const mainImage = pkg.images?.find((img: any) => img.image_type === 'main');
             const firstImage = pkg.images?.[0];
             const imageUrl = mainImage || firstImage;
             
-            // 이미지 URL 로깅
-            if (imageUrl) {
-              console.log('Selected image:', imageUrl);
-              console.log('Full image URL:', `${BASE_URL}/uploads/${imageUrl.image_url.split('/').pop()}`);
-            }
+
 
             return {
               id: pkg.id,

@@ -131,7 +131,6 @@ export default function Header({
   };
 
   const handleThirdDepthEnter = () => {
-    console.log('3depth 메뉴 진입');
     if (subHoverTimeoutRef.current) {
       clearTimeout(subHoverTimeoutRef.current);
       subHoverTimeoutRef.current = null;
@@ -143,7 +142,6 @@ export default function Header({
   };
 
   const handleThirdDepthLeave = () => {
-    console.log('3depth 메뉴 이탈');
     subHoverTimeoutRef.current = setTimeout(() => {
       setHoveredSubCategory(null);
     }, 300);
@@ -465,7 +463,7 @@ export default function Header({
                         else if (thirdItem === "시에나") setCurrentPage("siena");
                         else if (thirdItem === "오르비에또") setCurrentPage("orviettoo");
                         else if (thirdItem === "란치아노") setCurrentPage("lanciano");
-                        else console.log(`${thirdItem} 페이지는 아직 구현되지 않았습니다.`);
+                        // else console.log(`${thirdItem} 페이지는 아직 구현되지 않았습니다.`);
                         setHoveredCategory(null);
                         setHoveredSubCategory(null);
                       }}
