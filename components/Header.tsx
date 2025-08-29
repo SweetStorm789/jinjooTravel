@@ -194,26 +194,28 @@ export default function Header({
       {/* Top utility bar */}
       <div className="bg-gray-50 px-4 py-2 border-b border-gray-100">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-2 md:space-x-6">
             <div className="flex items-center text-gray-600">
-              <Phone className="w-4 h-4 mr-2" />
-              <span>전화번호 02-738-0747, 02-734-1236</span>
+              <Phone className="w-4 h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">전화번호 </span>
+              <span className="text-xs sm:text-sm">02-738-0747</span>
             </div>
-            <span className="text-gray-300">|</span>
+            <span className="text-gray-300 hidden md:inline">|</span>
             <div className="flex items-center text-gray-600">
-              <span>✉️ master@jjtravel.co.kr</span>
+              <span className="hidden sm:inline">✉️ </span>
+              <span className="text-xs sm:text-sm">master@jjtravel.co.kr</span>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-4">
             <div className="relative">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleShare}
-                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-sm flex items-center space-x-1"
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-xs sm:text-sm flex items-center space-x-1 px-2 sm:px-3"
               >
-                <Share2 className="w-4 h-4" />
-                <span>공유</span>
+                <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">공유</span>
               </Button>
               {shareMessage && (
                 <div className="absolute top-full right-0 mt-1 px-3 py-1 bg-green-600 text-white text-xs rounded shadow-lg whitespace-nowrap z-50">
@@ -221,24 +223,26 @@ export default function Header({
                 </div>
               )}
             </div>
-            <span className="text-gray-300">|</span>
+            <span className="text-gray-300 hidden md:inline">|</span>
             {isAdmin ? (
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-red-600 hover:text-red-700 hover:bg-red-50 text-sm"
+                className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs sm:text-sm px-2 sm:px-3"
                 onClick={onAdminLogout}
               >
-                로그아웃
+                <span className="hidden sm:inline">로그아웃</span>
+                <span className="sm:hidden">로그아웃</span>
               </Button>
             ) : (
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-sm"
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-xs sm:text-sm px-2 sm:px-3"
                 onClick={() => setCurrentPage("admin-login")}
               >
-                관리자
+                <span className="hidden sm:inline">관리자</span>
+                <span className="sm:hidden">관리자</span>
               </Button>
             )}
           </div>
@@ -246,7 +250,7 @@ export default function Header({
       </div>
 
       {/* Main header with logo, navigation, and CTA */}
-      <div className="px-10 py-0 relative">
+      <div className="px-4 sm:px-6 md:px-10 py-2 sm:py-0 relative">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           {/* <div className="flex items-center">
@@ -321,13 +325,14 @@ export default function Header({
           </nav>
 
           {/* Right side buttons */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <Button 
-              className="md:hidden bg-blue-600 hover:bg-blue-700 text-white px-4 py-2"
+              className="md:hidden bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm"
               onClick={() => window.location.href = 'tel:02-738-0747'}
             >
-              <Phone className="w-4 h-4 mr-2" />
-              상담문의
+              <Phone className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">상담문의</span>
+              <span className="sm:hidden">문의</span>
             </Button>
             <Button
               className="xl:hidden"
@@ -335,7 +340,7 @@ export default function Header({
               size="sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
             </Button>
           </div>
         </div>

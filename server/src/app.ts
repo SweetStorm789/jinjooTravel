@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 import path from 'path';
 import corsOptions from './config/cors';
 import { errorHandler } from './middleware/errorHandler';
-
 // 환경변수 설정
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '../.env') }); // dist 기준 한 칸 위 .env
+// dotenv.config();
 
 const app = express();
 

@@ -21,10 +21,10 @@ export const pageMetaData: Record<string, PageMeta> = {
     ogDescription: '20년 경험의 가톨릭 성지순례 전문 여행사'
   },
   'pilgrimage-packages': {
-    title: '성지순례 상품 - 진주여행사',
-    description: '바티칸, 이스라엘, 유럽 성지순례 상품을 확인하세요. 신부님 동행, 1급 호텔, 현지 가이드로 안전하고 의미있는 순례를 제공합니다.',
-    keywords: '성지순례 상품, 바티칸 순례, 이스라엘 순례, 유럽 성지, 가톨릭 여행',
-    ogTitle: '성지순례 상품 - 진주여행사',
+    title: '성지순례 일정 - 진주여행사',
+    description: '바티칸, 이스라엘, 유럽 성지순례 일정을 확인하세요. 신부님 동행, 1급 호텔, 현지 가이드로 안전하고 의미있는 순례를 제공합니다.',
+    keywords: '성지순례 일정, 바티칸 순례, 이스라엘 순례, 유럽 성지, 가톨릭 여행, 성지순례',
+    ogTitle: '성지순례 일정 - 진주여행사',
     ogDescription: '전문 가이드와 함께하는 안전한 성지순례'
   },
   'vatican': {
@@ -143,12 +143,12 @@ export const updateStructuredData = (page: string) => {
       structuredData = {
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "성지순례 여행 상품",
+        "name": "성지순례 일정",
         "provider": {
           "@type": "TravelAgency",
           "name": "진주여행사"
         },
-        "description": "바티칸, 이스라엘, 유럽 등 세계 각지 성지순례 여행 상품"
+        "description": "바티칸, 이스라엘, 유럽 등 세계 각지 성지순례 일정"
       };
       break;
   }

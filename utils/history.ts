@@ -50,15 +50,15 @@ export const updatePageMeta = (page: string) => {
   
   if (page.startsWith('package-detail-')) {
     customMeta = {
-      title: '순례상품 상세 - 진주여행사',
-      description: '성지순례 상품의 상세 정보를 확인하세요. 일정, 가격, 포함사항 등 모든 정보를 제공합니다.',
-      keywords: '순례상품, 성지순례 일정, 순례 가격, 성지여행'
+      title: '순례일정 상세 - 진주여행사',
+      description: '성지순례 일정의 상세 정보를 확인하세요. 일정, 가격, 포함사항 등 모든 정보를 제공합니다.',
+      keywords: '순례일정, 성지순례 일정, 순례 가격, 성지여행, 성지순례'
     };
   } else if (page.startsWith('package-form')) {
     customMeta = {
-      title: '순례상품 등록/수정 - 진주여행사',
-      description: '성지순례 상품을 등록하거나 수정할 수 있습니다.',
-      keywords: '상품등록, 상품수정, 관리자'
+      title: '순례일정 등록/수정 - 진주여행사',
+      description: '성지순례 일정을 등록하거나 수정할 수 있습니다.',
+      keywords: '일정등록, 일정수정, 관리자'
     };
   } else if (page.startsWith('marian-message-detail-')) {
     customMeta = {

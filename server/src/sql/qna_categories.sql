@@ -1,9 +1,9 @@
 -- QnA 카테고리 추가
 INSERT INTO board_categories (board_type, name, slug, description, sort_order) VALUES
-('qna', '상품문의', 'product', '성지순례 상품에 대한 문의', 1),
+('qna', '성지순례문의', 'product', '성지순례에 대한 문의', 1),
 ('qna', '예약문의', 'reservation', '예약 및 일정 관련 문의', 2),
 ('qna', '일반문의', 'general', '기타 일반적인 문의사항', 3),
-('qna', '취소/환불', 'cancel-refund', '취소 및 환불 관련 문의', 4);
+('qna', '취소/환불문의', 'cancel-refund', '취소 및 환불 관련 문의', 4);
 
 -- QnA 샘플 데이터 추가
 INSERT INTO board_posts (

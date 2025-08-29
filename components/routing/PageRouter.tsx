@@ -86,7 +86,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
       return <CompanyIntroPage setCurrentPage={setCurrentPage} />;
     }
 
-    // 가톨릭성지순례 상품
+    // 가톨릭성지순례 일정 
     if (currentPage === "pilgrimage-packages") {
       return <PilgrimagePackagesPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
