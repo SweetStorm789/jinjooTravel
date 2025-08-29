@@ -98,7 +98,7 @@ export default function PhotoGalleryPage({ setCurrentPage, isAdmin = false }: Ph
       const data = await response.json();
       
       if (data.success) {
-        console.log('📋 갤러리 데이터 로드됨:', data.data.posts.length, '개');
+        // console.log('📋 갤러리 데이터 로드됨:', data.data.posts.length, '개');
         setGalleryList(data.data.posts);
         setPagination(data.data.pagination);
       } else {
@@ -133,7 +133,7 @@ export default function PhotoGalleryPage({ setCurrentPage, isAdmin = false }: Ph
 
   // 컴포넌트 마운트 시 초기 데이터 로드
   useEffect(() => {
-    console.log('🚀 PhotoGalleryPage 마운트됨');
+    // console.log('🚀 PhotoGalleryPage 마운트됨');
     fetchCategories();
   }, []);
 
@@ -344,12 +344,12 @@ export default function PhotoGalleryPage({ setCurrentPage, isAdmin = false }: Ph
                         }
                         
                         console.group(`🖼️ 갤러리 이미지 로드 - ${gallery.title}`);
-                        console.log('📸 Image URL:', `${BASE_URL}${gallery.featured_image}`);
-                        console.log('📁 Original featured_image:', gallery.featured_image);
-                        console.log('🆔 Gallery ID:', gallery.id);
-                        console.log('📝 Gallery Title:', gallery.title);
-                        console.log('📐 Image dimensions:', `${img.naturalWidth}x${img.naturalHeight}`);
-                        console.log('🎨 Display mode:', img.naturalWidth < img.naturalHeight ? 'contain (세로)' : 'cover (가로)');
+                                // console.log('📸 Image URL:', `${BASE_URL}${gallery.featured_image}`);
+        // console.log('📁 Original featured_image:', gallery.featured_image);
+        // console.log('🆔 Gallery ID:', gallery.id);
+        // console.log('📝 Gallery Title:', gallery.title);
+        // console.log('📐 Image dimensions:', `${img.naturalWidth}x${img.naturalHeight}`);
+        // console.log('🎨 Display mode:', img.naturalWidth < img.naturalHeight ? 'contain (세로)' : 'cover (가로)');
                         console.groupEnd();
                       }}
                     />

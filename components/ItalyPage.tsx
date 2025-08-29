@@ -547,7 +547,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                               } else if (item.name === "프랑스") {
                                 setCurrentPage("france");
                               } else {
-                                console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
+                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
                               }
                             }}
                             className="flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group"
@@ -581,7 +581,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                                   } else if (child === "란치아노") {
                                     setCurrentPage("lanciano");
                                   } else {
-                                    console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
+                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
                                   }
                                 }}
                                 className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"

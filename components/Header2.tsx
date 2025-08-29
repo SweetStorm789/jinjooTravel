@@ -419,7 +419,7 @@ export default function Header({
                         else if (thirdItem === "시에나") setCurrentPage("siena");
                         else if (thirdItem === "오르비에또") setCurrentPage("orviettoo");
                         else if (thirdItem === "란치아노") setCurrentPage("lanciano");
-                        else console.log(`${thirdItem} 페이지는 아직 구현되지 않았습니다.`);
+                        // else console.log(`${thirdItem} 페이지는 아직 구현되지 않았습니다.`);
                         setHoveredCategory(null);
                         setHoveredSubCategory(null);
                       }}

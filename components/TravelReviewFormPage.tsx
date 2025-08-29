@@ -110,16 +110,16 @@ const TravelReviewFormPage: React.FC<TravelReviewFormPageProps> = ({ setCurrentP
           
           // Instagram ID를 작성자명으로 자동 설정
           if (data.data.author && data.data.author !== 'undefined' && !formData.author_name) {
-            console.log('백엔드에서 추출한 Instagram ID:', data.data.author);
+            // console.log('백엔드에서 추출한 Instagram ID:', data.data.author);
             handleInputChange('author_name', data.data.author);
           } else if (!formData.author_name) {
             // 백엔드에서 추출하지 못한 경우 URL에서 직접 추출
             const instagramId = extractInstagramId(value);
             if (instagramId) {
-              console.log('URL에서 직접 추출한 Instagram ID:', instagramId);
+              // console.log('URL에서 직접 추출한 Instagram ID:', instagramId);
               handleInputChange('author_name', instagramId);
             } else {
-              console.log('Instagram ID 추출 실패');
+              // console.log('Instagram ID 추출 실패');
             }
           }
           

@@ -731,7 +731,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                                 setCurrentPage("france");
                               } else {
                                 // 다른 페이지들은 아직 구현되지 않음
-                                console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
+                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
                               }
                             }}
                             className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
@@ -769,7 +769,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                                   } else if (child === "란치아노") {
                                     setCurrentPage("lanciano");
                                   } else {
-                                    console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
+                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
                                   }
                                 }}
                                 className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
