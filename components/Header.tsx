@@ -225,15 +225,27 @@ export default function Header({
             </div>
             <span className="text-gray-300 hidden md:inline">|</span>
             {isAdmin ? (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs sm:text-sm px-2 sm:px-3"
-                onClick={onAdminLogout}
-              >
-                <span className="hidden sm:inline">로그아웃</span>
-                <span className="sm:hidden">로그아웃</span>
-              </Button>
+              <>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 text-xs sm:text-sm px-2 sm:px-3"
+                  onClick={() => setCurrentPage("image-library-test")}
+                >
+                  <span className="hidden sm:inline">이미지라이브러리</span>
+                  <span className="sm:hidden">이미지</span>
+                </Button>
+                <span className="text-gray-300 hidden md:inline">|</span>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs sm:text-sm px-2 sm:px-3"
+                  onClick={onAdminLogout}
+                >
+                  <span className="hidden sm:inline">로그아웃</span>
+                  <span className="sm:hidden">로그아웃</span>
+                </Button>
+              </>
             ) : (
               <Button 
                 variant="ghost" 

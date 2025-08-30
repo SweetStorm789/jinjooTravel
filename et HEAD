@@ -1,0 +1,5 @@
+[33mf39bef3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Improve mobile responsiveness for header contact information
+[33m74ca071[m Add pagination and performance optimization for pilgrimage packages
+[33maafe73a[m Comment out all console.log statements except '페이지는 아직 구현되지 않았습니다' messages
+[33m3027835[m Remove console.log statements for production cleanup
+[33mbf20535[m deploy_front.sh수정

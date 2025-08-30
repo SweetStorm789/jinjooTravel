@@ -4,7 +4,8 @@ import {
   uploadImages,
   deleteImage,
   updateImageOrder,
-  linkImagesToPackage
+  linkImagesToPackage,
+  addImageToPackage
 } from '../controllers/uploadController';
 
 const router = express.Router();
@@ -20,5 +21,8 @@ router.put('/images/order', updateImageOrder);
 
 // 이미지를 상품과 연결
 router.put('/images/link/:id', linkImagesToPackage);
+
+// 새 이미지를 상품에 추가 (이미지 라이브러리에서 선택한 이미지용)
+router.post('/packages/:id/images', addImageToPackage);
 
 export default router;

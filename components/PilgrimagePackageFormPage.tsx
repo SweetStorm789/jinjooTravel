@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useState, useEffect } from "react";
 import React from "react";
 import { ImageUpload } from "./ui/image-upload";
+import ImageLibraryModal from "./ImageLibraryModal";
 import axios from "axios";
 import { BASE_URL } from '@/lib/constants';
 
@@ -58,6 +59,18 @@ interface PackageImage {
   image_type: 'main' | 'detail';
 }
 
+interface ImageLibraryImage {
+  id: number;
+  filename: string;
+  original_name: string;
+  url: string;
+  thumbnail_url: string;
+  category: string;
+  tags: string[];
+  usage_count: number;
+  created_at: string;
+}
+
 interface PackageFormData {
   title: string;
   subtitle: string;
@@ -87,6 +100,60 @@ export default function PilgrimagePackageFormPage({
   packageId 
 }: PilgrimagePackageFormPageProps) {
   const isEdit = !!packageId;
+  
+  // 이미지 라이브러리 모달 상태
+  const [isImageLibraryOpen, setIsImageLibraryOpen] = useState(false);
+
+  // 이미지 라이브러리에서 이미지 선택 처리
+  const handleImageLibrarySelect = async (selectedImages: ImageLibraryImage[]) => {
+    try {
+      console.log('=== 이미지 라이브러리 선택 시작 ===');
+      console.log('선택된 이미지들:', selectedImages);
+      console.log('현재 폼 이미지 개수:', formData.images.length);
+      console.log('현재 폼 이미지들:', formData.images);
+      console.log('수정 모드 여부:', isEdit);
+      
+      if (!selectedImages || selectedImages.length === 0) {
+        console.log('선택된 이미지가 없습니다.');
+        return;
+      }
+      
+      // 선택된 이미지들을 폼 데이터에 직접 추가
+      const newImages: PackageImage[] = selectedImages.map((image, index) => ({
+        image_url: image.url,
+        display_order: formData.images.length + index + 1,
+        image_type: 'detail' as const
+      }));
+
+      console.log('새로 추가할 이미지들:', newImages);
+
+      // setFormData를 함수형 업데이트로 변경하여 최신 상태 보장
+      setFormData(prev => {
+        console.log('setFormData 호출 - 이전 상태:', prev);
+        const updatedImages = [...prev.images, ...newImages];
+        console.log('업데이트된 이미지 목록:', updatedImages);
+        
+        const newState = {
+          ...prev,
+          images: updatedImages
+        };
+        
+        console.log('새로운 상태:', newState);
+        return newState;
+      });
+      
+      // 상태 업데이트 후 확인을 위한 setTimeout
+      setTimeout(() => {
+        console.log('상태 업데이트 후 확인:', formData.images);
+      }, 100);
+      
+      setIsImageLibraryOpen(false);
+      console.log('=== 이미지 라이브러리 선택 완료 ===');
+    } catch (error) {
+      console.error('이미지 라이브러리에서 이미지 추가 실패:', error);
+      alert('이미지 추가에 실패했습니다.');
+    }
+  };
   
   const [formData, setFormData] = useState<PackageFormData>({
     title: "",
@@ -183,6 +250,8 @@ export default function PilgrimagePackageFormPage({
             processedUrl = `${BASE_URL}${imageUrl}`;
           }
           
+          console.log('기존 이미지 처리:', { original: img, processed: processedUrl });
+          
           return {
             id: img.id,
             image_url: processedUrl,
@@ -190,6 +259,8 @@ export default function PilgrimagePackageFormPage({
             image_type: img.image_type
           };
         });
+
+        console.log('수정 모드 - 로드된 이미지들:', images);
 
         // 가격 처리 - 숫자를 포맷된 문자열로 변환
         const formatPrice = (price: number | string) => {
@@ -250,6 +321,11 @@ export default function PilgrimagePackageFormPage({
 
     fetchPackageData();
   }, [isEdit, packageId]);
+
+  // formData.images 변경 감지
+  useEffect(() => {
+    console.log('formData.images 변경됨:', formData.images);
+  }, [formData.images]);
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({
@@ -407,7 +483,47 @@ export default function PilgrimagePackageFormPage({
         await axios.put(`${BASE_URL}/api/packages/${packageId}`, packageData);
         responsePackageId = packageId;
         
-        // 이미지는 개별 API로 관리 (기존 로직 유지)
+        // 수정 모드에서도 이미지 처리
+        if (formData.images.length > 0) {
+          // 기존 이미지와 새로 추가된 이미지를 구분하여 처리
+          const existingImages = formData.images.filter(img => img.id);
+          const newImages = formData.images.filter(img => !img.id);
+          
+          console.log('수정 모드 - 기존 이미지:', existingImages);
+          console.log('수정 모드 - 새 이미지:', newImages);
+          
+          // 기존 이미지 순서 업데이트
+          if (existingImages.length > 0) {
+            await axios.put(`${BASE_URL}/api/images/order`, {
+              images: existingImages.map(img => ({
+                id: img.id,
+                display_order: img.display_order,
+                image_type: img.image_type
+              }))
+            });
+          }
+          
+          // 새로 추가된 이미지들 처리 (이미지 라이브러리에서 선택한 것들)
+          // 기존 이미지 순서 업데이트
+          if (existingImages.length > 0) {
+            await axios.put(`${BASE_URL}/api/images/order`, {
+              images: existingImages.map(img => ({
+                id: img.id,
+                display_order: img.display_order,
+                image_type: img.image_type
+              }))
+            });
+          }
+          
+          // 새로 추가된 이미지들 처리 (이미지 라이브러리에서 선택한 것들)
+          for (const newImage of newImages) {
+            await axios.post(`${BASE_URL}/api/packages/${packageId}/images`, {
+              image_url: newImage.image_url,
+              display_order: newImage.display_order,
+              image_type: newImage.image_type
+            });
+          }
+        }
         
         alert("상품이 수정되었습니다.");
         setCurrentPage(`package-detail-${packageId}`);
@@ -416,15 +532,29 @@ export default function PilgrimagePackageFormPage({
         const response = await axios.post(`${BASE_URL}/api/packages`, packageData);
         responsePackageId = response.data.id;
 
-        // 임시 이미지들을 상품과 연결
+        // 이미지들을 상품과 연결
         if (formData.images.length > 0) {
-          await axios.put(`${BASE_URL}/api/images/link/${responsePackageId}`, {
-            images: formData.images.map(img => ({
-              id: img.id,
-              display_order: img.display_order,
-              image_type: img.image_type
-            }))
-          });
+          // 기존 이미지들 (직접 업로드한 것들) - package_id 업데이트
+          const existingImages = formData.images.filter(img => img.id);
+          if (existingImages.length > 0) {
+            await axios.put(`${BASE_URL}/api/images/link/${responsePackageId}`, {
+              images: existingImages.map(img => ({
+                id: img.id,
+                display_order: img.display_order,
+                image_type: img.image_type
+              }))
+            });
+          }
+          
+          // 새 이미지들 (이미지 라이브러리에서 선택한 것들) - 개별 추가
+          const newImages = formData.images.filter(img => !img.id);
+          for (const newImage of newImages) {
+            await axios.post(`${BASE_URL}/api/packages/${responsePackageId}/images`, {
+              image_url: newImage.image_url,
+              display_order: newImage.display_order,
+              image_type: newImage.image_type
+            });
+          }
         }
 
         alert("상품이 등록되었습니다.");
@@ -642,30 +772,45 @@ export default function PilgrimagePackageFormPage({
                 <CardDescription>상품을 나타내는 이미지들을 등록하세요 (최대 10개)</CardDescription>
               </CardHeader>
               <CardContent>
+                <div className="flex gap-2 mb-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsImageLibraryOpen(true)}
+                    className="flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    이미지 라이브러리에서 선택
+                  </Button>
+                </div>
                 <ImageUpload
                   images={formData.images}
                   onUpload={async (files) => {
                     try {
-                      const formData = new FormData();
+                      const uploadFormData = new FormData();
                       Array.from(files).forEach(file => {
-                        formData.append('images', file);
+                        uploadFormData.append('images', file);
                       });
-                      formData.append('package_id', (isEdit && packageId) ? packageId : '0');
-                      formData.append('image_type', 'detail');
+                      // 등록 모드에서는 package_id를 전송하지 않음 (null로 처리)
+                      if (isEdit && packageId) {
+                        uploadFormData.append('package_id', packageId.toString());
+                      }
+                      uploadFormData.append('image_type', 'detail');
 
-                      //const response = await axios.post(`${BASE_URL}/api/images`, formData, {
-                      const response = await axios.post(`${BASE_URL}/api/images`, formData, {
+                      //const response = await axios.post(`${BASE_URL}/api/images`, uploadFormData, {
+                      const response = await axios.post(`${BASE_URL}/api/images`, uploadFormData, {
                         headers: {
                           'Content-Type': 'multipart/form-data'
                         }
                       });
 
                       if (response.data.images) {
-                        // 이미지 URL을 절대 경로로 변환
-                        const imagesWithFullUrls = response.data.images.map((img: PackageImage) => ({
+                        // 이미지 URL을 절대 경로로 변환하고 올바른 순서 설정
+                        const currentImageCount = formData.images.length;
+                        const imagesWithFullUrls = response.data.images.map((img: PackageImage, index: number) => ({
                           ...img,
-                          //image_url: `${BASE_URL}${img.image_url}`
-                          image_url: `${BASE_URL}${img.image_url}`
+                          image_url: `${BASE_URL}${img.image_url}`,
+                          display_order: currentImageCount + index + 1 // 기존 이미지 개수 + 새 이미지 순서
                         }));
                         setFormData(prev => ({
                           ...prev,
@@ -1045,6 +1190,28 @@ export default function PilgrimagePackageFormPage({
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* 이미지 라이브러리 모달 */}
+      <ImageLibraryModal
+        isOpen={isImageLibraryOpen}
+        onClose={() => setIsImageLibraryOpen(false)}
+        onSelectImage={(image) => handleImageLibrarySelect([image])}
+        onSelectMultipleImages={handleImageLibrarySelect}
+        selectedImages={formData.images
+          .filter(img => !img.id) // 이미지 라이브러리에서 선택한 이미지들 (id가 없음)
+          .map(img => ({
+            id: 0, // 임시 ID
+            filename: '',
+            original_name: '',
+            url: img.image_url,
+            thumbnail_url: img.image_url,
+            category: '',
+            tags: [],
+            usage_count: 0,
+            created_at: ''
+          }))}
+        multiple={true}
+      />
     </div>
   );
 }

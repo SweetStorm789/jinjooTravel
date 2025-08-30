@@ -48,6 +48,7 @@ import DirectionsPage from "../DirectionsPage";
 import TravelTermsPage from "../TravelTermsPage";
 import AdminLoginPage from "../AdminLoginPage";
 import PrivacyPolicyPage from "../PrivacyPolicyPage";
+import ImageLibraryTestPage from "../ImageLibraryTestPage";
 import { ROUTE_CONFIGS, matchRoute } from "./routeConfigs";
 
 interface PageRouterProps {
@@ -68,6 +69,11 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     // 개인정보처리방침
     if (currentPage === "privacy-policy") {
       return <PrivacyPolicyPage setCurrentPage={setCurrentPage} />;
+    }
+
+    // 이미지 라이브러리 테스트
+    if (currentPage === "image-library-test") {
+      return <ImageLibraryTestPage />;
     }
 
     // 홈페이지는 특별 처리

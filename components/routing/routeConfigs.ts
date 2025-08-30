@@ -49,6 +49,9 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
   { pattern: "admin-login", component: "AdminLogin" },
   { pattern: "privacy-policy", component: "PrivacyPolicy" },
   
+  // 이미지 라이브러리 테스트
+  { pattern: "image-library-test", component: "ImageLibraryTest" },
+  
   // 회사소개
   { pattern: "company", component: "CompanyIntro" },
   
