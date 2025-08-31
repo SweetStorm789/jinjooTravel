@@ -42,8 +42,9 @@ const upload = (0, multer_1.default)({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB
-        files: 10 // 최대 10개 파일
+        fileSize: 100 * 1024 * 1024, // 100MB (더 늘림)
+        files: 10, // 최대 10개 파일
+        fieldSize: 10 * 1024 * 1024 // 필드 크기도 늘림
     }
 });
 exports.default = upload;

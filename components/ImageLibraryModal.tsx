@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
 import { Button } from './ui/button';
 import { X, Check } from 'lucide-react';
 import axios from 'axios';
@@ -36,10 +36,6 @@ export default function ImageLibraryModal({
 }: ImageLibraryModalProps) {
   const [images, setImages] = useState<ImageLibraryImage[]>([]);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [hasNext, setHasNext] = useState(false);
-  const [hasPrev, setHasPrev] = useState(false);
   
   // 다중 선택 모드에서 내부적으로 선택된 이미지들 관리
   const [internalSelectedImages, setInternalSelectedImages] = useState<ImageLibraryImage[]>([]);
@@ -49,8 +45,7 @@ export default function ImageLibraryModal({
     try {
       setLoading(true);
       const params = new URLSearchParams({
-        page: currentPage.toString(),
-        limit: '30' // 더 많은 이미지를 한 번에 로드
+        limit: '1000' // 모든 이미지를 한 번에 로드
       });
 
       const response = await axios.get(`${BASE_URL}/api/image-library?${params}`);
@@ -68,9 +63,6 @@ export default function ImageLibraryModal({
       );
       
       setImages(filteredImages);
-      setTotalPages(data.pagination?.total_pages || 1);
-      setHasNext(data.pagination?.has_next || false);
-      setHasPrev(data.pagination?.has_prev || false);
     } catch (error) {
       console.error('Failed to fetch images:', error);
     } finally {
@@ -84,7 +76,7 @@ export default function ImageLibraryModal({
       // 모달이 열릴 때 내부 선택 상태 초기화
       setInternalSelectedImages([]);
     }
-  }, [isOpen, currentPage]);
+  }, [isOpen]);
 
   const handleImageSelect = (image: ImageLibraryImage) => {
     if (multiple) {
@@ -113,7 +105,7 @@ export default function ImageLibraryModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-7xl max-h-[85vh] overflow-hidden">
+      <DialogContent className="max-w-7xl max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>이미지 라이브러리</span>
@@ -121,22 +113,25 @@ export default function ImageLibraryModal({
               <X className="w-4 h-4" />
             </Button>
           </DialogTitle>
+          <DialogDescription>
+            이미지를 선택하여 사용하세요. {multiple ? '여러 이미지를 선택할 수 있습니다.' : '하나의 이미지를 선택하세요.'}
+          </DialogDescription>
         </DialogHeader>
 
                  <div className="flex flex-col h-full">
            {/* 이미지 그리드 - 탐색기 스타일 */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto min-h-[500px] max-h-[600px]">
   {loading ? (
-    <div className="flex items-center justify-center h-64">
+    <div className="flex items-center justify-center h-96">
       <div className="text-gray-500">로딩 중...</div>
     </div>
   ) : images.length === 0 ? (
-    <div className="flex items-center justify-center h-64">
+    <div className="flex items-center justify-center h-96">
       <div className="text-gray-500">이미지가 없습니다.</div>
     </div>
   ) : (
     // ① 행높이 고정: auto-rows-[140px] (파일명 한 줄 + 썸네일)
-         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-3 p-3">
+         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-4 p-4">
       {images.map((image) => (
         <button
           type="button"
@@ -186,30 +181,7 @@ export default function ImageLibraryModal({
   )}
 </div>
 
-          {/* 페이지네이션 */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-2 mt-4 pt-4 border-t">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={!hasPrev}
-              >
-                이전
-              </Button>
-              <span className="text-sm text-gray-600">
-                {currentPage} / {totalPages}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                disabled={!hasNext}
-              >
-                다음
-              </Button>
-            </div>
-          )}
+
 
           {/* 다중 선택 모드에서 선택된 이미지 표시 */}
           {multiple && internalSelectedImages.length > 0 && (

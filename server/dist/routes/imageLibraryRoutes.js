@@ -8,8 +8,8 @@ const imageLibraryController_1 = require("../controllers/imageLibraryController"
 const router = express_1.default.Router();
 // 이미지 라이브러리 조회 (페이징, 검색, 카테고리 필터 지원)
 router.get('/', imageLibraryController_1.getAllImages);
-// 이미지 카테고리 목록 조회
-router.get('/categories', imageLibraryController_1.getImageCategories);
+// 이미지 업로드 (멀티파트)
+router.post('/upload', imageLibraryController_1.uploadImages);
 // 이미지 라이브러리에 추가
 router.post('/', imageLibraryController_1.addImageToLibrary);
 // 이미지 사용 횟수 증가

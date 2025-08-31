@@ -17,6 +17,47 @@ const database_1 = __importDefault(require("../config/database"));
 const errorHandler_1 = require("../middleware/errorHandler");
 const path_1 = __importDefault(require("path"));
 const promises_1 = __importDefault(require("fs/promises"));
+const sharp_1 = __importDefault(require("sharp"));
+// 이미지 리사이징 함수
+const resizeImage = (inputPath_1, outputPath_1, ...args_1) => __awaiter(void 0, [inputPath_1, outputPath_1, ...args_1], void 0, function* (inputPath, outputPath, maxWidth = 1920, maxHeight = 1080, quality = 80) {
+    try {
+        const image = (0, sharp_1.default)(inputPath);
+        const metadata = yield image.metadata();
+        // 원본 크기
+        const { width, height } = metadata;
+        if (!width || !height) {
+            throw new Error('이미지 크기를 읽을 수 없습니다.');
+        }
+        // 리사이징이 필요한지 확인
+        if (width <= maxWidth && height <= maxHeight) {
+            // 크기가 작으면 그대로 복사하되 품질만 조정하고 회전 처리
+            yield image
+                .rotate() // EXIF 회전 정보에 따라 자동 회전
+                .jpeg({ quality })
+                .png({ quality })
+                .webp({ quality })
+                .toFile(outputPath);
+        }
+        else {
+            // 비율을 유지하면서 리사이징하고 회전 처리
+            yield image
+                .rotate() // EXIF 회전 정보에 따라 자동 회전
+                .resize(maxWidth, maxHeight, {
+                fit: 'inside',
+                withoutEnlargement: true
+            })
+                .jpeg({ quality })
+                .png({ quality })
+                .webp({ quality })
+                .toFile(outputPath);
+        }
+        return true;
+    }
+    catch (error) {
+        console.error('이미지 리사이징 오류:', error);
+        return false;
+    }
+});
 // 이미지 업로드 처리
 const uploadImages = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -32,26 +73,41 @@ const uploadImages = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         try {
             // 각 파일 정보를 데이터베이스에 저장
             const results = yield Promise.all(files.map((file, index) => __awaiter(void 0, void 0, void 0, function* () {
-                const imageUrl = `/uploads/${file.filename}`;
+                // 이미지 리사이징 처리
+                const originalPath = file.path;
+                const resizedFilename = `resized-${file.filename}`;
+                const resizedPath = path_1.default.join(path_1.default.dirname(originalPath), resizedFilename);
+                console.log(`🔄 이미지 리사이징 시작: ${file.originalname}`);
+                // 이미지 리사이징 (최대 1920x1080, 품질 80%)
+                const resizeSuccess = yield resizeImage(originalPath, resizedPath, 1920, 1080, 80);
+                if (!resizeSuccess) {
+                    throw new Error(`이미지 리사이징 실패: ${file.originalname}`);
+                }
+                // 리사이징된 파일 정보 가져오기
+                const resizedStats = yield promises_1.default.stat(resizedPath);
+                console.log(`✅ 리사이징 완료: ${file.originalname} (${file.size} → ${resizedStats.size} bytes)`);
+                // 원본 파일 삭제
+                yield promises_1.default.unlink(originalPath);
+                const imageUrl = `/uploads/${resizedFilename}`;
                 // 1. package_images 테이블에 저장
                 const [result] = yield connection.query('INSERT INTO package_images (package_id, image_url, image_type, display_order) VALUES (?, ?, ?, ?)', [packageId, imageUrl, imageType, index + 1]);
                 // 2. 이미지 라이브러리에 추가 (중복 검증)
-                // 동일한 original_name과 file_size를 가진 이미지가 이미 있는지 확인
-                const [existingImages] = yield connection.query('SELECT id FROM image_library WHERE original_name = ? AND file_size = ?', [file.originalname, file.size]);
+                // 동일한 original_name을 가진 이미지가 이미 있는지 확인
+                const [existingImages] = yield connection.query('SELECT id FROM image_library WHERE original_name = ?', [file.originalname]);
                 if (existingImages.length === 0) {
                     // 중복이 없으면 새로 추가
                     yield connection.query('INSERT INTO image_library (filename, original_name, file_path, file_size, mime_type, category) VALUES (?, ?, ?, ?, ?, ?)', [
-                        file.filename,
+                        resizedFilename,
                         file.originalname,
                         imageUrl,
-                        file.size,
+                        resizedStats.size,
                         file.mimetype,
                         'pilgrimage' // 기본 카테고리
                     ]);
                 }
                 else {
                     // 중복이 있으면 기존 이미지의 usage_count 증가
-                    yield connection.query('UPDATE image_library SET usage_count = usage_count + 1 WHERE original_name = ? AND file_size = ?', [file.originalname, file.size]);
+                    yield connection.query('UPDATE image_library SET usage_count = usage_count + 1 WHERE original_name = ?', [file.originalname]);
                 }
                 return {
                     id: result.insertId,
