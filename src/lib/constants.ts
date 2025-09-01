@@ -23,9 +23,9 @@ export const getBaseUrl = () => {
     return originUrl;
   }
   
-  // 프로덕션에서 window.location이 없는 경우 (SSR 등) 기본값 사용
-  console.log('🔧 Fallback URL: using default production URL');
-  return 'https://jinjootravel.com'; // 실제 도메인으로 변경 필요
+  // 프로덕션에서 window.location이 없는 경우 빈 문자열 반환
+  console.log('🔧 Fallback URL: empty string (will be handled by getSafeBaseUrl)');
+  return '';
 };
 
 // 런타임에 결정되는 BASE_URL (빈 문자열 방지)
@@ -33,7 +33,7 @@ export const BASE_URL = (() => {
   const url = getBaseUrl();
   if (!url || url === '') {
     console.warn('⚠️ BASE_URL is empty, using fallback');
-    return import.meta.env.DEV ? 'http://localhost:5000' : 'https://jinjootravel.com';
+    return import.meta.env.DEV ? 'http://localhost:5000' : '';
   }
   return url;
 })();
@@ -46,5 +46,22 @@ export const getSafeBaseUrl = () => {
   }
   
   // 런타임에 다시 계산
-  return getBaseUrl();
+  const runtimeUrl = getBaseUrl();
+  if (runtimeUrl && runtimeUrl !== '') {
+    return runtimeUrl;
+  }
+  
+  // 마지막 fallback: 개발 환경이면 localhost, 아니면 빈 문자열
+  if (import.meta.env.DEV) {
+    return 'http://localhost:5000';
+  }
+  
+  // 프로덕션에서는 window.location.origin을 강제로 사용
+  if (typeof window !== 'undefined' && window.location && window.location.origin) {
+    return window.location.origin.replace(/\/api$/, '');
+  }
+  
+  // 모든 방법이 실패하면 빈 문자열 반환
+  console.error('❌ Failed to determine BASE_URL');
+  return '';
 };
