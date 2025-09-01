@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL } from '@/lib/constants';
+import { getSafeBaseUrl } from '../src/lib/constants';
 
 interface PilgrimagePackage {
   id: number;
@@ -54,6 +54,8 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   const [totalItems, setTotalItems] = useState(0);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrev, setHasPrev] = useState(false);
+  
+  const baseUrl = getSafeBaseUrl();
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -74,7 +76,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           params.append('search', searchTerm.trim());
         }
 
-        const response = await axios.get(`${BASE_URL}/api/packages?${params}`);
+        const response = await axios.get(`${baseUrl}/api/packages?${params}`);
         
         const responseData = response.data;
         // 응답 데이터 구조 확인 및 안전한 처리
@@ -348,7 +350,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                 <div className="relative">
                   <div className="aspect-[16/10] overflow-hidden">
                     <ImageWithFallback
-                      src={pkg.image_url ? `${BASE_URL}${pkg.image_url}` : '/placeholder-image.jpg'}
+                      src={pkg.image_url ? `${baseUrl}${pkg.image_url}` : '/placeholder-image.jpg'}
                       alt={pkg.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

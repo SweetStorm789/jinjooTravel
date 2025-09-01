@@ -5,7 +5,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { MapPin, Calendar, Users, Star, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL } from '@/lib/constants'; // 또는 상대경로로 import
+import { getSafeBaseUrl } from '../src/lib/constants';
 
 interface FeaturedPackage {
   id: number;
@@ -32,17 +32,18 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
   useEffect(() => {
     const fetchFeaturedPackages = async () => {
       try {
-        console.log('🔍 Fetching featured packages from:', `${BASE_URL}/api/packages`);
-        console.log('🔍 BASE_URL value:', BASE_URL);
+        const baseUrl = getSafeBaseUrl();
+        console.log('🔍 Fetching featured packages from:', `${baseUrl}/api/packages`);
+        console.log('🔍 BASE_URL value:', baseUrl);
         
         // BASE_URL이 비어있거나 유효하지 않은 경우 처리
-        if (!BASE_URL || BASE_URL === '') {
+        if (!baseUrl || baseUrl === '') {
           console.error('❌ BASE_URL is empty or invalid');
           setPackages([]);
           return;
         }
         
-        const response = await axios.get(`${BASE_URL}/api/packages`);
+        const response = await axios.get(`${baseUrl}/api/packages`);
         console.log('📦 Full API Response:', response);
         console.log('📦 Response data type:', typeof response.data);
         console.log('📦 Response data:', response.data);
@@ -100,7 +101,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
               region: pkg.region,
               duration: pkg.duration,
               price: pkg.price,
-              image_url: imageUrl ? `${BASE_URL}/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
+              image_url: imageUrl ? `${baseUrl}/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
               status: pkg.status,
               max_people: pkg.max_people,
               rating: 4.8, // 임시 평점
