@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageRouter from "../components/routing/PageRouter";
-import { isAdminLoggedIn, verifyAdminToken, adminLogout } from "../utils/adminAuth";
+import { isAdminLoggedIn, verifyAdminToken, adminLogout, getAdminToken } from "../utils/adminAuth";
 import { 
   getPageFromURL, 
   pushPageToHistory, 
@@ -54,11 +54,18 @@ export default function App() {
   // Admin 토큰 검증
   useEffect(() => {
     const checkAdminStatus = async () => {
-      if (isAdminLoggedIn()) {
+      // 토큰이 있을 때만 검증 시도
+      const token = getAdminToken();
+      if (token) {
         const isValid = await verifyAdminToken();
         if (!isValid) {
           setIsAdmin(false);
+          // 유효하지 않은 토큰 제거
+          adminLogout();
         }
+      } else {
+        // 토큰이 없으면 관리자 상태 해제
+        setIsAdmin(false);
       }
     };
 

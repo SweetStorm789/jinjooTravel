@@ -157,6 +157,7 @@ const verifyAdminToken = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
         if (!token) {
+            console.log('🔍 Admin token verification: No token provided');
             return res.status(401).json({
                 success: false,
                 message: '인증 토큰이 필요합니다.'
@@ -166,18 +167,20 @@ const verifyAdminToken = (req, res) => __awaiter(void 0, void 0, void 0, functio
         // DB에서 admin 사용자 확인
         const [rows] = yield database_1.default.query('SELECT id, username, full_name, role FROM admin_users WHERE id = ? AND is_active = true', [decoded.id]);
         if (rows.length === 0) {
+            console.log('🔍 Admin token verification: User not found or inactive');
             return res.status(401).json({
                 success: false,
                 message: '유효하지 않은 토큰입니다.'
             });
         }
+        console.log('✅ Admin token verification: Success for user:', rows[0].username);
         res.json({
             success: true,
             admin: rows[0]
         });
     }
     catch (error) {
-        console.error('Token verification error:', error);
+        console.log('🔍 Admin token verification: Invalid token format');
         res.status(401).json({
             success: false,
             message: '유효하지 않은 토큰입니다.'

@@ -77,7 +77,16 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
         const response = await axios.get(`${BASE_URL}/api/packages?${params}`);
         
         const responseData = response.data;
-        const packagesData = responseData.packages || responseData; // 기존 API 호환성 유지
+        // 응답 데이터 구조 확인 및 안전한 처리
+        let packagesData;
+        if (responseData && Array.isArray(responseData.packages)) {
+          packagesData = responseData.packages;
+        } else if (Array.isArray(responseData)) {
+          packagesData = responseData;
+        } else {
+          console.warn('Unexpected API response structure:', responseData);
+          packagesData = [];
+        }
         
         const featuredPackages = packagesData
         .map((pkg: any) => {

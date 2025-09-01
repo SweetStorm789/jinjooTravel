@@ -175,6 +175,7 @@ export const verifyAdminToken = async (req: Request, res: Response) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
+      console.log('🔍 Admin token verification: No token provided');
       return res.status(401).json({ 
         success: false, 
         message: '인증 토큰이 필요합니다.' 
@@ -190,19 +191,21 @@ export const verifyAdminToken = async (req: Request, res: Response) => {
     ) as [any[], any];
 
     if (rows.length === 0) {
+      console.log('🔍 Admin token verification: User not found or inactive');
       return res.status(401).json({ 
         success: false, 
         message: '유효하지 않은 토큰입니다.' 
       });
     }
 
+    console.log('✅ Admin token verification: Success for user:', rows[0].username);
     res.json({
       success: true,
       admin: rows[0]
     });
 
   } catch (error) {
-    console.error('Token verification error:', error);
+    console.log('🔍 Admin token verification: Invalid token format');
     res.status(401).json({ 
       success: false, 
       message: '유효하지 않은 토큰입니다.' 

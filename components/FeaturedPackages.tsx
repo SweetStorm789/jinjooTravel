@@ -32,9 +32,56 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
   useEffect(() => {
     const fetchFeaturedPackages = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/packages`);
+        console.log('🔍 Fetching featured packages from:', `${BASE_URL}/api/packages`);
+        console.log('🔍 BASE_URL value:', BASE_URL);
         
-        const publishedPackages = response.data.filter((pkg: any) => pkg.status === 'published');
+        // BASE_URL이 비어있거나 유효하지 않은 경우 처리
+        if (!BASE_URL || BASE_URL === '') {
+          console.error('❌ BASE_URL is empty or invalid');
+          setPackages([]);
+          return;
+        }
+        
+        const response = await axios.get(`${BASE_URL}/api/packages`);
+        console.log('📦 Full API Response:', response);
+        console.log('📦 Response data type:', typeof response.data);
+        console.log('📦 Response data:', response.data);
+        console.log('📦 Response data keys:', Object.keys(response.data || {}));
+        
+        // 응답 데이터 구조 확인 및 안전한 처리
+        let packagesData;
+        if (response.data && Array.isArray(response.data.packages)) {
+          packagesData = response.data.packages;
+          console.log('✅ Using response.data.packages');
+        } else if (Array.isArray(response.data)) {
+          packagesData = response.data;
+          console.log('✅ Using response.data directly');
+        } else {
+          console.warn('⚠️ Unexpected API response structure:', response.data);
+          console.warn('⚠️ Response data is not an array or does not have packages property');
+          packagesData = [];
+        }
+        
+        console.log('📋 Packages data:', packagesData);
+        console.log('📋 Packages data type:', typeof packagesData);
+        console.log('📋 Is packagesData array?', Array.isArray(packagesData));
+        
+        if (!Array.isArray(packagesData)) {
+          console.error('❌ packagesData is not an array, cannot use filter');
+          console.log('🔄 Using fallback dummy data');
+          setPackages([]);
+          return;
+        }
+        
+        const publishedPackages = packagesData.filter((pkg: any) => pkg.status === 'published');
+        console.log('✅ Published packages:', publishedPackages);
+        
+        // published 패키지가 없으면 빈 배열 설정
+        if (publishedPackages.length === 0) {
+          console.log('🔄 No published packages found, setting empty array');
+          setPackages([]);
+          return;
+        }
         
         const featuredPackages = publishedPackages.slice(0, 3)
           .map((pkg: any) => {
@@ -60,9 +107,22 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
               reviews: Math.floor(Math.random() * 300) + 100 // 임시 리뷰 수
             };
           });
+        console.log('🎯 Featured packages:', featuredPackages);
         setPackages(featuredPackages);
-      } catch (error) {
-        console.error('Failed to fetch featured packages:', error);
+      } catch (error: any) {
+        console.error('❌ Failed to fetch featured packages:', error);
+        console.error('❌ Error details:', {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          config: error.config
+        });
+        
+        // 네트워크 에러나 서버 연결 실패 시 빈 배열 설정
+        if (error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
+          console.log('🔄 Network error, setting empty array');
+        }
+        
         // 에러 시 빈 배열 설정
         setPackages([]);
       } finally {
