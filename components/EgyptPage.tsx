@@ -439,7 +439,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                   주요 성지
                 </h2>
                 <p className="text-muted-foreground">
-                  성경과 기독교 역사에서 중요한 이집트의 주요 성지들을 소개합니다.
+                  성경과 가톨릭 역사에서 중요한 이집트의 주요 성지들을 소개합니다.
                 </p>
               </div>
 
@@ -548,7 +548,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           성녀 카타리나 수도원은 6세기에 건립되어 현재까지 
                           지속적으로 운영되고 있는 세계에서 가장 오래된 
-                          기독교 수도원 중 하나입니다. 수도원 내에는 
+                          가톨릭 수도원 중 하나입니다. 수도원 내에는 
                           모세의 불타는 떨기나무로 여겨지는 나무가 있습니다.
                         </p>
                       </div>

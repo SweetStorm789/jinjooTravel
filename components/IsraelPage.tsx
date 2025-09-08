@@ -117,7 +117,7 @@ export default function IsraelPage({
     { label: "공용어", value: "히브리어, 아랍어" },
     {
       label: "종교",
-      value: "유대교 75.4%, 이슬람 17.2%, 기독교 2.0%",
+      value: "유대교 75.4%, 이슬람 17.2%, 가톨릭 2.0%",
     },
     { label: "화폐", value: "셰켈 (ILS)" },
     { label: "국제전화", value: "+972" },
@@ -208,7 +208,7 @@ export default function IsraelPage({
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
                   예수님이 태어나고 활동하신 약속의 땅,
-                  유대교·기독교·이슬람교 3대 종교의 성지
+                  유대교·가톨릭·이슬람교 3대 종교의 성지
                 </p>
               </div>
             </div>

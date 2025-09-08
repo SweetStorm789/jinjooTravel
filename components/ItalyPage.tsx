@@ -120,7 +120,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
     {
       name: "로마",
       englishName: "Roma",
-      description: "영원한 도시, 사도 베드로와 바울의 순교지",
+      description: "영원한 도시, 사도 베드로와 바오로의 순교지",
       page: "rome",
       color: "from-red-100 to-red-200",
       iconColor: "text-red-700",
@@ -186,12 +186,12 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
     {
       title: "로마 제국",
       period: "기원전 27년 - 서기 476년",
-      description: "세계 최대 제국으로 발전하여 기독교 전파의 중심 역할을 했습니다."
+      description: "세계 최대 제국으로 발전하여 가톨릭 전파의 중심 역할을 했습니다."
     },
     {
-      title: "기독교 공인",
+      title: "가톨릭 공인",
       period: "313년",
-      description: "콘스탄티누스 황제의 밀라노 칙령으로 기독교가 공인되었습니다."
+      description: "콘스탄티누스 황제의 밀라노 칙령으로 가톨릭이 공인되었습니다."
     },
     {
       title: "교황청 설립",
@@ -446,13 +446,13 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
               </div>
             </section>
 
-            {/* 이탈리아의 기독교 역사 */}
+            {/* 이탈리아의 가톨릭 역사 */}
             <section>
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Cross className="h-5 w-5" />
-                    <span>이탈리아의 기독교 역사</span>
+                    <span>이탈리아의 가톨릭 역사</span>
                   </CardTitle>
                   <CardDescription>로마 제국에서 가톨릭교회의 중심지까지</CardDescription>
                 </CardHeader>

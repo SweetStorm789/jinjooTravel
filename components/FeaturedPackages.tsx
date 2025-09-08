@@ -33,39 +33,25 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
     const fetchFeaturedPackages = async () => {
       try {
         const baseUrl = getSafeBaseUrl();
-        console.log('🔍 Fetching featured packages from:', `${baseUrl}/api/packages`);
-        console.log('🔍 BASE_URL value:', baseUrl);
         
         // BASE_URL이 비어있거나 유효하지 않은 경우 처리
         if (!baseUrl || baseUrl === '') {
-          console.error('❌ BASE_URL is empty or invalid');
           setPackages([]);
           return;
         }
         
         const response = await axios.get(`${baseUrl}/api/packages`);
-        console.log('📦 Full API Response:', response);
-        console.log('📦 Response data type:', typeof response.data);
-        console.log('📦 Response data:', response.data);
-        console.log('📦 Response data keys:', Object.keys(response.data || {}));
-        
+
         // 응답 데이터 구조 확인 및 안전한 처리
         let packagesData;
         if (response.data && Array.isArray(response.data.packages)) {
           packagesData = response.data.packages;
-          console.log('✅ Using response.data.packages');
         } else if (Array.isArray(response.data)) {
           packagesData = response.data;
-          console.log('✅ Using response.data directly');
         } else {
-          console.warn('⚠️ Unexpected API response structure:', response.data);
           console.warn('⚠️ Response data is not an array or does not have packages property');
           packagesData = [];
         }
-        
-        console.log('📋 Packages data:', packagesData);
-        console.log('📋 Packages data type:', typeof packagesData);
-        console.log('📋 Is packagesData array?', Array.isArray(packagesData));
         
         if (!Array.isArray(packagesData)) {
           console.error('❌ packagesData is not an array, cannot use filter');
@@ -75,7 +61,6 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
         }
         
         const publishedPackages = packagesData.filter((pkg: any) => pkg.status === 'published');
-        console.log('✅ Published packages:', publishedPackages);
         
         // published 패키지가 없으면 빈 배열 설정
         if (publishedPackages.length === 0) {
@@ -84,7 +69,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
           return;
         }
         
-        const featuredPackages = publishedPackages.slice(0, 3)
+        const featuredPackages = publishedPackages.slice(0, 6)
           .map((pkg: any) => {
             
             // 메인 이미지 찾기
@@ -108,10 +93,8 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
               reviews: Math.floor(Math.random() * 300) + 100 // 임시 리뷰 수
             };
           });
-        console.log('🎯 Featured packages:', featuredPackages);
         setPackages(featuredPackages);
       } catch (error: any) {
-        console.error('❌ Failed to fetch featured packages:', error);
         console.error('❌ Error details:', {
           message: error.message,
           response: error.response?.data,
@@ -157,48 +140,6 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
       </section>
     );
   }
-
-  const dummyPackages = [
-    {
-      id: 1,
-      title: "이스라엘/팔레스타인 성지순례",
-      subtitle: "예수님 발자취를 따라가는",
-      location: "예루살렘, 베들레헴, 나사렛",
-      duration: "7박 8일",
-      price: "2,890,000",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=800&auto=format&fit=crop",
-      tag: "인기",
-      participants: "최대 30명",
-      rating: 4.9,
-      reviews: 324
-    },
-    {
-      id: 2,
-      title: "그리스/터키 성지순례",
-      subtitle: "사도 바울의 전도여행길",
-      location: "아테네, 고린도, 에베소",
-      duration: "8박 9일",
-      price: "3,290,000",
-      image: "https://images.unsplash.com/photo-1555993539-1732b0258235?q=80&w=800&auto=format&fit=crop",
-      tag: "추천",
-      participants: "최대 25명",
-      rating: 4.8,
-      reviews: 267
-    },
-    {
-      id: 3,
-      title: "이탈리아 가톨릭 성지순례",
-      subtitle: "바티칸과 로마",
-      location: "로마, 바티칸, 아시시",
-      duration: "6박 7일",
-      price: "2,590,000",
-      image: "https://images.unsplash.com/photo-1590588151092-b61cb656eb65?q=80&w=800&auto=format&fit=crop",
-      tag: "특가",
-      participants: "최대 35명",
-      rating: 4.7,
-      reviews: 189
-    }
-  ];
 
   return (
     <section className="py-24 bg-white">
@@ -270,9 +211,9 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
                       <div className="text-2xl font-bold text-gray-900">
                         {(pkg.price / 10000).toFixed(0)}만원
                       </div>
-                      <div className="text-sm text-gray-500">
+                      {/* <div className="text-sm text-gray-500">
                         {pkg.reviews}개 후기
-                      </div>
+                      </div> */}
                     </div>
                     <Button className="bg-gray-900 hover:bg-gray-800 text-white group-hover:scale-105 transition-transform">
                       상세보기

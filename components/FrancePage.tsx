@@ -158,19 +158,19 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
 
   const historicalInfo = [
     {
-      title: "갈리아 시대와 기독교 전래",
+      title: "갈리아 시대와 가톨릭 전래",
       period: "1-5세기",
-      description: "로마의 갈리아 지역에 기독교가 전래되어 리용, 투르 등에서 초기 교회가 발전했습니다."
+      description: "로마의 갈리아 지역에 가톨릭이 전래되어 리용, 투르 등에서 초기 교회가 발전했습니다."
     },
     {
-      title: "프랑크 왕국과 기독교화",
+      title: "프랑크 왕국과 가톨릭화",
       period: "5-9세기",
-      description: "클로비스 왕의 개종으로 프랑크족이 기독교화되었고, 샤를마뉴 대제 시대에 교회와 국가가 밀접해졌습니다."
+      description: "클로비스 왕의 개종으로 프랑크족이 가톨릭화되었고, 샤를마뉴 대제 시대에 교회와 국가가 밀접해졌습니다."
     },
     {
       title: "아비뇽 교황청 시대",
       period: "1309-1377년",
-      description: "교황청이 아비뇽에 머물렀던 시대로, 프랑스가 서방 기독교 세계의 중심 역할을 했습니다."
+      description: "교황청이 아비뇽에 머물렀던 시대로, 프랑스가 서방 가톨릭 세계의 중심 역할을 했습니다."
     },
     {
       title: "성모 발현과 현대 순례",
@@ -193,7 +193,7 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
     {
       name: "성 루이 9세",
       period: "1214-1270",
-      description: "프랑스 왕이자 십자군 원정을 이끈 성왕으로, 정의와 자비로 통치한 모범적인 기독교 군주입니다."
+      description: "프랑스 왕이자 십자군 원정을 이끈 성왕으로, 정의와 자비로 통치한 모범적인 가톨릭 군주입니다."
     }
   ];
 
@@ -497,13 +497,13 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
               </Card>
             </section>
 
-            {/* 프랑스의 기독교 역사 */}
+            {/* 프랑스의 가톨릭 역사 */}
             <section>
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Cross className="h-5 w-5" />
-                    <span>프랑스의 기독교 역사</span>
+                    <span>프랑스의 가톨릭 역사</span>
                   </CardTitle>
                   <CardDescription>갈리아 시대부터 현대까지</CardDescription>
                 </CardHeader>

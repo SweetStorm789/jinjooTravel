@@ -172,8 +172,7 @@ export default function GreecePage({
                   그리스 공화국
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
-                  사도 바울의 발자취와 요한묵시록이 기록된 땅,
-                  기독교 초기 교회의 중요한 무대
+                사도 바오로의 발자취와 요한 묵시록이 기록된 땅, 가톨릭 초대 교회의 중요한 무대
                 </p>
               </div>
             </div>
@@ -376,7 +375,7 @@ export default function GreecePage({
               </div>
             </section>
 
-            {/* 아테네 - 바울의 설교 */}
+            {/* 아테네 - 바오로의 설교 */}
             <section>
               <Card className="overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4">
@@ -390,7 +389,7 @@ export default function GreecePage({
                           아테네 아레오파고 
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          바울의 유명한 설교 장소
+                          바오로로의 유명한 설교 장소
                         </p>
                       </div>
                     </div>
@@ -430,9 +429,9 @@ export default function GreecePage({
                       <div className="space-y-3">
                         <p className="leading-relaxed">
                         아레오파고는 아테네 아크로폴리스 서쪽에 위치한 바위 언덕으로, 고대에는 최고 법정을 겸한 회의 장소였다.
-                        사도 바울은 아테네를 방문했을 때, 도시 곳곳에 세워진 수많은 우상들을 보고 마음이 격분하여 회당과 광장에서 유다인들과 시민들을 상대로 하느님을 전했다. 그러던 중 에피쿠로스와 스토아 철학자들에 의해 아레오파고로 불려가게 된다.
+                        사도 바오로은 아테네를 방문했을 때, 도시 곳곳에 세워진 수많은 우상들을 보고 마음이 격분하여 회당과 광장에서 유다인들과 시민들을 상대로 하느님을 전했다. 그러던 중 에피쿠로스와 스토아 철학자들에 의해 아레오파고로 불려가게 된다.
 
-                        이 자리에서 바울은 아테네 시민들에게 이렇게 말한다:
+                        이 자리에서 바오로은 아테네 시민들에게 이렇게 말한다:
                         </p>
 
                         <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
@@ -453,8 +452,8 @@ export default function GreecePage({
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                        사도 바울은 이 자리에서 하느님은 세상의 창조주시며, 사람의 손을 통해 섬김을 받는 분이 아니고, 모든 사람을 회개로 부르며 예수 그리스도의 부활을 통해 구원의 길을 여셨다고 선포했다.
-                        이 설교는 복음이 헬레니즘 문화권에 본격적으로 전해지는 중요한 전환점이 되었으며, 기독교 선교사적 관점에서 매우 상징적인 장소로 여겨진다.
+                        사도 바오로은 이 자리에서 하느님은 세상의 창조주시며, 사람의 손을 통해 섬김을 받는 분이 아니고, 모든 사람을 회개로 부르며 예수 그리스도의 부활을 통해 구원의 길을 여셨다고 선포했다.
+                        이 설교는 복음이 헬레니즘 문화권에 본격적으로 전해지는 중요한 전환점이 되었으며, 가톨릭 선교사적 관점에서 매우 상징적인 장소로 여겨진다.
                         </p>
                       </div>
 
@@ -502,7 +501,7 @@ export default function GreecePage({
                     요한 묵시록이 기록된 성지
                     </p>
                     <p>파트모스는 사도 요한이 로마 황제 도미티아누스에 의해 유배된 섬으로, 전승에 따르면 이곳에서 요한 묵시록을 기록한 것으로 전해진다.
-                    에게 해의 작은 섬이지만, 하느님의 계시가 내려진 장소로서 기독교 역사에서 매우 중요한 의미를 지닌 성지다.
+                    에게 해의 작은 섬이지만, 하느님의 계시가 내려진 장소로서 가톨릭 역사에서 매우 중요한 의미를 지닌 성지다.
                     </p>
 
                     <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">

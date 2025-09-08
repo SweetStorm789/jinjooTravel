@@ -118,7 +118,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
       name: "아야 소피아",
       subtitle: "비잔틴 제국의 성당에서 오스만 제국의 모스크로",
       description:
-        "콘스탄티노플의 대성당으로 건설되어 1453년 오스만 제국의 정복 후 모스크로 전환된 역사적 건물입니다. 기독교와 이슬람교의 만남을 보여주는 상징적인 건축물입니다.",
+        "콘스탄티노플의 대성당으로 건설되어 1453년 오스만 제국의 정복 후 모스크로 전환된 역사적 건물입니다. 가톨릭과 이슬람교의 만남을 보여주는 상징적인 건축물입니다.",
       icon: Crown,
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
@@ -136,7 +136,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
       name: "지하 궁전",
       subtitle: "예레바탄 사라이",
       description:
-        "비잔틴 시대에 건설된 지하 저수조로, 기독교 시대의 뛰어난 건축 기술을 보여줍니다. 336개의 기둥이 받치고 있는 신비로운 지하 공간입니다.",
+        "비잔틴 시대에 건설된 지하 저수조로, 가톨릭 시대의 뛰어난 건축 기술을 보여줍니다. 336개의 기둥이 받치고 있는 신비로운 지하 공간입니다.",
       icon: Building,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
@@ -156,22 +156,22 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
     {
       title: "비잔틴 제국의 수도",
       period: "330년 - 1453년",
-      description: "콘스탄티노플(현 이스탄불)은 동로마 제국의 수도로서 기독교 문화의 중심지였습니다."
+      description: "콘스탄티노플(현 이스탄불)은 동로마 제국의 수도로서 가톨릭 문화의 중심지였습니다."
     },
     {
-      title: "사도 바울의 선교 여행",
+      title: "사도 바오로의 선교 여행",
       period: "1세기",
-      description: "사도 바울이 소아시아 지역에서 활발한 선교 활동을 펼쳤으며, 에페소교회 등을 설립했습니다."
+      description: "사도 바오로이 소아시아 지역에서 활발한 선교 활동을 펼쳤으며, 에페소교회 등을 설립했습니다."
     },
     {
       title: "초대교회 공의회",
       period: "325년, 381년",
-      description: "니케아 공의회와 콘스탄티노플 공의회가 열려 기독교 교리의 기초가 확립되었습니다."
+      description: "니케아 공의회와 콘스탄티노플 공의회가 열려 가톨릭 교리의 기초가 확립되었습니다."
     },
     {
       title: "오스만 제국 시대",
       period: "1299년 - 1922년",
-      description: "이슬람 제국으로 발전하며 기독교 유적들이 이슬람 건축물로 변환되거나 공존하게 되었습니다."
+      description: "이슬람 제국으로 발전하며 가톨릭 유적들이 이슬람 건축물로 변환되거나 공존하게 되었습니다."
     }
   ];
 
@@ -191,14 +191,14 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                   <span>유럽과 아시아 교차점</span>
                 </Badge>
                 <Badge variant="outline">성지순례</Badge>
-                <Badge variant="outline">사도 바울 선교지</Badge>
+                <Badge variant="outline">사도 바오로 선교지</Badge>
               </div>
               <div>
                 <h1 className="text-4xl font-medium text-foreground mb-2">
                   튀르키예 공화국
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
-                  사도 바울의 선교 여행지이자 초대교회의 요람, 비잔틴과 오스만의 만남
+                  사도 바오로의 선교 여행지이자 초대교회의 요람, 비잔틴과 오스만의 만남
                 </p>
               </div>
             </div>
@@ -320,7 +320,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                   주요 성지
                 </h2>
                 <p className="text-muted-foreground">
-                  사도 바울의 선교 여행지와 초대교회 유적이 있는 튀르키예의 주요 성지들을 소개합니다.
+                  사도 바오로의 선교 여행지와 초대교회 유적이 있는 튀르키예의 주요 성지들을 소개합니다.
                 </p>
               </div>
 
@@ -409,7 +409,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                       <div className="space-y-3">
                         <p className="leading-relaxed">
                           이스탄불은 비잔틴 제국의 수도 콘스탄티노플로 시작하여 
-                          1천년 이상 기독교 세계의 중심지였습니다. 
+                          1천년 이상 가톨릭 세계의 중심지였습니다. 
                           330년 콘스탄티누스 황제에 의해 건설된 이 도시는 
                           동방정교회의 중심지로 발전했으며, 1453년 오스만 제국의 정복 이후 
                           이슬람 문화의 중심지가 되었습니다.
@@ -421,7 +421,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                             <blockquote className="text-amber-800 italic">
                               "이스탄불은 하나의 도시가 아니라 하나의 세계이다. 
                               여기서 동양과 서양, 과거와 현재, 
-                              기독교와 이슬람이 만난다."
+                              가톨릭과 이슬람이 만난다."
                             </blockquote>
                           </div>
                         </div>
@@ -429,7 +429,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           현재의 이스탄불에는 아야 소피아, 블루 모스크, 
                           톱카프 궁전 등 비잔틴과 오스만 시대의 유산이 
-                          공존하며, 기독교와 이슬람교의 만남을 보여주는 
+                          공존하며, 가톨릭과 이슬람교의 만남을 보여주는 
                           독특한 문화적 풍경을 제공합니다.
                         </p>
                       </div>
@@ -459,7 +459,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                       </div>
                       <div>
                         <h3 className="font-medium">
-                          카파도키아 - 초기 기독교의 피난처
+                          카파도키아 - 초기 가톨릭의 피난처
                         </h3>
                         <p className="text-sm text-muted-foreground">
                           지하 도시와 바위 교회
@@ -476,9 +476,9 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                   <div className="space-y-4">
                     <p className="leading-relaxed">
                       카파도키아는 독특한 바위 지형으로 유명한 지역으로, 
-                      초기 기독교인들이 로마의 박해를 피해 은신했던 곳입니다. 
+                      초기 가톨릭 신자들이 로마의 박해를 피해 은신했던 곳입니다. 
                       지하 도시들과 바위를 깎아 만든 교회들이 수백 개 발견되어 
-                      초기 기독교 역사의 중요한 증거가 되고 있습니다.
+                      초기 가톨릭 역사의 중요한 증거가 되고 있습니다.
                     </p>
 
                     <div className="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
@@ -490,7 +490,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                             <li>• 지하 8층까지 내려가는 데린쿠유 지하도시</li>
                             <li>• 괴뢰메 야외 박물관의 바위 교회들</li>
                             <li>• 4-11세기 비잔틴 시대의 프레스코화</li>
-                            <li>• 초기 기독교 수도원 공동체의 흔적</li>
+                            <li>• 초기 가톨릭 수도원 공동체의 흔적</li>
                           </ul>
                         </div>
                       </div>
@@ -500,15 +500,15 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
               </Card>
             </section>
 
-            {/* 튀르키예의 기독교 역사 */}
+            {/* 튀르키예의 가톨릭 역사 */}
             <section>
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Cross className="h-5 w-5" />
-                    <span>튀르키예의 기독교 역사</span>
+                    <span>튀르키예의 가톨릭 역사</span>
                   </CardTitle>
-                  <CardDescription>사도 바울의 선교지에서 비잔틴 제국까지</CardDescription>
+                  <CardDescription>사도 바오로의 선교지에서 비잔틴 제국까지</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {historicalInfo.map((info, index) => (
@@ -530,10 +530,10 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                       <Info className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-red-800 leading-relaxed">
-                          튀르키예는 사도 바울의 선교 여행지로서 초대교회 형성에 중요한 역할을 했으며, 
-                          비잔틴 제국 시대에는 동방 기독교의 중심지였습니다. 
-                          현재도 에페소의 성모 마리아의 집을 비롯해 많은 기독교 유적이 
-                          잘 보존되어 있어 전 세계 기독교도들의 순례지가 되고 있습니다.
+                          튀르키예는 사도 바오로의 선교 여행지로서 초대교회 형성에 중요한 역할을 했으며, 
+                          비잔틴 제국 시대에는 동방 가톨릭의 중심지였습니다. 
+                          현재도 에페소의 성모 마리아의 집을 비롯해 많은 가톨릭 유적이 
+                          잘 보존되어 있어 전 세계 가톨릭 신자들의 순례지가 되고 있습니다.
                         </p>
                       </div>
                     </div>

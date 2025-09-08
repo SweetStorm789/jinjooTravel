@@ -88,10 +88,10 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     },
     {
       icon: Church,
-      title: "기독교 전래",
+      title: "가톨릭 전래",
       value: "서기 27년",
       unit: "",
-      description: "사도 베드로와 바울에 의해 전파",
+      description: "사도 베드로와 바오로에 의해 전파",
       color: "text-orange-600",
     },
   ];
@@ -108,7 +108,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     { label: "종교", value: "가톨릭 85%, 기타 15%" },
     { label: "언어", value: "이탈리아어" },
     { label: "화폐단위", value: "유로 (EUR)" },
-    { label: "기독교 전래", value: "서기 27년경 (사도 베드로와 바울)" },
+    { label: "가톨릭 전래", value: "서기 27년경 (사도 베드로와 바오로)" },
   ];
 
   const majorBasilicas = [
@@ -116,7 +116,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
       name: "성 요한 라테라노 대성당",
       subtitle: "로마 교구의 주교좌 성당",
       description:
-        "교황의 주교좌 성당으로 '모든 성당의 어머니(Mater et Caput)'라 불립니다. 콘스탄티누스 황제가 313년에 건립한 이 성당은 로마에서 가장 오래된 기독교 성당 중 하나입니다.",
+        "교황의 주교좌 성당으로 '모든 성당의 어머니(Mater et Caput)'라 불립니다. 콘스탄티누스 황제가 313년에 건립한 이 성당은 로마에서 가장 오래된 가톨릭 성당 중 하나입니다.",
       icon: Crown,
       color: "from-yellow-100 to-amber-200",
       iconColor: "text-yellow-700",
@@ -132,9 +132,9 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     },
     {
       name: "성 바오로 대성당",
-      subtitle: "사도 바울의 순교지에 세워진 성당",
+      subtitle: "사도 바오로의 순교지에 세워진 성당",
       description:
-        "사도 바울이 순교한 자리에 건립된 성당으로, 바울의 무덤이 있습니다. 현재의 건물은 19세기에 재건된 것이지만, 고대의 웅장함을 그대로 재현하고 있습니다.",
+        "사도 바오로이 순교한 자리에 건립된 성당으로, 바오로의 무덤이 있습니다. 현재의 건물은 19세기에 재건된 것이지만, 고대의 웅장함을 그대로 재현하고 있습니다.",
       icon: Cross,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
@@ -157,14 +157,14 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
       description: "아우구스투스 황제부터 서로마 제국 멸망까지 약 500년간 로마 제국의 중심지였습니다."
     },
     {
-      title: "기독교 전래와 발전",
+      title: "가톨릭 전래와 발전",
       period: "서기 27년 - 313년",
-      description: "사도 베드로와 바울에 의해 기독교가 전래되었고, 콘스탄티누스 황제의 기독교 공인까지 박해와 순교의 시대를 거쳤습니다."
+      description: "사도 베드로와 바오로에 의해 가톨릭이 전래되었고, 콘스탄티누스 황제의 가톨릭 공인까지 박해와 순교의 시대를 거쳤습니다."
     },
     {
       title: "교황청의 중심지",
       period: "4세기 - 현재",
-      description: "콘스탄티누스 황제의 기독교 공인 이후 가톨릭교회의 중심지로 발전하여 현재까지 교황청의 소재지입니다."
+      description: "콘스탄티누스 황제의 가톨릭 공인 이후 가톨릭교회의 중심지로 발전하여 현재까지 교황청의 소재지입니다."
     }
   ];
 
@@ -191,7 +191,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                   로마
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
-                  영원한 도시, 가톨릭교회의 중심지이자 사도 베드로와 바울의 순교지
+                  영원한 도시, 가톨릭교회의 중심지이자 사도 베드로와 바오로의 순교지
                 </p>
               </div>
             </div>
@@ -366,7 +366,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                           콜로세움 - 순교자들의 기억
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          초기 기독교인들의 순교 현장
+                          초기 가톨릭 신자들의 순교 현장
                         </p>
                       </div>
                     </div>
@@ -401,9 +401,9 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          기원후 146년에 기독교가 27년에 걸쳐 전해진 로마에서, 
-                          콜로세움은 초기 기독교인들이 박해받고 순교한 상징적인 장소입니다. 
-                          검투사의 오락을 위한 경기장이었지만, 수많은 기독교인들이 
+                          기원후 146년에 가톨릭이 27년에 걸쳐 전해진 로마에서, 
+                          콜로세움은 초기 가톨릭 신자들이 박해받고 순교한 상징적인 장소입니다. 
+                          검투사의 오락을 위한 경기장이었지만, 수많은 가톨릭 신자들이 
                           이곳에서 사자에게 던져지거나 처형되었습니다.
                         </p>
 
@@ -442,13 +442,13 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
               </Card>
             </section>
 
-            {/* 로마의 기독교 역사 */}
+            {/* 로마의 가톨릭 역사 */}
             <section>
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Cross className="h-5 w-5" />
-                    <span>로마의 기독교 역사</span>
+                    <span>로마의 가톨릭 역사</span>
                   </CardTitle>
                   <CardDescription>영원한 도시에서 가톨릭교회의 중심지까지</CardDescription>
                 </CardHeader>
@@ -473,7 +473,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                       <div>
                         <p className="text-sm text-red-800 leading-relaxed">
                           로마는 '모든 길이 통하는' 제국의 수도에서 '사도들의 무덤이 있는' 
-                          기독교의 성지로 변화하였으며, 현재까지 전 세계 가톨릭교회의 
+                          가톨릭의 성지로 변화하였으며, 현재까지 전 세계 가톨릭교회의 
                           중심지 역할을 하고 있습니다. 바티칸 시국과 함께 교황청의 
                           소재지로서 중요한 의미를 갖습니다.
                         </p>

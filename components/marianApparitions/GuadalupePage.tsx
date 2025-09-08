@@ -184,7 +184,7 @@ export default function GuadalupePage({ setCurrentPage }: GuadalupePageProps) {
                 <p className="text-lg leading-relaxed">
                   <span className="text-6xl float-left mr-3 mt-1 leading-none">1</span>
                   531년 12월 9일, 멕시코시티 근교 테페약 언덕에서 일어난 성모님 발현은 
-                  아메리카 대륙 기독교 역사의 전환점이 되었습니다. 57세의 인디오 후안 디에고에게 
+                  아메리카 대륙 가톨릭 역사의 전환점이 되었습니다. 57세의 인디오 후안 디에고에게 
                   나타나신 성모 마리아께서는 스페인어와 나와틀어로 말씀하시며, 
                   당신의 모습을 기적적으로 틸마(인디오 망토)에 새겨 주셨습니다. 
                   이 기적적인 성화는 490년이 지난 지금도 변함없이 보존되어 있으며, 
