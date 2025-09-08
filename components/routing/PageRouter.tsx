@@ -124,7 +124,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
       return <PilgrimagePackageFormPage setCurrentPage={setCurrentPage} packageId={packageFormEditMatch.params.id} />;
     }
 
-    // 성모님메세지
+    // 성모님메시지
     if (currentPage === "marian-messages") {
       return <MarianMessagesPageNew setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }

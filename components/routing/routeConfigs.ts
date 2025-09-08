@@ -65,7 +65,7 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
   { pattern: "package-form", component: "PilgrimagePackageForm" },
   { pattern: "package-form-edit-{id}", component: "PilgrimagePackageForm" },
   
-  // 성모님메세지
+  // 성모님메시지
   { pattern: "marian-messages", component: "MarianMessages" },
   { pattern: "marian-message-form", component: "MarianMessageForm" },
   { pattern: "marian-message-form-edit-{id}", component: "MarianMessageForm" },

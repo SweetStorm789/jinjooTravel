@@ -208,7 +208,7 @@ export default function MarianMessageDetailPage({
             onClick={() => setCurrentPage("marian-messages")}
             className="hover:text-blue-600 transition-colors"
           >
-            성모님 메세지
+            성모님 메시지
           </button>
           <ChevronRight className="h-4 w-4" />
           <span>메시지 상세</span>

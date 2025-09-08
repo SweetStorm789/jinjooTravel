@@ -29,7 +29,7 @@ export default function Header({
     "가톨릭성지순례",
     "성지정보",
     "성모님발현지",
-    "성모님메세지",
+    "성모님메시지",
     "게시판",
     "회사소개",
   ];
@@ -59,7 +59,7 @@ export default function Header({
       { name: "바뇌", hasSubMenu: false },
       { name: "메주고리예", hasSubMenu: false },
     ],
-    성모님메세지: [],
+    성모님메시지: [],
     게시판: [
       { name: "공지사항", hasSubMenu: false },
       { name: "여행후기", hasSubMenu: false },
@@ -259,7 +259,7 @@ export default function Header({
                       setCurrentPage("pilgrimage-packages");
                       setHoveredCategory(null);
                       setHoveredSubCategory(null);
-                    } else if (category === "성모님메세지") {
+                    } else if (category === "성모님메시지") {
                       setCurrentPage("marian-messages");
                       setHoveredCategory(null);
                       setHoveredSubCategory(null);
@@ -466,7 +466,7 @@ export default function Header({
                     >
                       {category}
                     </a>
-                  ) : category === "성모님메세지" ? (
+                  ) : category === "성모님메시지" ? (
                     <a
                       href="#"
                       onClick={(e) => {

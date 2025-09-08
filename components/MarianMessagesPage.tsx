@@ -183,7 +183,7 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-medium text-foreground mb-2">
-                성모님 메세지
+                성모님 메시지
               </h1>
               <p className="text-muted-foreground">
                 평화의 모후 메주고리예에서 전해주시는 성모님의 메시지
@@ -194,7 +194,7 @@ export default function MarianMessagesPage({ setCurrentPage, isAdmin = false }: 
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <Home className="h-4 w-4" />
               <ChevronRight className="h-4 w-4" />
-              <span>성모님 메세지</span>
+              <span>성모님 메시지</span>
             </div>
           </div>
         </div>
