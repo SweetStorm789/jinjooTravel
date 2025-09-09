@@ -4,7 +4,9 @@ import {
   getPackageById,
   createPackage,
   updatePackage,
-  deletePackage
+  deletePackage,
+  updatePackageOrder,
+  togglePackagePin
 } from '../controllers/pilgrimageController';
 
 const router = express.Router();
@@ -23,5 +25,11 @@ router.put('/packages/:id', updatePackage);
 
 // 순례 상품 삭제
 router.delete('/packages/:id', deletePackage);
+
+// 순례 상품 순서 업데이트
+router.put('/packages/:id/order', updatePackageOrder);
+
+// 순례 상품 고정 상태 토글
+router.put('/packages/:id/pin', togglePackagePin);
 
 export default router;

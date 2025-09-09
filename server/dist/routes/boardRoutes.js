@@ -18,4 +18,8 @@ router.post('/', boardController_1.createPost);
 router.put('/:id', boardController_1.updatePost);
 // 게시물 삭제
 router.delete('/:id', boardController_1.deletePost);
+// 게시물 순서 업데이트
+router.put('/:id/order', boardController_1.updatePostOrder);
+// 게시물 고정 상태 토글
+router.put('/:id/pin', boardController_1.togglePostPin);
 exports.default = router;

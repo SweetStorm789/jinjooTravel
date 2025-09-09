@@ -5,7 +5,9 @@ import {
   createPost,
   updatePost,
   deletePost,
-  getCategories
+  getCategories,
+  updatePostOrder,
+  togglePostPin
 } from '../controllers/boardController';
 
 const router = express.Router();
@@ -27,6 +29,12 @@ router.put('/:id', updatePost);
 
 // 게시물 삭제
 router.delete('/:id', deletePost);
+
+// 게시물 순서 업데이트
+router.put('/:id/order', updatePostOrder);
+
+// 게시물 고정 상태 토글
+router.put('/:id/pin', togglePostPin);
 
 export default router;
 

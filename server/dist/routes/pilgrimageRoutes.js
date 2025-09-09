@@ -16,4 +16,8 @@ router.post('/packages', pilgrimageController_1.createPackage);
 router.put('/packages/:id', pilgrimageController_1.updatePackage);
 // 순례 상품 삭제
 router.delete('/packages/:id', pilgrimageController_1.deletePackage);
+// 순례 상품 순서 업데이트
+router.put('/packages/:id/order', pilgrimageController_1.updatePackageOrder);
+// 순례 상품 고정 상태 토글
+router.put('/packages/:id/pin', pilgrimageController_1.togglePackagePin);
 exports.default = router;

@@ -6,6 +6,8 @@ import {
   Search,
   Plane,
   Cross,
+  Pin,
+  GripVertical,
 } from "lucide-react";
 import {
   Card,
@@ -18,6 +20,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { getSafeBaseUrl } from '../src/lib/constants';
 
 interface PilgrimagePackage {
@@ -34,12 +55,147 @@ interface PilgrimagePackage {
   arrival_date: string;
   max_people: number;
   status: 'draft' | 'published' | 'closed';
+  is_pinned: boolean; // 고정 상품 여부
+  display_order: number; // 표시 순서
 }
 
 interface PilgrimagePackagesPageProps {
   setCurrentPage: (page: string) => void;
   isAdmin?: boolean;
   initialRegion?: string;
+}
+
+// 드래그 앤 드롭 가능한 상품 아이템 컴포넌트
+interface SortablePackageItemProps {
+  pkg: PilgrimagePackage;
+  isAdmin: boolean;
+  onTogglePin: (packageId: number) => void;
+  onClick: () => void;
+  formatPrice: (price: string | number) => string;
+  formatDate: (dateString?: string) => string;
+  baseUrl: string;
+}
+
+function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, formatDate, baseUrl }: SortablePackageItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: pkg.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative">
+      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={onClick}>
+        <CardContent className="p-0">
+          <div className="relative">
+            {/* 이미지 */}
+            <div className="h-48 w-full overflow-hidden">
+              <ImageWithFallback
+                src={pkg.image_url ? `${baseUrl}${pkg.image_url}` : '/placeholder-image.jpg'}
+                alt={pkg.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            
+            {/* 고정 배지 */}
+            {pkg.is_pinned && (
+              <div className="absolute top-3 left-3">
+                <Badge className="bg-yellow-500 text-white">
+                  <Pin className="h-3 w-3 mr-1" />
+                  고정
+                </Badge>
+              </div>
+            )}
+            
+            {/* 관리자 컨트롤 */}
+            {isAdmin && (
+              <div className="absolute top-3 right-3 flex flex-col space-y-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTogglePin(pkg.id);
+                  }}
+                  className={`p-2 rounded-md transition-colors ${
+                    pkg.is_pinned 
+                      ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200' 
+                      : 'bg-white/80 text-gray-600 hover:bg-white'
+                  }`}
+                  title={pkg.is_pinned ? '고정 해제' : '고정하기'}
+                >
+                  <Pin className="h-4 w-4" />
+                </button>
+                <div
+                  {...attributes}
+                  {...listeners}
+                  className="p-2 rounded-md bg-white/80 text-gray-600 hover:bg-white cursor-grab active:cursor-grabbing"
+                  title="드래그하여 순서 변경"
+                >
+                  <GripVertical className="h-4 w-4" />
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* 상품 정보 */}
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Badge variant="outline" className="text-xs">
+                {pkg.region}
+              </Badge>
+              <Badge variant="secondary" className="text-xs">
+                {pkg.duration}
+              </Badge>
+            </div>
+            
+            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+              {pkg.title}
+            </h3>
+            
+            <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+              {pkg.description}
+            </p>
+            
+            {/* 여행 정보 */}
+            <div className="grid grid-cols-3 gap-4 py-3 border-t border-border">
+              <div className="flex items-center space-x-2">
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm">{pkg.duration}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Users className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm">최대 {pkg.max_people}명</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Plane className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm">항공포함</span>
+              </div>
+            </div>
+            
+            {/* 가격 */}
+            <div className="pt-4 border-t border-border">
+              <p className="text-lg font-medium">{formatPrice(pkg.price)}</p>
+              <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p>
+            </div>
+            
+            {/* 출발일 및 도착일 */}
+            <div className="text-xs text-muted-foreground space-y-1">
+              <div>출발일: {formatDate(pkg.departure_date)}</div>
+              <div>도착일: {formatDate(pkg.arrival_date)}</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 
 export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false, initialRegion = "all" }: PilgrimagePackagesPageProps) {
@@ -56,6 +212,75 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   const [hasPrev, setHasPrev] = useState(false);
   
   const baseUrl = getSafeBaseUrl();
+
+  // 드래그 앤 드롭 센서 설정
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // 드래그 앤 드롭 핸들러
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = packages.findIndex((pkg) => pkg.id === active.id);
+      const newIndex = packages.findIndex((pkg) => pkg.id === over?.id);
+
+      const newPackages = arrayMove(packages, oldIndex, newIndex);
+      setPackages(newPackages);
+
+      // 서버에 순서 업데이트 요청
+      try {
+        const updatePromises = newPackages.map((pkg, index) => 
+          fetch(`${baseUrl}/api/packages/${pkg.id}/order`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              display_order: index + 1,
+            }),
+          })
+        );
+
+        await Promise.all(updatePromises);
+      } catch (error) {
+        console.error('순서 업데이트 실패:', error);
+        // 실패 시 원래 순서로 복원
+        fetchPackages();
+      }
+    }
+  };
+
+  // 고정 상품 토글 핸들러
+  const handleTogglePin = async (packageId: number) => {
+    try {
+      const pkg = packages.find(p => p.id === packageId);
+      if (!pkg) return;
+
+      const response = await fetch(`${baseUrl}/api/packages/${packageId}/pin`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          is_pinned: !pkg.is_pinned,
+        }),
+      });
+
+      if (response.ok) {
+        // 로컬 상태 업데이트
+        setPackages(packages.map(p => 
+          p.id === packageId ? { ...p, is_pinned: !p.is_pinned } : p
+        ));
+      }
+    } catch (error) {
+      console.error('고정 상태 업데이트 실패:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -342,83 +567,68 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPackages.map((pkg) => (
-              <Card key={pkg.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}>
-                <div className="relative">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <ImageWithFallback
-                      src={pkg.image_url ? `${baseUrl}${pkg.image_url}` : '/placeholder-image.jpg'}
-                      alt={pkg.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
-                
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    {/* 지역 배지 */}
-                    <Badge variant="secondary" className="text-xs">
-                      <MapPin className="h-3 w-3 mr-1" />
-                      {pkg.region}
-                    </Badge>
-                    
-                    {/* 제목과 부제목 */}
-                    <div>
-                      <h3 className="font-medium text-lg mb-1">{pkg.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-2">{pkg.subtitle}</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{pkg.description}</p>
+          <>
+            {/* 고정 상품 */}
+            {filteredPackages.filter(pkg => pkg.is_pinned).length > 0 && (
+              <div className="space-y-6 mb-8">
+                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                  <Pin className="h-5 w-5 mr-2 text-yellow-600" />
+                  고정 상품
+                </h3>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext items={filteredPackages.filter(pkg => pkg.is_pinned).map(pkg => pkg.id)} strategy={verticalListSortingStrategy}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {filteredPackages.filter(pkg => pkg.is_pinned).map((pkg) => (
+                        <SortablePackageItem
+                          key={pkg.id}
+                          pkg={pkg}
+                          isAdmin={isAdmin}
+                          onTogglePin={handleTogglePin}
+                          onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}
+                          formatPrice={formatPrice}
+                          formatDate={formatDate}
+                          baseUrl={baseUrl}
+                        />
+                      ))}
                     </div>
-                    
-                    {/* 주요 포인트 */}
-                    <div>
-                      <p className="text-xs font-medium text-muted-foreground mb-2">주요 방문지</p>
-                      <div className="flex flex-wrap gap-1">
-                        {getHighlights(pkg.highlights).slice(0, 3).map((highlight, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {highlight}
-                          </Badge>
-                        ))}
-                        {getHighlights(pkg.highlights).length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{getHighlights(pkg.highlights).length - 3}
-                          </Badge>
-                        )}
-                      </div>
+                  </SortableContext>
+                </DndContext>
+              </div>
+            )}
+
+            {/* 일반 상품 */}
+            {filteredPackages.filter(pkg => !pkg.is_pinned).length > 0 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900">일반 상품</h3>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext items={filteredPackages.filter(pkg => !pkg.is_pinned).map(pkg => pkg.id)} strategy={verticalListSortingStrategy}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {filteredPackages.filter(pkg => !pkg.is_pinned).map((pkg) => (
+                        <SortablePackageItem
+                          key={pkg.id}
+                          pkg={pkg}
+                          isAdmin={isAdmin}
+                          onTogglePin={handleTogglePin}
+                          onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}
+                          formatPrice={formatPrice}
+                          formatDate={formatDate}
+                          baseUrl={baseUrl}
+                        />
+                      ))}
                     </div>
-                    
-                    {/* 여행 정보 */}
-                    <div className="grid grid-cols-3 gap-4 py-3 border-t border-border">
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{pkg.duration}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Users className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">최대 {pkg.max_people}명</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Plane className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">항공포함</span>
-                      </div>
-                    </div>
-                    
-                    {/* 가격 */}
-                    <div className="pt-4 border-t border-border">
-                      <p className="text-lg font-medium">{formatPrice(pkg.price)}</p>
-                      <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p>
-                    </div>
-                    
-                    {/* 출발일 및 도착일 */}
-                    <div className="text-xs text-muted-foreground space-y-1">
-                      <div>출발일: {formatDate(pkg.departure_date)}</div>
-                      <div>도착일: {formatDate(pkg.arrival_date)}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </SortableContext>
+                </DndContext>
+              </div>
+            )}
+          </>
         </div>
 
         {/* 페이지네이션 */}

@@ -573,3 +573,95 @@ export const getCategories = async (req: Request, res: Response) => {
     });
   }
 };
+
+// 게시글 순서 업데이트
+export const updatePostOrder = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { display_order } = req.body;
+
+    if (!id || display_order === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: '게시글 ID와 순서 정보가 필요합니다.'
+      });
+    }
+
+    const connection = await pool.getConnection();
+    
+    try {
+      // 게시글 순서 업데이트
+      const [result] = await connection.query(
+        'UPDATE board_posts SET display_order = ? WHERE id = ?',
+        [display_order, id]
+      );
+
+      if ((result as ResultSetHeader).affectedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: '해당 게시글을 찾을 수 없습니다.'
+        });
+      }
+
+      res.json({
+        success: true,
+        message: '게시글 순서가 성공적으로 업데이트되었습니다.',
+        data: { id, display_order }
+      });
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Error updating post order:', error);
+    res.status(500).json({
+      success: false,
+      message: '게시글 순서 업데이트 중 오류가 발생했습니다.'
+    });
+  }
+};
+
+// 게시글 고정 상태 토글
+export const togglePostPin = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { is_pinned } = req.body;
+
+    if (!id || is_pinned === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: '게시글 ID와 고정 상태 정보가 필요합니다.'
+      });
+    }
+
+    const connection = await pool.getConnection();
+    
+    try {
+      // 게시글 고정 상태 업데이트
+      const [result] = await connection.query(
+        'UPDATE board_posts SET is_pinned = ? WHERE id = ?',
+        [is_pinned ? 1 : 0, id]
+      );
+
+      if ((result as ResultSetHeader).affectedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: '해당 게시글을 찾을 수 없습니다.'
+        });
+      }
+
+      res.json({
+        success: true,
+        message: `게시글이 ${is_pinned ? '고정' : '고정 해제'}되었습니다.`,
+        data: { id, is_pinned }
+      });
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Error toggling post pin:', error);
+    res.status(500).json({
+      success: false,
+      message: '게시글 고정 상태 변경 중 오류가 발생했습니다.'
+    });
+  }
+};
