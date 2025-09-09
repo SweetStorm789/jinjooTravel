@@ -329,15 +329,13 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
               
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-muted-foreground">정렬:</span>
-                <Select defaultValue="popular">
+                <Select defaultValue="latest">
                   <SelectTrigger className="w-32">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="popular">인기순</SelectItem>
-                    <SelectItem value="price-low">가격 낮은순</SelectItem>
-                    <SelectItem value="price-high">가격 높은순</SelectItem>
-                    <SelectItem value="duration">기간순</SelectItem>
+                    <SelectItem value="latest">최신순</SelectItem>
+                    <SelectItem value="oldest">오래된순</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

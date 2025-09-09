@@ -1,4 +1,4 @@
-import { Plus, Calendar, User, ChevronRight, Home, Loader2, AlertCircle, ChevronLeft, Search, Filter } from "lucide-react";
+import { Plus, Calendar, User, ChevronRight, Home, Loader2, AlertCircle, ChevronLeft, Search, Filter, Pin, GripVertical } from "lucide-react";
 import { BASE_URL } from '@/lib/constants';
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
@@ -7,6 +7,25 @@ import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useState, useEffect } from "react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface NoticesPageProps {
   setCurrentPage: (page: string) => void;
@@ -26,6 +45,8 @@ interface BoardPost {
   status: 'draft' | 'published' | 'private' | 'deleted' | 'pending';
   is_featured: boolean;
   is_notice: boolean;
+  is_pinned: boolean; // 고정 게시글 여부
+  display_order: number; // 표시 순서
   view_count: number;
   like_count: number;
   comment_count: number;
@@ -92,6 +113,112 @@ const getRelativeTime = (dateString: string) => {
   return formatDate(dateString);
 };
 
+// 드래그 앤 드롭 가능한 게시글 아이템 컴포넌트
+interface SortablePostItemProps {
+  post: BoardPost;
+  isAdmin: boolean;
+  onTogglePin: (postId: string) => void;
+  onClick: () => void;
+}
+
+function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: post.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative">
+      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={onClick}>
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <div className="flex items-center space-x-2 mb-2">
+                {post.is_pinned && (
+                  <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+                    <Pin className="h-3 w-3 mr-1" />
+                    고정
+                  </Badge>
+                )}
+                {post.is_featured && (
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    추천
+                  </Badge>
+                )}
+                <Badge variant="outline" className="text-xs">
+                  공지사항
+                </Badge>
+              </div>
+              
+              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                {post.title}
+              </h3>
+              
+              <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                {post.excerpt || post.content_text?.substring(0, 100) + '...'}
+              </p>
+              
+              <div className="flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center space-x-4">
+                  <span className="flex items-center">
+                    <User className="h-4 w-4 mr-1" />
+                    {post.author_name}
+                  </span>
+                  <span className="flex items-center">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    {getRelativeTime(post.created_at)}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span>조회 {post.view_count}</span>
+                  <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </div>
+            
+            {isAdmin && (
+              <div className="flex flex-col space-y-2 ml-4">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTogglePin(post.id);
+                  }}
+                  className={`p-2 rounded-md transition-colors ${
+                    post.is_pinned 
+                      ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  title={post.is_pinned ? '고정 해제' : '고정하기'}
+                >
+                  <Pin className="h-4 w-4" />
+                </button>
+                <div
+                  {...attributes}
+                  {...listeners}
+                  className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 cursor-grab active:cursor-grabbing"
+                  title="드래그하여 순서 변경"
+                >
+                  <GripVertical className="h-4 w-4" />
+                </div>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 export default function NoticesPage({ setCurrentPage, isAdmin = false }: NoticesPageProps) {
   const [posts, setPosts] = useState<BoardPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -103,6 +230,75 @@ export default function NoticesPage({ setCurrentPage, isAdmin = false }: Notices
     totalItems: 0,
     itemsPerPage: 10
   });
+
+  // 드래그 앤 드롭 센서 설정
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // 드래그 앤 드롭 핸들러
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = posts.findIndex((post) => post.id === active.id);
+      const newIndex = posts.findIndex((post) => post.id === over?.id);
+
+      const newPosts = arrayMove(posts, oldIndex, newIndex);
+      setPosts(newPosts);
+
+      // 서버에 순서 업데이트 요청
+      try {
+        const updatePromises = newPosts.map((post, index) => 
+          fetch(`${BASE_URL}/api/board/${post.id}/order`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              display_order: index + 1,
+            }),
+          })
+        );
+
+        await Promise.all(updatePromises);
+      } catch (error) {
+        console.error('순서 업데이트 실패:', error);
+        // 실패 시 원래 순서로 복원
+        fetchPosts();
+      }
+    }
+  };
+
+  // 고정 게시글 토글 핸들러
+  const handleTogglePin = async (postId: string) => {
+    try {
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+
+      const response = await fetch(`${BASE_URL}/api/board/${postId}/pin`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          is_pinned: !post.is_pinned,
+        }),
+      });
+
+      if (response.ok) {
+        // 로컬 상태 업데이트
+        setPosts(posts.map(p => 
+          p.id === postId ? { ...p, is_pinned: !p.is_pinned } : p
+        ));
+      }
+    } catch (error) {
+      console.error('고정 상태 업데이트 실패:', error);
+    }
+  };
 
 
 
@@ -299,66 +495,56 @@ export default function NoticesPage({ setCurrentPage, isAdmin = false }: Notices
           </Card>
         )}
 
-        {/* 공지사항 리스트 */}
-        <div className="space-y-4">
-          {posts.map((post) => (
-            <Card 
-              key={post.id} 
-              className="overflow-hidden hover:shadow-md transition-all duration-200 cursor-pointer"
-              onClick={() => setCurrentPage(`notice-detail-${post.id}`)}
+        {/* 고정 게시글 */}
+        {posts.filter(post => post.is_pinned).length > 0 && (
+          <div className="space-y-4 mb-8">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+              <Pin className="h-5 w-5 mr-2 text-yellow-600" />
+              고정 게시글
+            </h3>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
             >
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    {/* <div className="flex items-center gap-2 mb-2">
-                      {post.is_notice && (
-                        <Badge variant="destructive" className="text-xs">공지</Badge>
-                      )}
-                      {post.is_featured && (
-                        <Badge variant="secondary" className="text-xs">추천</Badge>
-                      )}
-                      {post.category_name && (
-                        <Badge variant="outline" className="text-xs">{post.category_name}</Badge>
-                      )}
-                    </div> */}
-                    
-                    <h3 className="text-lg font-medium text-foreground hover:text-orange-600 transition-colors duration-200 mb-2">
-                      {post.title}
-                    </h3>
-                    
-                    {post.excerpt && (
-                      <p className="text-muted-foreground text-sm mb-3 leading-relaxed">
-                        {generateSummary(post.excerpt)}
-                      </p>
-                    )}
-                    
-                    <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                      <div className="flex items-center space-x-1">
-                        <User className="h-3 w-3" />
-                        <span>{post.author_name}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="h-3 w-3" />
-                        <span>{getRelativeTime(post.created_at)}</span>
-                      </div>
-                      <span>조회 {post.view_count}</span>
-                    </div>
-                  </div>
-                  
-                  {post.featured_image && (
-                    <div className="ml-4 flex-shrink-0">
-                      <img 
-                        src={post.featured_image} 
-                        alt={post.title}
-                        className="w-20 h-20 object-cover rounded-lg"
-                      />
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              <SortableContext items={posts.filter(post => post.is_pinned).map(post => post.id)} strategy={verticalListSortingStrategy}>
+                {posts.filter(post => post.is_pinned).map((post) => (
+                  <SortablePostItem
+                    key={post.id}
+                    post={post}
+                    isAdmin={isAdmin}
+                    onTogglePin={handleTogglePin}
+                    onClick={() => setCurrentPage(`notice-detail-${post.id}`)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </div>
+        )}
+
+        {/* 일반 게시글 */}
+        {posts.filter(post => !post.is_pinned).length > 0 && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900">일반 게시글</h3>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={posts.filter(post => !post.is_pinned).map(post => post.id)} strategy={verticalListSortingStrategy}>
+                {posts.filter(post => !post.is_pinned).map((post) => (
+                  <SortablePostItem
+                    key={post.id}
+                    post={post}
+                    isAdmin={isAdmin}
+                    onTogglePin={handleTogglePin}
+                    onClick={() => setCurrentPage(`notice-detail-${post.id}`)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </div>
+        )}
 
         {/* 페이지네이션 */}
         {pagination.totalItems > 0 && (
