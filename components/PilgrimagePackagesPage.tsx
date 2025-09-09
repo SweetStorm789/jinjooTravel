@@ -282,8 +282,8 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
     }
   };
 
-  useEffect(() => {
-    const fetchPackages = async () => {
+  // 패키지 데이터 가져오기 함수
+  const fetchPackages = async () => {
       try {
         setIsLoading(true);
         
@@ -359,8 +359,9 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
       } finally {
         setIsLoading(false);
       }
-    };
+  };
 
+  useEffect(() => {
     fetchPackages();
   }, [currentPage, selectedRegion, searchTerm]);
 
