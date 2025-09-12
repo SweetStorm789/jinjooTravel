@@ -17,6 +17,8 @@ interface FeaturedPackage {
   image_url?: string;
   status: string;
   max_people: number;
+  departure_date?: string;
+  arrival_date?: string;
   rating?: number;
   reviews?: number;
 }
@@ -28,6 +30,33 @@ interface FeaturedPackagesProps {
 export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesProps) {
   const [packages, setPackages] = useState<FeaturedPackage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // 안전한 날짜 포매터 (YYYYMMDD 형식 처리)
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '미정';
+    
+    // YYYYMMDD 형식인지 확인 (8자리 숫자)
+    if (dateString.length === 8 && /^\d{8}$/.test(dateString)) {
+      const year = dateString.substring(0, 4);
+      const month = dateString.substring(4, 6);
+      const day = dateString.substring(6, 8);
+      return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+    }
+    
+    // 기존 날짜 형식 처리
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return '미정';
+      
+      return date.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch {
+      return '미정';
+    }
+  };
 
   useEffect(() => {
     const fetchFeaturedPackages = async () => {
@@ -89,6 +118,8 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
               image_url: imageUrl ? `${baseUrl}/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
               status: pkg.status,
               max_people: pkg.max_people,
+              departure_date: pkg.departure_date,
+              arrival_date: pkg.arrival_date,
               rating: 4.8, // 임시 평점
               reviews: Math.floor(Math.random() * 300) + 100 // 임시 리뷰 수
             };
@@ -183,8 +214,8 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
 
                 {/* Bottom gradient overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-white text-xl font-bold mb-2">{pkg.subtitle}</h3>
-                  <h4 className="text-white/80">{pkg.title}</h4>
+                  <h3 className="text-white text-xl font-bold mb-2">{pkg.title}</h3>
+                  <h4 className="text-white/80">{pkg.subtitle}</h4>
                 </div>
               </div>
 
@@ -205,6 +236,13 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
                       최대 {pkg.max_people}명
                     </div>
                   </div>
+
+                  {/* 순례기간 */}
+                  {pkg.departure_date && pkg.arrival_date && (
+                    <div className="text-sm text-gray-600">
+                      순례기간: {formatDate(pkg.departure_date)} ~ {formatDate(pkg.arrival_date)}
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                     <div>

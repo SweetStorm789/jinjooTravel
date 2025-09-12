@@ -187,7 +187,7 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
             </div>
             
             {/* 출발일 및 도착일 */}
-            <div className="text-sm text-muted-foreground space-y-1 mt-1">
+            <div className="text-sm text-muted-foreground space-y-1 mt-2">
               <div>순례기간 : {formatDate(pkg.departure_date)} ~ {formatDate(pkg.arrival_date)}</div>
               {/* <div>도착일: {formatDate(pkg.arrival_date)}</div> */}
             </div>

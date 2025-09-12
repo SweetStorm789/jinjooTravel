@@ -363,12 +363,25 @@ export default function PilgrimagePackageFormPage({
       return `${year}-${month}-${day}`;
     }
     
-    // 기존 형식 처리 (fallback)
-    if (dateString.includes('T')) {
-      return dateString.split('T')[0];
+    // ISO 형식이나 다른 날짜 형식 처리
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return '';
+      
+      // 로컬 시간대로 날짜를 가져와서 시간대 차이 문제 해결
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      
+      return `${year}-${month}-${day}`;
+    } catch {
+      // 기존 형식 처리 (fallback)
+      if (dateString.includes('T')) {
+        return dateString.split('T')[0];
+      }
+      
+      return dateString;
     }
-    
-    return dateString;
   };
 
 
@@ -448,8 +461,8 @@ export default function PilgrimagePackageFormPage({
         region: formData.region,
         duration: formData.duration,
         price: parseInt(formData.price.replace(/[^0-9]/g, '')) || 0, // 정수만 추출하여 숫자형으로
-        departure_date: formData.departureDate,
-        arrival_date: formData.arrivalDate,
+        departure_date: formData.departureDate ? formData.departureDate.replace(/-/g, '') : '',
+        arrival_date: formData.arrivalDate ? formData.arrivalDate.replace(/-/g, '') : '',
         max_people: formData.maxPeople,
         highlights: formData.highlights,
         status: 'published',
