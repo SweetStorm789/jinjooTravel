@@ -454,6 +454,16 @@ export default function PilgrimagePackageFormPage({
       }
 
       // 데이터 형식 변환
+      const departureDateFormatted = formData.departureDate ? formData.departureDate.replace(/-/g, '') : null;
+      const arrivalDateFormatted = formData.arrivalDate ? formData.arrivalDate.replace(/-/g, '') : null;
+      
+      console.log('📅 날짜 변환 확인:', {
+        원본_departure: formData.departureDate,
+        변환_departure: departureDateFormatted,
+        원본_arrival: formData.arrivalDate,
+        변환_arrival: arrivalDateFormatted
+      });
+
       const packageData = {
         title: formData.title,
         subtitle: formData.subtitle,
@@ -461,8 +471,8 @@ export default function PilgrimagePackageFormPage({
         region: formData.region,
         duration: formData.duration,
         price: parseInt(formData.price.replace(/[^0-9]/g, '')) || 0, // 정수만 추출하여 숫자형으로
-        departure_date: formData.departureDate ? formData.departureDate.replace(/-/g, '') : '',
-        arrival_date: formData.arrivalDate ? formData.arrivalDate.replace(/-/g, '') : '',
+        departure_date: departureDateFormatted,
+        arrival_date: arrivalDateFormatted,
         max_people: formData.maxPeople,
         highlights: formData.highlights,
         status: 'published',
