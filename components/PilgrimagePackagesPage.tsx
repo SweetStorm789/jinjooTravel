@@ -98,7 +98,7 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
         <CardContent className="p-0">
           <div className="relative">
             {/* 이미지 */}
-            <div className="h-48 w-full overflow-hidden">
+            <div className="h-56 w-full overflow-hidden">
               <ImageWithFallback
                 src={pkg.image_url ? `${baseUrl}${pkg.image_url}` : '/placeholder-image.jpg'}
                 alt={pkg.title}
@@ -183,13 +183,13 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
             {/* 가격 */}
             <div className="pt-4 border-t border-border">
               <p className="text-lg font-medium">{formatPrice(pkg.price)}</p>
-              <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p>
+              <p className="text-xs text-muted-foreground"></p>
             </div>
             
             {/* 출발일 및 도착일 */}
-            <div className="text-xs text-muted-foreground space-y-1">
-              <div>출발일: {formatDate(pkg.departure_date)}</div>
-              <div>도착일: {formatDate(pkg.arrival_date)}</div>
+            <div className="text-sm text-muted-foreground space-y-1 mt-1">
+              <div>순례기간 : {formatDate(pkg.departure_date)} ~ {formatDate(pkg.arrival_date)}</div>
+              {/* <div>도착일: {formatDate(pkg.arrival_date)}</div> */}
             </div>
           </div>
         </CardContent>

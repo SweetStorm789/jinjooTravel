@@ -426,44 +426,34 @@ function PilgrimagePackageDetailPage({
                     <MapPin className="h-3 w-3 mr-1" />
                     {packageData.region}
                   </Badge>
-                  <Badge variant="outline">베스트셀러</Badge>
-                  <Badge variant="outline">신부님 동행</Badge>
+                  {/* <Badge variant="outline">베스트셀러</Badge>
+                  <Badge variant="outline">신부님 동행</Badge> */}
                 </div>
 
                 <div>
                   <h1 className="text-3xl font-medium mb-2">{packageData.title}</h1>
                   <p className="text-xl text-muted-foreground mb-4">{packageData.subtitle}</p>
+                </div>
+
+                <Separator className="my-6" />
+
+                <div>
                   <p className="text-muted-foreground leading-relaxed">{packageData.description}</p>
                 </div>
 
-                {/* 주요 정보 */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-border">
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{packageData.duration}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">최대 {packageData.maxPeople}명</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Plane className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">직항편</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">신부님 동행</span>
-                  </div>
-                </div>
+                <Separator className="my-6" />
+
 
                 {/* 주요 방문지 */}
                 <div>
                   <h3 className="font-medium mb-3">주요 방문지</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-2">
                     {packageData.highlights.map((highlight: string, index: number) => (
-                      <Badge key={index} variant="outline" className="text-sm">
-                        {highlight}
-                      </Badge>
+                      <div key={index} className="flex flex-wrap gap-2">
+                        <Badge variant="outline" className="text-sm">
+                          {highlight}
+                        </Badge>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -512,12 +502,41 @@ function PilgrimagePackageDetailPage({
                           <div>
                             <h5 className="font-medium mb-2">주요 활동</h5>
                             <ul className="space-y-1">
-                              {day.activities.map((activity: string, index: number) => (
-                                <li key={index} className="flex items-start space-x-2 text-sm">
-                                  <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                                  <span>{activity}</span>
-                                </li>
-                              ))}
+                              {day.activities.map((activity: string, index: number) => {
+                                // 시간 패턴 감지 함수
+                                const formatActivityWithTime = (text: string) => {
+                                  // 시간 패턴들 (HH:MM, HH시 MM분, 오전/오후 HH:MM 등)
+                                  const timePatterns = [
+                                    /(\d{1,2}:\d{2})/g,  // 14:30, 9:00
+                                    /(\d{1,2}시\s*\d{1,2}분?)/g,  // 14시 30분, 9시
+                                    /(오전\s*\d{1,2}:\d{2})/g,  // 오전 9:00
+                                    /(오후\s*\d{1,2}:\d{2})/g,  // 오후 2:30
+                                    /(\d{1,2}:\d{2}\s*출발)/g,  // 14:30 출발
+                                    /(\d{1,2}:\d{2}\s*도착)/g,  // 14:30 도착
+                                    /(\d{1,2}:\d{2}\s*이동)/g,  // 14:30 이동
+                                  ];
+
+                                  let formattedText = text;
+                                  
+                                  timePatterns.forEach(pattern => {
+                                    formattedText = formattedText.replace(pattern, (match) => {
+                                      return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">🕐 ${match}</span>`;
+                                    });
+                                  });
+
+                                  return formattedText;
+                                };
+
+                                return (
+                                  <li key={index} className="flex items-start space-x-2 text-sm">
+                                    <span 
+                                      dangerouslySetInnerHTML={{ 
+                                        __html: formatActivityWithTime(activity) 
+                                      }}
+                                    />
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
                           <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border">
@@ -697,11 +716,15 @@ function PilgrimagePackageDetailPage({
                       <span className="font-medium">{packageData.duration}</span>
                     </div>
                     <div className="flex justify-between text-sm">
+                      <span>최대 인원</span>
+                      <span className="font-medium">{packageData.maxPeople}명</span>
+                    </div>
+                    {/* <div className="flex justify-between text-sm">
                       <span>예약현황</span>
                       <span className="font-medium">
                         {packageData.currentBookings}/{packageData.maxPeople}명
                       </span>
-                    </div>
+                    </div> */}
                   </div>
 
                   <Separator />

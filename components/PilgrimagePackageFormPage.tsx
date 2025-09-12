@@ -415,10 +415,6 @@ export default function PilgrimagePackageFormPage({
         alert('상품명을 입력해주세요.');
         return;
       }
-      if (!formData.description.trim()) {
-        alert('상품 설명을 입력해주세요.');
-        return;
-      }
       if (!formData.duration.trim()) {
         alert('여행 기간을 입력해주세요.');
         return;
@@ -698,7 +694,7 @@ export default function PilgrimagePackageFormPage({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">상품 설명 *</Label>
+                  <Label htmlFor="description">상품 설명</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
@@ -971,10 +967,19 @@ export default function PilgrimagePackageFormPage({
                     <Input
                       value={day.dayLabel}
                       onChange={(e) => {
+                        // 입력 중에는 validation 없이 값만 업데이트
+                        handleItineraryChange(index, "dayLabel", e.target.value);
+                      }}
+                      onBlur={(e) => {
+                        // 포커스가 벗어날 때 validation 실행
                         const newValue = e.target.value;
                         const range = parseDayRange(newValue);
                         if (range === null) {
                           alert("잘못된 일차 범위입니다. 시작일이 종료일보다 작아야 합니다.");
+                          // setTimeout을 사용하여 무한 루프 방지
+                          setTimeout(() => {
+                            e.target.focus();
+                          }, 0);
                           return;
                         }
                         // 다른 일정과의 일차 중복 검사
@@ -986,9 +991,12 @@ export default function PilgrimagePackageFormPage({
                         });
                         if (hasOverlap) {
                           alert("일차가 다른 일정과 중복됩니다.");
+                          // setTimeout을 사용하여 무한 루프 방지
+                          setTimeout(() => {
+                            e.target.focus();
+                          }, 0);
                           return;
                         }
-                        handleItineraryChange(index, "dayLabel", newValue);
                       }}
                       placeholder="예: Day 1, Day 2~3, Day 1-2, Day 4 오전"
                     />

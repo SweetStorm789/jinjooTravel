@@ -46,7 +46,7 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
   }, [slides.length]);
 
   return (
-    <section className="relative h-[calc(100vh-480px)] min-h-[300px] overflow-hidden bg-gray-50">
+    <section className="relative min-h-[70vh] bg-gray-50">
       {/* Background image carousel */}
       {slides.map((slide, index) => (
         <div
@@ -55,18 +55,70 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
+          {/* Blurred background */}
           <ImageWithFallback
             src={slide.image}
             alt={slide.title}
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover scale-110 blur-lg"
+            style={{ objectPosition: 'center center' }}
           />
-          <div className="absolute inset-0 bg-black/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent"></div>
+          {/* Main image with directional blur effects */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative overflow-hidden rounded-xl">
+              <ImageWithFallback
+                src={slide.image}
+                alt={slide.title}
+                className="max-w-full max-h-full object-contain"
+                style={{
+                  maskImage: `
+                    linear-gradient(to bottom, 
+                      rgba(0,0,0,0) 0%, 
+                      rgba(0,0,0,0.9) 10%, 
+                      rgba(0,0,0,1) 20%, 
+                      rgba(0,0,0,1) 80%, 
+                      rgba(0,0,0,0.3) 90%, 
+                      rgba(0,0,0,0) 100%
+                    ),
+                    linear-gradient(to right, 
+                      rgba(0,0,0,0) 0%, 
+                      rgba(0,0,0,0.9) 10%, 
+                      rgba(0,0,0,1) 20%, 
+                      rgba(0,0,0,1) 80%, 
+                      rgba(0,0,0,0.3) 90%, 
+                      rgba(0,0,0,0) 100%
+                    )
+                  `,
+                  WebkitMaskImage: `
+                    linear-gradient(to bottom, 
+                      rgba(0,0,0,0) 0%, 
+                      rgba(0,0,0,0.9) 10%, 
+                      rgba(0,0,0,1) 20%, 
+                      rgba(0,0,0,1) 80%, 
+                      rgba(0,0,0,0.9) 90%, 
+                      rgba(0,0,0,0) 100%
+                    ),
+                    linear-gradient(to right, 
+                      rgba(0,0,0,0) 0%, 
+                      rgba(0,0,0,0.9) 10%, 
+                      rgba(0,0,0,1) 20%, 
+                      rgba(0,0,0,1) 80%, 
+                      rgba(0,0,0,0.9) 90%, 
+                      rgba(0,0,0,0) 100%
+                    )
+                  `,
+                  maskComposite: 'intersect',
+                  WebkitMaskComposite: 'source-in'
+                }}
+              />
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-black/10 scale-110"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/5 to-transparent scale-110"></div>
         </div>
       ))}
 
       {/* Content overlay */}
-      <div className="relative z-10 h-full flex items-center rounded-[10px]">
+      <div className="relative z-20 h-full flex items-center rounded-[10px] min-h-[70vh]">
         <div className="max-w-7xl mx-auto px-4 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left content */}
@@ -88,7 +140,7 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
                 </h1>
 
                 <p className="text-xl text-gray-200 leading-relaxed max-w-lg">
-                  30년간 축적된 전문 노하우로 안전하고 의미있는
+                  30년간 축적된 전문 노하우로 안전하고 의미있는<br/>
                   성지순례 여행을 제공합니다.
                 </p>
               </div>
@@ -188,14 +240,14 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
       </div>
 
       {/* Bottom progress bar */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20">
+      {/* <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20">
         <div
           className="h-full bg-white transition-all duration-6000 ease-linear"
           style={{
             width: `${((currentSlide + 1) / slides.length) * 100}%`,
           }}
         />
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -126,7 +126,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       name: "시나이산",
       subtitle: "모세가 십계명을 받은 성스러운 산",
       description:
-        "시나이산은 모세가 하느님으로부터 십계명을 받은 성경의 무대로, 해발 2,285m의 시나이산 정상과 그 옆에 위치한 성녀 카타리나는 세계적으로 유명한 순례지입니다. 산 기슭에는 세계에서 가장 오래된 수도원 중 하나인 성녀 카타리나 수도원이 있습니다.",
+        "시나이산(해발 2,285m)은 모세가 하느님으로부터 십계명을 받은 성경의 무대로 잘 알려져 있으며, 그 정상은 세계적으로 유명한 순례지입니다. 산기슭에는 성녀 카타리나 수도원이 자리하고 있는데, 이곳은 세계에서 가장 오래된 수도원 중 하나로 꼽힙니다.",
       icon: Mountain,
       color: "from-orange-100 to-red-200",
       iconColor: "text-orange-700",
