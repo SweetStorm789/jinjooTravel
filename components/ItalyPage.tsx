@@ -34,7 +34,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 import romeImage from "../images/italy/rome.jpg";
 import assisiImage from "../images/italy/assisi.jpg";
-import sangiovannirotondoImage from "../images/italy/sangiovannirotondo.jpg";
+import sangiovannirotondoImage from "../images/italy/sanGiovanniRotondo.jpg";
 import loretoImage from "../images/italy/loreto.jpg";
 import sienaImage from "../images/italy/siena.jpg";
 import orviettooImage from "../images/italy/orvieto.jpg";
