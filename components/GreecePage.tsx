@@ -70,7 +70,7 @@ export default function GreecePage({
     {
       icon: Globe,
       title: "면적",
-      value: "131,940",
+      value: "131,957",
       unit: "km²",
       description: "발칸반도 남단에 위치",
       color: "text-blue-600",
@@ -78,7 +78,7 @@ export default function GreecePage({
     {
       icon: Users,
       title: "인구",
-      value: "10.7",
+      value: "10.41",
       unit: "백만",
       description: "그리스계가 대부분",
       color: "text-green-600",
@@ -109,8 +109,8 @@ export default function GreecePage({
     { label: "정치 체제", value: "의회 공화제" },
     { label: "국가원수", value: "대통령" },
     { label: "수도", value: "아테네 (Athens)" },
-    { label: "공용어", value: "그리스어 (신약성경의 언어)" },
-    { label: "종교", value: "그리스정교 97%, 이슬람교 1.2%" },
+    { label: "공용어", value: "그리스어" },
+    { label: "종교", value: "그리스정교(90%), 기독교(3%), 이슬람교(1.3%)" },
     { label: "화폐", value: "유로 (EUR)" },
     { label: "국제전화", value: "+30" },
   ];

@@ -697,7 +697,7 @@ function PilgrimagePackageDetailPage({
                     <div className="flex items-baseline space-x-2">
                       <span className="text-2xl font-medium">{packageData.price}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p>
+                    {/* <p className="text-xs text-muted-foreground">1인 기준, 세금 포함</p> */}
                   </div>
 
                   <Separator />
@@ -746,7 +746,7 @@ function PilgrimagePackageDetailPage({
 */}
                   <div className="bg-muted/50 p-3 rounded-lg">
                     <div className="text-xs text-muted-foreground leading-relaxed space-y-1">
-                      <div>• 예약 문의: 02-1234-5678</div>
+                      <div>• 예약 문의: 02-738-0747</div>
                       <div>• 상담 시간: 평일 09:00-18:00</div>
                     </div>
                   </div>

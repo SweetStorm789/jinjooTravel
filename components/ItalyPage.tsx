@@ -30,6 +30,15 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import romeImage from "../images/italy/rome.jpg";
+import assisiImage from "../images/italy/assisi.jpg";
+import sangiovannirotondoImage from "../images/italy/sangiovannirotondo.jpg";
+import loretoImage from "../images/italy/loreto.jpg";
+import sienaImage from "../images/italy/siena.jpg";
+import orviettooImage from "../images/italy/orvieto.jpg";
+import lancianoImage from "../images/italy/lanciano.jpg";
 
 interface ItalyPageProps {
   setCurrentPage: (page: string) => void;
@@ -120,65 +129,72 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
     {
       name: "로마",
       englishName: "Roma",
-      description: "영원한 도시, 사도 베드로와 바오로의 순교지",
+      description: "영원한 도시로 불리며, 사도 베드로와 바오로의 순교지. 바티칸 성베드로 대성당과 함께 교황청이 자리한 세계 가톨릭의 중심지이자 성지순례의 핵심.",
       page: "rome",
       color: "from-red-100 to-red-200",
       iconColor: "text-red-700",
       icon: Columns,
+      image: romeImage,
     },
     {
       name: "아시시",
       englishName: "Assisi",
-      description: "성 프란치스코와 성녀 클라라의 성지",
+      description: "성 프란치스코와 성녀 클라라의 고향. 청빈과 사랑의 삶을 실천한 성인의 정신을 느낄 수 있으며, 산 다미아노 성당과 성 프란치스코 대성당이 대표적 성지.",
       page: "assisi",
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
       icon: Church,
+      image: assisiImage,
     },
     {
       name: "산조반니로톤도",
       englishName: "San Giovanni Rotondo",
-      description: "성 비오(파드레 피오) 신부의 성흔 성지",
+      description: "성 비오(파드레 피오) 신부의 성지가 있는 도시. 현대에 가장 사랑받는 성인 중 한 명으로, 그의 기적과 영적 체험을 간직한 장소.",
       page: "sangiovannirotondo",
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
       icon: Cross,
+      image: sangiovannirotondoImage,
     },
     {
       name: "로레토",
       englishName: "Loreto",
-      description: "성모님의 집(카사 산타)이 있는 성지",
+      description: "전승에 따르면 성모님의 집(카사 산타, Casa Santa)이 천사들에 의해 나자렛에서 옮겨져 온 곳. ‘성모의 집’ 성지는 전 세계 순례자들이 찾는 마리아 공경의 중심지.",
       page: "loreto",
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
       icon: Star,
+      image: loretoImage,
     },
     {
       name: "시에나",
       englishName: "Siena",
-      description: "성녀 카타리나의 고향",
+      description: "성녀 카타리나의 고향으로, 교회의 일치를 위해 헌신한 신비가이자 교회학자의 도시. 고딕 양식의 두오모(대성당)와 성녀 카타리나 성지가 대표적 성지.",
       page: "siena",
       color: "from-pink-100 to-rose-200",
       iconColor: "text-pink-700",
       icon: Heart,
+      image: sienaImage,
     },
     {
       name: "오르비에또",
       englishName: "Orvieto",
-      description: "성체기적의 도시, 95m 절벽 위의 신앙 요새",
+      description: "성체 기적의 도시로 유명. 볼세나 성체 기적 후 성체를 모신 두오모 대성당은 화려한 고딕 건축과 성체의 신비를 증언하는 순례지.",
       page: "orviettoo",
       color: "from-yellow-100 to-orange-200",
       iconColor: "text-yellow-700",
       icon: Mountain,
+      image: orviettooImage,
     },
     {
       name: "란치아노",
       englishName: "Lanciano",
-      description: "세계 최초 성체기적, 1300년간 보존된 신앙의 증거",
+      description: "8세기에 일어난 세계 최초의 성체 기적이 보존된 도시. 빵과 포도주가 실제 살과 피로 변한 성체와 성혈이 1300여 년간 보존되어 신앙의 증거로 전해짐.",
       page: "lanciano",
       color: "from-green-100 to-emerald-200",
       iconColor: "text-green-700",
       icon: Crown,
+      image: lancianoImage,
     },
   ];
 
@@ -406,10 +422,40 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                   이탈리아의 7개 주요 성지순례 도시를 선택하여 자세한 정보를 확인하세요.
                 </p>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {cities.map((city, index) => (
+                  <Card
+                    key={city.page}
+                    onClick={() => setCurrentPage(city.page)}
+                    className="overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="relative">
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[300px] object-cover"
+                      />
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <CardContent className="p-4">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {cities.map((city, index) => {
                   const IconComponent = city.icon;
+                  const ImageComponent = city.image;
                   return (
                     <Button
                       key={city.page}
@@ -421,6 +467,11 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                         <div className={`aspect-[4/3] bg-gradient-to-br ${city.color} flex items-center justify-center relative`}>
                           <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
                           <div className="text-center space-y-2 relative z-10">
+                            <ImageWithFallback
+                              src={ImageComponent}
+                              alt={city.name}
+                              className="w-full h-[240px] object-cover"
+                            />
                             <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
                               <IconComponent className={`h-6 w-6 ${city.iconColor}`} />
                             </div>
@@ -435,7 +486,13 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                           </div>
                         </div>
                         <div className="p-3">
-                          <p className="text-xs text-muted-foreground text-left leading-relaxed">
+                          <p className="text-xs text-muted-foreground text-left break-words whitespace-normal" style={{
+                            lineHeight: '1.3',
+                            maxHeight: '2.6em',
+                            overflow: 'hidden',
+                            wordWrap: 'break-word',
+                            wordBreak: 'break-word'
+                          }}>
                             {city.description}
                           </p>
                         </div>
@@ -443,7 +500,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                     </Button>
                   );
                 })}
-              </div>
+              </div> */}
             </section>
 
             {/* 이탈리아의 가톨릭 역사 */}

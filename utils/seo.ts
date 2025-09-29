@@ -130,7 +130,7 @@ export const updateStructuredData = (page: string) => {
         "name": "진주여행사",
         "description": "가톨릭 성지순례 전문 여행사",
         "url": window.location.origin,
-        "telephone": "02-1234-5678",
+        "telephone": "02-738-0747",
         "address": {
           "@type": "PostalAddress",
           "addressCountry": "KR",

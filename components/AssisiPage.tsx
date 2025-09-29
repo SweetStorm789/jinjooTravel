@@ -109,37 +109,37 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
 
   const majorBasilicas = [
     {
-      name: "성 프란치스코 대성당",
+      name: "성 프란치스코 대성당 (Basilica di San Francesco d’Assisi)",
       subtitle: "프란치스코회의 모교회",
       description:
-        "성 프란치스코가 묻힌 곳에 건립된 대성당으로, 상부교회와 하부교회로 나뉘어 있습니다. 13-14세기에 지오토 등 당대 최고의 화가들이 그린 프레스코화로 유명하며, 성 프란치스코의 생애를 생생하게 그려낸 벽화들을 볼 수 있습니다.",
+        "성 프란치스코의 무덤이 모셔진 대성당으로, 상부 성당에는 조토의 프레스코화가, 하부 성당에는 성인의 무덤과 초기 프란치스칸 성화가 보존되어 있다. 프란치스칸 영성과 중세 미술의 정수를 만날 수 있는 순례의 중심지이다.",
       icon: Church,
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
     },
     {
-      name: "성녀 클라라 대성당",
+      name: "성 클라라 대성당 (Basilica di Santa Chiara)",
       subtitle: "클라라 수녀회의 성지",
       description:
-        "성녀 클라라가 묻혀 있는 성당으로, 13세기에 건립되었습니다. 성녀 클라라는 성 프란치스코의 설교를 듣고 1212년 수도생활을 시작했으며, 여성 프란치스코회인 클라라 수녀회를 설립했습니다. 성당 내부에는 성녀 클라라의 유해가 보관되어 있습니다.",
+        "성녀 클라라의 시신이 안치된 성당으로, 성 프란치스코가 기도하던 다미아노 십자가가 보존되어 있다. 프란치스칸 영성을 여성 수도회로 확장한 성녀 클라라의 삶과 신앙을 기릴 수 있는 성지이다.",
       icon: Star,
       color: "from-pink-100 to-rose-200",
       iconColor: "text-pink-700",
     },
     {
-      name: "산타 마리아 마조레 성당",
+      name: "산타 마리아 델리 안젤리 성당 (Basilica di Santa Maria degli Angeli, 포르치운쿨라)",
       subtitle: "프란치스코가 죽음을 맞이한 성당",
       description:
-        "포르치운쿨라라고도 불리는 이 작은 성당은 성 프란치스코가 하느님의 부르심을 받고 수도생활을 시작한 곳입니다. 현재는 큰 성당 안에 보호되어 있으며, 프란치스코회의 발상지로 여겨집니다.",
+        "아시시 평원에 위치한 대성당으로, 안에는 작은 경당인 포르치운쿨라(Portiuncula) 가 있다. 성 프란치스코가 수도회를 창립하고 생을 마감한 장소로, ‘용서의 성당’이라 불리며 특별한 전대사가 주어지는 성지이다.",
       icon: Heart,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
     },
     {
-      name: "산타 키아라 성당",
+      name: "산 다미아노 성당 (Chiesa di San Damiano)",
       subtitle: "성녀 클라라의 생애 터전",
       description:
-        "성녀 클라라가 실제로 거주하며 수도생활을 했던 곳에 세워진 성당입니다. 고딕 양식으로 건축되었으며, 장밋빛 석재로 지어져 아름다운 외관을 자랑합니다. 성녀 클라라의 유해와 유품들이 보관되어 있습니다.",
+        "성 프란치스코가 십자가 앞에서 회심의 부르심을 받은 곳이며, 후에 성녀 클라라와 자매들이 수도생활을 시작한 장소이다. 소박한 성당 안에서 프란치스칸 영성의 시작을 깊이 체험할 수 있다.",
       icon: Crown,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",

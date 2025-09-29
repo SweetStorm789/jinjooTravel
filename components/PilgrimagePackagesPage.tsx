@@ -94,8 +94,8 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
 
   return (
     <div ref={setNodeRef} style={style} className="relative">
-      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={onClick}>
-        <CardContent className="p-0">
+      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer h-[500px] flex flex-col" onClick={onClick}>
+        <CardContent className="p-0 flex flex-col h-full">
           <div className="relative">
             {/* 이미지 */}
             <div className="h-56 w-full overflow-hidden">
@@ -146,7 +146,7 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
           </div>
           
           {/* 상품 정보 */}
-          <div className="p-6">
+          <div className="p-6 flex flex-col flex-grow">
             <div className="flex items-center justify-between mb-2">
               <Badge variant="outline" className="text-xs">
                 {pkg.region}
@@ -156,11 +156,21 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
               </Badge>
             </div>
             
-            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+            <h3 
+              className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2"
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                lineHeight: '1.4',
+                maxHeight: '2.8em' // 2줄 높이 (1.4 * 2)
+              }}
+            >
               {pkg.title}
             </h3>
             
-            <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+            <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
               {pkg.description}
             </p>
             

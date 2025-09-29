@@ -311,26 +311,7 @@ export default function SpainPage({
                         alt={city.name}
                         className="w-full h-[240px] object-cover"
                       />
-                      {/* <div className="text-center space-y-2 relative z-10">
-                       <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                          {index === 0 && (
-                            <Crown className="h-6 w-6 text-amber-600" />
-                          )}
-                          {index === 1 && (
-                            <Building className="h-6 w-6 text-blue-600" />
-                          )}
-                          {index === 2 && (
-                            <Church className="h-6 w-6 text-purple-600" />
-                          )}
-                          {index === 3 && (
-                            <Mountain className="h-6 w-6 text-green-600" />
-                          )}
-                        </div>
-                        <h3 className="font-medium text-gray-900">
-                          {city.name}
-                        </h3>
-                      </div>
-                      */}
+                     
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">

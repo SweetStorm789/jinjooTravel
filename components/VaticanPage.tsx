@@ -72,7 +72,7 @@ export default function VaticanPage({
     {
       icon: Users,
       title: "인구",
-      value: "800",
+      value: "1000",
       unit: "명",
       description: "대부분이 성직자와 스위스 근위대",
       color: "text-green-600",
@@ -104,7 +104,7 @@ export default function VaticanPage({
     { label: "국가원수", value: "로마 가톨릭교회 교황" },
     { label: "수도", value: "바티칸 시티" },
     { label: "공용어", value: "이탈리아어, 라틴어" },
-    { label: "종교", value: "로마 가톨릭교" },
+    { label: "종교", value: "가톨릭(Roman Catholic)" },
     { label: "화폐", value: "유로 (EUR)" },
     { label: "국제전화", value: "+39 06" },
   ];
@@ -343,7 +343,7 @@ export default function VaticanPage({
                         </p>
                       </div>
                     </div>
-                    <Badge variant="secondary">특별 성지</Badge>
+                    {/* <Badge variant="secondary">특별 성지</Badge> */}
                   </div>
                 </div>
 
@@ -394,21 +394,11 @@ export default function VaticanPage({
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-amber-800 italic">
-                              "그대는 베드로(반석)입니다. 나는
-                              이 반석 위에 내 교회를 세울 터인데
-                              저승의 문도 그것을 이기지 못할
-                              것입니다."
+                            "너는 베드로이다. 내가 이 반석 위에 내 교회를 세울 터인즉, 저승의 세력도 그것을 이기지 못할 것이다." (마태 16,18)
                             </blockquote>
                           </div>
                         </div>
 
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          모든 그리스도인들은 부족함, 연약함,
-                          배신의 어두움, 용서의 필요성, 사랑
-                          고백, 그 사랑, 그리고 마지막에 가서는
-                          순교까지의 최고의 증거를 보인 베드로의
-                          삶을 다시 살아간다.
-                        </p>
                       </div>
 
                       <div className="flex items-center justify-between p-3 bg-muted rounded-lg">

@@ -400,6 +400,9 @@ export default function Header({
         thirdDepthCategories[hoveredSubCategory as keyof typeof thirdDepthCategories] && (
           <div
             className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-[110]"
+            style={{ 
+              marginTop: '20px' // 3depth 메뉴를 2depth 아래로 5px 이동
+            }}
             onMouseEnter={handleThirdDepthEnter}
             onMouseLeave={handleThirdDepthLeave}
           >

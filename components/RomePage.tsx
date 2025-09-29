@@ -28,6 +28,13 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import BasilicaDiSanPietroInVaticanoImage from "../images/italy/rome/BasilicaDiSanPietroInVaticano.jpg"; //성 베드로 대성당
+import BasilicaDiSantaMariaMaggioreImage from "../images/italy/rome/BasilicaDiSantaMariaMaggiore.jpg"; //성 모 마리아 대성당
+import piazzaSanGiovanniInLateranoImage from "../images/italy/rome/piazzaSanGiovanniInLaterano.jpg"; //성 요한 라테라노 대성당
+import PapalBasilicaOfStPaulOutsideTheWalls from "../images/italy/rome/PapalBasilicaOfStPaulOutsideTheWalls.jpg"; //성 바오로 대문밖 대성당
+import RomeColosseumImage from "../images/italy/rome/colosseum-9102592_1280.png"; //로마 콜로세움
 
 interface RomePageProps {
   setCurrentPage: (page: string) => void;
@@ -113,40 +120,44 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
 
   const majorBasilicas = [
     {
-      name: "성 요한 라테라노 대성당",
-      subtitle: "로마 교구의 주교좌 성당",
+      name: "성 베드로 대성당(Basilica di San Pietro in Vaticano)",
+      subtitle: "바티칸에 위치한 세계 가톨릭의 중심지",
       description:
-        "교황의 주교좌 성당으로 '모든 성당의 어머니(Mater et Caput)'라 불립니다. 콘스탄티누스 황제가 313년에 건립한 이 성당은 로마에서 가장 오래된 가톨릭 성당 중 하나입니다.",
+        "바티칸에 위치한 세계 가톨릭의 중심지로, 사도 베드로의 무덤 위에 세워졌다. 미켈란젤로가 설계한 거대한 돔과 베르니니의 발다키노가 특히 유명하며, 성당 내부에는 미켈란젤로의 「피에타」가 보존되어 있다. 교황이 주례하는 주요 전례가 거행되는 장소로, 매년 전 세계 순례자들이 모여드는 가톨릭 최고의 성지이다.",
       icon: Crown,
       color: "from-yellow-100 to-amber-200",
       iconColor: "text-yellow-700",
+      image: BasilicaDiSanPietroInVaticanoImage,
     },
     {
-      name: "성모 마리아 대성당",
-      subtitle: "서방교회 최초의 성모 마리아 성당",
+      name: "성 요한 라테라노 대성당(Archbasilica di San Giovanni in Laterano)",
+      subtitle: "교황의 공식 주교좌 성당",
       description:
-        "서기 432년에 건립된 이 성당은 서방교회에서 성모 마리아에게 봉헌된 최초의 성당입니다. 5세기의 모자이크가 그대로 보존되어 있으며, 베들레헴의 구유 조각이 보관되어 있습니다.",
+        "교황의 공식 주교좌 성당으로 ‘모든 성당의 어머니(Mater et Caput)’라 불린다. 313년 콘스탄티누스 황제가 건립한 로마에서 가장 오래된 가톨릭 성당으로, 교회의 일치와 권위를 상징한다. 성당 내부에는 웅장한 대리석 제대와 역대 교황들의 좌상이 있으며, 성지계단(Scala Santa)과도 가까워 순례자들이 반드시 찾는 성지 중 하나이다.",
       icon: Star,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
+      image: piazzaSanGiovanniInLateranoImage,
     },
     {
-      name: "성 바오로 대성당",
+      name: "산타 마리아 마조레 대성당 (Basilica di Santa Maria Maggiore)",
       subtitle: "사도 바오로의 순교지에 세워진 성당",
       description:
-        "사도 바오로이 순교한 자리에 건립된 성당으로, 바오로의 무덤이 있습니다. 현재의 건물은 19세기에 재건된 것이지만, 고대의 웅장함을 그대로 재현하고 있습니다.",
+        "성모 마리아께 봉헌된 가장 큰 성당으로, 성모 신심의 중심지라 할 수 있다. 한국에서는 ‘설지전(雪之殿)’이라는 이름으로도 알려져 있는데, 이는 4세기 교황 리베리오 시대 한여름에 눈이 내린 기적과 관련이 있다. 전승에 따르면 성모님께 봉헌될 성당의 위치를 알려주기 위해 로마 에스퀼리노 언덕에 눈이 내렸고, 그 자리에 성당이 세워졌다. 내부에는 베들레헴의 구유 목재가 보존되어 있으며, 화려한 모자이크와 금빛 천장이 순례자들의 발걸음을 사로잡는다.",
       icon: Cross,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
+      image: BasilicaDiSantaMariaMaggioreImage,
     },
     {
-      name: "산타 크로체 성당",
+      name: "성 바오로 대문밖 대성당 (Basilica di San Paolo fuori le Mura)",
       subtitle: "십자가 성유물이 보관된 성당",
       description:
-        "성녀 헬레나가 예루살렘에서 가져온 십자가 조각과 가시관 조각 등 예수님의 수난 성유물들이 보관되어 있는 성당입니다. '예루살렘 성당'이라고도 불립니다.",
+        "로마 성벽 밖에 세워진 대성당으로, 사도 바오로의 무덤이 모셔져 있다. 19세기 대화재 이후 새롭게 재건되었으나, 고대 성당의 장엄함을 여전히 간직하고 있다. 거대한 모자이크와 웅장한 회랑, 역대 교황들의 초상화가 성당 벽면에 이어져 있으며, 신자들에게는 사도 바오로의 가르침과 순교 정신을 깊이 묵상할 수 있는 성지이다.",
       icon: Church,
       color: "from-red-100 to-rose-200",
       iconColor: "text-red-700",
+      image: PapalBasilicaOfStPaulOutsideTheWalls,
     },
   ];
 
@@ -318,37 +329,35 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {majorBasilicas.map((basilica, index) => {
-                  const IconComponent = basilica.icon;
-                  return (
-                    <Card key={index} className="overflow-hidden">
-                      <div className={`aspect-video bg-gradient-to-br ${basilica.color} flex items-center justify-center relative`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${basilica.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {basilica.name}
-                          </h3>
-                        </div>
-                        {/* 오버레이 텍스트 */}
-                        <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {basilica.subtitle}
-                            </span>
-                          </div>
+                {majorBasilicas.map((city, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[320px] object-cover"
+                      />
+                     
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
                         </div>
                       </div>
-                      <CardContent className="p-4">
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {basilica.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                      
+                    </div>
+                    <CardContent className="p-4">
+                    <span className="text-sm font-medium text-gray-800">
+                          </span>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </section>
 
@@ -380,31 +389,32 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Columns className="h-8 w-8 text-amber-700" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-amber-900">
-                              Colosseum
-                            </p>
-                            <p className="text-sm text-amber-700">
-                              플라비우스 원형경기장
-                            </p>
-                          </div>
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-orange-100 to-red-200 rounded-lg overflow-hidden">
+                          <ImageWithFallback
+                            src={RomeColosseumImage}
+                            alt="로마 콜로세움"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-orange-900">
+                          Colosseum
+                          </p>
+                          <p className="text-sm text-orange-700">
+                          플라비우스 원형경기장
+                          </p>
                         </div>
                       </div>
                     </div>
-
                     {/* 설명 */}
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
                           기원후 146년에 가톨릭이 27년에 걸쳐 전해진 로마에서, 
-                          콜로세움은 초기 가톨릭 신자들이 박해받고 순교한 상징적인 장소입니다. 
+                          콜로세움은 초기 가톨릭 신자들이 박해받고 순교한 상징적인 장소다. 
                           검투사의 오락을 위한 경기장이었지만, 수많은 가톨릭 신자들이 
-                          이곳에서 사자에게 던져지거나 처형되었습니다.
+                          이곳에서 사자에게 던져지거나 처형되었다.
                         </p>
 
                         <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
