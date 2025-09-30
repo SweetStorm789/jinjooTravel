@@ -28,6 +28,13 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import casaSollievoDellaSofferenzaImage from "../images/italy/sanGiovanniRotondo/CasaSollievoDellaSofferenza.jpg";
+import chiesaDiSanPioDaPietrelcinaImage from "../images/italy/sanGiovanniRotondo/ChiesaDiSanPioDaPietrelcina.jpg";
+import PadrePioImage from "../images/italy/sanGiovanniRotondo/PadrePio.jpg";
+import museoDiPadrePioImage from "../images/italy/sanGiovanniRotondo/MuseoDiPadrePio.jpg";
+import santaMariaDelleGrazieImage from "../images/italy/sanGiovanniRotondo/SantaMariaDelleGrazie.jpg";
 
 interface SanGiovanniRotondoPageProps {
   setCurrentPage: (page: string) => void;
@@ -112,40 +119,44 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
 
   const holyPlaces = [
     {
-      name: "성 비오 신부 성당",
-      subtitle: "성 비오 신부의 무덤이 있는 신성당",
+      name: "성 비오 신부 성당(San Pio da Pietrelcina Church)",
+      subtitle: "성 비오 신부의 무덤이 있는 신 성당",
       description:
-        "2004년에 건축된 현대적인 성당으로, 성 비오 신부의 유해가 안치되어 있습니다. 렌조 피아노(Renzo Piano)가 설계한 이 성당은 현대 건축의 걸작으로 평가받으며, 매년 전 세계에서 수백만 명의 순례자들이 찾아옵니다.",
+        "2004년에 완공된 현대적인 대성당으로, 세계적 건축가 렌조 피아노(Renzo Piano)가 설계하였다. 성당 내부에는 성 비오 신부의 유해가 안치되어 있으며, 웅장한 구조와 예술적 설계는 현대 가톨릭 건축의 걸작으로 평가받는다. 매년 수백만 명의 순례자들이 이곳을 찾아 기도하며 성인의 전구를 청한다.",
       icon: Church,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
+      image: chiesaDiSanPioDaPietrelcinaImage,
     },
     {
-      name: "산타 마리아 델레 그라치에 성당",
+      name: "산타 마리아 델레 그라치에 성당(Santa Maria delle Grazie Church)",
       subtitle: "성 비오 신부가 50년간 봉사한 옛 성당",
       description:
-        "성 비오 신부가 1916년부터 1968년까지 52년간 사목활동을 했던 성당입니다. 이곳에서 성 비오 신부는 매일 미사를 드리고 고해성사를 들었으며, 1918년 9월 20일 성흔을 받은 곳이기도 합니다.",
+        "성 비오 신부가 1916년부터 선종한 1968년까지 50여 년간 사목 활동을 이어간 옛 성당이다. 이곳에서 매일 미사를 집전하고 신자들의 고해성사를 들었으며, 1918년 9월 20일 성흔을 받은 장소로도 알려져 있다. 성당 옆에는 성 비오 신부가 사용하던 고해실이 보존되어 있어, 당시의 영적 현장을 그대로 느낄 수 있다.",
       icon: Cross,
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
+      image: santaMariaDelleGrazieImage,
     },
     {
-      name: "성 비오 신부 박물관",
+      name: "성 비오 신부 박물관(Padre Pio Museum)",
       subtitle: "성 비오 신부의 생애와 유품 전시",
       description:
-        "성 비오 신부의 일생과 기적들을 보여주는 박물관으로, 그의 개인 유품, 편지, 사진 등이 전시되어 있습니다. 성흔의 증거와 치유의 기적에 대한 자료들도 볼 수 있습니다.",
+        "성인의 삶과 신앙을 보여주는 공간으로, 성 비오 신부의 유품, 편지, 사진, 성구 등이 전시되어 있다. 단순한 기록물이 아니라 성인의 영성과 기적을 증언하는 증거로서, 방문자들에게 깊은 신앙적 감동을 준다. 이곳은 성 비오 신부의 내적 삶과 사도직을 이해하는 중요한 관문이 된다.",
       icon: Star,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
+      image: museoDiPadrePioImage,
     },
     {
-      name: "카사 솔리에보 델라 소페렌자 병원",
+      name: "카사 솔리에보 델라 소페렌자 병원(Casa Sollievo della Sofferenza)",
       subtitle: "성 비오 신부가 설립한 병원",
       description:
-        "1956년 성 비오 신부가 설립한 병원으로, '고통 받는 이들의 집'이라는 뜻입니다. 성 비오 신부는 이 병원을 통해 병자들을 치료하고 가난한 이들을 도왔으며, 현재도 최첨단 의료시설로 운영되고 있습니다.",
+        "1956년 성 비오 신부가 설립한 병원으로, 이름은 ‘고통 받는 이들의 집’을 뜻한다. 단순한 의료기관이 아니라, 신앙과 사랑으로 환자를 돌보고 고통을 나누는 공간으로 기획되었다. 오늘날에도 최첨단 의료 시설을 갖춘 유럽의 대표적인 병원으로 운영되고 있으며, 성인의 자비와 연대 정신을 계승하고 있다.",
       icon: Heart,
       color: "from-green-100 to-emerald-200",
       iconColor: "text-green-700",
+      image: casaSollievoDellaSofferenzaImage,
     },
   ];
 
@@ -322,37 +333,39 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {holyPlaces.map((place, index) => {
-                  const IconComponent = place.icon;
-                  return (
-                    <Card key={index} className="overflow-hidden">
-                      <div className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${place.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {place.name}
-                          </h3>
-                        </div>
-                        {/* 오버레이 텍스트 */}
-                        <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {place.subtitle}
-                            </span>
-                          </div>
+                {holyPlaces.map((city, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[280px] object-cover"
+                      />
+                     
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
                         </div>
                       </div>
-                      <CardContent className="p-4">
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {place.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                      
+                    </div>
+                    <CardContent className="p-4">
+                      {/* <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                        {city.subtitle}
+                      </h3> */}
+                      <h3 className="text-lg font-medium text-foreground mb-2">
+                        {city.subtitle}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </section>
 
@@ -384,19 +397,28 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Cross className="h-8 w-8 text-amber-700" />
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={PadrePioImage}
+                        alt="Padre Pio"
+                        className="w-full h-full object-cover"
+                      />
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="text-center space-y-3">
+                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                <Church className="h-8 w-8 text-amber-700" />
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-amber-900">
-                              Padre Pio
-                            </p>
-                            <p className="text-sm text-amber-700">
-                              성 비오 신부
-                            </p>
-                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                          Padre Pio
+                          </p>
+                          <p className="text-sm text-amber-700">
+                          Padre Pio
+                          </p>
                         </div>
                       </div>
                     </div>

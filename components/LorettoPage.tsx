@@ -29,6 +29,11 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import basilicaDellaSantaCasaDiLoretoImage from "../images/italy/loreto/BasilicaDellaSantaCasaDiLoreto.jpg";
+import loretoSacelloDellaSantaCasaImage from "../images/italy/loreto/LoretoSacelloDellaSantaCasa.jpg";
+import santaCasaImage from "../images/italy/loreto/SantaCasa.jpg";
 
 interface LorettoPageProps {
   setCurrentPage: (page: string) => void;
@@ -113,41 +118,27 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
 
   const holyPlaces = [
     {
-      name: "로레토 성모 대성당",
+      name: "로레토 성모 대성당 (Basilica della Santa Casa di Loreto)",
       subtitle: "성모님의 집을 품은 대성당",
       description:
-        "13세기 말부터 16세기에 건립된 로레토 성모 대성당은 고딕과 르네상스 양식이 조화된 아름다운 건축물입니다. 성당 내부 중앙에는 성모님의 집인 카사 산타가 보호되어 있으며, 세계 각국에서 온 순례자들의 발길이 끊이지 않습니다.",
+        "13세기 말부터 16세기에 걸쳐 건립된 대성당은 고딕과 르네상스 양식이 조화를 이루는 아름다운 건축물이다. 성당 중앙에는 성모님의 집인 카사 산타가 보호되어 있으며, 세계 각국에서 온 순례자들의 발길이 끊이지 않는다. 성당 내부와 외부를 장식하는 조각과 회화들은 16세기 이탈리아 예술의 정수를 보여주며, 로레토 순례의 중심지가 되고 있다.",
       icon: Church,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
+      image: basilicaDellaSantaCasaDiLoretoImage,
     },
+
     {
-      name: "카사 산타 (성모님의 집)",
-      subtitle: "나자렛에서 온 성가족의 집",
-      description:
-        "성모 마리아가 살았던 나자렛의 집이 1291년과 1294년 두 차례에 걸쳐 천사들에 의해 이곳으로 이송되었다고 전해집니다. 3면의 벽돌로 된 이 집은 현재 대리석으로 만든 성막 안에 보호되어 있으며, 수많은 기적이 일어난 성지입니다.",
-      icon: Home,
-      color: "from-amber-100 to-yellow-200",
-      iconColor: "text-amber-700",
-    },
-    {
-      name: "성모님 상",
+      name: "성모님 상 (Statue of Our Lady of Loreto)",
       subtitle: "기적의 로레토 성모상",
       description:
-        "14세기에 제작된 로레토 성모상은 검은 피부색을 가진 성모님과 아기 예수의 모습으로, '검은 성모님'으로도 불립니다. 이 성상 앞에서 수많은 기적이 일어났으며, 1920년 교황 베네딕토 15세는 로레토 성모님을 '항공의 수호성인'으로 선포했습니다.",
+        "14세기에 제작된 목조 성모상으로, 검은 피부색을 한 성모님과 아기 예수의 모습으로 표현되어 ‘검은 성모님’이라 불린다. 이 성상 앞에서 수많은 기적이 일어났으며, 1920년 교황 베네딕토 15세는 로레토의 성모님을 ‘항공의 수호성인’으로 선포하였다. 오늘날에도 순례자들의 기도와 봉헌이 이어지는 신앙의 상징이다.",
       icon: Star,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
+      image: loretoSacelloDellaSantaCasaImage,
     },
-    {
-      name: "티치아노 갤러리",
-      subtitle: "르네상스 예술의 보고",
-      description:
-        "로레토 성당에는 티치아노, 로렌초 로토 등 르네상스 거장들의 작품이 소장되어 있습니다. 특히 성막을 장식하는 조각들은 안드레아 산소비노, 안토니오 산갈로 등의 작품으로, 16세기 이탈리아 예술의 최고 걸작들을 감상할 수 있습니다.",
-      icon: Crown,
-      color: "from-green-100 to-emerald-200",
-      iconColor: "text-green-700",
-    },
+   
   ];
 
   const casaSantaHistory = [
@@ -323,37 +314,36 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {holyPlaces.map((place, index) => {
-                  const IconComponent = place.icon;
-                  return (
-                    <Card key={index} className="overflow-hidden">
-                      <div className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${place.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {place.name}
-                          </h3>
-                        </div>
-                        {/* 오버레이 텍스트 */}
-                        <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {place.subtitle}
-                            </span>
-                          </div>
+                {holyPlaces.map((city, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[300px] object-cover"
+                      />
+                     
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
                         </div>
                       </div>
-                      <CardContent className="p-4">
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {place.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                      
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                        {city.subtitle}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </section>
 
@@ -385,22 +375,33 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Home className="h-8 w-8 text-blue-700" />
+                      <div className="space-y-4">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={santaCasaImage}
+                        alt="산티아고 데 콤포스텔라"
+                        className="w-full h-full object-cover"
+                      />
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="text-center space-y-3">
+                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                <Church className="h-8 w-8 text-amber-700" />
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-blue-900">
-                              Casa Santa
-                            </p>
-                            <p className="text-sm text-blue-700">
-                              성모님의 집
-                            </p>
-                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                            Santa Casa
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            성모님의 집
+                          </p>
                         </div>
                       </div>
                     </div>
+
+
 
                     {/* 설명 */}
                     <div className="lg:col-span-2 space-y-4">
@@ -643,7 +644,48 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
             </div>
           </div>
         </div>
+        <div className="w-full pt-4">
+          <p className="text-[11px] text-gray-500 text-right leading-relaxed">
+            사진: Flyer20061, 로레토 성모상 (Loreto, Italy), 
+            <a 
+              href="https://creativecommons.org/licenses/by-sa/3.0/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="underline hover:text-gray-700"
+            >
+              CC BY-SA 3.0
+            </a>, Wikimedia Commons 제공 <br />
+            Image: Flyer20061, Statue of Our Lady of Loreto (Loreto, Italy), 
+            <a 
+              href="https://creativecommons.org/licenses/by-sa/3.0/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="underline hover:text-gray-700"
+            >
+              CC BY-SA 3.0
+            </a>, via Wikimedia Commons <br /><br />
+            사진: Zorro2212, 성모님의 집 (Santa Casa, Loreto, Italy), 
+            <a 
+              href="https://creativecommons.org/licenses/by-sa/3.0/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="underline hover:text-gray-700"
+            >
+              CC BY-SA 3.0
+            </a>, Wikimedia Commons 제공 <br />
+            Image: Zorro2212, Holy House (Santa Casa), Loreto, Italy, 
+            <a 
+              href="https://creativecommons.org/licenses/by-sa/3.0/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="underline hover:text-gray-700"
+            >
+              CC BY-SA 3.0
+            </a>, via Wikimedia Commons
+          </p>
+        </div>
       </div>
     </div>
+    
   );
 }

@@ -350,8 +350,9 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                       
                     </div>
                     <CardContent className="p-4">
-                    <span className="text-sm font-medium text-gray-800">
-                          </span>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                        {city.subtitle}
+                      </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {city.description}
                       </p>

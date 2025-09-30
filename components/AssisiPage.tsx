@@ -25,6 +25,13 @@ import { Badge } from "./ui/badge";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import SanDamianoexteriorImage from "../images/italy/assisi/SanDamianoExterior.jpg";  //산 다미아노 성당
+import BasilicaDiSanFrancescoImage from "../images/italy/assisi/BasilicaDiSanFrancescodAssisi.jpg"; //성 프란치스코 대성당
+import BasilicaDiSantaChiaraImage from "../images/italy/assisi/BasilicaDiSantaChiara.jpg"; //성 클라라 대성당
+import BasilicaDiSantaMariaDegliAngeliImage from "../images/italy/assisi/BasilicaDiSantaMariaDegliAngeli.jpg"; //산타 마리아 델리 안젤리 성당 
+import SanFrancescoImage from "../images/italy/assisi/SanFrancesco.jpg"; //성 프란치스코
 
 interface AssisiPageProps {
   setCurrentPage: (page: string) => void;
@@ -116,6 +123,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
       icon: Church,
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
+      image: BasilicaDiSanFrancescoImage,
     },
     {
       name: "성 클라라 대성당 (Basilica di Santa Chiara)",
@@ -125,6 +133,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
       icon: Star,
       color: "from-pink-100 to-rose-200",
       iconColor: "text-pink-700",
+      image: BasilicaDiSantaChiaraImage,
     },
     {
       name: "산타 마리아 델리 안젤리 성당 (Basilica di Santa Maria degli Angeli, 포르치운쿨라)",
@@ -134,6 +143,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
       icon: Heart,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
+      image: BasilicaDiSantaMariaDegliAngeliImage,
     },
     {
       name: "산 다미아노 성당 (Chiesa di San Damiano)",
@@ -143,6 +153,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
       icon: Crown,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
+      image: SanDamianoexteriorImage,
     },
   ];
 
@@ -319,37 +330,36 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {majorBasilicas.map((basilica, index) => {
-                  const IconComponent = basilica.icon;
-                  return (
-                    <Card key={index} className="overflow-hidden">
-                      <div className={`aspect-video bg-gradient-to-br ${basilica.color} flex items-center justify-center relative`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${basilica.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {basilica.name}
-                          </h3>
-                        </div>
-                        {/* 오버레이 텍스트 */}
-                        <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {basilica.subtitle}
-                            </span>
-                          </div>
+                {majorBasilicas.map((city, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[280px] object-cover"
+                      />
+                     
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
                         </div>
                       </div>
-                      <CardContent className="p-4">
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {basilica.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                      
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                        {city.subtitle}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </section>
 
@@ -380,7 +390,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                 <CardContent className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
-                    <div className="lg:col-span-1">
+                    {/* <div className="lg:col-span-1">
                       <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg flex items-center justify-center">
                         <div className="text-center space-y-3">
                           <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -394,6 +404,25 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                               성 프란치스코
                             </p>
                           </div>
+                        </div>
+                      </div>
+                    </div> */}
+                    <div className="lg:col-span-1">
+                      <div className="space-y-4">
+                        <div className="bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={SanFrancescoImage}
+                        alt="성 프란치스코"
+                        className="w-full h-full object-cover"
+                      />
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                          Saint Francis
+                          </p>
+                          <p className="text-sm text-amber-700">
+                          성 프란치스코
+                          </p>
                         </div>
                       </div>
                     </div>
