@@ -381,9 +381,6 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                         </p>
                       </div>
                     </div>
-                    <Badge variant="secondary">
-                      교회박사
-                    </Badge>
                   </div>
                 </div>
 

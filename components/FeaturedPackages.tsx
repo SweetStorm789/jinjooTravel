@@ -57,6 +57,13 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
       return '미정';
     }
   };
+  // 헬퍼 함수 추가
+  const getImageUrl = (baseUrl: string, imageObj?: any) => {
+    if (!imageObj?.image_url || typeof imageObj.image_url !== "string") {
+      return "/placeholder-image.jpg";
+    }
+    return `${baseUrl}/uploads/${imageObj.image_url.split("/").pop()}`;
+  };
 
   useEffect(() => {
     const fetchFeaturedPackages = async () => {
@@ -115,7 +122,8 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
               region: pkg.region,
               duration: pkg.duration,
               price: pkg.price,
-              image_url: imageUrl ? `${baseUrl}/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
+              // image_url: imageUrl ? `${baseUrl}/uploads/${imageUrl.image_url.split('/').pop()}` : '/placeholder-image.jpg',
+              image_url: getImageUrl(baseUrl, imageUrl),   // ✅ 안전 처리
               status: pkg.status,
               max_people: pkg.max_people,
               departure_date: pkg.departure_date,

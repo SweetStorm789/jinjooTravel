@@ -11,11 +11,13 @@ import {
   Info,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   Cross,
   Heart,
   Star,
   Crown,
   Home,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Card,
@@ -41,6 +43,7 @@ interface LorettoPageProps {
 
 export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
   const [isItalyExpanded, setIsItalyExpanded] = useState(true);
+  const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
   const holyLandMenuItems = [
     { name: "바티칸", type: "page" },
@@ -644,45 +647,94 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
             </div>
           </div>
         </div>
+        {/* 저작권 정보 */}
         <div className="w-full pt-4">
-          <p className="text-[11px] text-gray-500 text-right leading-relaxed">
-            사진: Flyer20061, 로레토 성모상 (Loreto, Italy), 
-            <a 
-              href="https://creativecommons.org/licenses/by-sa/3.0/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="underline hover:text-gray-700"
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200 overflow-hidden">
+            <button
+              onClick={() => setIsCopyrightExpanded(!isCopyrightExpanded)}
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-all duration-200 group"
             >
-              CC BY-SA 3.0
-            </a>, Wikimedia Commons 제공 <br />
-            Image: Flyer20061, Statue of Our Lady of Loreto (Loreto, Italy), 
-            <a 
-              href="https://creativecommons.org/licenses/by-sa/3.0/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="underline hover:text-gray-700"
-            >
-              CC BY-SA 3.0
-            </a>, via Wikimedia Commons <br /><br />
-            사진: Zorro2212, 성모님의 집 (Santa Casa, Loreto, Italy), 
-            <a 
-              href="https://creativecommons.org/licenses/by-sa/3.0/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="underline hover:text-gray-700"
-            >
-              CC BY-SA 3.0
-            </a>, Wikimedia Commons 제공 <br />
-            Image: Zorro2212, Holy House (Santa Casa), Loreto, Italy, 
-            <a 
-              href="https://creativecommons.org/licenses/by-sa/3.0/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="underline hover:text-gray-700"
-            >
-              CC BY-SA 3.0
-            </a>, via Wikimedia Commons
-          </p>
+              <div className="flex items-center space-x-2">
+                <div className="p-1.5 rounded-md bg-white shadow-sm">
+                  <ImageIcon className="h-4 w-4 text-gray-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">
+                  이미지 저작권 정보
+                </span>
+                <Badge variant="secondary" className="text-xs">
+                  {isCopyrightExpanded ? "클릭하여 접기" : "클릭하여 펼치기"}
+                </Badge>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs text-gray-500 hidden sm:block">
+                  {isCopyrightExpanded ? "접기" : "자세히 보기"}
+                </span>
+                {isCopyrightExpanded ? (
+                  <ChevronUp className="h-4 w-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                )}
+              </div>
+            </button>
+
+            {isCopyrightExpanded && (
+              <div className="px-4 pb-4 pt-2 bg-white border-t border-gray-200 animate-in slide-in-from-top duration-300">
+                <div className="space-y-3 text-[11px] text-gray-600 leading-relaxed">
+                  <div className="p-3 bg-gray-50 rounded-md border-l-2 border-blue-400">
+                    <p className="font-medium text-gray-700 mb-1">📷 로레토 성모상</p>
+                    <p>
+                      사진: Flyer20061, 로레토 성모상 (Loreto, Italy),{" "}
+                      <a 
+                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 underline hover:text-blue-800 font-medium"
+                      >
+                        CC BY-SA 3.0
+                      </a>, Wikimedia Commons 제공
+                    </p>
+                    <p className="text-gray-500 mt-1">
+                      Image: Flyer20061, Statue of Our Lady of Loreto (Loreto, Italy),{" "}
+                      <a 
+                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 underline hover:text-blue-800"
+                      >
+                        CC BY-SA 3.0
+                      </a>, via Wikimedia Commons
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-gray-50 rounded-md border-l-2 border-green-400">
+                    <p className="font-medium text-gray-700 mb-1">📷 성모님의 집 (Santa Casa)</p>
+                    <p>
+                      사진: Zorro2212, 성모님의 집 (Santa Casa, Loreto, Italy),{" "}
+                      <a 
+                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 underline hover:text-blue-800 font-medium"
+                      >
+                        CC BY-SA 3.0
+                      </a>, Wikimedia Commons 제공
+                    </p>
+                    <p className="text-gray-500 mt-1">
+                      Image: Zorro2212, Holy House (Santa Casa), Loreto, Italy,{" "}
+                      <a 
+                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 underline hover:text-blue-800"
+                      >
+                        CC BY-SA 3.0
+                      </a>, via Wikimedia Commons
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

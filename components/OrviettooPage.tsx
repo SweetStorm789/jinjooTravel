@@ -11,12 +11,14 @@ import {
   Info,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   Cross,
   Heart,
   Star,
   Crown,
   Zap,
   Wine,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Card,
@@ -30,6 +32,14 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+
+import PozzoDiSanPatrizioImage from "../images/italy/orvieto/PozzoDiSanPatrizio.jpg";     //성 파트리치오 우물
+import CappellaDelCorporaleImage from "../images/italy/orvieto/CappellaDelCorporale.jpg"; //성체기적 경당
+import CappellaDiSanBrizioImage from "../images/italy/orvieto/CappellaDiSanBrizio.jpg"; //성 브리조 경당
+import DuomoDiOrvietoImage from "../images/italy/orvieto/DuomoDiOrvieto.jpg"; //오르비에토 대성당
+import miracleOfBolsenaImage from "../images/italy/orvieto/MiracleOfBolsena.jpg"; //볼세나 성체기적
 
 interface OrviettooPageProps {
   setCurrentPage: (page: string) => void;
@@ -37,6 +47,7 @@ interface OrviettooPageProps {
 
 export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
   const [isItalyExpanded, setIsItalyExpanded] = useState(true);
+  const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
   const holyLandMenuItems = [
     { name: "바티칸", type: "page" },
@@ -114,40 +125,44 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
 
   const holyPlaces = [
     {
-      name: "오르비에토 대성당",
-      subtitle: "성체기적을 기념하는 이탈리아 고딕의 걸작",
+      name: "오르비에토 대성당 (Duomo di Orvieto / Cathedral of Santa Maria Assunta)",
+      subtitle: "딕 건축의 걸작, 성체 기적의 중심 성당",
       description:
-        "1290년 교황 니콜라오 4세의 명령으로 건축이 시작된 대성당으로, 1263년 볼세나에서 일어난 성체기적을 기념하기 위해 지어졌습니다. 300년에 걸쳐 완성된 이 성당은 이탈리아 고딕 건축의 최고 걸작으로 평가받으며, 시뇨렐리의 프레스코화로 유명합니다.",
+        "13세기에 건축된 오르비에토 대성당은 이탈리아 고딕 양식의 대표작이다. 황금 모자이크와 조각으로 장식된 정면이 유명하며, 1263년 볼세나 성체 기적과 연결되어 가톨릭 순례의 핵심 성지가 되었다. 대성당 내부에는 성혈 제대보가 보관된 성체 기적 경당과 루카 시뇨렐리의 최후의 심판 프레스코로 유명한 산 브리치오 경당이 있다.",
       icon: Church,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
+      image: DuomoDiOrvietoImage,
     },
     {
-      name: "성체기적 경당",
-      subtitle: "볼세나 성체기적의 성혈포가 보관된 경당",
+      name: "성체 기적 경당 (Cappella del Corporale / Chapel of the Corporal)",
+      subtitle: "볼세나 성체 기적 성혈 제대보가 안치된 경당",
       description:
-        "대성당 내부에 있는 성체기적 경당(Cappella del Corporale)에는 1263년 볼세나에서 일어난 성체기적 당시의 성혈포가 보관되어 있습니다. 우골리노 디 프레테 일라리오가 제작한 성체기적 제단화는 이 기적을 생생하게 묘사하고 있습니다.",
+        "오르비에토 대성당 안에 위치한 성체 기적 경당은 1350년대에 지어졌다. 이곳에는 1263년 볼세나에서 성체에서 흘러나온 피가 묻은 제대보(Corporal of Bolsena)가 보관되어 있다. 정교한 제대와 중세 벽화로 꾸며져 있으며, 순례자들이 성체 신비를 깊이 묵상할 수 있는 장소이다.",
       icon: Star,
       color: "from-amber-100 to-yellow-200",
       iconColor: "text-amber-700",
+      image: CappellaDelCorporaleImage,
     },
     {
-      name: "최후의 심판 프레스코",
-      subtitle: "시뇨렐리가 그린 르네상스 걸작",
+      name: "최후의 심판 프레스코 (Cappella di San Brizio / Chapel of San Brizio – Last Judgement Frescoes)",
+      subtitle: "루카 시뇨렐리의 최후의 심판 걸작 프레스코",
       description:
-        "루카 시뇨렐리(Luca Signorelli)가 1499-1504년에 완성한 최후의 심판 프레스코화는 르네상스 예술의 걸작입니다. 미켈란젤로의 시스티나 성당 천장화에 영감을 준 이 작품은 인간의 육체와 영혼을 극도로 사실적으로 묘사했습니다.",
+        "대성당 내부 산 브리치오 경당은 15세기 후반 루카 시뇨렐리가 그린 프레스코화로 유명하다. 죽은 자의 부활, 천국과 지옥, 최후의 심판 장면이 생생하게 묘사되어 있으며, 미켈란젤로의 시스티나 성당 최후의 심판에 큰 영향을 끼쳤다. 예술성과 신학적 깊이를 동시에 담은 르네상스의 걸작이다.",
       icon: Crown,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
+      image: CappellaDiSanBrizioImage,
     },
     {
-      name: "포조 디 산 파트리치오",
-      subtitle: "르네상스 시대의 건축 기적",
+      name: "포조 디 산 파트리치오 (Pozzo di San Patrizio / St. Patrick’s Well)",
+      subtitle: "르네상스 토목의 경이, 이중 나선형 우물",
       description:
-        "교황 클레멘스 7세의 명령으로 안토니오 다 상갈로가 1527년에 설계한 우물로, 깊이 62m의 이중 나선 계단이 특징입니다. 248개의 계단으로 이루어진 이 우물은 르네상스 건축 기술의 걸작으로, 물을 운반하는 당나귀들이 서로 마주치지 않도록 설계되었습니다.",
+        "16세기 교황 클레멘스 7세가 오르비에토에 피신했을 때 도시의 물 부족 문제를 해결하기 위해 건설된 깊이 약 62m의 거대한 우물이다. 이중 나선형 계단 구조로 설계되어 당나귀가 물을 나르면서 서로 겹치지 않고 오르내릴 수 있었다. 신앙적 상징성과 함께 르네상스 시대 공학의 경이로 꼽히는 명소이다.",
       icon: Building,
       color: "from-green-100 to-emerald-200",
       iconColor: "text-green-700",
+      image: PozzoDiSanPatrizioImage,
     },
   ];
 
@@ -324,37 +339,36 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {holyPlaces.map((place, index) => {
-                  const IconComponent = place.icon;
-                  return (
-                    <Card key={index} className="overflow-hidden">
-                      <div className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${place.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {place.name}
-                          </h3>
-                        </div>
-                        {/* 오버레이 텍스트 */}
-                        <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {place.subtitle}
-                            </span>
-                          </div>
+                {holyPlaces.map((city, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[300px] object-cover"
+                      />
+                     
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
                         </div>
                       </div>
-                      <CardContent className="p-4">
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {place.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                      
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                        {city.subtitle}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </section>
 
@@ -386,19 +400,28 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-yellow-100 to-orange-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Zap className="h-8 w-8 text-yellow-700" />
+                      <div className="space-y-4">
+                        <div className="aspect-[2/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={miracleOfBolsenaImage}
+                        alt="볼세나 성체 기적"
+                        className="w-full h-full object-cover"
+                      />
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="text-center space-y-3">
+                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                <Church className="h-8 w-8 text-amber-700" />
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-yellow-900">
-                              Miracolo Eucaristico
-                            </p>
-                            <p className="text-sm text-yellow-700">
-                              성체기적
-                            </p>
-                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                          The Eucharistic Miracle of Bolsena, 1263
+                          </p>
+                          <p className="text-sm text-amber-700">
+                          볼세나 성체 기적
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -642,6 +665,79 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </div>
+        {/* 저작권 정보 */}
+        <div className="w-full pt-4">
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200 overflow-hidden">
+            <button
+              onClick={() => setIsCopyrightExpanded(!isCopyrightExpanded)}
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-all duration-200 group"
+            >
+              <div className="flex items-center space-x-2">
+                <div className="p-1.5 rounded-md bg-white shadow-sm">
+                  <ImageIcon className="h-4 w-4 text-gray-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">
+                  이미지 저작권 정보
+                </span>
+                <Badge variant="secondary" className="text-xs">
+                  {isCopyrightExpanded ? "클릭하여 접기" : "클릭하여 펼치기"}
+                </Badge>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs text-gray-500 hidden sm:block">
+                  {isCopyrightExpanded ? "접기" : "자세히 보기"}
+                </span>
+                {isCopyrightExpanded ? (
+                  <ChevronUp className="h-4 w-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                )}
+              </div>
+            </button>
+
+            {isCopyrightExpanded && (
+              <div className="px-4 pb-4 pt-2 bg-white border-t border-gray-200 animate-in slide-in-from-top duration-300">
+                <div className="space-y-3 text-[11px] text-gray-600 leading-relaxed">
+                  <div className="p-3 bg-gray-50 rounded-md border-l-2 border-blue-400">
+                    <p className="font-medium text-gray-700 mb-1">📷 포조 디 산 파트리치오</p>
+                    <p>
+                      사진: Fabio Poggi, 포조 디 산 파트리치오 (Orvieto, Italy),{" "}
+                      <a 
+                        href="https://creativecommons.org/licenses/by/3.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 underline hover:text-blue-800 font-medium"
+                      >
+                        CC BY 3.0
+                      </a>, Wikimedia Commons 제공
+                    </p>
+                    <p className="text-gray-500 mt-1">
+                      Image: Fabio Poggi, Pozzo di San Patrizio (Orvieto, Italy),{" "}
+                      <a 
+                        href="https://creativecommons.org/licenses/by/3.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 underline hover:text-blue-800"
+                      >
+                        CC BY 3.0
+                      </a>, via Wikimedia Commons
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-gray-50 rounded-md border-l-2 border-green-400">
+                    <p className="font-medium text-gray-700 mb-1">📷 성혈 제대보</p>
+                    <p>
+                      사진: 성혈 제대보 (Orvieto, Italy), Public Domain, Wikimedia Commons 제공
+                    </p>
+                    <p className="text-gray-500 mt-1">
+                      Image: Corporal of Bolsena (Orvieto, Italy), Public Domain, via Wikimedia Commons
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
