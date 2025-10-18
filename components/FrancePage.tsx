@@ -11,11 +11,13 @@ import {
   Info,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   Crown,
   Cross,
   Star,
   Heart,
   Droplets,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Card,
@@ -29,6 +31,13 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+import ParisChapelOfOurLadyOfTheMiraculousMedalImage from "../images/france/ParisChapelOfOurLadyOfTheMiraculousMedal.jpg";
+import LisieuxBasilicaOfSaintThérèseImage from "../images/france/LisieuxBasilicaOfSaintThérèse.jpg";
+import LourdesImage from "../images/france/Lourdes.jpg";
+import LourdesSanctuaryOfOurLadyOfLourdesImage from "../images/france/LourdesSanctuaryOfOurLadyOfLourdes.jpg";
+import ParisBasiliqueDuSacréCœurDeMontmartreImage from "../images/france/ParisBasiliqueDuSacréCœurDeMontmartre.jpg";
 
 interface FrancePageProps {
   setCurrentPage: (page: string) => void;
@@ -36,6 +45,7 @@ interface FrancePageProps {
 
 export default function FrancePage({ setCurrentPage }: FrancePageProps) {
   const [isItalyExpanded, setIsItalyExpanded] = useState(true);
+  const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
   const holyLandMenuItems = [
     { name: "바티칸", type: "page" },
@@ -119,40 +129,44 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
 
   const holyPlaces = [
     {
-      name: "루르드",
-      subtitle: "성모 마리아의 발현지",
+      name: "루르드 (Lourdes – Sanctuary of Our Lady of Lourdes)",
+      subtitle: "성모 발현과 치유의 샘으로 유명한 세계 3대 성모 성지",
       description:
-        "1858년 성녀 베르나데트에게 성모 마리아가 발현한 성지로, 매년 전 세계에서 수백만 명의 순례자가 찾는 대표적인 성모 발현지입니다. 기적의 샘물로 유명하며 많은 치유의 기적이 일어났습니다.",
-      icon: Droplets,
-      color: "from-blue-100 to-cyan-200",
+        "1858년, 어린 소녀 베르나데트 수비루에게 성모 마리아가 18차례 발현한 루르드는 세계 가톨릭 신자들의 대표적인 순례지입니다. 성모님의 인도로 솟은 ‘치유의 샘물’과 루르드 대성당, 동굴 성당(Grotto)은 병자와 신자들이 은총과 회복을 체험하는 장소로 널리 알려져 있습니다.",
+      icon: Crown, // 치유와 은총 상징
+      color: "from-blue-100 to-sky-200",
       iconColor: "text-blue-700",
+      image: LourdesImage,
     },
     {
-      name: "리지외",
-      subtitle: "성녀 테레사(소화 데레사)의 고향",
+      name: "리지외 (Lisieux – Basilica of Saint Thérèse)",
+      subtitle: "‘작은 꽃’ 성녀 데레사의 고향",
       description:
-        "성녀 테레사(1873-1897)가 태어나고 살았던 곳으로, '작은 길'의 영성으로 유명한 성녀의 유해가 모셔진 리지외 대성당이 있습니다. 전 세계적으로 사랑받는 성녀의 순례지입니다.",
-      icon: Star,
+        "성녀 데레사(어린 예수의 데레사)는 단순한 사랑과 신뢰의 영성으로 전 세계 신자들에게 깊은 감동을 준 인물입니다. 그녀의 유해가 모셔진 리지외 대성당은 ‘작은 일 속의 위대한 사랑’이라는 메시지를 되새기며 신앙을 새롭게 하는 장소로 사랑받고 있습니다.",
+      icon: Building,
       color: "from-pink-100 to-rose-200",
-      iconColor: "text-pink-700",
+      iconColor: "text-rose-700",
+      image: LisieuxBasilicaOfSaintThérèseImage,
     },
     {
-      name: "몽마르트 성심대성당",
-      subtitle: "파리의 예수 성심 대성당",
+      name: "파리 기적의 메달 경당 (Paris – Chapel of Our Lady of the Miraculous Medal)",
+      subtitle: "성모 발현과 ‘기적의 패’의 기원지",
       description:
-        "파리 몽마르트 언덕에 위치한 예수 성심 대성당으로, 1914년에 완공되었습니다. 파리를 내려다보는 언덕 위의 아름다운 바실리카로, 24시간 성체조배가 이루어지는 성지입니다.",
-      icon: Church,
-      color: "from-red-100 to-pink-200",
+        "1830년, 성녀 카타리나 라부레에게 성모 마리아가 발현하여 ‘기적의 패’를 전하신 장소입니다. 단순한 경당이지만, 전 세계 수많은 신자들이 성모의 보호와 은총을 청하러 방문하는 깊은 신심의 중심지로 자리 잡았습니다. 지금도 매일 미사와 기도가 이어지고 있습니다.",
+      icon: Star,
+      color: "from-amber-100 to-yellow-200",
+      iconColor: "text-amber-700",
+      image: ParisChapelOfOurLadyOfTheMiraculousMedalImage,
+    },
+    {
+      name: "몽마르트 성심대성당 (Paris – Basilique du Sacré-Cœur de Montmartre)",
+      subtitle: "예수 성심 신심의 중심지",
+      description:
+        "파리의 가장 높은 언덕 몽마르트에 자리한 성심대성당은 프랑스가 회개와 속죄의 표징으로 세운 대성전입니다. 19세기 말부터 지금까지 24시간 끊임없이 성체조배가 이어지고 있으며, 하느님의 자비와 사랑을 묵상하는 전 세계 신자들의 기도처로 사랑받고 있습니다.",
+      icon: Cross,
+      color: "from-red-100 to-rose-200",
       iconColor: "text-red-700",
-    },
-    {
-      name: "아비뇽",
-      subtitle: "교황청이 있었던 역사적 도시",
-      description:
-        "1309년부터 1377년까지 교황청이 머물렀던 '아비뇽 유수' 시대의 중심지입니다. 교황궁과 아비뇽 대성당 등 중세 교회사의 중요한 유적들이 보존되어 있습니다.",
-      icon: Crown,
-      color: "from-yellow-100 to-amber-200",
-      iconColor: "text-yellow-700",
+      image: ParisBasiliqueDuSacréCœurDeMontmartreImage,
     },
   ];
 
@@ -347,37 +361,36 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {holyPlaces.map((place, index) => {
-                  const IconComponent = place.icon;
-                  return (
+                {holyPlaces.map((city, index) => (
                     <Card key={index} className="overflow-hidden">
-                      <div className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div className="text-center space-y-2 relative z-10">
-                          <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
-                            <IconComponent className={`h-6 w-6 ${place.iconColor}`} />
-                          </div>
-                          <h3 className="font-medium text-gray-900">
-                            {place.name}
-                          </h3>
-                        </div>
+                      <div className="relative">
+                        <div className="absolute inset-0"></div>
+                        <ImageWithFallback
+                          src={city.image}
+                          alt={city.name}
+                          className="w-full h-[300px] object-cover"
+                        />
+                      
                         {/* 오버레이 텍스트 */}
                         <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm rounded px-2 py-1">
-                            <span className="text-sm font-medium text-gray-800">
-                              {place.subtitle}
+                          <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                            <span className="text-sm font-medium text-gray-800 text-center">
+                              {city.name}
                             </span>
                           </div>
                         </div>
+                        
                       </div>
                       <CardContent className="p-4">
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                          {city.subtitle}
+                        </h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          {place.description}
+                          {city.description}
                         </p>
                       </CardContent>
                     </Card>
-                  );
-                })}
+                  ))}
               </div>
             </section>
 
@@ -409,19 +422,21 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* 이미지 영역 */}
                     <div className="lg:col-span-1">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-blue-100 to-cyan-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <Droplets className="h-8 w-8 text-blue-700" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-blue-900">
-                              Lourdes
-                            </p>
-                            <p className="text-sm text-blue-700">
-                              무염시태의 성모님
-                            </p>
-                          </div>
+                      <div className="space-y-4">
+                        <div className="bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                        src={LourdesSanctuaryOfOurLadyOfLourdesImage}
+                        alt="무염시태의 성모님"
+                        className="w-full h-full object-cover"
+                      />
+                        </div>
+                        <div className="text-center">
+                          <p className="font-medium text-amber-900">
+                            Lourdes Sanctuary of Our Lady of Lourdes
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            무염시태의 성모님
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -694,6 +709,69 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
             </div>
           </div>
         </div>
+        {/* 저작권 정보 */}
+        <div className="w-full pt-4">
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200 overflow-hidden">
+            <button
+              onClick={() => setIsCopyrightExpanded(!isCopyrightExpanded)}
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-all duration-200 group"
+            >
+              <div className="flex items-center space-x-2">
+                <div className="p-1.5 rounded-md bg-white shadow-sm">
+                  <ImageIcon className="h-4 w-4 text-gray-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">
+                  이미지 저작권 정보
+                </span>
+                <Badge variant="secondary" className="text-xs">
+                  {isCopyrightExpanded ? "클릭하여 접기" : "클릭하여 펼치기"}
+                </Badge>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs text-gray-500 hidden sm:block">
+                  {isCopyrightExpanded ? "접기" : "자세히 보기"}
+                </span>
+                {isCopyrightExpanded ? (
+                  <ChevronUp className="h-4 w-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                )}
+              </div>
+            </button>
+
+            {isCopyrightExpanded && (
+              <div className="px-4 pb-4 pt-2 bg-white border-t border-gray-200 animate-in slide-in-from-top duration-300">
+                <div className="space-y-3 text-[11px] text-gray-600 leading-relaxed">
+                  <div className="p-3 bg-gray-50 rounded-md border-l-2 border-blue-400">
+                    <p className="font-medium text-gray-700 mb-1">📷 리지외 대성당</p>
+                    <p>
+                      사진: Raimond Spekking, 리지외 성녀 데레사 대성당 (Basilique Sainte-Thérèse de Lisieux, France),{" "}
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline hover:text-blue-800 font-medium"
+                      >
+                        CC BY-SA 4.0
+                      </a>, Wikimedia Commons 제공
+                    </p>
+                    <p className="text-gray-500 mt-1">
+                      Image: Raimond Spekking, Basilique Sainte-Thérèse de Lisieux (France),{" "}
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline hover:text-blue-800 font-medium"
+                      >
+                        CC BY-SA 4.0
+                      </a>, via Wikimedia Commons (wikidata:Q108103612)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>  
       </div>
     </div>
   );
