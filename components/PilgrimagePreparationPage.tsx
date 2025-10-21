@@ -18,7 +18,7 @@ import {
   DollarSign,
   Smartphone,
   Shirt,
-  Shoe,
+  Footprints,
   Camera,
   Globe
 } from "lucide-react";
