@@ -68,7 +68,6 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
     },
     { name: "튀르키예", type: "page" },
     { name: "프랑스", type: "page" },
-    { name: "성지순례 준비물", type: "page" },
   ];
 
   const keyStats = [

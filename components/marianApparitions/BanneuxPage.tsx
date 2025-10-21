@@ -15,7 +15,10 @@ import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { useState, useEffect } from "react";
 import GoogleMap from "../shared/GoogleMap";
+import TimezoneDisplay from "../shared/TimezoneDisplay";
+import { getTimeDifferenceFromKorea } from "../../utils/timezone";
 import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 import banneuxPhoto from '../../images/banneux/banneux-sanctuary.png';
@@ -26,6 +29,23 @@ interface BanneuxPageProps {
 }
 
 export default function BanneuxPage({ setCurrentPage }: BanneuxPageProps) {
+  const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('banneux'));
+  
+  // 실시간 시차 업데이트
+  useEffect(() => {
+    const updateTimeDifference = () => {
+      setTimeDifference(getTimeDifferenceFromKorea('banneux'));
+    };
+
+    // 초기 업데이트
+    updateTimeDifference();
+
+    // 1분마다 업데이트
+    const interval = setInterval(updateTimeDifference, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // 성모님발현지 데이터
   const marianSitesData = [
     { id: "fatima", name: "파티마", country: "포르투갈", active: false },
@@ -579,6 +599,10 @@ export default function BanneuxPage({ setCurrentPage }: BanneuxPageProps) {
 
               {/* 방문 정보 */}
               <div className="space-y-6">
+                {/* 시차 정보 */}
+                <div className="py-2 border-b">
+                  <TimezoneDisplay country="banneux" />
+                </div>
                 <div>
                   <h3 className="font-medium mb-4">방문 정보</h3>
                   <div className="space-y-3 text-sm">

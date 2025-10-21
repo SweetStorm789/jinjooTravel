@@ -48,6 +48,7 @@ export default function Header({
       { name: "이스라엘", hasSubMenu: false },
       { name: "아시아", hasSubMenu: false },
       { name: "국내", hasSubMenu: false },
+      { name: "성지순례 준비물", hasSubMenu: false },
     ],
     성지정보: [
       { name: "바티칸", hasSubMenu: false },
@@ -394,6 +395,7 @@ export default function Header({
                           else if (subItem.name === "아시아") setCurrentPage("pilgrimage-packages-asia");
                           else if (subItem.name === "국내") setCurrentPage("pilgrimage-packages-domestic");
                           else if (subItem.name === "이스라엘") setCurrentPage("pilgrimage-packages-israel");
+                          else if (subItem.name === "성지순례 준비물") setCurrentPage("pilgrimage-preparation");
                           setHoveredCategory(null);
                           setHoveredSubCategory(null);
                         }
@@ -615,6 +617,7 @@ export default function Header({
                                 else if (subItem.name === "아시아") setCurrentPage("pilgrimage-packages-asia");
                                 else if (subItem.name === "국내") setCurrentPage("pilgrimage-packages-domestic");
                                 else if (subItem.name === "이스라엘") setCurrentPage("pilgrimage-packages-israel");
+                                else if (subItem.name === "성지순례 준비물") setCurrentPage("pilgrimage-preparation");
                                 setIsMobileMenuOpen(false);
                               } else if (category === "성지정보") {
                                 if (subItem.name === "바티칸") setCurrentPage("vatican");

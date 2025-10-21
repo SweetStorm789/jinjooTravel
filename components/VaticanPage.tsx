@@ -21,10 +21,11 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoogleMap from "./shared/GoogleMap";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { getTimeDifferenceFromKorea } from "../utils/timezone";
 import vaticanImage from "../images/vatican/st-peters-basilica.jpg";
 
 interface VaticanPageProps {
@@ -35,6 +36,22 @@ export default function VaticanPage({
   setCurrentPage,
 }: VaticanPageProps) {
   const [isItalyExpanded, setIsItalyExpanded] = useState(true);
+  const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('vatican'));
+  
+  // 실시간 시차 업데이트
+  useEffect(() => {
+    const updateTimeDifference = () => {
+      setTimeDifference(getTimeDifferenceFromKorea('vatican'));
+    };
+
+    // 초기 업데이트
+    updateTimeDifference();
+
+    // 1분마다 업데이트
+    const interval = setInterval(updateTimeDifference, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const holyLandMenuItems = [
     { name: "바티칸", type: "page" },
@@ -57,7 +74,6 @@ export default function VaticanPage({
     },
     { name: "튀르키예", type: "page" },
     { name: "프랑스", type: "page" },
-    { name: "성지순례 준비물", type: "page" },
   ];
 
   const keyStats = [
@@ -87,10 +103,12 @@ export default function VaticanPage({
     },
     {
       icon: Clock,
-      title: "시차",
-      value: "-8",
-      unit: "시간",
-      description: "한국보다 8시간 늦음 (서머타임 -7시간)",
+      title: "시차(현재)",
+      value: `${timeDifference.rawHours}시간`,
+      unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
+      description: timeDifference.isDST 
+        ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -8시간)`
+        : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -7시간)`,
       color: "text-orange-600",
     },
   ];
@@ -360,9 +378,7 @@ export default function VaticanPage({
                           />
                         </div>
                         <div className="text-center space-y-3">
-                          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg mx-auto">
-                            <Church className="h-8 w-8 text-amber-700" />
-                          </div>
+                          
                           <div>
                             <p className="font-medium text-amber-900">
                               St. Peter's Basilica
@@ -401,14 +417,14 @@ export default function VaticanPage({
 
                       </div>
 
-                      <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                      {/* <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                         <span className="text-sm font-medium">
                           추천 활동
                         </span>
                         <span className="text-sm text-muted-foreground">
                           로마의 중심에서 드리는 기도
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </CardContent>

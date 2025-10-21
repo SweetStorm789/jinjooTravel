@@ -64,7 +64,6 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
     },
     { name: "튀르키예", type: "page" },
     { name: "프랑스", type: "page" },
-    { name: "성지순례 준비물", type: "page" },
   ];
 
   const keyStats = [
@@ -119,7 +118,7 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
 
   const holyPlaces = [
     {
-      name: "성 비오 신부 성당(San Pio da Pietrelcina Church)",
+      name: "성 비오 신부 성당(Santuario di San Pio da Pietrelcina)",
       subtitle: "성 비오 신부의 무덤이 있는 신 성당",
       description:
         "2004년에 완공된 현대적인 대성당으로, 세계적 건축가 렌조 피아노(Renzo Piano)가 설계하였다. 성당 내부에는 성 비오 신부의 유해가 안치되어 있으며, 웅장한 구조와 예술적 설계는 현대 가톨릭 건축의 걸작으로 평가받는다. 매년 수백만 명의 순례자들이 이곳을 찾아 기도하며 성인의 전구를 청한다.",
@@ -129,7 +128,7 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
       image: chiesaDiSanPioDaPietrelcinaImage,
     },
     {
-      name: "산타 마리아 델레 그라치에 성당(Santa Maria delle Grazie Church)",
+      name: "산타 마리아 델레 그라치에 성당(Santuario di Santa Maria delle Grazie)",
       subtitle: "성 비오 신부가 50년간 봉사한 옛 성당",
       description:
         "성 비오 신부가 1916년부터 선종한 1968년까지 50여 년간 사목 활동을 이어간 옛 성당이다. 이곳에서 매일 미사를 집전하고 신자들의 고해성사를 들었으며, 1918년 9월 20일 성흔을 받은 장소로도 알려져 있다. 성당 옆에는 성 비오 신부가 사용하던 고해실이 보존되어 있어, 당시의 영적 현장을 그대로 느낄 수 있다.",
@@ -139,7 +138,7 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
       image: santaMariaDelleGrazieImage,
     },
     {
-      name: "성 비오 신부 박물관(Padre Pio Museum)",
+      name: "성 비오 신부 박물관(Museo Paramenti sacri Padre Pio)",
       subtitle: "성 비오 신부의 생애와 유품 전시",
       description:
         "성인의 삶과 신앙을 보여주는 공간으로, 성 비오 신부의 유품, 편지, 사진, 성구 등이 전시되어 있다. 단순한 기록물이 아니라 성인의 영성과 기적을 증언하는 증거로서, 방문자들에게 깊은 신앙적 감동을 준다. 이곳은 성 비오 신부의 내적 삶과 사도직을 이해하는 중요한 관문이 된다.",

@@ -27,8 +27,9 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoogleMap from "./shared/GoogleMap";
+import { getTimeDifferenceFromKorea } from "../utils/timezone";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
@@ -46,6 +47,22 @@ interface TurkiyePageProps {
 export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
   const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
+  const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('turkiye'));
+  
+  // 실시간 시차 업데이트
+  useEffect(() => {
+    const updateTimeDifference = () => {
+      setTimeDifference(getTimeDifferenceFromKorea('turkiye'));
+    };
+
+    // 초기 업데이트
+    updateTimeDifference();
+
+    // 1분마다 업데이트
+    const interval = setInterval(updateTimeDifference, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const holyLandMenuItems = [
     { name: "바티칸", type: "page" },
@@ -68,7 +85,6 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
     },
     { name: "튀르키예", type: "page" },
     { name: "프랑스", type: "page" },
-    { name: "성지순례 준비물", type: "page" },
   ];
 
   const keyStats = [
@@ -98,10 +114,12 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
     },
     {
       icon: Clock,
-      title: "시차",
-      value: "-6",
-      unit: "시간",
-      description: "한국보다 6시간 늦음",
+      title: "시차(현재)",
+      value: `${timeDifference.rawHours}시간`,
+      unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
+      description: timeDifference.isDST 
+        ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -6시간)`
+        : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -5시간)`,
       color: "text-orange-600",
     },
   ];

@@ -46,6 +46,7 @@ import CompanyHistoryPage from "../CompanyHistoryPage";
 import CompanyIntroPage from "../CompanyIntroPage";
 import DirectionsPage from "../DirectionsPage";
 import TravelTermsPage from "../TravelTermsPage";
+import PilgrimagePreparationPage from "../PilgrimagePreparationPage";
 import AdminLoginPage from "../AdminLoginPage";
 import PrivacyPolicyPage from "../PrivacyPolicyPage";
 import ImageLibraryTestPage from "../ImageLibraryTestPage";
@@ -237,6 +238,11 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     }
     if (currentPage === "privacy-policy") {
       return <PrivacyPolicyPage setCurrentPage={setCurrentPage} />;
+    }
+
+    // 성지순례 준비물
+    if (currentPage === "pilgrimage-preparation") {
+      return <PilgrimagePreparationPage setCurrentPage={setCurrentPage} />;
     }
 
     // 성모님발현지

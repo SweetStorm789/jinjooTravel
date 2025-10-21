@@ -66,7 +66,6 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
     },
     { name: "튀르키예", type: "page" },
     { name: "프랑스", type: "page" },
-    { name: "성지순례 준비물", type: "page" },
   ];
 
   const keyStats = [
@@ -151,9 +150,9 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
       description: "성모 마리아가 살았던 집으로, 성모영보와 성가족의 생활터전이었습니다."
     },
     {
-      title: "첫 번째 이송 - 테르사토",
+      title: "첫 번째 이송 - 트르사트",
       period: "1291년 5월 10일",
-      description: "십자군 전쟁으로 위험해진 성지에서 천사들이 집을 달마티아 테르사토로 이송했다고 전해집니다."
+      description: "십자군 전쟁으로 위험해진 성지에서 천사들이 집을 달마티아 트르사트로 이송했다고 전해집니다."
     },
     {
       title: "두 번째 이송 - 레카나티",
@@ -420,7 +419,7 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-blue-800 italic">
-                              "보라, 주님의 종이오니 말씀대로 제게 이루어지소서"
+                              "보십시오, 저는 주님의 종입니다. 말씀하신 대로 저에게 이루어지기를 바랍니다."
                             </blockquote>
                           </div>
                           <p className="text-blue-600 text-xs mt-2 text-right">
@@ -440,7 +439,7 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                           축일
                         </span>
                         <span className="text-sm text-muted-foreground">
-                          12월 10일 (성모님의 집 도착일)
+                          12월 10일 (로레토의 복되신 동정 마리아)
                         </span>
                       </div>
                     </div>

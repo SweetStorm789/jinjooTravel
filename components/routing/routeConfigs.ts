@@ -107,6 +107,9 @@ export const ROUTE_CONFIGS: RouteConfig[] = [
   { pattern: "banneux", component: "Banneux" },
   { pattern: "medjugorje", component: "Medjugorje" },
   
+  // 성지순례 준비물
+  { pattern: "pilgrimage-preparation", component: "PilgrimagePreparation" },
+  
   // 성지정보
   { pattern: "vatican", component: "Vatican" },
   { pattern: "greece", component: "Greece" },

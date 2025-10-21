@@ -65,7 +65,6 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     },
     { name: "튀르키예", type: "page" },
     { name: "프랑스", type: "page" },
-    { name: "성지순례 준비물", type: "page" },
   ];
 
   const keyStats = [
@@ -133,7 +132,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
       name: "성 요한 라테라노 대성당(Archbasilica di San Giovanni in Laterano)",
       subtitle: "교황의 공식 주교좌 성당",
       description:
-        "교황의 공식 주교좌 성당으로 ‘모든 성당의 어머니(Mater et Caput)’라 불린다. 313년 콘스탄티누스 황제가 건립한 로마에서 가장 오래된 가톨릭 성당으로, 교회의 일치와 권위를 상징한다. 성당 내부에는 웅장한 대리석 제대와 역대 교황들의 좌상이 있으며, 성지계단(Scala Santa)과도 가까워 순례자들이 반드시 찾는 성지 중 하나이다.",
+        "교황의 공식 주교좌 성당으로 ‘모든 성당의 어머니(Mater et Caput)’라 불린다. 313년 콘스탄티누스 황제가 건립한 로마에서 가장 오래된 가톨릭 성당으로, 교회의 일치와 권위를 상징한다. 성당 내부에는 웅장한 대리석 제대와 역대 교황들의 좌상이 있으며, 성계단 성당과도 가까워 순례자들이 반드시 찾는 성지 중 하나이다.",
       icon: Star,
       color: "from-blue-100 to-indigo-200",
       iconColor: "text-blue-700",
@@ -141,7 +140,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     },
     {
       name: "산타 마리아 마조레 대성당 (Basilica di Santa Maria Maggiore)",
-      subtitle: "사도 바오로의 순교지에 세워진 성당",
+      subtitle: "성모 마리아계 봉헌된 성당",
       description:
         "성모 마리아께 봉헌된 가장 큰 성당으로, 성모 신심의 중심지라 할 수 있다. 한국에서는 ‘설지전(雪之殿)’이라는 이름으로도 알려져 있는데, 이는 4세기 교황 리베리오 시대 한여름에 눈이 내린 기적과 관련이 있다. 전승에 따르면 성모님께 봉헌될 성당의 위치를 알려주기 위해 로마 에스퀼리노 언덕에 눈이 내렸고, 그 자리에 성당이 세워졌다. 내부에는 베들레헴의 구유 목재가 보존되어 있으며, 화려한 모자이크와 금빛 천장이 순례자들의 발걸음을 사로잡는다.",
       icon: Cross,
@@ -151,7 +150,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     },
     {
       name: "성 바오로 대문밖 대성당 (Basilica di San Paolo fuori le Mura)",
-      subtitle: "십자가 성유물이 보관된 성당",
+      subtitle: "바오로 성인의 무덤 위에 세워진 성당",
       description:
         "로마 성벽 밖에 세워진 대성당으로, 사도 바오로의 무덤이 모셔져 있다. 19세기 대화재 이후 새롭게 재건되었으나, 고대 성당의 장엄함을 여전히 간직하고 있다. 거대한 모자이크와 웅장한 회랑, 역대 교황들의 초상화가 성당 벽면에 이어져 있으며, 신자들에게는 사도 바오로의 가르침과 순교 정신을 깊이 묵상할 수 있는 성지이다.",
       icon: Church,
@@ -172,11 +171,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
       period: "서기 27년 - 313년",
       description: "사도 베드로와 바오로에 의해 가톨릭이 전래되었고, 콘스탄티누스 황제의 가톨릭 공인까지 박해와 순교의 시대를 거쳤습니다."
     },
-    {
-      title: "교황청의 중심지",
-      period: "4세기 - 현재",
-      description: "콘스탄티누스 황제의 가톨릭 공인 이후 가톨릭교회의 중심지로 발전하여 현재까지 교황청의 소재지입니다."
-    }
+    
   ];
 
   return (

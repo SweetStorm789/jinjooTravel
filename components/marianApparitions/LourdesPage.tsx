@@ -22,8 +22,10 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoogleMap from "../shared/GoogleMap";
+import TimezoneDisplay from "../shared/TimezoneDisplay";
+import { getTimeDifferenceFromKorea } from "../../utils/timezone";
 import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 // 루르드 성지 실제 사진들 import
@@ -40,6 +42,22 @@ interface LourdesPageProps {
 export default function LourdesPage({ setCurrentPage }: LourdesPageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('lourdes'));
+  
+  // 실시간 시차 업데이트
+  useEffect(() => {
+    const updateTimeDifference = () => {
+      setTimeDifference(getTimeDifferenceFromKorea('lourdes'));
+    };
+
+    // 초기 업데이트
+    updateTimeDifference();
+
+    // 1분마다 업데이트
+    const interval = setInterval(updateTimeDifference, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const marianSites = [
     { id: "fatima", name: "파티마", country: "포르투갈", active: false },
@@ -638,6 +656,10 @@ export default function LourdesPage({ setCurrentPage }: LourdesPageProps) {
 
               {/* 방문 정보 */}
               <div className="space-y-6">
+                {/* 시차 정보 */}
+                <div className="py-2 border-b">
+                  <TimezoneDisplay country="lourdes" />
+                </div>
                 <div>
                   <h3 className="font-medium mb-4">방문 정보</h3>
                   <div className="space-y-3 text-sm">

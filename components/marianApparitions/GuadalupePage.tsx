@@ -1,10 +1,13 @@
 import { Quote, Crown, Users, Heart, MapPin, Calendar, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Separator } from "../ui/separator";
 import guadalupeImage from '../../images/guadalupe/guadalupe.png';
 import tilmaImage from '../../images/guadalupe/tilmaImage.png';
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import GoogleMap from "../shared/GoogleMap";
+import TimezoneDisplay from "../shared/TimezoneDisplay";
+import { getTimeDifferenceFromKorea } from "../../utils/timezone";
 import { holyPlacesLocations } from "../constants/holyPlacesLocations";
 
 interface GuadalupePageProps {
@@ -129,6 +132,23 @@ const miracleStats = [
 ];
 
 export default function GuadalupePage({ setCurrentPage }: GuadalupePageProps) {
+  const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('guadalupe'));
+  
+  // 실시간 시차 업데이트
+  useEffect(() => {
+    const updateTimeDifference = () => {
+      setTimeDifference(getTimeDifferenceFromKorea('guadalupe'));
+    };
+
+    // 초기 업데이트
+    updateTimeDifference();
+
+    // 1분마다 업데이트
+    const interval = setInterval(updateTimeDifference, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const colorMap = {
     amber: "bg-amber-100 text-amber-600",
     blue: "bg-blue-100 text-blue-600", 
@@ -495,6 +515,10 @@ export default function GuadalupePage({ setCurrentPage }: GuadalupePageProps) {
 
               {/* 방문 정보 */}
               <div className="space-y-6">
+                {/* 시차 정보 */}
+                <div className="py-2 border-b">
+                  <TimezoneDisplay country="guadalupe" />
+                </div>
                 <div>
                   <h3 className="font-medium mb-4">방문 정보</h3>
                   <div className="space-y-3 text-sm">
