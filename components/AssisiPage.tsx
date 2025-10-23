@@ -394,7 +394,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                           </div>
                           <div>
                             <p className="font-medium text-amber-900">
-                              Saint Francis
+                              San Francesco
                             </p>
                             <p className="text-sm text-amber-700">
                               성 프란치스코
@@ -414,7 +414,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
-                          Saint Francis
+                          San Francesco
                           </p>
                           <p className="text-sm text-amber-700">
                           성 프란치스코

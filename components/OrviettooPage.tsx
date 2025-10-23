@@ -125,7 +125,7 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
   const holyPlaces = [
     {
       name: "오르비에토 대성당 (Duomo di Orvieto / Cathedral of Santa Maria Assunta)",
-      subtitle: "딕 건축의 걸작, 성체 기적의 중심 성당",
+      subtitle: "고딕 건축의 걸작, 성체 기적의 중심 성당",
       description:
         "13세기에 건축된 오르비에토 대성당은 이탈리아 고딕 양식의 대표작이다. 황금 모자이크와 조각으로 장식된 정면이 유명하며, 1263년 볼세나 성체 기적과 연결되어 가톨릭 순례의 핵심 성지가 되었다. 대성당 내부에는 성혈 제대보가 보관된 성체 기적 경당과 루카 시뇨렐리의 최후의 심판 프레스코로 유명한 산 브리치오 경당이 있다.",
       icon: Church,
@@ -169,12 +169,12 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
     {
       title: "볼세나의 성체기적",
       period: "1263년",
-      description: "보헤미아 출신 베드로 신부가 볼세나에서 미사 중 성체에서 피가 흘러나와 성혈포에 스며든 기적이 일어났습니다."
+      description: "보헤미아 출신 베드로 신부가 볼세나에서 미사 중 성체에서 피가 흘러나와 성체포에 스며든 기적이 일어났습니다."
     },
     {
       title: "교황 우르바노 4세의 조사",
       period: "1263년",
-      description: "교황 우르바노 4세가 직접 조사하여 기적임을 확인하고 성혈포를 오르비에토로 옮겨왔습니다."
+      description: "교황 우르바노 4세가 직접 조사하여 기적임을 확인하고 성체포를 오르비에토로 옮겨왔습니다."
     },
     {
       title: "성체축일 제정",
@@ -431,7 +431,7 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                         <p className="leading-relaxed">
                           1263년 보헤미아 출신 베드로 신부가 볼세나의 성 크리스티나 성당에서 
                           미사를 드리던 중 성체가 피로 변하는 기적이 일어났습니다. 
-                          성체에서 흘러나온 피가 성혈포에 스며들었고, 이를 목격한 
+                          성체에서 흘러나온 피가 성체포에 스며들었고, 이를 목격한 
                           교황 우르바노 4세는 직접 조사하여 기적임을 확인했습니다.
                         </p>
 
@@ -449,17 +449,17 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           이 기적을 계기로 교황 우르바노 4세는 1264년 성체축일(코르푸스 도미니)을 
-                          제정했으며, 성혈포는 오르비에토로 옮겨져 현재까지 보관되고 있습니다. 
+                          제정했으며, 성체포는 오르비에토로 옮겨져 현재까지 보관되고 있습니다. 
                           오르비에토 대성당은 이 기적을 기념하기 위해 건축되었습니다.
                         </p>
                       </div>
 
                       <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                         <span className="text-sm font-medium">
-                          성체축일
+                          축일
                         </span>
                         <span className="text-sm text-muted-foreground">
-                          성령강림 후 두 번째 목요일
+                          지극히 거룩하신 그리스도의 성체성혈 대축일
                         </span>
                       </div>
                     </div>

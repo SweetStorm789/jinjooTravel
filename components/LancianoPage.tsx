@@ -121,7 +121,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
 
   const holyPlaces = [
     {
-      name: "성체기적 성당 (Church of San Francesco in Lanciano)",
+      name: "성체기적 성당 (Chiesa di San Francesco)",
       subtitle: "세계 최초 성체 기적이 보관된 성당",
       description:
         "8세기에 성체가 실제 살로, 성혈이 실제 피로 변화한 기적이 일어난 장소이다. 현재 성 프란치스코 성당 내부에 성체와 성혈이 안치되어 있으며, 전 세계 순례자들이 가장 먼저 찾는 핵심 성지이다.",
@@ -131,7 +131,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
       image: churchOfSanFrancescoInLancianoImage,
     },
     {
-      name: "성체 기적 박물관 (Museum of the Eucharistic Miracle)",
+      name: "성체 기적 박물관 (Sala mostra sul Miracolo Eucaristico)",
       subtitle: "성체 기적의 역사와 과학적 증거를 전시하는 박물관",
       description:
         "성당 옆에 위치한 박물관으로, 기적과 관련된 역사적 문서와 교황 인준 문서, 그리고 20세기 과학적 연구 결과가 전시되어 있다. 1970년대 연구에서 성체는 실제 심장 근육 조직, 성혈은 인간 혈액으로 판명되었다.",
@@ -164,7 +164,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
     {
       title: "세계 최초 성체기적",
       period: "8세기 (700년경)",
-      description: "바실리코 수도사가 성체의 현존을 의심하며 미사를 드리던 중 성체와 포도주가 실제 살과 피로 변하는 기적이 일어났습니다."
+      description: "바실리오회 수도사가 성체의 현존을 의심하며 미사를 드리던 중 성체와 포도주가 실제 살과 피로 변하는 기적이 일어났습니다."
     },
     {
       title: "프란치스코회 정착",
@@ -424,7 +424,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          8세기 바실리코 수도사가 성체의 현존을 의심하며 미사를 드리던 중 
+                          8세기 바실리오회 수도사가 성체의 현존을 의심하며 미사를 드리던 중 
                           성체가 실제 살덩어리로, 포도주가 진짜 피로 변하는 기적이 일어났습니다. 
                           이는 세계에서 가장 오래되고 첫 번째 성체기적으로 기록되어 있으며, 
                           1300년 이상 부패하지 않고 보존되어 있습니다.
@@ -714,7 +714,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                       </a>, Wikimedia Commons 제공
                     </p>
                     <p className="text-gray-500 mt-1">
-                      Image: Syrio, Saint Francis Church (Lanciano, Abruzzo, Italy),{" "}
+                      Image: Syrio, San Francesco Church (Lanciano, Abruzzo, Italy),{" "}
                       <a 
                         href="https://creativecommons.org/licenses/by-sa/4.0/" 
                         target="_blank" 
