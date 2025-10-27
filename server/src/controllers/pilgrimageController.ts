@@ -275,7 +275,7 @@ export const getPackageById = async (req: Request, res: Response) => {
 
     // 일정 정보 조회
     const [itineraries] = await pool.query(
-      'SELECT * FROM package_itineraries WHERE package_id = ? ORDER BY day_number',
+      'SELECT day_number as day, day_label, title, description, activities, meals, accommodation FROM package_itineraries WHERE package_id = ? ORDER BY day_number',
       [id]
     );
 
@@ -292,11 +292,18 @@ export const getPackageById = async (req: Request, res: Response) => {
     }));
 
     const detailData = (details as any[])[0] || {};
+    
+    // 일정 데이터 처리 - activities를 배열로 변환
+    const processedItineraries = (itineraries as any[]).map(itinerary => ({
+      ...itinerary,
+      activities: itinerary.activities ? itinerary.activities.split('\n').filter((activity: string) => activity.trim()) : []
+    }));
+    
     const responseData = {
       ...package_data,
       ...detailData,
       insuranceNotes: detailData.insurance_notes, // notes를 insuranceNotes로 변환
-      itineraries,
+      itineraries: processedItineraries,
       images: imagesWithFullUrls
     };
 

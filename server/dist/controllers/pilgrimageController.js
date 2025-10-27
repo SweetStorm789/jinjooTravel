@@ -234,14 +234,15 @@ const getPackageById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         // 상세 정보 조회
         const [details] = yield database_1.default.query('SELECT * FROM package_details WHERE package_id = ?', [id]);
         // 일정 정보 조회
-        const [itineraries] = yield database_1.default.query('SELECT * FROM package_itineraries WHERE package_id = ? ORDER BY day_number', [id]);
+        const [itineraries] = yield database_1.default.query('SELECT day_number as day, day_label, title, description, activities, meals, accommodation FROM package_itineraries WHERE package_id = ? ORDER BY day_number', [id]);
         // 이미지 정보 조회
         const [images] = yield database_1.default.query('SELECT * FROM package_images WHERE package_id = ? ORDER BY display_order', [id]);
         // 이미지 URL을 절대 경로로 변환
         const imagesWithFullUrls = images.map(img => (Object.assign(Object.assign({}, img), { image_url: `${process.env.BASE_URL || 'http://localhost:5000'}${img.image_url}` })));
         const detailData = details[0] || {};
-        const responseData = Object.assign(Object.assign(Object.assign({}, package_data), detailData), { insuranceNotes: detailData.insurance_notes, // notes를 insuranceNotes로 변환
-            itineraries, images: imagesWithFullUrls });
+        // 일정 데이터 처리 - activities를 배열로 변환
+        const processedItineraries = itineraries.map(itinerary => (Object.assign(Object.assign({}, itinerary), { activities: itinerary.activities ? itinerary.activities.split('\n').filter((activity) => activity.trim()) : [] })));
+        const responseData = Object.assign(Object.assign(Object.assign({}, package_data), detailData), { insuranceNotes: detailData.insurance_notes, itineraries: processedItineraries, images: imagesWithFullUrls });
         res.json(responseData);
     }
     catch (error) {
