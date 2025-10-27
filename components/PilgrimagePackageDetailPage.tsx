@@ -69,6 +69,30 @@ interface PilgrimagePackageDetailPageProps {
   isAdmin?: boolean;
 }
 
+// 시간 패턴 감지 함수
+const formatActivityWithTime = (text: string): string => {
+  // 시간 패턴들 (HH:MM, HH시 MM분, 오전/오후 HH:MM 등)
+  const timePatterns = [
+    /(\d{1,2}:\d{2})/g,  // 14:30, 9:00
+    /(\d{1,2}시\s*\d{1,2}분?)/g,  // 14시 30분, 9시
+    /(오전\s*\d{1,2}:\d{2})/g,  // 오전 9:00
+    /(오후\s*\d{1,2}:\d{2})/g,  // 오후 2:30
+    /(\d{1,2}:\d{2}\s*출발)/g,  // 14:30 출발
+    /(\d{1,2}:\d{2}\s*도착)/g,  // 14:30 도착
+    /(\d{1,2}:\d{2}\s*이동)/g,  // 14:30 이동
+  ];
+
+  let formattedText = text;
+  
+  timePatterns.forEach(pattern => {
+    formattedText = formattedText.replace(pattern, (match) => {
+      return `<span class="inline-flex items-center px-1 py-0.5 rounded-md text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200" style="margin-right: 4px; height: 18px;">🕐 ${match}</span>`;
+    });
+  });
+
+  return formattedText;
+};
+
 function PilgrimagePackageDetailPage({ 
   setCurrentPage, 
   packageId = "1",
@@ -131,7 +155,7 @@ function PilgrimagePackageDetailPage({
             day_label: day.day_label,
             title: day.title || '',
             description: day.description || '',
-            activities: parseTextToArray(day.activities),
+            activities: day.activities || '',
             meals: day.meals || '',
             accommodation: day.accommodation || ''
           };
@@ -443,7 +467,7 @@ function PilgrimagePackageDetailPage({
                 <Separator className="my-6" />
 
                 <div>
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{packageData.description}</p>
+                  <p className="text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{packageData.description}</p>
                 </div>
 
                 <Separator className="my-6" />
@@ -519,48 +543,18 @@ function PilgrimagePackageDetailPage({
                                 </div>
                               </CardTitle>
                             </div>
-                            <CardDescription className="whitespace-pre-line">{day.description}</CardDescription>
+                            <CardDescription style={{ whiteSpace: 'pre-line' }}>{day.description}</CardDescription>
                           </CardHeader>
                         <CardContent className="space-y-4">
                           <div>
                             <h5 className="font-medium mb-2">주요 활동</h5>
-                            <ul className="space-y-1">
-                              {day.activities.map((activity: string, index: number) => {
-                                // 시간 패턴 감지 함수
-                                const formatActivityWithTime = (text: string) => {
-                                  // 시간 패턴들 (HH:MM, HH시 MM분, 오전/오후 HH:MM 등)
-                                  const timePatterns = [
-                                    /(\d{1,2}:\d{2})/g,  // 14:30, 9:00
-                                    /(\d{1,2}시\s*\d{1,2}분?)/g,  // 14시 30분, 9시
-                                    /(오전\s*\d{1,2}:\d{2})/g,  // 오전 9:00
-                                    /(오후\s*\d{1,2}:\d{2})/g,  // 오후 2:30
-                                    /(\d{1,2}:\d{2}\s*출발)/g,  // 14:30 출발
-                                    /(\d{1,2}:\d{2}\s*도착)/g,  // 14:30 도착
-                                    /(\d{1,2}:\d{2}\s*이동)/g,  // 14:30 이동
-                                  ];
-
-                                  let formattedText = text;
-                                  
-                                  timePatterns.forEach(pattern => {
-                                    formattedText = formattedText.replace(pattern, (match) => {
-                                      return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">🕐 ${match}</span>`;
-                                    });
-                                  });
-
-                                  return formattedText;
-                                };
-
-                                return (
-                                  <li key={index} className="flex items-start space-x-2 text-sm">
-                                    <span 
-                                      dangerouslySetInnerHTML={{ 
-                                        __html: formatActivityWithTime(activity) 
-                                      }}
-                                    />
-                                  </li>
-                                );
-                              })}
-                            </ul>
+                            <div 
+                              className="text-sm"
+                              style={{ whiteSpace: 'pre-line' }}
+                              dangerouslySetInnerHTML={{
+                                __html: formatActivityWithTime((day.activities as unknown as string) || '')
+                              }}
+                            />
                           </div>
                           <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border">
                             <div>

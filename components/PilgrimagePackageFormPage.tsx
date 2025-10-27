@@ -234,7 +234,7 @@ export default function PilgrimagePackageFormPage({
           dayLabel: day.day_label || `Day ${day.day_number}`,
           title: day.title || '',
           description: day.description || '',
-          activities: parseTextToArray(day.activities),
+          activities: Array.isArray(day.activities) ? day.activities.join('\n') : (day.activities || ''),
           meals: day.meals || '',
           accommodation: day.accommodation || ''
         }));

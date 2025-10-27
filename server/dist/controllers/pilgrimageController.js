@@ -240,8 +240,8 @@ const getPackageById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         // 이미지 URL을 절대 경로로 변환
         const imagesWithFullUrls = images.map(img => (Object.assign(Object.assign({}, img), { image_url: `${process.env.BASE_URL || 'http://localhost:5000'}${img.image_url}` })));
         const detailData = details[0] || {};
-        // 일정 데이터 처리 - activities를 배열로 변환
-        const processedItineraries = itineraries.map(itinerary => (Object.assign(Object.assign({}, itinerary), { activities: itinerary.activities ? itinerary.activities.split('\n').filter((activity) => activity.trim()) : [] })));
+        // 일정 데이터 처리 - activities를 원본 텍스트 그대로 유지
+        const processedItineraries = itineraries.map(itinerary => (Object.assign(Object.assign({}, itinerary), { activities: itinerary.activities || '' })));
         const responseData = Object.assign(Object.assign(Object.assign({}, package_data), detailData), { insuranceNotes: detailData.insurance_notes, itineraries: processedItineraries, images: imagesWithFullUrls });
         res.json(responseData);
     }

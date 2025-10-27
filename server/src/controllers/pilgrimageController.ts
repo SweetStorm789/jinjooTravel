@@ -293,10 +293,10 @@ export const getPackageById = async (req: Request, res: Response) => {
 
     const detailData = (details as any[])[0] || {};
     
-    // 일정 데이터 처리 - activities를 배열로 변환
+    // 일정 데이터 처리 - activities를 원본 텍스트 그대로 유지
     const processedItineraries = (itineraries as any[]).map(itinerary => ({
       ...itinerary,
-      activities: itinerary.activities ? itinerary.activities.split('\n').filter((activity: string) => activity.trim()) : []
+      activities: itinerary.activities || ''
     }));
     
     const responseData = {
