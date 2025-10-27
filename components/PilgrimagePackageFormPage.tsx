@@ -213,17 +213,20 @@ export default function PilgrimagePackageFormPage({
         const parseTextToArray = (text: string | null | undefined): string => {
           if (!text) return "";
           
+          // 문자열이 아닌 경우 문자열로 변환
+          const textStr = typeof text === 'string' ? text : String(text);
+          
           // 이미 JSON 배열인 경우 문자열로 변환
-          if (text.startsWith('[') && text.endsWith(']')) {
+          if (textStr.startsWith('[') && textStr.endsWith(']')) {
             try {
-              const parsed = JSON.parse(text);
-              return Array.isArray(parsed) ? parsed.join('\n') : text;
+              const parsed = JSON.parse(textStr);
+              return Array.isArray(parsed) ? parsed.join('\n') : textStr;
             } catch (e) {
-              return text;
+              return textStr;
             }
           }
           
-          return text;
+          return textStr;
         };
 
         // itinerary 처리 - API 응답에 맞게 변환

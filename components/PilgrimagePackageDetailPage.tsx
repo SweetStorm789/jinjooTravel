@@ -28,7 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Separator } from "./ui/separator";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState, useEffect, useCallback } from "react";
-import { formatDateToKorean } from "../utils/dateFormat";
+import { formatDateToKorean, parseDayRange } from "../utils/dateFormat";
 import { ErrorBoundary } from "./shared/ErrorBoundary";
 import { BASE_URL } from '@/lib/constants';
 
@@ -48,6 +48,7 @@ interface PackageData {
   images: string[];
   itinerary: {
     day: number;
+    day_label?: string;
     title: string;
     description: string;
     activities: string[];
@@ -97,10 +98,13 @@ function PilgrimagePackageDetailPage({
         const parseTextToArray = (text: string | null | undefined, defaultValue: any[] = []): any[] => {
           if (!text) return defaultValue;
           
+          // 문자열이 아닌 경우 문자열로 변환
+          const textStr = typeof text === 'string' ? text : String(text);
+          
           // 이미 JSON 배열인 경우 파싱 시도
-          if (text.startsWith('[') && text.endsWith(']')) {
+          if (textStr.startsWith('[') && textStr.endsWith(']')) {
             try {
-              const parsed = JSON.parse(text);
+              const parsed = JSON.parse(textStr);
               return Array.isArray(parsed) ? parsed : defaultValue;
             } catch (e) {
               // JSON 파싱 실패 시 텍스트로 처리
@@ -108,7 +112,7 @@ function PilgrimagePackageDetailPage({
           }
           
           // 일반 텍스트를 줄바꿈으로 분리
-          return text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+          return textStr.split('\n').map(line => line.trim()).filter(line => line.length > 0);
         };
 
         // highlights 처리
@@ -123,7 +127,8 @@ function PilgrimagePackageDetailPage({
         // itinerary 처리
         const itinerary = (data.itineraries || []).map((day: any) => {
           return {
-            day: day.day_number,
+            day: day.day || day.day_number,
+            day_label: day.day_label,
             title: day.title || '',
             description: day.description || '',
             activities: parseTextToArray(day.activities),
@@ -438,7 +443,7 @@ function PilgrimagePackageDetailPage({
                 <Separator className="my-6" />
 
                 <div>
-                  <p className="text-muted-foreground leading-relaxed">{packageData.description}</p>
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{packageData.description}</p>
                 </div>
 
                 <Separator className="my-6" />
@@ -474,30 +479,48 @@ function PilgrimagePackageDetailPage({
 
                 <TabsContent value="itinerary" className="space-y-4">
                   <div className="space-y-4">
-                    {packageData.itinerary.map((day: PackageData['itinerary'][0]) => (
-                      <Card key={day.day}>
-                        <CardHeader>
-                          <div className="flex items-center justify-between">
-                            <CardTitle className="flex items-center space-x-3">
-                              <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
-                                {day.day}
-                              </div>
-                              <div className="flex flex-col">
-                                <span>Day {day.day} - {day.title}</span>
-                                {packageData.departureDate && (
-                                  <span className="text-sm text-muted-foreground">
-                                    {(() => {
-                                      const startDate = new Date(packageData.departureDate.replace(/년|월|일/g, '').trim());
-                                      startDate.setDate(startDate.getDate() + day.day - 1);
-                                      return formatDateToKorean(startDate);
-                                    })()}
-                                  </span>
-                                )}
-                              </div>
-                            </CardTitle>
-                          </div>
-                          <CardDescription>{day.description}</CardDescription>
-                        </CardHeader>
+                    {packageData.itinerary.map((day: PackageData['itinerary'][0], index: number) => {
+                      // day_label에서 범위 파싱
+                      const dayRange = parseDayRange(day.day_label || `Day ${day.day}`);
+                      const startDay = dayRange ? dayRange.start : day.day;
+                      const endDay = dayRange ? dayRange.end : day.day;
+                      
+                      return (
+                        <Card key={index}>
+                          <CardHeader>
+                            <div className="flex items-center justify-between">
+                              <CardTitle className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
+                                  {startDay}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span>{day.day_label || `Day ${day.day}`} - {day.title}</span>
+                                  {packageData.departureDate && (
+                                    <span className="text-sm text-muted-foreground">
+                                      {(() => {
+                                        const departureDate = new Date(packageData.departureDate.replace(/년|월|일/g, '').trim());
+                                        
+                                        if (startDay === endDay) {
+                                          // 단일 날짜
+                                          const targetDate = new Date(departureDate);
+                                          targetDate.setDate(targetDate.getDate() + startDay - 1);
+                                          return formatDateToKorean(targetDate);
+                                        } else {
+                                          // 날짜 범위
+                                          const startDate = new Date(departureDate);
+                                          startDate.setDate(startDate.getDate() + startDay - 1);
+                                          const endDate = new Date(departureDate);
+                                          endDate.setDate(endDate.getDate() + endDay - 1);
+                                          return `${formatDateToKorean(startDate)} ~ ${formatDateToKorean(endDate)}`;
+                                        }
+                                      })()}
+                                    </span>
+                                  )}
+                                </div>
+                              </CardTitle>
+                            </div>
+                            <CardDescription className="whitespace-pre-line">{day.description}</CardDescription>
+                          </CardHeader>
                         <CardContent className="space-y-4">
                           <div>
                             <h5 className="font-medium mb-2">주요 활동</h5>
@@ -551,7 +574,8 @@ function PilgrimagePackageDetailPage({
                           </div>
                         </CardContent>
                       </Card>
-                    ))}
+                      );
+                    })}
                   </div>
                 </TabsContent>
 
