@@ -140,7 +140,7 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
                 </Badge>
               </div>
               
-              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#FF9933] transition-colors mb-2">
                 {post.title}
               </h3>
               
