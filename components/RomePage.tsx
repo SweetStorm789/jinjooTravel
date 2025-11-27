@@ -50,8 +50,8 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     { name: "이스라엘", type: "page" },
     { name: "이집트", type: "page" },
 
-    { 
-      name: "이탈리아", 
+    {
+      name: "이탈리아",
       type: "parent",
       children: [
         "로마",
@@ -140,7 +140,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
     },
     {
       name: "산타 마리아 마조레 대성당 (Basilica di Santa Maria Maggiore)",
-      subtitle: "성모 마리아계 봉헌된 성당",
+      subtitle: "성모 마리아께 봉헌된 성당",
       description:
         "성모 마리아께 봉헌된 가장 큰 성당으로, 성모 신심의 중심지라 할 수 있다. 한국에서는 ‘설지전(雪之殿)’이라는 이름으로도 알려져 있는데, 이는 4세기 교황 리베리오 시대 한여름에 눈이 내린 기적과 관련이 있다. 전승에 따르면 성모님께 봉헌될 성당의 위치를 알려주기 위해 로마 에스퀼리노 언덕에 눈이 내렸고, 그 자리에 성당이 세워졌다. 내부에는 베들레헴의 구유 목재가 보존되어 있으며, 화려한 모자이크와 금빛 천장이 순례자들의 발걸음을 사로잡는다.",
       icon: Cross,
@@ -171,7 +171,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
       period: "서기 27년 - 313년",
       description: "사도 베드로와 바오로에 의해 가톨릭이 전래되었고, 콘스탄티누스 황제의 가톨릭 공인까지 박해와 순교의 시대를 거쳤습니다."
     },
-    
+
   ];
 
   return (
@@ -333,7 +333,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                         alt={city.name}
                         className="w-full h-[320px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -342,10 +342,10 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
-                    <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                      <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
                         {city.subtitle}
                       </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
@@ -395,10 +395,10 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-orange-900">
-                          Colosseum
+                            Colosseum
                           </p>
                           <p className="text-sm text-orange-700">
-                          플라비우스 원형경기장
+                            플라비우스 원형경기장
                           </p>
                         </div>
                       </div>
@@ -407,9 +407,9 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          기원후 146년에 가톨릭이 27년에 걸쳐 전해진 로마에서, 
-                          콜로세움은 초기 가톨릭 신자들이 박해받고 순교한 상징적인 장소다. 
-                          검투사의 오락을 위한 경기장이었지만, 수많은 가톨릭 신자들이 
+                          기원후 146년에 가톨릭이 27년에 걸쳐 전해진 로마에서,
+                          콜로세움은 초기 가톨릭 신자들이 박해받고 순교한 상징적인 장소다.
+                          검투사의 오락을 위한 경기장이었지만, 수많은 가톨릭 신자들이
                           이곳에서 사자에게 던져지거나 처형되었다.
                         </p>
 
@@ -417,8 +417,8 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-amber-800 italic">
-                              "콜로세움이 서 있는 한, 로마도 서 있을 것이요; 
-                              콜로세움이 무너질 때, 로마도 무너질 것이요; 
+                              "콜로세움이 서 있는 한, 로마도 서 있을 것이요;
+                              콜로세움이 무너질 때, 로마도 무너질 것이요;
                               로마가 무너질 때, 세상도 무너질 것이다."
                             </blockquote>
                           </div>
@@ -428,8 +428,8 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          현재 콜로세움은 순교자들을 기념하는 성지로 여겨지며, 
-                          매년 성금요일에는 교황이 주재하는 십자가의 길 기도가 
+                          현재 콜로세움은 순교자들을 기념하는 성지로 여겨지며,
+                          매년 성금요일에는 교황이 주재하는 십자가의 길 기도가
                           이곳에서 거행됩니다.
                         </p>
                       </div>
@@ -472,15 +472,15 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                       </p>
                     </div>
                   ))}
-                  
+
                   <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
                     <div className="flex items-start space-x-2">
                       <Info className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-red-800 leading-relaxed">
-                          로마는 '모든 길이 통하는' 제국의 수도에서 '사도들의 무덤이 있는' 
-                          가톨릭의 성지로 변화하였으며, 현재까지 전 세계 가톨릭교회의 
-                          중심지 역할을 하고 있습니다. 바티칸 시국과 함께 교황청의 
+                          로마는 '모든 길이 통하는' 제국의 수도에서 '사도들의 무덤이 있는'
+                          가톨릭의 성지로 변화하였으며, 현재까지 전 세계 가톨릭교회의
+                          중심지 역할을 하고 있습니다. 바티칸 시국과 함께 교황청의
                           소재지로서 중요한 의미를 갖습니다.
                         </p>
                       </div>
@@ -506,7 +506,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                   <nav className="space-y-1">
                     {holyLandMenuItems.map((item) => (
                       <div key={item.name}>
-{item.type === "parent" ? (
+                        {item.type === "parent" ? (
                           <div className="flex items-center">
                             <a
                               href="#"
@@ -559,7 +559,7 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                             <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                           </a>
                         )}
-                        
+
                         {/* 이탈리아 하위 메뉴 */}
                         {item.type === "parent" && isItalyExpanded && (
                           <div className="ml-4 border-l border-border">
@@ -587,9 +587,8 @@ export default function RomePage({ setCurrentPage }: RomePageProps) {
                                     // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
                                   }
                                 }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "로마" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
+                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${child === "로마" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
+                                  }`}
                               >
                                 <span className={`text-sm ${child === "로마" ? "" : "text-muted-foreground"}`}>{child}</span>
                                 {child !== "로마" && (
