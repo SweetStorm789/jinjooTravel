@@ -7,7 +7,8 @@ import {
   deletePost,
   getCategories,
   updatePostOrder,
-  togglePostPin
+  togglePostPin,
+  getAdjacentPosts
 } from '../controllers/boardController';
 
 const router = express.Router();
@@ -20,6 +21,9 @@ router.get('/', getPosts);
 
 // 게시물 상세 조회
 router.get('/:id', getPost);
+
+// 이전/다음 게시물 조회
+router.get('/:id/adjacent', getAdjacentPosts);
 
 // 게시물 등록
 router.post('/', createPost);

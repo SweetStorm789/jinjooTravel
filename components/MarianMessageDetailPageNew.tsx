@@ -48,6 +48,7 @@ export default function MarianMessageDetailPageNew({
   returnPage = 1
 }: MarianMessageDetailPageProps) {
   const [message, setMessage] = useState<BoardPost | null>(null);
+  const [adjacentPosts, setAdjacentPosts] = useState<{ prev: BoardPost | null; next: BoardPost | null }>({ prev: null, next: null });
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,6 +60,7 @@ export default function MarianMessageDetailPageNew({
         setLoading(true);
         setError(null);
 
+        // 메시지 상세 조회
         const response = await fetch(`${BASE_URL}/api/board/${messageId}`);
         if (!response.ok) {
           throw new Error('성모님 메시지를 불러오는데 실패했습니다.');
@@ -67,6 +69,15 @@ export default function MarianMessageDetailPageNew({
         const data = await response.json();
         if (data.success) {
           setMessage(data.data);
+
+          // 이전/다음 게시물 조회
+          const adjacentResponse = await fetch(`${BASE_URL}/api/board/${messageId}/adjacent?board_type=marian_message`);
+          if (adjacentResponse.ok) {
+            const adjacentData = await adjacentResponse.json();
+            if (adjacentData.success) {
+              setAdjacentPosts(adjacentData.data);
+            }
+          }
         } else {
           setError(data.message || '성모님 메시지를 불러오는데 실패했습니다.');
         }
@@ -317,23 +328,53 @@ export default function MarianMessageDetailPageNew({
         <div className="mt-12">
           <h3 className="text-lg font-medium mb-6">다른 성모님 메시지</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <h4 className="font-medium text-sm mb-2 hover:text-orange-600 transition-colors">
-                  이전 성모님 메시지가 여기에 표시됩니다
-                </h4>
-                <p className="text-xs text-muted-foreground">날짜 정보</p>
-              </CardContent>
-            </Card>
+            {/* 이전 메시지 */}
+            {adjacentPosts.prev ? (
+              <Card
+                className="hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => setCurrentPage(`marian-message-detail-${adjacentPosts.prev!.id}?returnPage=${returnPage}`)}
+              >
+                <CardContent className="p-4">
+                  <div className="text-xs text-muted-foreground mb-1">이전 메시지</div>
+                  <h4 className="font-medium text-sm mb-2 hover:text-orange-600 transition-colors line-clamp-2">
+                    {adjacentPosts.prev.title}
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    {formatMessageDate(adjacentPosts.prev.published_at)}
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="bg-muted/30 border-dashed">
+                <CardContent className="p-4 flex items-center justify-center h-full min-h-[100px]">
+                  <p className="text-sm text-muted-foreground">이전 메시지가 없습니다.</p>
+                </CardContent>
+              </Card>
+            )}
 
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <h4 className="font-medium text-sm mb-2 hover:text-orange-600 transition-colors">
-                  다음 성모님 메시지가 여기에 표시됩니다
-                </h4>
-                <p className="text-xs text-muted-foreground">날짜 정보</p>
-              </CardContent>
-            </Card>
+            {/* 다음 메시지 */}
+            {adjacentPosts.next ? (
+              <Card
+                className="hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => setCurrentPage(`marian-message-detail-${adjacentPosts.next!.id}?returnPage=${returnPage}`)}
+              >
+                <CardContent className="p-4">
+                  <div className="text-xs text-muted-foreground mb-1">다음 메시지</div>
+                  <h4 className="font-medium text-sm mb-2 hover:text-orange-600 transition-colors line-clamp-2">
+                    {adjacentPosts.next.title}
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    {formatMessageDate(adjacentPosts.next.published_at)}
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="bg-muted/30 border-dashed">
+                <CardContent className="p-4 flex items-center justify-center h-full min-h-[100px]">
+                  <p className="text-sm text-muted-foreground">다음 메시지가 없습니다.</p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>

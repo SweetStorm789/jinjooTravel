@@ -61,14 +61,14 @@ const stripHtml = (html: string): string => {
 // 요약 생성 함수
 const generateExcerpt = (text: string, maxLength: number = 200): string => {
   if (text.length <= maxLength) return text;
-  
+
   const truncated = text.substring(0, maxLength);
   const lastSpace = truncated.lastIndexOf(' ');
-  
+
   if (lastSpace > maxLength * 0.7) {
     return truncated.substring(0, lastSpace) + '...';
   }
-  
+
   return truncated + '...';
 };
 
@@ -89,7 +89,7 @@ export const getPosts = async (req: Request, res: Response) => {
     } = req.query;
 
     const offset = (Number(page) - 1) * Number(limit);
-    
+
     let whereConditions = ['bp.board_type = ?'];
     let queryParams: any[] = [board_type];
 
@@ -338,7 +338,7 @@ export const createPost = async (req: Request, res: Response) => {
     `;
 
     const values = [
-      board_type, category_id, title, content_html, 
+      board_type, category_id, title, content_html,
       JSON.stringify(content_json), content_text, excerpt,
       validatedAuthorName, author_email, author_phone, author_ip, hashedPassword, is_member,
       status, is_featured, is_notice, allow_comments, is_secret, requires_approval,
@@ -588,7 +588,7 @@ export const updatePostOrder = async (req: Request, res: Response) => {
     }
 
     const connection = await pool.getConnection();
-    
+
     try {
       // 게시글 순서 업데이트
       const [result] = await connection.query(
@@ -634,7 +634,7 @@ export const togglePostPin = async (req: Request, res: Response) => {
     }
 
     const connection = await pool.getConnection();
-    
+
     try {
       // 게시글 고정 상태 업데이트
       const [result] = await connection.query(
@@ -662,6 +662,76 @@ export const togglePostPin = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: '게시글 고정 상태 변경 중 오류가 발생했습니다.'
+    });
+  }
+};
+
+// 이전/다음 게시물 조회
+export const getAdjacentPosts = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { board_type } = req.query;
+
+    if (!id || !board_type) {
+      return res.status(400).json({
+        success: false,
+        message: '게시글 ID와 게시판 타입이 필요합니다.'
+      });
+    }
+
+    // 현재 게시글 조회 (기준점)
+    const [currentPost] = await pool.execute<BoardPost[]>(
+      'SELECT created_at FROM board_posts WHERE id = ?',
+      [id]
+    );
+
+    if (currentPost.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: '게시글을 찾을 수 없습니다.'
+      });
+    }
+
+    const currentCreatedAt = currentPost[0].created_at;
+
+    // 이전 게시글 (현재 글보다 오래된 글 중 가장 최신 글)
+    const prevQuery = `
+      SELECT id, title, created_at, published_at
+      FROM board_posts 
+      WHERE board_type = ? 
+      AND status = 'published'
+      AND created_at < ?
+      ORDER BY created_at DESC 
+      LIMIT 1
+    `;
+
+    // 다음 게시글 (현재 글보다 최신 글 중 가장 오래된 글)
+    const nextQuery = `
+      SELECT id, title, created_at, published_at
+      FROM board_posts 
+      WHERE board_type = ? 
+      AND status = 'published'
+      AND created_at > ?
+      ORDER BY created_at ASC 
+      LIMIT 1
+    `;
+
+    const [prevResult] = await pool.execute<BoardPost[]>(prevQuery, [board_type, currentCreatedAt]);
+    const [nextResult] = await pool.execute<BoardPost[]>(nextQuery, [board_type, currentCreatedAt]);
+
+    res.json({
+      success: true,
+      data: {
+        prev: prevResult[0] || null,
+        next: nextResult[0] || null
+      }
+    });
+
+  } catch (error) {
+    console.error('이전/다음 게시물 조회 실패:', error);
+    res.status(500).json({
+      success: false,
+      message: '이전/다음 게시물을 불러오는데 실패했습니다.'
     });
   }
 };
