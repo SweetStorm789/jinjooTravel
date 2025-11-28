@@ -127,12 +127,13 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
 
     // 성모님메시지
     if (currentPage.startsWith("marian-messages")) {
-      // URL 파라미터 파싱 (예: marian-messages?page=2&highlight=123)
+      // URL 파라미터 파싱 (예: marian-messages?page=2&highlight=123&search=query)
       const queryParams = new URLSearchParams(currentPage.split('?')[1] || '');
       const initialPage = parseInt(queryParams.get('page') || '1', 10);
       const highlightId = queryParams.get('highlight') || undefined;
+      const initialSearchQuery = queryParams.get('search') || '';
 
-      return <MarianMessagesPageNew setCurrentPage={setCurrentPage} isAdmin={isAdmin} initialPage={initialPage} highlightId={highlightId} />;
+      return <MarianMessagesPageNew setCurrentPage={setCurrentPage} isAdmin={isAdmin} initialPage={initialPage} highlightId={highlightId} initialSearchQuery={initialSearchQuery} />;
     }
     if (currentPage.startsWith("marian-message-form")) {
       // URL 파라미터 파싱
@@ -156,8 +157,9 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
       // URL 파라미터 파싱
       const queryParams = new URLSearchParams(currentPage.split('?')[1] || '');
       const returnPage = parseInt(queryParams.get('returnPage') || '1', 10);
+      const searchQuery = queryParams.get('search') || '';
 
-      return <MarianMessageDetailPageNew setCurrentPage={setCurrentPage} messageId={marianMessageDetailMatch.params.id} isAdmin={isAdmin} returnPage={returnPage} />;
+      return <MarianMessageDetailPageNew setCurrentPage={setCurrentPage} messageId={marianMessageDetailMatch.params.id} isAdmin={isAdmin} returnPage={returnPage} searchQuery={searchQuery} />;
     }
 
     // 공지사항

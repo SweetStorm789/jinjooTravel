@@ -24,6 +24,7 @@ interface MarianMessageDetailPageProps {
   messageId: string;
   isAdmin?: boolean;
   returnPage?: number;
+  searchQuery?: string;
 }
 
 interface BoardPost {
@@ -45,13 +46,23 @@ export default function MarianMessageDetailPageNew({
   setCurrentPage,
   messageId,
   isAdmin = false,
-  returnPage = 1
+  returnPage = 1,
+  searchQuery = ''
 }: MarianMessageDetailPageProps) {
   const [message, setMessage] = useState<BoardPost | null>(null);
   const [adjacentPosts, setAdjacentPosts] = useState<{ prev: BoardPost | null; next: BoardPost | null }>({ prev: null, next: null });
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Helper to construct back URL
+  const getBackUrl = () => {
+    let url = `marian-messages?page=${returnPage}`;
+    if (searchQuery) {
+      url += `&search=${encodeURIComponent(searchQuery)}`;
+    }
+    return url;
+  };
 
   // 성모님 메시지 데이터 로드
   useEffect(() => {
@@ -116,7 +127,7 @@ export default function MarianMessageDetailPageNew({
       const data = await response.json();
       if (data.success) {
         alert('성모님 메시지가 성공적으로 삭제되었습니다.');
-        setCurrentPage(`marian-messages?page=${returnPage}`);
+        setCurrentPage(getBackUrl());
       } else {
         throw new Error(data.message || '삭제에 실패했습니다.');
       }
@@ -186,7 +197,7 @@ export default function MarianMessageDetailPageNew({
             <AlertDescription>{error || '성모님 메시지를 찾을 수 없습니다.'}</AlertDescription>
           </Alert>
           <div>
-            <Button onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}>
+            <Button onClick={() => setCurrentPage(getBackUrl())}>
               목록으로 돌아가기
             </Button>
           </div>
@@ -205,7 +216,7 @@ export default function MarianMessageDetailPageNew({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}
+                onClick={() => setCurrentPage(getBackUrl())}
                 className="flex items-center space-x-2"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -221,7 +232,7 @@ export default function MarianMessageDetailPageNew({
                 <>
                   <Button
                     size="sm"
-                    onClick={() => setCurrentPage(`marian-message-form-edit-${messageId}?returnPage=${returnPage}`)}
+                    onClick={() => setCurrentPage(`marian-message-form-edit-${messageId}?returnPage=${returnPage}&search=${searchQuery}`)}
                     className="flex items-center space-x-2"
                   >
                     <Edit className="h-4 w-4" />
@@ -254,7 +265,7 @@ export default function MarianMessageDetailPageNew({
           <Home className="h-4 w-4" />
           <ChevronRight className="h-4 w-4" />
           <button
-            onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}
+            onClick={() => setCurrentPage(getBackUrl())}
             className="hover:text-blue-600 transition-colors"
           >
             성모님 메시지

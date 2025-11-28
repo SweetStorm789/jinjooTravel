@@ -42,6 +42,7 @@ interface MarianMessagesPageProps {
   isAdmin?: boolean;
   initialPage?: number;
   highlightId?: string;
+  initialSearchQuery?: string;
 }
 
 interface BoardPost {
@@ -147,7 +148,7 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
               </h3>
 
               <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                {post.content_text?.substring(0, 100) + '...'}
+                {post.content_text ? post.content_text.replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').substring(0, 100) + '...' : ''}
               </p>
 
               <div className="flex items-center justify-between text-sm text-gray-500">
@@ -200,11 +201,11 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
   );
 }
 
-export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false, initialPage = 1, highlightId }: MarianMessagesPageProps) {
+export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false, initialPage = 1, highlightId, initialSearchQuery = '' }: MarianMessagesPageProps) {
   const [posts, setPosts] = useState<BoardPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(initialSearchQuery);
   const [pagination, setPagination] = useState<PaginationInfo>({
     currentPage: initialPage,
     totalPages: 1,
@@ -282,7 +283,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false,
   };
 
   // 성모님 메시지 목록 가져오기
-  const fetchPosts = async (page: number = 1, limit: number = 10) => {
+  const fetchPosts = async (page: number = 1, limit: number = 10, query: string = searchTerm) => {
     try {
       setLoading(true);
       setError(null);
@@ -296,8 +297,8 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false,
         order: 'DESC'
       });
 
-      if (searchTerm) {
-        params.append('search', searchTerm);
+      if (query) {
+        params.append('search', query);
       }
 
       const response = await fetch(`${BASE_URL}/api/board?${params}`);
@@ -336,17 +337,17 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false,
   // 페이지 변경 핸들러
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= pagination.totalPages) {
-      setPagination(prev => ({ ...prev, currentPage: page }));
-      fetchPosts(page, pagination.itemsPerPage);
-      // 페이지 상단으로 스크롤
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // URL 업데이트 (검색어 유지)
+      const searchParam = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
+      setCurrentPage(`marian-messages?page=${page}${searchParam}`);
     }
   };
 
   // 검색 핸들러
   const handleSearch = () => {
-    setPagination(prev => ({ ...prev, currentPage: 1 }));
-    fetchPosts(1, pagination.itemsPerPage);
+    // URL 업데이트 (페이지 1로 초기화)
+    const searchParam = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
+    setCurrentPage(`marian-messages?page=1${searchParam}`);
   };
 
   // 엔터 키 핸들러
@@ -356,10 +357,12 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false,
     }
   };
 
-  // 컴포넌트 마운트 시 데이터 로드
+  // 컴포넌트 마운트 및 URL 파라미터 변경 시 데이터 로드
   useEffect(() => {
-    fetchPosts(initialPage);
-  }, [initialPage]);
+    setSearchTerm(initialSearchQuery);
+    setPagination(prev => ({ ...prev, currentPage: initialPage }));
+    fetchPosts(initialPage, 10, initialSearchQuery);
+  }, [initialPage, initialSearchQuery]);
 
   // 하이라이트 및 스크롤 처리
   useEffect(() => {

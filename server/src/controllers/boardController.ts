@@ -54,8 +54,17 @@ interface BoardCategory extends RowDataPacket {
 }
 
 // HTML에서 텍스트 추출 함수
+// HTML에서 텍스트 추출 함수
 const stripHtml = (html: string): string => {
-  return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+  return html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, ' ')
+    .trim();
 };
 
 // 요약 생성 함수
@@ -681,7 +690,7 @@ export const getAdjacentPosts = async (req: Request, res: Response) => {
 
     // 현재 게시글 조회 (기준점)
     const [currentPost] = await pool.execute<BoardPost[]>(
-      'SELECT created_at FROM board_posts WHERE id = ?',
+      'SELECT published_at, created_at FROM board_posts WHERE id = ?',
       [id]
     );
 
@@ -692,32 +701,36 @@ export const getAdjacentPosts = async (req: Request, res: Response) => {
       });
     }
 
-    const currentCreatedAt = currentPost[0].created_at;
+    // published_at이 있으면 사용하고, 없으면 created_at 사용
+    const currentTime = currentPost[0].published_at || currentPost[0].created_at;
+    const timeColumn = currentPost[0].published_at ? 'published_at' : 'created_at';
 
     // 이전 게시글 (현재 글보다 오래된 글 중 가장 최신 글)
+    // 예: 현재 2023-05-01 -> 이전글은 2023-04-30 (DESC 정렬의 첫번째)
     const prevQuery = `
       SELECT id, title, created_at, published_at
       FROM board_posts 
       WHERE board_type = ? 
       AND status = 'published'
-      AND created_at < ?
-      ORDER BY created_at DESC 
+      AND ${timeColumn} < ?
+      ORDER BY ${timeColumn} DESC 
       LIMIT 1
     `;
 
     // 다음 게시글 (현재 글보다 최신 글 중 가장 오래된 글)
+    // 예: 현재 2023-05-01 -> 다음글은 2023-05-02 (ASC 정렬의 첫번째)
     const nextQuery = `
       SELECT id, title, created_at, published_at
       FROM board_posts 
       WHERE board_type = ? 
       AND status = 'published'
-      AND created_at > ?
-      ORDER BY created_at ASC 
+      AND ${timeColumn} > ?
+      ORDER BY ${timeColumn} ASC 
       LIMIT 1
     `;
 
-    const [prevResult] = await pool.execute<BoardPost[]>(prevQuery, [board_type, currentCreatedAt]);
-    const [nextResult] = await pool.execute<BoardPost[]>(nextQuery, [board_type, currentCreatedAt]);
+    const [prevResult] = await pool.execute<BoardPost[]>(prevQuery, [board_type, currentTime]);
+    const [nextResult] = await pool.execute<BoardPost[]>(nextQuery, [board_type, currentTime]);
 
     res.json({
       success: true,
