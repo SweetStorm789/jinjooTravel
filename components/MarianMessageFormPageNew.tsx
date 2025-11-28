@@ -11,6 +11,7 @@ import TipTapEditor from "./ui/TipTapEditor";
 interface MarianMessageFormPageProps {
   setCurrentPage: (page: string) => void;
   messageId?: string;
+  returnPage?: number;
 }
 
 interface MarianMessageFormData {
@@ -23,9 +24,10 @@ interface MarianMessageFormData {
   author_phone: string;
 }
 
-export default function MarianMessageFormPageNew({ 
-  setCurrentPage, 
-  messageId 
+export default function MarianMessageFormPageNew({
+  setCurrentPage,
+  messageId,
+  returnPage = 1
 }: MarianMessageFormPageProps) {
   const [formData, setFormData] = useState<MarianMessageFormData>({
     title: '',
@@ -148,7 +150,7 @@ export default function MarianMessageFormPageNew({
   // 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
@@ -179,10 +181,10 @@ export default function MarianMessageFormPageNew({
         expired_at: null
       };
 
-      const url = isEdit 
+      const url = isEdit
         ? `${BASE_URL}/api/board/${messageId}`
         : `${BASE_URL}/api/board`;
-      
+
       const method = isEdit ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -201,7 +203,9 @@ export default function MarianMessageFormPageNew({
       if (data.success) {
         setSuccessMessage(`성모님 메시지가 성공적으로 ${isEdit ? '수정' : '등록'}되었습니다.`);
         setTimeout(() => {
-          setCurrentPage('marian-messages');
+          // 수정/등록 후 해당 페이지로 이동하고, 수정된 게시글을 하이라이트
+          const targetId = isEdit ? messageId : data.data.id;
+          setCurrentPage(`marian-messages?page=${returnPage}&highlight=${targetId}`);
         }, 1500);
       } else {
         throw new Error(data.message || '저장에 실패했습니다.');
@@ -233,10 +237,10 @@ export default function MarianMessageFormPageNew({
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="sm"
-                onClick={() => setCurrentPage("marian-messages")}
+                onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}
                 className="flex items-center space-x-2"
               >
                 <ArrowLeft className="h-4 w-4" />

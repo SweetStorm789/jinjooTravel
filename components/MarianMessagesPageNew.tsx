@@ -4,10 +4,10 @@ import { Input } from "./ui/input";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Alert, AlertDescription } from "./ui/alert";
-import { 
-  Plus, 
-  Calendar, 
-  User, 
+import {
+  Plus,
+  Calendar,
+  User,
   Eye,
   Loader2,
   AlertCircle,
@@ -40,6 +40,8 @@ import { CSS } from '@dnd-kit/utilities';
 interface MarianMessagesPageProps {
   setCurrentPage: (page: string) => void;
   isAdmin?: boolean;
+  initialPage?: number;
+  highlightId?: string;
 }
 
 interface BoardPost {
@@ -84,12 +86,12 @@ const getRelativeTime = (dateString: string) => {
   const date = new Date(dateString);
   const now = new Date();
   const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-  
+
   if (diffInHours < 1) return '방금 전';
   if (diffInHours < 24) return `${diffInHours}시간 전`;
   if (diffInHours < 48) return '어제';
   if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}일 전`;
-  
+
   return formatDate(dateString);
 };
 
@@ -118,7 +120,7 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="relative">
+    <div ref={setNodeRef} style={style} className="relative" id={`post-${post.id}`}>
       <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer" onClick={onClick}>
         <CardContent className="p-6">
           <div className="flex items-start justify-between">
@@ -139,15 +141,15 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
                   성모님 메시지
                 </Badge>
               </div>
-              
+
               <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#FF9933] transition-colors mb-2">
                 {post.title}
               </h3>
-              
+
               <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                 {post.content_text?.substring(0, 100) + '...'}
               </p>
-              
+
               <div className="flex items-center justify-between text-sm text-gray-500">
                 <div className="flex items-center space-x-4">
                   <span className="flex items-center">
@@ -165,7 +167,7 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
                 </div>
               </div>
             </div>
-            
+
             {isAdmin && (
               <div className="flex flex-col space-y-2 ml-4">
                 <button
@@ -173,11 +175,10 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
                     e.stopPropagation();
                     onTogglePin(post.id);
                   }}
-                  className={`p-2 rounded-md transition-colors ${
-                    post.is_pinned 
-                      ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200' 
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
+                  className={`p-2 rounded-md transition-colors ${post.is_pinned
+                    ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
                   title={post.is_pinned ? '고정 해제' : '고정하기'}
                 >
                   <Pin className="h-4 w-4" />
@@ -199,13 +200,13 @@ function SortablePostItem({ post, isAdmin, onTogglePin, onClick }: SortablePostI
   );
 }
 
-export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false }: MarianMessagesPageProps) {
+export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false, initialPage = 1, highlightId }: MarianMessagesPageProps) {
   const [posts, setPosts] = useState<BoardPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState<PaginationInfo>({
-    currentPage: 1,
+    currentPage: initialPage,
     totalPages: 1,
     totalItems: 0,
     itemsPerPage: 10
@@ -232,7 +233,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
 
       // 서버에 순서 업데이트 요청
       try {
-        const updatePromises = newPosts.map((post, index) => 
+        const updatePromises = newPosts.map((post, index) =>
           fetch(`${BASE_URL}/api/board/${post.id}/order`, {
             method: 'PUT',
             headers: {
@@ -271,7 +272,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
 
       if (response.ok) {
         // 로컬 상태 업데이트
-        setPosts(posts.map(p => 
+        setPosts(posts.map(p =>
           p.id === postId ? { ...p, is_pinned: !p.is_pinned } : p
         ));
       }
@@ -307,7 +308,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
       const data = await response.json();
       if (data.success) {
         setPosts(data.data || []);
-        
+
         if (data.pagination) {
           setPagination(data.pagination);
         } else {
@@ -357,8 +358,19 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
 
   // 컴포넌트 마운트 시 데이터 로드
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts(initialPage);
+  }, [initialPage]);
+
+  // 하이라이트 및 스크롤 처리
+  useEffect(() => {
+    if (!loading && highlightId && posts.length > 0) {
+      const element = document.getElementById(`post-${highlightId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // 잠시 후 하이라이트 효과 제거를 위해 클래스 추가/제거 로직이 필요할 수 있음
+      }
+    }
+  }, [loading, highlightId, posts]);
 
   // 로딩 중인 경우
   if (loading && posts.length === 0) {
@@ -398,11 +410,11 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
               />
               <Button onClick={handleSearch}>검색</Button>
             </div>
-            
+
             <div className="flex gap-2">
               {isAdmin && (
-                <Button 
-                  onClick={() => setCurrentPage("marian-message-form")}
+                <Button
+                  onClick={() => setCurrentPage(`marian-message-form?returnPage=${pagination.currentPage}`)}
                   className="flex items-center space-x-2"
                 >
                   <Plus className="h-4 w-4" />
@@ -433,7 +445,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
           <div className="text-center py-16">
             <div className="text-muted-foreground mb-4">아직 등록된 성모님 메시지가 없습니다.</div>
             {isAdmin && (
-              <Button onClick={() => setCurrentPage("marian-message-form")}>
+              <Button onClick={() => setCurrentPage(`marian-message-form?returnPage=${pagination.currentPage}`)}>
                 첫 번째 메시지 등록하기
               </Button>
             )}
@@ -459,7 +471,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
                         post={post}
                         isAdmin={isAdmin}
                         onTogglePin={handleTogglePin}
-                        onClick={() => setCurrentPage(`marian-message-detail-${post.id}`)}
+                        onClick={() => setCurrentPage(`marian-message-detail-${post.id}?returnPage=${pagination.currentPage}`)}
                       />
                     ))}
                   </SortableContext>
@@ -483,7 +495,7 @@ export default function MarianMessagesPageNew({ setCurrentPage, isAdmin = false 
                         post={post}
                         isAdmin={isAdmin}
                         onTogglePin={handleTogglePin}
-                        onClick={() => setCurrentPage(`marian-message-detail-${post.id}`)}
+                        onClick={() => setCurrentPage(`marian-message-detail-${post.id}?returnPage=${pagination.currentPage}`)}
                       />
                     ))}
                   </SortableContext>

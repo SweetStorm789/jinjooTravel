@@ -126,21 +126,38 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     }
 
     // 성모님메시지
-    if (currentPage === "marian-messages") {
-      return <MarianMessagesPageNew setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
+    if (currentPage.startsWith("marian-messages")) {
+      // URL 파라미터 파싱 (예: marian-messages?page=2&highlight=123)
+      const queryParams = new URLSearchParams(currentPage.split('?')[1] || '');
+      const initialPage = parseInt(queryParams.get('page') || '1', 10);
+      const highlightId = queryParams.get('highlight') || undefined;
+
+      return <MarianMessagesPageNew setCurrentPage={setCurrentPage} isAdmin={isAdmin} initialPage={initialPage} highlightId={highlightId} />;
     }
-    if (currentPage === "marian-message-form") {
-      return <MarianMessageFormPageNew setCurrentPage={setCurrentPage} />;
+    if (currentPage.startsWith("marian-message-form")) {
+      // URL 파라미터 파싱
+      const queryParams = new URLSearchParams(currentPage.split('?')[1] || '');
+      const returnPage = parseInt(queryParams.get('returnPage') || '1', 10);
+
+      // 수정 모드 (ID가 있는 경우)
+      const editMatch = matchRoute(currentPage.split('?')[0], "marian-message-form-edit-{id}");
+      if (editMatch.match) {
+        return <MarianMessageFormPageNew setCurrentPage={setCurrentPage} messageId={editMatch.params.id} returnPage={returnPage} />;
+      }
+
+      // 등록 모드
+      if (currentPage.split('?')[0] === "marian-message-form") {
+        return <MarianMessageFormPageNew setCurrentPage={setCurrentPage} returnPage={returnPage} />;
+      }
     }
 
-    const marianMessageFormEditMatch = matchRoute(currentPage, "marian-message-form-edit-{id}");
-    if (marianMessageFormEditMatch.match) {
-      return <MarianMessageFormPageNew setCurrentPage={setCurrentPage} messageId={marianMessageFormEditMatch.params.id} />;
-    }
-
-    const marianMessageDetailMatch = matchRoute(currentPage, "marian-message-detail-{id}");
+    const marianMessageDetailMatch = matchRoute(currentPage.split('?')[0], "marian-message-detail-{id}");
     if (marianMessageDetailMatch.match) {
-      return <MarianMessageDetailPageNew setCurrentPage={setCurrentPage} messageId={marianMessageDetailMatch.params.id} isAdmin={isAdmin} />;
+      // URL 파라미터 파싱
+      const queryParams = new URLSearchParams(currentPage.split('?')[1] || '');
+      const returnPage = parseInt(queryParams.get('returnPage') || '1', 10);
+
+      return <MarianMessageDetailPageNew setCurrentPage={setCurrentPage} messageId={marianMessageDetailMatch.params.id} isAdmin={isAdmin} returnPage={returnPage} />;
     }
 
     // 공지사항
@@ -196,15 +213,15 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     if (currentPage === "freeboard") {
       return <FreeBoardPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
-    
+
     if (currentPage === "freeboard-form") {
       return <FreeBoardFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
-    
+
     if (currentPage.startsWith("freeboard-form-edit-")) {
       return <FreeBoardFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
-    
+
     if (currentPage.startsWith("freeboard-detail-")) {
       return <FreeBoardDetailPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
@@ -213,15 +230,15 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     if (currentPage === "photo-gallery") {
       return <PhotoGalleryPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
-    
+
     if (currentPage === "gallery-form") {
       return <PhotoGalleryFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
-    
+
     if (currentPage.startsWith("gallery-form-edit-")) {
       return <PhotoGalleryFormPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
-    
+
     if (currentPage.startsWith("gallery-detail-")) {
       return <PhotoGalleryDetailPage setCurrentPage={setCurrentPage} isAdmin={isAdmin} />;
     }
@@ -272,7 +289,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     // 기본값 (홈페이지)
     return (
       <>
-        <HeroSection setCurrentPage={setCurrentPage}  />
+        <HeroSection setCurrentPage={setCurrentPage} />
         <FeaturedPackages setCurrentPage={setCurrentPage} />
         <CompanyFeatures />
       </>

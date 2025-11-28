@@ -4,10 +4,10 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Alert, AlertDescription } from "./ui/alert";
 import TipTapEditor from "./ui/TipTapEditor";
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Edit, 
+import {
+  ArrowLeft,
+  Calendar,
+  Edit,
   Trash2,
   Loader2,
   AlertCircle,
@@ -23,6 +23,7 @@ interface MarianMessageDetailPageProps {
   setCurrentPage: (page: string) => void;
   messageId: string;
   isAdmin?: boolean;
+  returnPage?: number;
 }
 
 interface BoardPost {
@@ -40,10 +41,11 @@ interface BoardPost {
   updated_at: string;
 }
 
-export default function MarianMessageDetailPageNew({ 
-  setCurrentPage, 
+export default function MarianMessageDetailPageNew({
+  setCurrentPage,
   messageId,
-  isAdmin = false 
+  isAdmin = false,
+  returnPage = 1
 }: MarianMessageDetailPageProps) {
   const [message, setMessage] = useState<BoardPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -87,7 +89,7 @@ export default function MarianMessageDetailPageNew({
 
     try {
       setDeleting(true);
-      
+
       const response = await fetch(`${BASE_URL}/api/board/${messageId}`, {
         method: 'DELETE',
         headers: {
@@ -103,7 +105,7 @@ export default function MarianMessageDetailPageNew({
       const data = await response.json();
       if (data.success) {
         alert('성모님 메시지가 성공적으로 삭제되었습니다.');
-        setCurrentPage('marian-messages');
+        setCurrentPage(`marian-messages?page=${returnPage}`);
       } else {
         throw new Error(data.message || '삭제에 실패했습니다.');
       }
@@ -173,7 +175,7 @@ export default function MarianMessageDetailPageNew({
             <AlertDescription>{error || '성모님 메시지를 찾을 수 없습니다.'}</AlertDescription>
           </Alert>
           <div>
-            <Button onClick={() => setCurrentPage("marian-messages")}>
+            <Button onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}>
               목록으로 돌아가기
             </Button>
           </div>
@@ -189,10 +191,10 @@ export default function MarianMessageDetailPageNew({
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="sm"
-                onClick={() => setCurrentPage("marian-messages")}
+                onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}
                 className="flex items-center space-x-2"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -206,16 +208,16 @@ export default function MarianMessageDetailPageNew({
               </Button>
               {isAdmin && (
                 <>
-                  <Button 
+                  <Button
                     size="sm"
-                    onClick={() => setCurrentPage(`marian-message-form-edit-${messageId}`)}
+                    onClick={() => setCurrentPage(`marian-message-form-edit-${messageId}?returnPage=${returnPage}`)}
                     className="flex items-center space-x-2"
                   >
                     <Edit className="h-4 w-4" />
                     <span>수정</span>
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={handleDelete}
                     disabled={deleting}
@@ -240,8 +242,8 @@ export default function MarianMessageDetailPageNew({
         <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-6">
           <Home className="h-4 w-4" />
           <ChevronRight className="h-4 w-4" />
-          <button 
-            onClick={() => setCurrentPage("marian-messages")}
+          <button
+            onClick={() => setCurrentPage(`marian-messages?page=${returnPage}`)}
             className="hover:text-blue-600 transition-colors"
           >
             성모님 메시지
@@ -259,11 +261,11 @@ export default function MarianMessageDetailPageNew({
                 <div className="flex items-center gap-2 mb-4">
                   <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">메주고리예</Badge>
                 </div>
-                
+
                 <h1 className="text-2xl font-medium text-foreground mb-4">
                   {message.title}
                 </h1>
-                
+
                 {/* 메타 정보 */}
                 <div className="flex items-center space-x-6 text-sm text-muted-foreground pb-6 border-b border-border">
                   <div className="flex items-center space-x-2">
@@ -323,7 +325,7 @@ export default function MarianMessageDetailPageNew({
                 <p className="text-xs text-muted-foreground">날짜 정보</p>
               </CardContent>
             </Card>
-            
+
             <Card className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-4">
                 <h4 className="font-medium text-sm mb-2 hover:text-orange-600 transition-colors">
