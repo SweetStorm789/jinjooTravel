@@ -83,7 +83,7 @@ const formatActivityWithTime = (text: string): string => {
   ];
 
   let formattedText = text;
-  
+
   timePatterns.forEach(pattern => {
     formattedText = formattedText.replace(pattern, (match) => {
       return `<span class="inline-flex items-center px-1 py-0.5 rounded-md text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200" style="margin-right: 4px; height: 18px;">🕐 ${match}</span>`;
@@ -93,8 +93,8 @@ const formatActivityWithTime = (text: string): string => {
   return formattedText;
 };
 
-function PilgrimagePackageDetailPage({ 
-  setCurrentPage, 
+function PilgrimagePackageDetailPage({
+  setCurrentPage,
   packageId = "1",
   isAdmin = false
 }: PilgrimagePackageDetailPageProps) {
@@ -102,7 +102,7 @@ function PilgrimagePackageDetailPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
-  
+
   const [packageData, setPackageData] = useState<PackageData | null>(null);
 
   useEffect(() => {
@@ -115,16 +115,16 @@ function PilgrimagePackageDetailPage({
           throw new Error('Failed to fetch package data');
         }
         const data = await response.json();
-        
 
-        
+
+
         // 문자열을 배열로 변환하는 함수
         const parseTextToArray = (text: string | null | undefined, defaultValue: any[] = []): any[] => {
           if (!text) return defaultValue;
-          
+
           // 문자열이 아닌 경우 문자열로 변환
           const textStr = typeof text === 'string' ? text : String(text);
-          
+
           // 이미 JSON 배열인 경우 파싱 시도
           if (textStr.startsWith('[') && textStr.endsWith(']')) {
             try {
@@ -134,7 +134,7 @@ function PilgrimagePackageDetailPage({
               // JSON 파싱 실패 시 텍스트로 처리
             }
           }
-          
+
           // 일반 텍스트를 줄바꿈으로 분리
           return textStr.split('\n').map(line => line.trim()).filter(line => line.length > 0);
         };
@@ -169,7 +169,7 @@ function PilgrimagePackageDetailPage({
           description: data.description,
           region: data.region,
           duration: data.duration,
-          price: new Intl.NumberFormat('ko-KR').format(data.price) + '원',
+          price: Number(data.price) === 0 ? '미정' : new Intl.NumberFormat('ko-KR').format(data.price) + '원',
           departureDate: formatDateToKorean(data.departure_date),
           arrivalDate: formatDateToKorean(data.arrival_date),
           maxPeople: data.max_people,
@@ -209,24 +209,24 @@ function PilgrimagePackageDetailPage({
   // 삭제 함수
   const handleDelete = async () => {
     if (!packageId) return;
-    
+
     const confirmDelete = window.confirm(
       `"${packageData?.title}" 성지순례 일정을 정말 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`
     );
-    
+
     if (!confirmDelete) return;
-    
+
     try {
       setDeleting(true);
-      
+
       const response = await fetch(`${BASE_URL}/api/packages/${packageId}`, {
         method: 'DELETE',
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to delete package');
       }
-      
+
       alert('성지순례 일정이 성공적으로 삭제되었습니다.');
       setCurrentPage('pilgrimage-packages');
     } catch (error) {
@@ -240,14 +240,14 @@ function PilgrimagePackageDetailPage({
   // 이미지 네비게이션 함수
   const goToPreviousImage = useCallback(() => {
     if (!packageData?.images.length) return;
-    setSelectedImageIndex((prev) => 
+    setSelectedImageIndex((prev) =>
       prev === 0 ? packageData.images.length - 1 : prev - 1
     );
   }, [packageData?.images.length]);
 
   const goToNextImage = useCallback(() => {
     if (!packageData?.images.length) return;
-    setSelectedImageIndex((prev) => 
+    setSelectedImageIndex((prev) =>
       prev === packageData.images.length - 1 ? 0 : prev + 1
     );
   }, [packageData?.images.length]);
@@ -256,7 +256,7 @@ function PilgrimagePackageDetailPage({
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (!packageData?.images.length || packageData.images.length <= 1) return;
-      
+
       if (event.key === 'ArrowLeft') {
         goToPreviousImage();
       } else if (event.key === 'ArrowRight') {
@@ -321,8 +321,8 @@ function PilgrimagePackageDetailPage({
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="sm"
                 onClick={() => setCurrentPage("pilgrimage-packages")}
                 className="flex items-center space-x-2"
@@ -336,16 +336,16 @@ function PilgrimagePackageDetailPage({
               {/* 관리자 권한 체크 - 관리자에게만 수정/삭제 버튼 표시 */}
               {isAdmin && (
                 <>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => setCurrentPage(`package-form-edit-${packageId}`)}
                     className="flex items-center space-x-2"
                   >
                     <span>수정</span>
                   </Button>
-                  <Button 
-                    variant="destructive" 
+                  <Button
+                    variant="destructive"
                     size="sm"
                     onClick={handleDelete}
                     disabled={deleting}
@@ -385,7 +385,7 @@ function PilgrimagePackageDetailPage({
                     alt={packageData.title}
                     className="w-full h-full object-cover"
                   />
-                  
+
                   {/* 이미지가 2개 이상일 때만 네비게이션 버튼 표시 */}
                   {packageData.images.length > 1 && (
                     <>
@@ -397,7 +397,7 @@ function PilgrimagePackageDetailPage({
                       >
                         <ChevronLeft className="h-6 w-6" />
                       </button>
-                      
+
                       {/* 다음 버튼 */}
                       <button
                         onClick={goToNextImage}
@@ -406,18 +406,17 @@ function PilgrimagePackageDetailPage({
                       >
                         <ChevronRight className="h-6 w-6" />
                       </button>
-                      
+
                       {/* 이미지 인디케이터 */}
                       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         {packageData.images.map((_, index) => (
                           <button
                             key={index}
                             onClick={() => setSelectedImageIndex(index)}
-                            className={`w-2 h-2 rounded-full transition-all ${
-                              selectedImageIndex === index 
-                                ? "bg-white" 
-                                : "bg-white/50 hover:bg-white/70"
-                            }`}
+                            className={`w-2 h-2 rounded-full transition-all ${selectedImageIndex === index
+                              ? "bg-white"
+                              : "bg-white/50 hover:bg-white/70"
+                              }`}
                             aria-label={`이미지 ${index + 1}로 이동`}
                           />
                         ))}
@@ -425,18 +424,17 @@ function PilgrimagePackageDetailPage({
                     </>
                   )}
                 </div>
-                
+
                 {/* 썸네일 그리드 */}
                 <div className="grid grid-cols-4 gap-2">
                   {packageData.images.map((image: string, index: number) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
-                      className={`aspect-[4/3] overflow-hidden rounded border-2 transition-all ${
-                        selectedImageIndex === index 
-                          ? "border-primary" 
-                          : "border-transparent hover:border-border"
-                      }`}
+                      className={`aspect-[4/3] overflow-hidden rounded border-2 transition-all ${selectedImageIndex === index
+                        ? "border-primary"
+                        : "border-transparent hover:border-border"
+                        }`}
                     >
                       <ImageWithFallback
                         src={image}
@@ -508,7 +506,7 @@ function PilgrimagePackageDetailPage({
                       const dayRange = parseDayRange(day.day_label || `Day ${day.day}`);
                       const startDay = dayRange ? dayRange.start : day.day;
                       const endDay = dayRange ? dayRange.end : day.day;
-                      
+
                       return (
                         <Card key={index}>
                           <CardHeader>
@@ -523,7 +521,7 @@ function PilgrimagePackageDetailPage({
                                     <span className="text-sm text-muted-foreground">
                                       {(() => {
                                         const departureDate = new Date(packageData.departureDate.replace(/년|월|일/g, '').trim());
-                                        
+
                                         if (startDay === endDay) {
                                           // 단일 날짜
                                           const targetDate = new Date(departureDate);
@@ -545,29 +543,29 @@ function PilgrimagePackageDetailPage({
                             </div>
                             <CardDescription style={{ whiteSpace: 'pre-line' }}>{day.description}</CardDescription>
                           </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div>
-                            <h5 className="font-medium mb-2">주요 활동</h5>
-                            <div 
-                              className="text-sm"
-                              style={{ whiteSpace: 'pre-line' }}
-                              dangerouslySetInnerHTML={{
-                                __html: formatActivityWithTime((day.activities as unknown as string) || '')
-                              }}
-                            />
-                          </div>
-                          <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border">
+                          <CardContent className="space-y-4">
                             <div>
-                              <span className="text-xs font-medium text-muted-foreground">식사</span>
-                              <p className="text-sm">{day.meals}</p>
+                              <h5 className="font-medium mb-2">주요 활동</h5>
+                              <div
+                                className="text-sm"
+                                style={{ whiteSpace: 'pre-line' }}
+                                dangerouslySetInnerHTML={{
+                                  __html: formatActivityWithTime((day.activities as unknown as string) || '')
+                                }}
+                              />
                             </div>
-                            <div>
-                              <span className="text-xs font-medium text-muted-foreground">숙박</span>
-                              <p className="text-sm">{day.accommodation}</p>
+                            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border">
+                              <div>
+                                <span className="text-xs font-medium text-muted-foreground">식사</span>
+                                <p className="text-sm">{day.meals}</p>
+                              </div>
+                              <div>
+                                <span className="text-xs font-medium text-muted-foreground">숙박</span>
+                                <p className="text-sm">{day.accommodation}</p>
+                              </div>
                             </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                          </CardContent>
+                        </Card>
                       );
                     })}
                   </div>
@@ -746,7 +744,7 @@ function PilgrimagePackageDetailPage({
                   </div>
 
                   <Separator />
-{/*}
+                  {/*}
                   <div className="space-y-3">
    ㄴ                 <Button className="w-full" size="lg">
                       <Phone className="h-4 w-4 mr-2" />

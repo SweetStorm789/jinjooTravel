@@ -105,7 +105,7 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            
+
             {/* 고정 배지 */}
             {pkg.is_pinned && (
               <div className="absolute top-3 left-3">
@@ -115,7 +115,7 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
                 </Badge>
               </div>
             )}
-            
+
             {/* 관리자 컨트롤 */}
             {isAdmin && (
               <div className="absolute top-3 right-3 flex flex-col space-y-2">
@@ -124,11 +124,10 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
                     e.stopPropagation();
                     onTogglePin(pkg.id);
                   }}
-                  className={`p-2 rounded-md transition-colors ${
-                    pkg.is_pinned 
-                      ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200' 
+                  className={`p-2 rounded-md transition-colors ${pkg.is_pinned
+                      ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
                       : 'bg-white/80 text-gray-600 hover:bg-white'
-                  }`}
+                    }`}
                   title={pkg.is_pinned ? '고정 해제' : '고정하기'}
                 >
                   <Pin className="h-4 w-4" />
@@ -144,7 +143,7 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
               </div>
             )}
           </div>
-          
+
           {/* 상품 정보 */}
           <div className="p-6 flex flex-col flex-grow">
             <div className="flex items-center justify-between mb-2">
@@ -155,8 +154,8 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
                 {pkg.duration}
               </Badge>
             </div>
-            
-            <h3 
+
+            <h3
               className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2"
               style={{
                 display: '-webkit-box',
@@ -169,11 +168,11 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
             >
               {pkg.title}
             </h3>
-            
+
             <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
               {pkg.description}
             </p>
-            
+
             {/* 여행 정보 */}
             <div className="grid grid-cols-3 gap-4 py-3 border-t border-border">
               <div className="flex items-center space-x-2">
@@ -189,13 +188,13 @@ function SortablePackageItem({ pkg, isAdmin, onTogglePin, onClick, formatPrice, 
                 <span className="text-sm">항공포함</span>
               </div>
             </div>
-            
+
             {/* 가격 */}
             <div className="pt-4 border-t border-border">
               <p className="text-lg font-medium">{formatPrice(pkg.price)}</p>
               <p className="text-xs text-muted-foreground"></p>
             </div>
-            
+
             {/* 출발일 및 도착일 */}
             <div className="text-sm text-muted-foreground space-y-1 mt-2">
               <div>순례기간 : {formatDate(pkg.departure_date)} ~ {formatDate(pkg.arrival_date)}</div>
@@ -220,7 +219,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   const [totalItems, setTotalItems] = useState(0);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrev, setHasPrev] = useState(false);
-  
+
   const baseUrl = getSafeBaseUrl();
 
   // 드래그 앤 드롭 센서 설정
@@ -244,7 +243,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
 
       // 서버에 순서 업데이트 요청
       try {
-        const updatePromises = newPackages.map((pkg, index) => 
+        const updatePromises = newPackages.map((pkg, index) =>
           fetch(`${baseUrl}/api/packages/${pkg.id}/order`, {
             method: 'PUT',
             headers: {
@@ -283,7 +282,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
 
       if (response.ok) {
         // 로컬 상태 업데이트
-        setPackages(packages.map(p => 
+        setPackages(packages.map(p =>
           p.id === packageId ? { ...p, is_pinned: !p.is_pinned } : p
         ));
       }
@@ -294,45 +293,45 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
 
   // 패키지 데이터 가져오기 함수
   const fetchPackages = async () => {
-      try {
-        setIsLoading(true);
-        
-        // 쿼리 파라미터 구성
-        const params = new URLSearchParams({
-          page: currentPage.toString(),
-          limit: '12'
-        });
-        
-        if (selectedRegion !== 'all') {
-          params.append('region', selectedRegion);
-        }
-        
-        if (searchTerm.trim()) {
-          params.append('search', searchTerm.trim());
-        }
+    try {
+      setIsLoading(true);
 
-        const response = await axios.get(`${baseUrl}/api/packages?${params}`);
-        
-        const responseData = response.data;
-        // 응답 데이터 구조 확인 및 안전한 처리
-        let packagesData;
-        if (responseData && Array.isArray(responseData.packages)) {
-          packagesData = responseData.packages;
-        } else if (Array.isArray(responseData)) {
-          packagesData = responseData;
-        } else {
-          console.warn('Unexpected API response structure:', responseData);
-          packagesData = [];
-        }
-        
-        const featuredPackages = packagesData
+      // 쿼리 파라미터 구성
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: '12'
+      });
+
+      if (selectedRegion !== 'all') {
+        params.append('region', selectedRegion);
+      }
+
+      if (searchTerm.trim()) {
+        params.append('search', searchTerm.trim());
+      }
+
+      const response = await axios.get(`${baseUrl}/api/packages?${params}`);
+
+      const responseData = response.data;
+      // 응답 데이터 구조 확인 및 안전한 처리
+      let packagesData;
+      if (responseData && Array.isArray(responseData.packages)) {
+        packagesData = responseData.packages;
+      } else if (Array.isArray(responseData)) {
+        packagesData = responseData;
+      } else {
+        console.warn('Unexpected API response structure:', responseData);
+        packagesData = [];
+      }
+
+      const featuredPackages = packagesData
         .map((pkg: any) => {
-          
+
           // 메인 이미지 찾기
           const mainImage = pkg.images?.find((img: any) => img.image_type === 'main');
           const firstImage = pkg.images?.[0];
           const imageObj = mainImage || firstImage;
-          
+
           // 파일명 안전 추출
           const filename = imageObj?.image_url?.split?.('/')?.pop?.();
           const relativeImagePath = filename ? `/uploads/${filename}` : undefined;
@@ -354,21 +353,21 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
           };
         });
 
-        setPackages(featuredPackages);
-        
-        // 페이징 정보 설정
-        if (responseData.pagination) {
-          setTotalPages(responseData.pagination.total_pages);
-          setTotalItems(responseData.pagination.total_items);
-          setHasNext(responseData.pagination.has_next);
-          setHasPrev(responseData.pagination.has_prev);
-        }
-      } catch (error) {
-        console.error('Failed to fetch packages:', error);
-        setError('성지순례 일정 목록을 불러오는데 실패했습니다.');
-      } finally {
-        setIsLoading(false);
+      setPackages(featuredPackages);
+
+      // 페이징 정보 설정
+      if (responseData.pagination) {
+        setTotalPages(responseData.pagination.total_pages);
+        setTotalItems(responseData.pagination.total_items);
+        setHasNext(responseData.pagination.has_next);
+        setHasPrev(responseData.pagination.has_prev);
       }
+    } catch (error) {
+      console.error('Failed to fetch packages:', error);
+      setError('성지순례 일정 목록을 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -400,7 +399,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
   // 안전한 날짜 포매터 (YYYYMMDD 형식 처리)
   const formatDate = (dateString?: string) => {
     if (!dateString) return '미정';
-    
+
     // YYYYMMDD 형식인지 확인 (8자리 숫자)
     if (dateString.length === 8 && /^\d{8}$/.test(dateString)) {
       const year = dateString.substring(0, 4);
@@ -408,7 +407,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
       const day = dateString.substring(6, 8);
       return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
     }
-    
+
     // 기존 날짜 형식 처리 (fallback)
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return '미정';
@@ -427,7 +426,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
 
     // 만원 단위로 변환
     const manWon = Math.round(numericPrice / 10000);
-    return `${manWon}만원`;
+    return manWon === 0 ? '미정' : `${manWon}만원`;
   };
 
   // 안전한 하이라이트 파서
@@ -441,13 +440,13 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
 
   const filteredPackages = packages.filter(pkg => {
     const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         pkg.description.toLowerCase().includes(searchTerm.toLowerCase());
+      pkg.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRegion = selectedRegion === "all" || pkg.region === selectedRegion;
-    const matchesDuration = selectedDuration === "all" || 
-                           (selectedDuration === "short" && pkg.duration.includes("7박") || pkg.duration.includes("6박")) ||
-                           (selectedDuration === "medium" && (pkg.duration.includes("8박") || pkg.duration.includes("9박"))) ||
-                           (selectedDuration === "long" && (pkg.duration.includes("10박") || pkg.duration.includes("11박")));
-    
+    const matchesDuration = selectedDuration === "all" ||
+      (selectedDuration === "short" && pkg.duration.includes("7박") || pkg.duration.includes("6박")) ||
+      (selectedDuration === "medium" && (pkg.duration.includes("8박") || pkg.duration.includes("9박"))) ||
+      (selectedDuration === "long" && (pkg.duration.includes("10박") || pkg.duration.includes("11박")));
+
     return matchesSearch && matchesRegion && matchesDuration;
   });
 
@@ -465,14 +464,14 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
               <Badge variant="outline">전문여행사</Badge>
               <Badge variant="outline">20년 경험</Badge>
             </div>
-            
+
             <h1 className="text-4xl font-medium text-foreground mb-4">
               가톨릭 성지순례 일정
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               하느님의 은총이 깃든 성지들을 방문하여 신앙을 깊게 하고 영적 성장을 경험하는 특별한 여정입니다.
             </p>
-            
+
             <div className="flex items-center justify-center space-x-8 pt-6 border-t border-border mt-8">
               <div className="text-center">
                 <div className="text-2xl font-medium">20+</div>
@@ -507,7 +506,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                 className="pl-10"
               />
             </div>
-            
+
             <Select value={selectedRegion} onValueChange={(value) => {
               setSelectedRegion(value);
               setCurrentPageState(1); // 지역 변경 시 페이지 초기화
@@ -523,7 +522,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                 <SelectItem value="이스라엘">이스라엘</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Select value={selectedDuration} onValueChange={(value) => {
               setSelectedDuration(value);
               setCurrentPageState(1); // 기간 변경 시 페이지 초기화
@@ -538,7 +537,7 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
                 <SelectItem value="long">장기 (10일 이상)</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Button variant="outline" className="flex items-center space-x-2">
               <Filter className="h-4 w-4" />
               <span>고급 필터</span>
@@ -555,14 +554,14 @@ export default function PilgrimagePackagesPage({ setCurrentPage, isAdmin = false
             <div className="flex items-center space-x-4">
               {/* 관리자 권한 체크 - 관리자에게만 등록 버튼 표시 */}
               {isAdmin && (
-                <Button 
+                <Button
                   onClick={() => setCurrentPage("package-form")}
                   className="flex items-center space-x-2"
                 >
                   <span>성지순례 일정 등록</span>
                 </Button>
               )}
-              
+
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-muted-foreground">정렬:</span>
                 <Select defaultValue="latest">

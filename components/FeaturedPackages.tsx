@@ -34,7 +34,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
   // 안전한 날짜 포매터 (YYYYMMDD 형식 처리)
   const formatDate = (dateString?: string) => {
     if (!dateString) return '미정';
-    
+
     // YYYYMMDD 형식인지 확인 (8자리 숫자)
     if (dateString.length === 8 && /^\d{8}$/.test(dateString)) {
       const year = dateString.substring(0, 4);
@@ -42,12 +42,12 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
       const day = dateString.substring(6, 8);
       return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
     }
-    
+
     // 기존 날짜 형식 처리
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return '미정';
-      
+
       return date.toLocaleDateString('ko-KR', {
         year: 'numeric',
         month: 'long',
@@ -69,13 +69,13 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
     const fetchFeaturedPackages = async () => {
       try {
         const baseUrl = getSafeBaseUrl();
-        
+
         // BASE_URL이 비어있거나 유효하지 않은 경우 처리
         if (!baseUrl || baseUrl === '') {
           setPackages([]);
           return;
         }
-        
+
         const response = await axios.get(`${baseUrl}/api/packages`);
 
         // 응답 데이터 구조 확인 및 안전한 처리
@@ -88,31 +88,31 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
           console.warn('⚠️ Response data is not an array or does not have packages property');
           packagesData = [];
         }
-        
+
         if (!Array.isArray(packagesData)) {
           console.error('❌ packagesData is not an array, cannot use filter');
           console.log('🔄 Using fallback dummy data');
           setPackages([]);
           return;
         }
-        
+
         const publishedPackages = packagesData.filter((pkg: any) => pkg.status === 'published');
-        
+
         // published 패키지가 없으면 빈 배열 설정
         if (publishedPackages.length === 0) {
           console.log('🔄 No published packages found, setting empty array');
           setPackages([]);
           return;
         }
-        
+
         const featuredPackages = publishedPackages.slice(0, 6)
           .map((pkg: any) => {
-            
+
             // 메인 이미지 찾기
             const mainImage = pkg.images?.find((img: any) => img.image_type === 'main');
             const firstImage = pkg.images?.[0];
             const imageUrl = mainImage || firstImage;
-            
+
 
 
             return {
@@ -140,12 +140,12 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
           status: error.response?.status,
           config: error.config
         });
-        
+
         // 네트워크 에러나 서버 연결 실패 시 빈 배열 설정
         if (error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
           console.log('🔄 Network error, setting empty array');
         }
-        
+
         // 에러 시 빈 배열 설정
         setPackages([]);
       } finally {
@@ -199,11 +199,10 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           {packages.map((pkg, index) => (
-            <Card 
-              key={pkg.id} 
-              className={`group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white ${
-                index === 1 ? 'lg:scale-105 lg:z-10' : ''
-              }`}
+            <Card
+              key={pkg.id}
+              className={`group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white ${index === 1 ? 'lg:scale-105 lg:z-10' : ''
+                }`}
               onClick={() => setCurrentPage(`package-detail-${pkg.id}`)}
             >
               <div className="relative overflow-hidden">
@@ -213,7 +212,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                
+
                 {/* Rating */}
                 {/* <div className="absolute top-4 right-4 flex items-center bg-white/90 rounded-full px-3 py-1">
                   <Star className="w-4 h-4 text-yellow-500 mr-1" />
@@ -233,7 +232,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
                     <MapPin className="w-4 h-4 mr-2" />
                     <span className="text-sm">{pkg.region}</span>
                   </div>
-                  
+
                   <div className="flex justify-between text-sm text-gray-600">
                     <div className="flex items-center">
                       <Calendar className="w-4 h-4 mr-2" />
@@ -255,7 +254,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                     <div>
                       <div className="text-2xl font-bold text-gray-900">
-                        {(pkg.price / 10000).toFixed(0)}만원
+                        {Number(pkg.price) === 0 ? '미정' : `${(Number(pkg.price) / 10000).toFixed(0)}만원`}
                       </div>
                       {/* <div className="text-sm text-gray-500">
                         {pkg.reviews}개 후기
@@ -273,9 +272,9 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
         </div>
 
         <div className="text-center">
-          <Button 
-            variant="outline" 
-            size="lg" 
+          <Button
+            variant="outline"
+            size="lg"
             className="px-8 py-4 text-gray-900 border-gray-300 hover:bg-gray-50"
             onClick={() => setCurrentPage("pilgrimage-packages")}
           >
