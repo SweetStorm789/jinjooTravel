@@ -35,6 +35,7 @@ import deadSeaImage from "../images/israel/dead-sea.jpg";
 import nazarethImage from "../images/israel/nazareth.jpg";
 import jerusalemImage from "../images/israel/jerusalem-1314895_1920.jpg";
 import peterChurchImage from "../images/israel/peter-church.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 
 
@@ -46,9 +47,8 @@ interface IsraelPageProps {
 export default function IsraelPage({
   setCurrentPage,
 }: IsraelPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('israel'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -64,28 +64,7 @@ export default function IsraelPage({
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -117,7 +96,7 @@ export default function IsraelPage({
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -7시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -6시간)`,
       color: "text-orange-600",
@@ -166,7 +145,7 @@ export default function IsraelPage({
       name: "나자렛 - 성모영보대성당",
       subtitle: "예수님이 성장하신 곳",
       description:
-      "이스라엘 **나자렛(Nazareth)**은 갈릴래아 지역에 위치한 도시로, 예수 그리스도께서 유년 시절을 보내신 곳으로 전해져 가톨릭 신앙에서 매우 중요한 성지로 여겨진다. 오늘날에도 많은 순례자들이 이곳을 찾아 예수님의 삶의 자취를 되새기며 기도하는 은총의 장소로 삼고 있다.",
+        "이스라엘 **나자렛(Nazareth)**은 갈릴래아 지역에 위치한 도시로, 예수 그리스도께서 유년 시절을 보내신 곳으로 전해져 가톨릭 신앙에서 매우 중요한 성지로 여겨진다. 오늘날에도 많은 순례자들이 이곳을 찾아 예수님의 삶의 자취를 되새기며 기도하는 은총의 장소로 삼고 있다.",
       icon: Church,
       color: "from-purple-100 to-violet-200",
       iconColor: "text-purple-700",
@@ -364,19 +343,19 @@ export default function IsraelPage({
                       <div className="relative">
                         <div className="absolute inset-0"></div>
                         <ImageWithFallback
-                        src={place.image}
-                        alt={place.name}
-                        className={`w-full h-[240px] object-cover ${place.image === peterChurchImage ? 'object-top' : ''}`}
-                      />
-                       
+                          src={place.image}
+                          alt={place.name}
+                          className={`w-full h-[240px] object-cover ${place.image === peterChurchImage ? 'object-top' : ''}`}
+                        />
+
                         {/* 오버레이 텍스트 */}
                         <div className="absolute bottom-3 left-3 right-3">
-                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
-                          <span className="text-sm font-medium text-gray-800 text-center">
-                            {place.name}
-                          </span>
+                          <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                            <span className="text-sm font-medium text-gray-800 text-center">
+                              {place.name}
+                            </span>
+                          </div>
                         </div>
-                      </div>
                       </div>
                       <CardContent className="p-4">
                         <p className="text-sm text-muted-foreground leading-relaxed">
@@ -419,11 +398,11 @@ export default function IsraelPage({
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[4/3] bg-gradient-to-br from-yellow-100 to-amber-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={jerusalemImage}
-                        alt="예루살렘"
-                        className="w-full h-[240px] object-cover"
-                      />
+                          <ImageWithFallback
+                            src={jerusalemImage}
+                            alt="예루살렘"
+                            className="w-full h-[240px] object-cover"
+                          />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -528,126 +507,7 @@ export default function IsraelPage({
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-{item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "이스라엘") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(
-                                //   `${item.name} 페이지는 아직 구현되지 않았습니다.`,
-                                // );
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "이스라엘"
-                                ? "bg-primary/5 text-primary border-r-2 border-primary"
-                                : ""
-                            }`}
-                          >
-                            <span className="text-sm">
-                              {item.name}
-                            </span>
-                            {item.name !== "이스라엘" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" &&
-                          isItalyExpanded && (
-                            <div className="ml-4 border-l border-border">
-                              {item.children?.map((child) => (
-                                <a
-                                  key={child}
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    if (child === "로마") {
-                                      setCurrentPage("rome");
-                                    } else if (child === "아시시") {
-                                      setCurrentPage("assisi");
-                                    } else if (child === "산조반니로톤도") {
-                                      setCurrentPage("sangiovannirotondo");
-                                    } else if (child === "로레토") {
-                                      setCurrentPage("loreto");
-                                    } else if (child === "시에나") {
-                                      setCurrentPage("siena");
-                                    } else if (child === "오르비에또") {
-                                      setCurrentPage("orviettoo");
-                                    } else if (child === "란치아노") {
-                                      setCurrentPage("lanciano");
-                                    } else {
-                                      // console.log(
-                                      //   `${child} 페이지는 아직 구현되지 않았습니다.`,
-                                      // );
-                                    }
-                                  }}
-                                  className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                                >
-                                  <span className="text-sm text-muted-foreground">
-                                    {child}
-                                  </span>
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </a>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="israel" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

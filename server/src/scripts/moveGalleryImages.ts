@@ -7,10 +7,10 @@ dotenv.config();
 
 async function moveGalleryImages() {
   let connection;
-  
+
   try {
-    console.log('갤러리 이미지 이동 중...');
-    
+    // console.log('갤러리 이미지 이동 중...');
+
     // 직접 연결
     connection = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
@@ -29,7 +29,7 @@ async function moveGalleryImages() {
       ORDER BY ba.post_id
     `);
 
-    console.log(`\n📋 갤러리 첨부 이미지 ${(attachments as any[]).length}개 발견`);
+    // console.log(`\n📋 갤러리 첨부 이미지 ${(attachments as any[]).length}개 발견`);
 
     const uploadsDir = path.join(__dirname, '../../uploads');
     const galleryDir = path.join(uploadsDir, 'gallery');
@@ -37,7 +37,7 @@ async function moveGalleryImages() {
     // gallery 폴더가 없으면 생성
     if (!fs.existsSync(galleryDir)) {
       fs.mkdirSync(galleryDir, { recursive: true });
-      console.log('📁 gallery 폴더 생성됨');
+      // console.log('📁 gallery 폴더 생성됨');
     }
 
     let movedCount = 0;
@@ -47,17 +47,17 @@ async function moveGalleryImages() {
       try {
         // 현재 파일 경로 (uploads 폴더)
         const currentPath = path.join(uploadsDir, attachment.stored_name);
-        
+
         // 새 파일 경로 (uploads/gallery 폴더)
         const newPath = path.join(galleryDir, attachment.stored_name);
-        
+
         // 새 파일 경로 (DB용)
         const newFilePath = `/uploads/gallery/${attachment.stored_name}`;
 
         if (fs.existsSync(currentPath)) {
           // 파일 이동
           fs.copyFileSync(currentPath, newPath);
-          
+
           // DB 업데이트
           await connection.execute(`
             UPDATE board_attachments 
@@ -65,10 +65,10 @@ async function moveGalleryImages() {
             WHERE id = ?
           `, [newFilePath, attachment.id]);
 
-          console.log(`✅ ${attachment.original_name} 이동 완료`);
+          // console.log(`✅ ${attachment.original_name} 이동 완료`);
           movedCount++;
         } else {
-          console.log(`⚠️ 파일 없음: ${attachment.stored_name}`);
+          // console.log(`⚠️ 파일 없음: ${attachment.stored_name}`);
           errorCount++;
         }
       } catch (error) {
@@ -88,20 +88,20 @@ async function moveGalleryImages() {
       if (post.featured_image && post.featured_image.startsWith('/uploads/') && !post.featured_image.startsWith('/uploads/gallery/')) {
         const fileName = path.basename(post.featured_image);
         const newFeaturedImage = `/uploads/gallery/${fileName}`;
-        
+
         await connection.execute(`
           UPDATE board_posts 
           SET featured_image = ? 
           WHERE id = ?
         `, [newFeaturedImage, post.id]);
 
-        console.log(`✅ 갤러리 ${post.id} 대표 이미지 경로 업데이트`);
+        // console.log(`✅ 갤러리 ${post.id} 대표 이미지 경로 업데이트`);
       }
     }
 
-    console.log(`\n🎉 완료!`);
-    console.log(`✅ 이동된 이미지: ${movedCount}개`);
-    console.log(`❌ 오류: ${errorCount}개`);
+    // console.log(`\n🎉 완료!`);
+    // console.log(`✅ 이동된 이미지: ${movedCount}개`);
+    // console.log(`❌ 오류: ${errorCount}개`);
 
   } catch (error) {
     console.error('❌ 이미지 이동 오류:', error);

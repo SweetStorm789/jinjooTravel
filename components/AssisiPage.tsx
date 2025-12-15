@@ -32,36 +32,15 @@ import BasilicaDiSanFrancescoImage from "../images/italy/assisi/BasilicaDiSanFra
 import BasilicaDiSantaChiaraImage from "../images/italy/assisi/BasilicaDiSantaChiara.jpg"; //성 클라라 대성당
 import BasilicaDiSantaMariaDegliAngeliImage from "../images/italy/assisi/BasilicaDiSantaMariaDegliAngeli.jpg"; //산타 마리아 델리 안젤리 성당 
 import SanFrancescoImage from "../images/italy/assisi/SanFrancesco.jpg"; //성 프란치스코
+import HolyLandMenu from "./HolyLandMenu";
 
 interface AssisiPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -338,7 +317,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                         alt={city.name}
                         className="w-full h-[280px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -347,7 +326,7 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -406,18 +385,18 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={SanFrancescoImage}
-                        alt="성 프란치스코"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={SanFrancescoImage}
+                            alt="성 프란치스코"
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
-                          San Francesco
+                            San Francesco
                           </p>
                           <p className="text-sm text-amber-700">
-                          성 프란치스코
+                            성 프란치스코
                           </p>
                         </div>
                       </div>
@@ -427,10 +406,10 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          성 프란치스코는 1182년 아시시의 부유한 직물상 가정에서 태어나, 
-                          젊은 시절에는 화려한 생활을 즐겼으나 하느님의 부르심을 받고 
-                          완전한 회심을 하여 극도의 가난과 겸손의 삶을 살았습니다. 
-                          그는 "완전한 기쁨"의 성인으로 불리며, 자연을 사랑하고 
+                          성 프란치스코는 1182년 아시시의 부유한 직물상 가정에서 태어나,
+                          젊은 시절에는 화려한 생활을 즐겼으나 하느님의 부르심을 받고
+                          완전한 회심을 하여 극도의 가난과 겸손의 삶을 살았습니다.
+                          그는 "완전한 기쁨"의 성인으로 불리며, 자연을 사랑하고
                           평화를 전하는 삶을 살았습니다.
                         </p>
 
@@ -438,8 +417,8 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-amber-800 italic">
-                              "주님, 저를 평화의 도구로 써주소서. 
-                              미움이 있는 곳에 사랑을, 다툼이 있는 곳에 용서를, 
+                              "주님, 저를 평화의 도구로 써주소서.
+                              미움이 있는 곳에 사랑을, 다툼이 있는 곳에 용서를,
                               분열이 있는 곳에 일치를 심게 하소서."
                             </blockquote>
                           </div>
@@ -449,8 +428,8 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          1224년 라 베르나 산에서 예수님의 성흔을 받은 성 프란치스코는 
-                          1226년 10월 3일 아시시의 포르치운쿨라에서 "자매인 죽음"을 
+                          1224년 라 베르나 산에서 예수님의 성흔을 받은 성 프란치스코는
+                          1226년 10월 3일 아시시의 포르치운쿨라에서 "자매인 죽음"을
                           맞이했습니다. 1228년 교황 그레고리우스 9세에 의해 시성되었습니다.
                         </p>
                       </div>
@@ -496,9 +475,9 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                 <CardContent className="p-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
-                      성녀 클라라는 1194년 아시시의 귀족 가문에서 태어나, 
-                      1212년 18세의 나이에 성 프란치스코의 설교를 듣고 
-                      수도생활을 결심했습니다. 그녀는 여성 최초의 프란치스코회인 
+                      성녀 클라라는 1194년 아시시의 귀족 가문에서 태어나,
+                      1212년 18세의 나이에 성 프란치스코의 설교를 듣고
+                      수도생활을 결심했습니다. 그녀는 여성 최초의 프란치스코회인
                       클라라 수녀회를 창설하여 극도의 청빈과 관상 생활을 실천했습니다.
                     </p>
 
@@ -507,8 +486,8 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                         <Info className="h-5 w-5 text-pink-600 flex-shrink-0 mt-0.5" />
                         <div className="text-pink-800">
                           <p className="mb-2">
-                            성녀 클라라의 이름 "클라라(Clara)"는 "맑다, 밝다"는 뜻으로, 
-                            그녀의 맑고 순수한 영혼을 나타냅니다. 1958년 교황 비오 12세는 
+                            성녀 클라라의 이름 "클라라(Clara)"는 "맑다, 밝다"는 뜻으로,
+                            그녀의 맑고 순수한 영혼을 나타냅니다. 1958년 교황 비오 12세는
                             그녀를 텔레비전의 수호성인으로 선포했습니다.
                           </p>
                         </div>
@@ -560,9 +539,9 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
                       <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-amber-800 leading-relaxed">
-                          성 프란치스코는 단순한 삶을 통해 복음의 진리를 실천했으며, 
-                          그의 영성은 오늘날에도 전 세계 수많은 이들에게 영감을 주고 있습니다. 
-                          아시시는 그의 발자취를 따라 평화와 화해의 메시지를 전하는 
+                          성 프란치스코는 단순한 삶을 통해 복음의 진리를 실천했으며,
+                          그의 영성은 오늘날에도 전 세계 수많은 이들에게 영감을 주고 있습니다.
+                          아시시는 그의 발자취를 따라 평화와 화해의 메시지를 전하는
                           순례지로서 중요한 역할을 하고 있습니다.
                         </p>
                       </div>
@@ -577,115 +556,8 @@ export default function AssisiPage({ setCurrentPage }: AssisiPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-{item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    // 현재 페이지이므로 아무것도 하지 않음
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "아시시" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
-                              >
-                                <span className={`text-sm ${child === "아시시" ? "" : "text-muted-foreground"}`}>{child}</span>
-                                {child !== "아시시" && (
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              {/* 성지정보 메뉴 */}
+              <HolyLandMenu currentPage="assisi" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

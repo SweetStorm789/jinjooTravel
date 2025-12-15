@@ -51,9 +51,8 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
         >
           {/* Blurred background */}
           <ImageWithFallback
@@ -140,7 +139,7 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
                 </h1>
 
                 <p className="text-xl text-gray-200 leading-relaxed max-w-lg">
-                  30년간 축적된 전문 노하우로 안전하고 의미있는<br/>
+                  30년간 축적된 전문 노하우로 안전하고 의미있는<br />
                   성지순례 여행을 제공합니다.
                 </p>
               </div>
@@ -214,18 +213,16 @@ export default function HeroSection({ setCurrentPage }: { setCurrentPage: (page:
                       >
                         <button
                           onClick={() => setCurrentSlide(index)}
-                          className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                            index === currentSlide
-                              ? "bg-white"
-                              : "bg-white/30"
-                          }`}
+                          className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
+                            ? "bg-white"
+                            : "bg-white/30"
+                            }`}
                         />
                         <div
-                          className={`text-sm transition-colors duration-300 ${
-                            index === currentSlide
-                              ? "text-white"
-                              : "text-gray-400"
-                          }`}
+                          className={`text-sm transition-colors duration-300 ${index === currentSlide
+                            ? "text-white"
+                            : "text-gray-400"
+                            }`}
                         >
                           {slides[index].title}
                         </div>

@@ -39,16 +39,16 @@ import LisieuxBasilicaOfSaintThérèseImage from "../images/france/LisieuxBasili
 import LourdesImage from "../images/france/Lourdes.jpg";
 import LourdesSanctuaryOfOurLadyOfLourdesImage from "../images/france/LourdesSanctuaryOfOurLadyOfLourdes.jpg";
 import ParisBasiliqueDuSacréCœurDeMontmartreImage from "../images/france/ParisBasiliqueDuSacréCœurDeMontmartre.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface FrancePageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function FrancePage({ setCurrentPage }: FrancePageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('france'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -64,28 +64,7 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -117,7 +96,7 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -8시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -7시간)`,
       color: "text-orange-600",
@@ -133,15 +112,15 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
     { label: "수도", value: "파리 (Paris)" },
     { label: "위치", value: "서유럽" },
     { label: "면적", value: "674,843 평방 KM" },
-    { 
-      label: "종교", 
-      value: "로마가톨릭 83-88%, 이슬람 5-10%, 개신교 2%, 유대교 1%, 기타 4%" 
+    {
+      label: "종교",
+      value: "로마가톨릭 83-88%, 이슬람 5-10%, 개신교 2%, 유대교 1%, 기타 4%"
     },
     { label: "언어", value: "프랑스어" },
     { label: "화폐단위", value: "유로 (Euro)" },
-    { 
-      label: "시차", 
-      value: "한국보다 시차는 8시간 (한국 08:00 대 프랑스 00:00), 여름에는 summer time 실시로 7시간 프랑스가 느리다." 
+    {
+      label: "시차",
+      value: "한국보다 시차는 8시간 (한국 08:00 대 프랑스 00:00), 여름에는 summer time 실시로 7시간 프랑스가 느리다."
     },
   ];
 
@@ -380,35 +359,35 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {holyPlaces.map((city, index) => (
-                    <Card key={index} className="overflow-hidden">
-                      <div className="relative">
-                        <div className="absolute inset-0"></div>
-                        <ImageWithFallback
-                          src={city.image}
-                          alt={city.name}
-                          className="w-full h-[300px] object-cover"
-                        />
-                      
-                        {/* 오버레이 텍스트 */}
-                        <div className="absolute bottom-3 left-3 right-3">
-                          <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
-                            <span className="text-sm font-medium text-gray-800 text-center">
-                              {city.name}
-                            </span>
-                          </div>
+                  <Card key={index} className="overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0"></div>
+                      <ImageWithFallback
+                        src={city.image}
+                        alt={city.name}
+                        className="w-full h-[300px] object-cover"
+                      />
+
+                      {/* 오버레이 텍스트 */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <span className="text-sm font-medium text-gray-800 text-center">
+                            {city.name}
+                          </span>
                         </div>
-                        
                       </div>
-                      <CardContent className="p-4">
-                        <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
-                          {city.subtitle}
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {city.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
+
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
+                        {city.subtitle}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {city.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </section>
 
@@ -442,11 +421,11 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={LourdesSanctuaryOfOurLadyOfLourdesImage}
-                        alt="무염시태의 성모님"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={LourdesSanctuaryOfOurLadyOfLourdesImage}
+                            alt="무염시태의 성모님"
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
@@ -463,9 +442,9 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          1858년 2월 11일부터 7월 16일까지 총 18회에 걸쳐 
-                          14세 소녀 베르나데트 수비루에게 성모 마리아가 발현한 성지입니다. 
-                          성모님은 스스로를 "무염시태"라고 소개하셨으며, 
+                          1858년 2월 11일부터 7월 16일까지 총 18회에 걸쳐
+                          14세 소녀 베르나데트 수비루에게 성모 마리아가 발현한 성지입니다.
+                          성모님은 스스로를 "무염시태"라고 소개하셨으며,
                           기적의 샘물이 솟아나게 하셨습니다.
                         </p>
 
@@ -482,8 +461,8 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          매년 전 세계에서 약 600만 명의 순례자가 찾는 세계 최대의 
-                          가톨릭 순례지 중 하나입니다. 교회가 공식 인정한 기적적 치유가 
+                          매년 전 세계에서 약 600만 명의 순례자가 찾는 세계 최대의
+                          가톨릭 순례지 중 하나입니다. 교회가 공식 인정한 기적적 치유가
                           70여 건에 달하며, 수많은 은혜와 치유의 체험이 보고되고 있습니다.
                         </p>
                       </div>
@@ -554,15 +533,15 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
                       </p>
                     </div>
                   ))}
-                  
+
                   <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
                     <div className="flex items-start space-x-2">
                       <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-blue-800 leading-relaxed">
-                          프랑스는 "교회의 맏딸(Fille aînée de l'Église)"이라 불리며, 
-                          가톨릭 신앙의 수호와 전파에 큰 역할을 해왔습니다. 
-                          루르드의 성모 발현과 성녀 테레사 등을 통해 현대 교회에도 
+                          프랑스는 "교회의 맏딸(Fille aînée de l'Église)"이라 불리며,
+                          가톨릭 신앙의 수호와 전파에 큰 역할을 해왔습니다.
+                          루르드의 성모 발현과 성녀 테레사 등을 통해 현대 교회에도
                           지속적인 영향을 미치고 있는 중요한 가톨릭 국가입니다.
                         </p>
                       </div>
@@ -577,114 +556,7 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else {
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "프랑스" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                            }`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            {item.name !== "프랑스" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                              >
-                                <span className="text-sm text-muted-foreground">{child}</span>
-                                <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="france" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -789,7 +661,7 @@ export default function FrancePage({ setCurrentPage }: FrancePageProps) {
               </div>
             )}
           </div>
-        </div>  
+        </div>
       </div>
     </div>
   );

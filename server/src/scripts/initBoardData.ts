@@ -2,7 +2,7 @@ import db from '../config/database';
 
 async function initBoardData() {
   try {
-    console.log('게시판 초기 데이터를 생성합니다...');
+    // console.log('게시판 초기 데이터를 생성합니다...');
 
     // 자유게시판 카테고리 추가
     const freeboardCategories = [
@@ -12,7 +12,7 @@ async function initBoardData() {
       { name: '정보공유', slug: 'info-share', description: '여행 정보와 소식을 공유하는 공간' }
     ];
 
-    console.log('자유게시판 카테고리 추가 중...');
+    // console.log('자유게시판 카테고리 추가 중...');
     for (const category of freeboardCategories) {
       const [existing] = await db.execute(
         'SELECT id FROM board_categories WHERE board_type = ? AND slug = ?',
@@ -24,10 +24,10 @@ async function initBoardData() {
           INSERT INTO board_categories (board_type, name, slug, description, is_active, sort_order, created_at)
           VALUES (?, ?, ?, ?, ?, ?, NOW())
         `, ['free', category.name, category.slug, category.description, true, freeboardCategories.indexOf(category) + 1]);
-        
-        console.log(`✅ 자유게시판 카테고리 생성: ${category.name}`);
+
+        // console.log(`✅ 자유게시판 카테고리 생성: ${category.name}`);
       } else {
-        console.log(`⏭️ 자유게시판 카테고리 이미 존재: ${category.name}`);
+        // console.log(`⏭️ 자유게시판 카테고리 이미 존재: ${category.name}`);
       }
     }
 
@@ -39,7 +39,7 @@ async function initBoardData() {
       { name: '자연풍경', slug: 'nature', description: '아름다운 자연 풍경 사진' }
     ];
 
-    console.log('포토갤러리 카테고리 추가 중...');
+    // console.log('포토갤러리 카테고리 추가 중...');
     for (const category of galleryCategories) {
       const [existing] = await db.execute(
         'SELECT id FROM board_categories WHERE board_type = ? AND slug = ?',
@@ -51,15 +51,15 @@ async function initBoardData() {
           INSERT INTO board_categories (board_type, name, slug, description, is_active, sort_order, created_at)
           VALUES (?, ?, ?, ?, ?, ?, NOW())
         `, ['gallery', category.name, category.slug, category.description, true, galleryCategories.indexOf(category) + 1]);
-        
-        console.log(`✅ 포토갤러리 카테고리 생성: ${category.name}`);
+
+        // console.log(`✅ 포토갤러리 카테고리 생성: ${category.name}`);
       } else {
-        console.log(`⏭️ 포토갤러리 카테고리 이미 존재: ${category.name}`);
+        // console.log(`⏭️ 포토갤러리 카테고리 이미 존재: ${category.name}`);
       }
     }
 
     // 샘플 자유게시판 글 추가
-    console.log('샘플 자유게시판 글 추가 중...');
+    // console.log('샘플 자유게시판 글 추가 중...');
     const [freeCategories] = await db.execute(
       'SELECT id, name FROM board_categories WHERE board_type = ? ORDER BY sort_order',
       ['free']
@@ -83,7 +83,7 @@ async function initBoardData() {
     for (let i = 0; i < sampleFreePosts.length; i++) {
       const post = sampleFreePosts[i];
       const category = (freeCategories as any[])[i % (freeCategories as any[]).length];
-      
+
       const [existing] = await db.execute(
         'SELECT id FROM board_posts WHERE title = ? AND board_type = ?',
         [post.title, 'free']
@@ -97,11 +97,11 @@ async function initBoardData() {
             published_at, created_at
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         `, [
-          'free', category.id, post.title, post.content_html, post.content_text, 
-          post.content_text.slice(0, 100) + '...', post.author_name, '127.0.0.1', 
+          'free', category.id, post.title, post.content_html, post.content_text,
+          post.content_text.slice(0, 100) + '...', post.author_name, '127.0.0.1',
           '$2b$10$dummy.hash.for.sample.post', false, 'published', true
         ]);
-        
+
         console.log(`✅ 샘플 자유게시판 글 생성: ${post.title}`);
       }
     }
@@ -131,7 +131,7 @@ async function initBoardData() {
     for (let i = 0; i < sampleGalleryPosts.length; i++) {
       const post = sampleGalleryPosts[i];
       const category = (galleryCategories2 as any[])[i % (galleryCategories2 as any[]).length];
-      
+
       const [existing] = await db.execute(
         'SELECT id FROM board_posts WHERE title = ? AND board_type = ?',
         [post.title, 'gallery']
@@ -145,11 +145,11 @@ async function initBoardData() {
             published_at, created_at
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         `, [
-          'gallery', category.id, post.title, post.content_html, post.content_text, 
-          post.content_text.slice(0, 100) + '...', post.author_name, '127.0.0.1', 
+          'gallery', category.id, post.title, post.content_html, post.content_text,
+          post.content_text.slice(0, 100) + '...', post.author_name, '127.0.0.1',
           '$2b$10$dummy.hash.for.sample.post', false, 'published', true
         ]);
-        
+
         console.log(`✅ 샘플 포토갤러리 글 생성: ${post.title}`);
       }
     }

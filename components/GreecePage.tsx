@@ -33,6 +33,7 @@ import syntagmaSquareImage from "../images/greece/syntagma-square-athens-view.jp
 import unnamedSoldierImage from "../images/greece/tomb-of-the-unknown-soldier-athens.jpg";
 import zeusTempleImage from "../images/greece/temple-of-zeus-athens-ruins.jpg";
 import areopagusHillImage from "../images/greece/areopagus-hill-athens-panorama.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface GreecePageProps {
   setCurrentPage: (page: string) => void;
@@ -41,9 +42,8 @@ interface GreecePageProps {
 export default function GreecePage({
   setCurrentPage,
 }: GreecePageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('greece'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -59,28 +59,7 @@ export default function GreecePage({
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -112,7 +91,7 @@ export default function GreecePage({
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -8시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -7시간)`,
       color: "text-orange-600",
@@ -148,7 +127,7 @@ export default function GreecePage({
         "신타그마 광장은 그리스 아테네의 중심부에 있는 광장이다. 1844년 그리스 왕국의 헌법이 여기서 반포되었다.",
       description:
         "신타그마 광장은 그리스 아테네의 중심부에 있는 광장이다. 1844년 그리스 왕국의 헌법이 여기서 반포되었다. 신타그마는 그리스어로 헌법을 의미한다. 그리스 고궁이 광장 바로 앞에 위치해 있으며, 이 건물은 1934년부터 그리스 국회로 사용되고 있다. 이 광장의 동쪽에는 무명 용사의 비가 있다. 그 밖에도 광장 주변에는 각종 관공서가 위치해있고, 광장 서쪽으로 아테네 최대의 번화가인 에르무 거리가 있다.",
-        image: syntagmaSquareImage,
+      image: syntagmaSquareImage,
     },
     {
       name: "무명전사비",
@@ -156,7 +135,7 @@ export default function GreecePage({
         "아테네 신타그마 광장 앞에 위치한 무명전사비는 그리스 독립 전쟁부터 현대의 여러 전투에 이르기까지, 나라를 위해 목숨을 바친 이름 없는 전사들을 추모하기 위해 세워진 기념비다.",
       description:
         "아테네 신타그마 광장 앞에 위치한 무명전사비는 그리스 독립 전쟁부터 현대의 여러 전투에 이르기까지, 나라를 위해 목숨을 바친 이름 없는 전사들을 추모하기 위해 세워진 기념비다. 기념비 앞에서는 전통 의상을 입은 근위병들이 정해진 시간마다 엄숙한 교대식을 진행하며, 그리스의 역사와 희생, 전통을 상징하는 의미 있는 장소로 많은 이들의 발길이 이어지고 있다.",
-        image: unnamedSoldierImage,
+      image: unnamedSoldierImage,
     },
     {
       name: "제우스 신전",
@@ -164,7 +143,7 @@ export default function GreecePage({
         "제우스 신전(올림피에이온)은 아테네에 위치한 고대 그리스 최대 규모의 신전으로, 천둥의 신 제우스를 기리기 위해 건립되었다.",
       description:
         "제우스 신전(올림피에이온)은 아테네에 위치한 고대 그리스 최대 규모의 신전으로, 천둥의 신 제우스를 기리기 위해 건립되었다. 기원전 6세기에 착공되어 로마 황제 하드리아누스 치세인 서기 132년에 완공되었으며, 현재는 일부 기둥만 남아 있지만, 당시의 장엄함을 보여주는 중요한 유적이이다.",
-        image: zeusTempleImage,
+      image: zeusTempleImage,
     },
   ];
 
@@ -190,7 +169,7 @@ export default function GreecePage({
                   그리스 공화국
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
-                사도 바오로의 발자취와 요한 묵시록이 기록된 땅, 가톨릭 초대 교회의 중요한 무대
+                  사도 바오로의 발자취와 요한 묵시록이 기록된 땅, 가톨릭 초대 교회의 중요한 무대
                 </p>
               </div>
             </div>
@@ -312,7 +291,7 @@ export default function GreecePage({
                   아테네
                 </h2>
                 <p className="text-muted-foreground">
-                아테네는 그리스의 수도이자 고대 그리스 문명의 중심지로, 민주주의와 철학, 예술이 꽃피운 도시다. 소크라테스, 플라톤, 아리스토텔레스 같은 위대한 철학자들이 활동했던 곳으로, 서양 문명의 뿌리를 간직하고 있다. 도시 중심에 자리한 아크로폴리스와 파르테논 신전은 아테네의 상징이며, 고대 유적과 현대적인 도시 문화가 조화를 이루는 모습이 인상적이다. 오늘날에도 유럽 문화와 역사를 체험할 수 있는 대표적인 여행지로 많은 이들이 찾고 있다.
+                  아테네는 그리스의 수도이자 고대 그리스 문명의 중심지로, 민주주의와 철학, 예술이 꽃피운 도시다. 소크라테스, 플라톤, 아리스토텔레스 같은 위대한 철학자들이 활동했던 곳으로, 서양 문명의 뿌리를 간직하고 있다. 도시 중심에 자리한 아크로폴리스와 파르테논 신전은 아테네의 상징이며, 고대 유적과 현대적인 도시 문화가 조화를 이루는 모습이 인상적이다. 오늘날에도 유럽 문화와 역사를 체험할 수 있는 대표적인 여행지로 많은 이들이 찾고 있다.
                 </p>
               </div>
 
@@ -326,7 +305,7 @@ export default function GreecePage({
                         alt={place.name}
                         className="w-full h-[240px] object-cover"
                       />
-                     {/*
+                      {/*
                       <div className="text-center space-y-2 relative z-10">
                         <div className="w-12 h-12 bg-white/80 rounded-lg flex items-center justify-center backdrop-blur-sm mx-auto">
                           {index === 0 && (
@@ -369,7 +348,7 @@ export default function GreecePage({
                 <Card className="overflow-hidden">
                   <div className="aspect-[2/1] bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-orange-500/10"></div>
-                    
+
                     {/* 오버레이 텍스트 */}
                     <div className="absolute bottom-0 left-0 right-0">
                       <ImageWithFallback
@@ -386,7 +365,7 @@ export default function GreecePage({
                   </div>
                   <CardContent className="p-6">
                     <p className="text-muted-foreground leading-relaxed">
-                    올림피아 경기장은 고대 그리스 올림픽의 발상지로, 제우스 신을 기리기 위해 기원전 776년부터 4년에 한 번씩 경기가 열렸던 장소다. 펠로폰네소스 반도에 위치하며, 육상 경기를 위한 트랙과 제우스 신전, 필리페이온, 헤라 신전 등의 유적이 함께 남아 있다. 유네스코 세계문화유산으로 지정되어 고대 스포츠와 종교 문화의 중심지로 평가받는는다.
+                      올림피아 경기장은 고대 그리스 올림픽의 발상지로, 제우스 신을 기리기 위해 기원전 776년부터 4년에 한 번씩 경기가 열렸던 장소다. 펠로폰네소스 반도에 위치하며, 육상 경기를 위한 트랙과 제우스 신전, 필리페이온, 헤라 신전 등의 유적이 함께 남아 있다. 유네스코 세계문화유산으로 지정되어 고대 스포츠와 종교 문화의 중심지로 평가받는는다.
                     </p>
                   </CardContent>
                 </Card>
@@ -404,7 +383,7 @@ export default function GreecePage({
                       </div>
                       <div>
                         <h3 className="font-medium">
-                          아테네 아레오파고 
+                          아테네 아레오파고
                         </h3>
                         <p className="text-sm text-muted-foreground">
                           바오로로의 유명한 설교 장소
@@ -436,7 +415,7 @@ export default function GreecePage({
                             Areopagus
                           </p>
                           <p className="text-sm text-blue-700">
-                            아레오파고 
+                            아레오파고
                           </p>
                         </div>
                       </div>
@@ -446,23 +425,23 @@ export default function GreecePage({
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                        아레오파고는 아테네 아크로폴리스 서쪽에 위치한 바위 언덕으로, 고대에는 최고 법정을 겸한 회의 장소였다.
-                        사도 바오로은 아테네를 방문했을 때, 도시 곳곳에 세워진 수많은 우상들을 보고 마음이 격분하여 회당과 광장에서 유다인들과 시민들을 상대로 하느님을 전했다. 그러던 중 에피쿠로스와 스토아 철학자들에 의해 아레오파고로 불려가게 된다.
+                          아레오파고는 아테네 아크로폴리스 서쪽에 위치한 바위 언덕으로, 고대에는 최고 법정을 겸한 회의 장소였다.
+                          사도 바오로은 아테네를 방문했을 때, 도시 곳곳에 세워진 수많은 우상들을 보고 마음이 격분하여 회당과 광장에서 유다인들과 시민들을 상대로 하느님을 전했다. 그러던 중 에피쿠로스와 스토아 철학자들에 의해 아레오파고로 불려가게 된다.
 
-                        이 자리에서 바오로은 아테네 시민들에게 이렇게 말한다:
+                          이 자리에서 바오로은 아테네 시민들에게 이렇게 말한다:
                         </p>
 
                         <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-blue-800 italic">
-                            “내가 걷다가 너희가 받들어 모시는 것들을 보다가 ‘알지 못하는 신에게’ 바친 제단도 보았습니다.
+                              “내가 걷다가 너희가 받들어 모시는 것들을 보다가 ‘알지 못하는 신에게’ 바친 제단도 보았습니다.
                               그러니 너희가 알지도 못하면서 받들어 모시는 그분을 내가 너희에게 알려 드리겠습니다.”
                               <p className="text-blue-600 text-xs mt-2 text-right">
-                              (사도행전 17,23)</p>
+                                (사도행전 17,23)</p>
                               <p>“이제 하느님께서는 모든 사람에게 어디에 있든지 회개하라고 명하십니다.”</p>
                               <p className="text-blue-600 text-xs mt-2 text-right">
-                              (사도행전 17,30)</p>
+                                (사도행전 17,30)</p>
                               “그들은 죽은 이들의 부활에 대한 말을 듣고 조롱하는 사람도 있었고, ‘이 일에 대해서는 나중에 다시 듣겠다’ 하는 사람도 있었다.”
                               <p className="text-blue-600 text-xs mt-2 text-right">(사도행전 17,32)</p>
                             </blockquote>
@@ -470,8 +449,8 @@ export default function GreecePage({
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                        사도 바오로은 이 자리에서 하느님은 세상의 창조주시며, 사람의 손을 통해 섬김을 받는 분이 아니고, 모든 사람을 회개로 부르며 예수 그리스도의 부활을 통해 구원의 길을 여셨다고 선포했다.
-                        이 설교는 복음이 헬레니즘 문화권에 본격적으로 전해지는 중요한 전환점이 되었으며, 가톨릭 선교사적 관점에서 매우 상징적인 장소로 여겨진다.
+                          사도 바오로은 이 자리에서 하느님은 세상의 창조주시며, 사람의 손을 통해 섬김을 받는 분이 아니고, 모든 사람을 회개로 부르며 예수 그리스도의 부활을 통해 구원의 길을 여셨다고 선포했다.
+                          이 설교는 복음이 헬레니즘 문화권에 본격적으로 전해지는 중요한 전환점이 되었으며, 가톨릭 선교사적 관점에서 매우 상징적인 장소로 여겨진다.
                         </p>
                       </div>
 
@@ -516,17 +495,17 @@ export default function GreecePage({
                 <CardContent className="p-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
-                    요한 묵시록이 기록된 성지
+                      요한 묵시록이 기록된 성지
                     </p>
                     <p>파트모스는 사도 요한이 로마 황제 도미티아누스에 의해 유배된 섬으로, 전승에 따르면 이곳에서 요한 묵시록을 기록한 것으로 전해진다.
-                    에게 해의 작은 섬이지만, 하느님의 계시가 내려진 장소로서 가톨릭 역사에서 매우 중요한 의미를 지닌 성지다.
+                      에게 해의 작은 섬이지만, 하느님의 계시가 내려진 장소로서 가톨릭 역사에서 매우 중요한 의미를 지닌 성지다.
                     </p>
 
                     <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
                       <div className="flex items-start space-x-2">
                         <Info className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5" />
                         <blockquote className="text-purple-800 italic">
-                        “나 요한은 여러분의 형제이며, 예수님과 함께 환난과 나라와 인내를 함께 받은 사람입니다. 나는 하느님의 말씀과 예수님에 대한 증언 때문에 밧모라고 하는 섬에 있었습니다.”
+                          “나 요한은 여러분의 형제이며, 예수님과 함께 환난과 나라와 인내를 함께 받은 사람입니다. 나는 하느님의 말씀과 예수님에 대한 증언 때문에 밧모라고 하는 섬에 있었습니다.”
                         </blockquote>
                       </div>
                       <p className="text-purple-600 text-xs mt-2 text-right">
@@ -543,126 +522,7 @@ export default function GreecePage({
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-{item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else if (item.name === "그리스") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(
-                                //   `${item.name} 페이지는 아직 구현되지 않았습니다.`,
-                                // );
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "그리스"
-                                ? "bg-primary/5 text-primary border-r-2 border-primary"
-                                : ""
-                            }`}
-                          >
-                            <span className="text-sm">
-                              {item.name}
-                            </span>
-                            {item.name !== "그리스" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" &&
-                          isItalyExpanded && (
-                            <div className="ml-4 border-l border-border">
-                              {item.children?.map((child) => (
-                                <a
-                                  key={child}
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    if (child === "로마") {
-                                      setCurrentPage("rome");
-                                    } else if (child === "아시시") {
-                                      setCurrentPage("assisi");
-                                    } else if (child === "산조반니로톤도") {
-                                      setCurrentPage("sangiovannirotondo");
-                                    } else if (child === "로레토") {
-                                      setCurrentPage("loreto");
-                                    } else if (child === "시에나") {
-                                      setCurrentPage("siena");
-                                    } else if (child === "오르비에또") {
-                                      setCurrentPage("orviettoo");
-                                    } else if (child === "란치아노") {
-                                      setCurrentPage("lanciano");
-                                    } else {
-                                      // console.log(
-                                      //   `${child} 페이지는 아직 구현되지 않았습니다.`,
-                                      // );
-                                    }
-                                  }}
-                                  className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                                >
-                                  <span className="text-sm text-muted-foreground">
-                                    {child}
-                                  </span>
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </a>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="greece" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -706,8 +566,8 @@ export default function GreecePage({
           </div>
         </div>
       </div>
-          </div>
+    </div>
 
 
-    );
+  );
 }

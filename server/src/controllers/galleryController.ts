@@ -60,7 +60,7 @@ export const getGalleryList = async (req: Request, res: Response) => {
     const category = req.query.category as string;
     const search = req.query.search as string;
     const status = req.query.status as string || 'published';
-    
+
     const offset = (page - 1) * limit;
 
     // 검색 조건 구성
@@ -118,10 +118,10 @@ export const getGalleryList = async (req: Request, res: Response) => {
 
     const [posts] = await db.execute(listQuery, [...queryParams, limit, offset]);
     const [countResult] = await db.execute(countQuery, queryParams);
-    
+
     const total = (countResult as any[])[0].total;
     const totalPages = Math.ceil(total / limit);
-    console.log("posts :::: ", posts);
+    // console.log("posts :::: ", posts);
     res.json({
       success: true,
       data: {
@@ -280,7 +280,7 @@ export const createGalleryPost = async (req: Request, res: Response) => {
 
     // 이미지 파일들 저장 및 DB 기록
     let firstImagePath = null;
-    
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const fileExtension = path.extname(file.originalname).toLowerCase();
@@ -292,9 +292,9 @@ export const createGalleryPost = async (req: Request, res: Response) => {
         // sharp를 사용하여 이미지 최적화 및 저장 (EXIF 방향 정보 자동 처리)
         await sharp(file.buffer)
           .rotate() // EXIF 방향 정보에 따라 자동 회전
-          .resize(1200, 1200, { 
-            fit: 'inside', 
-            withoutEnlargement: true 
+          .resize(1200, 1200, {
+            fit: 'inside',
+            withoutEnlargement: true
           })
           .jpeg({ quality: 85 })
           .toFile(filePath);
@@ -432,9 +432,9 @@ export const updateGalleryPost = async (req: Request, res: Response) => {
           // sharp를 사용하여 이미지 최적화 및 저장 (EXIF 방향 정보 자동 처리)
           await sharp(file.buffer)
             .rotate() // EXIF 방향 정보에 따라 자동 회전
-            .resize(1200, 1200, { 
-              fit: 'inside', 
-              withoutEnlargement: true 
+            .resize(1200, 1200, {
+              fit: 'inside',
+              withoutEnlargement: true
             })
             .jpeg({ quality: 85 })
             .toFile(filePath);

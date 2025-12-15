@@ -36,37 +36,16 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import basilicaDellaSantaCasaDiLoretoImage from "../images/italy/loreto/BasilicaDellaSantaCasaDiLoreto.jpg";
 import loretoSacelloDellaSantaCasaImage from "../images/italy/loreto/LoretoSacelloDellaSantaCasa.jpg";
 import santaCasaImage from "../images/italy/loreto/SantaCasa.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface LorettoPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -140,7 +119,7 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
       iconColor: "text-purple-700",
       image: loretoSacelloDellaSantaCasaImage,
     },
-   
+
   ];
 
   const casaSantaHistory = [
@@ -325,7 +304,7 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                         alt={city.name}
                         className="w-full h-[300px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -334,7 +313,7 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -379,11 +358,11 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={santaCasaImage}
-                        alt="산티아고 데 콤포스텔라"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={santaCasaImage}
+                            alt="산티아고 데 콤포스텔라"
+                            className="w-full h-full object-cover"
+                          />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -409,9 +388,9 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          로레토의 카사 산타는 성모 마리아가 나자렛에서 살았던 집으로, 
-                          1291년과 1294년 천사들에 의해 이곳으로 이송되었다고 전해집니다. 
-                          3면의 벽으로 구성된 이 집은 현재 대리석 성막 안에 보호되어 있으며, 
+                          로레토의 카사 산타는 성모 마리아가 나자렛에서 살았던 집으로,
+                          1291년과 1294년 천사들에 의해 이곳으로 이송되었다고 전해집니다.
+                          3면의 벽으로 구성된 이 집은 현재 대리석 성막 안에 보호되어 있으며,
                           수세기 동안 수많은 기적이 일어난 성지입니다.
                         </p>
 
@@ -428,8 +407,8 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          1920년 교황 베네딕토 15세는 로레토 성모님을 
-                          '항공의 수호성인'으로 선포했으며, 현재도 전 세계 
+                          1920년 교황 베네딕토 15세는 로레토 성모님을
+                          '항공의 수호성인'으로 선포했으며, 현재도 전 세계
                           조종사들과 승무원들의 수호성인으로 공경받고 있습니다.
                         </p>
                       </div>
@@ -478,9 +457,9 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                       <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-blue-800 leading-relaxed">
-                          로레토의 카사 산타는 700년 이상 전 세계 가톨릭 신자들의 
-                          순례지가 되어왔습니다. 성모영보가 일어난 이 거룩한 집에서 
-                          수많은 교황들이 기도했으며, 성인들과 복자들이 영성을 
+                          로레토의 카사 산타는 700년 이상 전 세계 가톨릭 신자들의
+                          순례지가 되어왔습니다. 성모영보가 일어난 이 거룩한 집에서
+                          수많은 교황들이 기도했으며, 성인들과 복자들이 영성을
                           기르며 하나님의 은총을 체험했습니다.
                         </p>
                       </div>
@@ -495,115 +474,8 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    // 현재 페이지이므로 아무것도 하지 않음
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "로레토" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
-                              >
-                                <span className={`text-sm ${child === "로레토" ? "" : "text-muted-foreground"}`}>{child}</span>
-                                {child !== "로레토" && (
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              {/* 성지정보 메뉴 */}
+              <HolyLandMenu currentPage="loreto" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -683,10 +555,10 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 로레토 성모상</p>
                     <p>
                       사진: Flyer20061, 로레토 성모상 (Loreto, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY-SA 3.0
@@ -694,10 +566,10 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Flyer20061, Statue of Our Lady of Loreto (Loreto, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY-SA 3.0
@@ -709,10 +581,10 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 성모님의 집 (Santa Casa)</p>
                     <p>
                       사진: Zorro2212, 성모님의 집 (Santa Casa, Loreto, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY-SA 3.0
@@ -720,10 +592,10 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Zorro2212, Holy House (Santa Casa), Loreto, Italy,{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY-SA 3.0
@@ -737,6 +609,6 @@ export default function LorettoPage({ setCurrentPage }: LorettoPageProps) {
         </div>
       </div>
     </div>
-    
+
   );
 }

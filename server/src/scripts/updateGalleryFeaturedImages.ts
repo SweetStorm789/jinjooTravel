@@ -19,7 +19,7 @@ const db = mysql.createPool({
 
 async function updateGalleryFeaturedImages() {
   try {
-    console.log('기존 갤러리들의 대표 이미지를 업데이트합니다...');
+    // console.log('기존 갤러리들의 대표 이미지를 업데이트합니다...');
 
     // featured_image가 null인 갤러리 포스트들 조회
     const [posts] = await db.execute(`
@@ -28,7 +28,7 @@ async function updateGalleryFeaturedImages() {
       AND (featured_image IS NULL OR featured_image = '')
     `);
 
-    console.log(`${(posts as any[]).length}개의 갤러리 포스트를 업데이트합니다.`);
+    // console.log(`${(posts as any[]).length}개의 갤러리 포스트를 업데이트합니다.`);
 
     for (const post of posts as any[]) {
       const postId = post.id;
@@ -51,13 +51,13 @@ async function updateGalleryFeaturedImages() {
           WHERE id = ?
         `, [firstImagePath, postId]);
 
-        console.log(`✅ 갤러리 ID ${postId} 대표 이미지 업데이트: ${firstImagePath}`);
+        // console.log(`✅ 갤러리 ID ${postId} 대표 이미지 업데이트: ${firstImagePath}`);
       } else {
-        console.log(`⚠️ 갤러리 ID ${postId}에 첨부 이미지가 없습니다.`);
+        // console.log(`⚠️ 갤러리 ID ${postId}에 첨부 이미지가 없습니다.`);
       }
     }
 
-    console.log('\n🎉 갤러리 대표 이미지 업데이트가 완료되었습니다!');
+    // console.log('\n🎉 갤러리 대표 이미지 업데이트가 완료되었습니다!');
 
   } catch (error) {
     console.error('❌ 갤러리 대표 이미지 업데이트 오류:', error);

@@ -35,36 +35,15 @@ import chiesaDiSanPioDaPietrelcinaImage from "../images/italy/sanGiovanniRotondo
 import PadrePioImage from "../images/italy/sanGiovanniRotondo/PadrePio.jpg";
 import museoDiPadrePioImage from "../images/italy/sanGiovanniRotondo/MuseoDiPadrePio.jpg";
 import santaMariaDelleGrazieImage from "../images/italy/sanGiovanniRotondo/SantaMariaDelleGrazie.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface SanGiovanniRotondoPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRotondoPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -341,7 +320,7 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                         alt={city.name}
                         className="w-full h-[280px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -350,7 +329,7 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       {/* <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -398,11 +377,11 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={PadrePioImage}
-                        alt="Padre Pio"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={PadrePioImage}
+                            alt="Padre Pio"
+                            className="w-full h-full object-cover"
+                          />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -413,10 +392,10 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
-                          Padre Pio
+                            Padre Pio
                           </p>
                           <p className="text-sm text-amber-700">
-                          Padre Pio
+                            Padre Pio
                           </p>
                         </div>
                       </div>
@@ -426,9 +405,9 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          성 비오 신부(본명: 프란치스코 포르조네)는 1887년 이탈리아 
-                          피에트렐치나에서 태어나 1903년 카푸친 수도회에 입회했습니다. 
-                          1918년 9월 20일 예수님의 성흔을 받아 50년간 지속되었으며, 
+                          성 비오 신부(본명: 프란치스코 포르조네)는 1887년 이탈리아
+                          피에트렐치나에서 태어나 1903년 카푸친 수도회에 입회했습니다.
+                          1918년 9월 20일 예수님의 성흔을 받아 50년간 지속되었으며,
                           수많은 기적과 치유로 유명한 20세기의 위대한 성인입니다.
                         </p>
 
@@ -436,8 +415,8 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-amber-800 italic">
-                              "기도하라, 희망하라, 걱정하지 말라. 
-                              걱정은 영혼에 해롭다. 하나님은 모든 것을 아시고, 
+                              "기도하라, 희망하라, 걱정하지 말라.
+                              걱정은 영혼에 해롭다. 하나님은 모든 것을 아시고,
                               모든 것을 제공하시며, 모든 것을 돌보신다."
                             </blockquote>
                           </div>
@@ -447,9 +426,9 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          성 비오 신부는 1968년 9월 23일 선종하였고, 
-                          2002년 6월 16일 교황 요한 바오로 2세에 의해 시성되었습니다. 
-                          그가 설립한 '고통받는 이들의 집' 병원은 현재도 
+                          성 비오 신부는 1968년 9월 23일 선종하였고,
+                          2002년 6월 16일 교황 요한 바오로 2세에 의해 시성되었습니다.
+                          그가 설립한 '고통받는 이들의 집' 병원은 현재도
                           수많은 환자들을 치료하고 있습니다.
                         </p>
                       </div>
@@ -498,10 +477,10 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
                       <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-amber-800 leading-relaxed">
-                          성 비오 신부는 현대에 성흔을 받은 최초의 사제로, 
-                          50년간 계속된 성흔과 수많은 기적으로 전 세계 
-                          가톨릭 신자들의 존경을 받고 있습니다. 
-                          그의 영성과 사랑은 오늘날에도 수많은 이들에게 
+                          성 비오 신부는 현대에 성흔을 받은 최초의 사제로,
+                          50년간 계속된 성흔과 수많은 기적으로 전 세계
+                          가톨릭 신자들의 존경을 받고 있습니다.
+                          그의 영성과 사랑은 오늘날에도 수많은 이들에게
                           위로와 희망을 주고 있습니다.
                         </p>
                       </div>
@@ -516,115 +495,8 @@ export default function SanGiovanniRotondoPage({ setCurrentPage }: SanGiovanniRo
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    // 현재 페이지이므로 아무것도 하지 않음
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "산조반니로톤도" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
-                              >
-                                <span className={`text-sm ${child === "산조반니로톤도" ? "" : "text-muted-foreground"}`}>{child}</span>
-                                {child !== "산조반니로톤도" && (
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              {/* 성지정보 메뉴 */}
+              <HolyLandMenu currentPage="sangiovannirotondo" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

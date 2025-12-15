@@ -7,10 +7,7 @@ import {
   Building,
   Mountain,
   Church,
-  ArrowRight,
   Info,
-  ChevronDown,
-  ChevronRight,
   Crown,
   Cross,
   Columns,
@@ -40,15 +37,15 @@ import loretoImage from "../images/italy/loreto.jpg";
 import sienaImage from "../images/italy/siena.jpg";
 import orviettooImage from "../images/italy/orvieto.jpg";
 import lancianoImage from "../images/italy/lanciano.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface ItalyPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('italy'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -64,28 +61,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -117,7 +93,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -8시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -7시간)`,
       color: "text-orange-600",
@@ -137,9 +113,9 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
     { label: "인종", value: "이탈리아인 95.1% 기타 4.9%" },
     { label: "언어", value: "이탈리아어" },
     { label: "화폐단위", value: "유로 (EUR)" },
-    { 
-      label: "시차", 
-      value: "한국과의 시차는 8시간 (한국 08:00 이탈리아 00:00), 여름에는 summer time 실시로 7시간 이탈리아가 느립니다." 
+    {
+      label: "시차",
+      value: "한국과의 시차는 8시간 (한국 08:00 이탈리아 00:00), 여름에는 summer time 실시로 7시간 이탈리아가 느립니다."
     },
   ];
 
@@ -404,10 +380,10 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                 <CardContent className="p-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
-                      이탈리아는 가톨릭교회의 중심지로서 수많은 성인들이 살았던 땅이며, 
-                      교회 역사상 가장 중요한 사건들이 일어난 곳입니다. 
-                      바티칸 시국을 품고 있는 로마부터 성 프란치스코의 아시시, 
-                      성체기적의 란치아노와 오르비에또까지, 각 도시마다 고유한 영성과 
+                      이탈리아는 가톨릭교회의 중심지로서 수많은 성인들이 살았던 땅이며,
+                      교회 역사상 가장 중요한 사건들이 일어난 곳입니다.
+                      바티칸 시국을 품고 있는 로마부터 성 프란치스코의 아시시,
+                      성체기적의 란치아노와 오르비에또까지, 각 도시마다 고유한 영성과
                       역사를 간직하고 있습니다.
                     </p>
 
@@ -545,15 +521,15 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
                       </p>
                     </div>
                   ))}
-                  
+
                   <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
                     <div className="flex items-start space-x-2">
                       <Info className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-green-800 leading-relaxed">
-                          이탈리아는 초대교회 시대부터 현재까지 가톨릭교회 발전의 중심지 역할을 
-                          해왔습니다. 로마의 사도들부터 중세의 성인들, 근현대의 성인들까지 
-                          수많은 성인들이 이 땅에서 하나님의 사랑을 증거했으며, 
+                          이탈리아는 초대교회 시대부터 현재까지 가톨릭교회 발전의 중심지 역할을
+                          해왔습니다. 로마의 사도들부터 중세의 성인들, 근현대의 성인들까지
+                          수많은 성인들이 이 땅에서 하나님의 사랑을 증거했으며,
                           그들의 발자취는 오늘날까지 순례자들에게 큰 감동을 주고 있습니다.
                         </p>
                       </div>
@@ -568,110 +544,7 @@ export default function ItalyPage({ setCurrentPage }: ItalyPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center bg-primary/5 text-primary border-r-2 border-primary">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                // 이탈리아 페이지는 이미 현재 페이지이므로 아무것도 하지 않음
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className="flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group"
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                              >
-                                <span className="text-sm text-muted-foreground">{child}</span>
-                                <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="italy" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

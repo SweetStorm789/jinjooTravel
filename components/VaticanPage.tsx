@@ -7,10 +7,7 @@ import {
   Building,
   Crown,
   Church,
-  ArrowRight,
   Info,
-  ChevronDown,
-  ChevronRight,
 } from "lucide-react";
 import {
   Card,
@@ -27,6 +24,7 @@ import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { getTimeDifferenceFromKorea } from "../utils/timezone";
 import vaticanImage from "../images/vatican/st-peters-basilica.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface VaticanPageProps {
   setCurrentPage: (page: string) => void;
@@ -35,9 +33,8 @@ interface VaticanPageProps {
 export default function VaticanPage({
   setCurrentPage,
 }: VaticanPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('vatican'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -53,28 +50,7 @@ export default function VaticanPage({
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -106,7 +82,7 @@ export default function VaticanPage({
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -8시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -7시간)`,
       color: "text-orange-600",
@@ -378,7 +354,7 @@ export default function VaticanPage({
                           />
                         </div>
                         <div className="text-center space-y-3">
-                          
+
                           <div>
                             <p className="font-medium text-amber-900">
                               St. Peter's Basilica
@@ -410,7 +386,7 @@ export default function VaticanPage({
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-amber-800 italic">
-                            "너는 베드로이다. 내가 이 반석 위에 내 교회를 세울 터인즉, 저승의 세력도 그것을 이기지 못할 것이다." (마태 16,18)
+                              "너는 베드로이다. 내가 이 반석 위에 내 교회를 세울 터인즉, 저승의 세력도 그것을 이기지 못할 것이다." (마태 16,18)
                             </blockquote>
                           </div>
                         </div>
@@ -436,126 +412,7 @@ export default function VaticanPage({
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-{item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else if (item.name === "바티칸") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(
-                                //   `${item.name} 페이지는 아직 구현되지 않았습니다.`,
-                                // );
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "바티칸"
-                                ? "bg-primary/5 text-primary border-r-2 border-primary"
-                                : ""
-                            }`}
-                          >
-                            <span className="text-sm">
-                              {item.name}
-                            </span>
-                            {item.name !== "바티칸" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" &&
-                          isItalyExpanded && (
-                            <div className="ml-4 border-l border-border">
-                              {item.children?.map((child) => (
-                                <a
-                                  key={child}
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    if (child === "로마") {
-                                      setCurrentPage("rome");
-                                    } else if (child === "아시시") {
-                                      setCurrentPage("assisi");
-                                    } else if (child === "산조반니로톤도") {
-                                      setCurrentPage("sangiovannirotondo");
-                                    } else if (child === "로레토") {
-                                      setCurrentPage("loreto");
-                                    } else if (child === "시에나") {
-                                      setCurrentPage("siena");
-                                    } else if (child === "오르비에또") {
-                                      setCurrentPage("orviettoo");
-                                    } else if (child === "란치아노") {
-                                      setCurrentPage("lanciano");
-                                    } else {
-                                      // console.log(
-                                      //   `${child} 페이지는 아직 구현되지 않았습니다.`,
-                                      // );
-                                    }
-                                  }}
-                                  className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                                >
-                                  <span className="text-sm text-muted-foreground">
-                                    {child}
-                                  </span>
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </a>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="vatican" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

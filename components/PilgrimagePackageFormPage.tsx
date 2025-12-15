@@ -91,33 +91,33 @@ interface PackageFormData {
   customerPromise: string;
   cancellationPolicy: string;
   otherInfo: string;
-  
+
   guide: GuideInfo;
 }
 
-export default function PilgrimagePackageFormPage({ 
-  setCurrentPage, 
-  packageId 
+export default function PilgrimagePackageFormPage({
+  setCurrentPage,
+  packageId
 }: PilgrimagePackageFormPageProps) {
   const isEdit = !!packageId;
-  
+
   // 이미지 라이브러리 모달 상태
   const [isImageLibraryOpen, setIsImageLibraryOpen] = useState(false);
 
   // 이미지 라이브러리에서 이미지 선택 처리
   const handleImageLibrarySelect = async (selectedImages: ImageLibraryImage[]) => {
     try {
-      console.log('=== 이미지 라이브러리 선택 시작 ===');
-      console.log('선택된 이미지들:', selectedImages);
-      console.log('현재 폼 이미지 개수:', formData.images.length);
-      console.log('현재 폼 이미지들:', formData.images);
-      console.log('수정 모드 여부:', isEdit);
-      
+      // console.log('=== 이미지 라이브러리 선택 시작 ===');
+      // console.log('선택된 이미지들:', selectedImages);
+      // console.log('현재 폼 이미지 개수:', formData.images.length);
+      // console.log('현재 폼 이미지들:', formData.images);
+      // console.log('수정 모드 여부:', isEdit);
+
       if (!selectedImages || selectedImages.length === 0) {
-        console.log('선택된 이미지가 없습니다.');
+        // console.log('선택된 이미지가 없습니다.');
         return;
       }
-      
+
       // 선택된 이미지들을 폼 데이터에 직접 추가
       const newImages: PackageImage[] = selectedImages.map((image, index) => ({
         image_url: image.url,
@@ -125,36 +125,36 @@ export default function PilgrimagePackageFormPage({
         image_type: 'detail' as const
       }));
 
-      console.log('새로 추가할 이미지들:', newImages);
+      // console.log('새로 추가할 이미지들:', newImages);
 
       // setFormData를 함수형 업데이트로 변경하여 최신 상태 보장
       setFormData(prev => {
-        console.log('setFormData 호출 - 이전 상태:', prev);
+        // console.log('setFormData 호출 - 이전 상태:', prev);
         const updatedImages = [...prev.images, ...newImages];
-        console.log('업데이트된 이미지 목록:', updatedImages);
-        
+        // console.log('업데이트된 이미지 목록:', updatedImages);
+
         const newState = {
           ...prev,
           images: updatedImages
         };
-        
-        console.log('새로운 상태:', newState);
+
+        // console.log('새로운 상태:', newState);
         return newState;
       });
-      
+
       // 상태 업데이트 후 확인을 위한 setTimeout
       setTimeout(() => {
-        console.log('상태 업데이트 후 확인:', formData.images);
+        // console.log('상태 업데이트 후 확인:', formData.images);
       }, 100);
-      
+
       setIsImageLibraryOpen(false);
-      console.log('=== 이미지 라이브러리 선택 완료 ===');
+      // console.log('=== 이미지 라이브러리 선택 완료 ===');
     } catch (error) {
-      console.error('이미지 라이브러리에서 이미지 추가 실패:', error);
+      // console.error('이미지 라이브러리에서 이미지 추가 실패:', error);
       alert('이미지 추가에 실패했습니다.');
     }
   };
-  
+
   const [formData, setFormData] = useState<PackageFormData>({
     title: "",
     subtitle: "",
@@ -198,24 +198,24 @@ export default function PilgrimagePackageFormPage({
   useEffect(() => {
     const fetchPackageData = async () => {
       if (!isEdit || !packageId) return;
-      
+
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await fetch(`${BASE_URL}/api/packages/${packageId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch package data');
         }
         const data = await response.json();
-        
+
         // 문자열을 배열로 변환하는 함수 
         const parseTextToArray = (text: string | null | undefined): string => {
           if (!text) return "";
-          
+
           // 문자열이 아닌 경우 문자열로 변환
           const textStr = typeof text === 'string' ? text : String(text);
-          
+
           // 이미 JSON 배열인 경우 문자열로 변환
           if (textStr.startsWith('[') && textStr.endsWith(']')) {
             try {
@@ -225,7 +225,7 @@ export default function PilgrimagePackageFormPage({
               return textStr;
             }
           }
-          
+
           return textStr;
         };
 
@@ -243,7 +243,7 @@ export default function PilgrimagePackageFormPage({
         const images = (data.images || []).map((img: any) => {
           const imageUrl = img.image_url;
           let processedUrl;
-          
+
           if (imageUrl.startsWith('http')) {
             // 절대 경로에서 파일명만 추출
             const filename = imageUrl.split('/').pop();
@@ -252,9 +252,9 @@ export default function PilgrimagePackageFormPage({
             // 상대 경로인 경우 BASE_URL과 결합
             processedUrl = `${BASE_URL}${imageUrl}`;
           }
-          
-          console.log('기존 이미지 처리:', { original: img, processed: processedUrl });
-          
+
+          // console.log('기존 이미지 처리:', { original: img, processed: processedUrl });
+
           return {
             id: img.id,
             image_url: processedUrl,
@@ -263,7 +263,7 @@ export default function PilgrimagePackageFormPage({
           };
         });
 
-        console.log('수정 모드 - 로드된 이미지들:', images);
+        // console.log('수정 모드 - 로드된 이미지들:', images);
 
         // 가격 처리 - 숫자를 포맷된 문자열로 변환
         const formatPrice = (price: number | string) => {
@@ -327,7 +327,7 @@ export default function PilgrimagePackageFormPage({
 
   // formData.images 변경 감지
   useEffect(() => {
-    console.log('formData.images 변경됨:', formData.images);
+    // console.log('formData.images 변경됨:', formData.images);
   }, [formData.images]);
 
   const handleInputChange = (field: string, value: any) => {
@@ -342,7 +342,7 @@ export default function PilgrimagePackageFormPage({
     // 숫자만 추출
     const numericValue = value.replace(/[^0-9]/g, '');
     if (!numericValue) return '';
-    
+
     // 숫자를 콤마로 포맷팅하고 "원" 추가
     const formattedNumber = new Intl.NumberFormat('ko-KR').format(parseInt(numericValue));
     return formattedNumber + '원';
@@ -357,7 +357,7 @@ export default function PilgrimagePackageFormPage({
   // YYYYMMDD 형식을 YYYY-MM-DD 형식으로 변환 (HTML input[type="date"]용)
   const formatYYYYMMDDToInputDate = (dateString: string): string => {
     if (!dateString) return '';
-    
+
     // YYYYMMDD 형식인지 확인
     if (dateString.length === 8 && /^\d{8}$/.test(dateString)) {
       const year = dateString.substring(0, 4);
@@ -365,24 +365,24 @@ export default function PilgrimagePackageFormPage({
       const day = dateString.substring(6, 8);
       return `${year}-${month}-${day}`;
     }
-    
+
     // ISO 형식이나 다른 날짜 형식 처리
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return '';
-      
+
       // 로컬 시간대로 날짜를 가져와서 시간대 차이 문제 해결
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
-      
+
       return `${year}-${month}-${day}`;
     } catch {
       // 기존 형식 처리 (fallback)
       if (dateString.includes('T')) {
         return dateString.split('T')[0];
       }
-      
+
       return dateString;
     }
   };
@@ -391,7 +391,7 @@ export default function PilgrimagePackageFormPage({
   const handleItineraryChange = (index: number, field: keyof ItineraryDay, value: any) => {
     setFormData(prev => ({
       ...prev,
-      itinerary: prev.itinerary.map((day, i) => 
+      itinerary: prev.itinerary.map((day, i) =>
         i === index ? { ...day, [field]: value } : day
       )
     }));
@@ -425,7 +425,7 @@ export default function PilgrimagePackageFormPage({
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      
+
       // 기본 유효성 검사
       if (!formData.title.trim()) {
         alert('상품명을 입력해주세요.');
@@ -459,13 +459,13 @@ export default function PilgrimagePackageFormPage({
       // 데이터 형식 변환
       const departureDateFormatted = formData.departureDate ? formData.departureDate.replace(/-/g, '') : null;
       const arrivalDateFormatted = formData.arrivalDate ? formData.arrivalDate.replace(/-/g, '') : null;
-      
-      console.log('📅 날짜 변환 확인:', {
-        원본_departure: formData.departureDate,
-        변환_departure: departureDateFormatted,
-        원본_arrival: formData.arrivalDate,
-        변환_arrival: arrivalDateFormatted
-      });
+
+      // console.log('📅 날짜 변환 확인:', {
+      //   원본_departure: formData.departureDate,
+      //   변환_departure: departureDateFormatted,
+      //   원본_arrival: formData.arrivalDate,
+      //   변환_arrival: arrivalDateFormatted
+      // });
 
       const packageData = {
         title: formData.title,
@@ -504,16 +504,16 @@ export default function PilgrimagePackageFormPage({
         // 수정 모드: PUT 요청
         await axios.put(`${BASE_URL}/api/packages/${packageId}`, packageData);
         responsePackageId = packageId;
-        
+
         // 수정 모드에서도 이미지 처리
         if (formData.images.length > 0) {
           // 기존 이미지와 새로 추가된 이미지를 구분하여 처리
           const existingImages = formData.images.filter(img => img.id);
           const newImages = formData.images.filter(img => !img.id);
-          
-          console.log('수정 모드 - 기존 이미지:', existingImages);
-          console.log('수정 모드 - 새 이미지:', newImages);
-          
+
+          // console.log('수정 모드 - 기존 이미지:', existingImages);
+          // console.log('수정 모드 - 새 이미지:', newImages);
+
           // 기존 이미지 순서 업데이트
           if (existingImages.length > 0) {
             await axios.put(`${BASE_URL}/api/images/order`, {
@@ -524,7 +524,7 @@ export default function PilgrimagePackageFormPage({
               }))
             });
           }
-          
+
           // 새로 추가된 이미지들 처리 (이미지 라이브러리에서 선택한 것들)
           // 기존 이미지 순서 업데이트
           if (existingImages.length > 0) {
@@ -536,7 +536,7 @@ export default function PilgrimagePackageFormPage({
               }))
             });
           }
-          
+
           // 새로 추가된 이미지들 처리 (이미지 라이브러리에서 선택한 것들)
           for (const newImage of newImages) {
             await axios.post(`${BASE_URL}/api/packages/${packageId}/images`, {
@@ -546,7 +546,7 @@ export default function PilgrimagePackageFormPage({
             });
           }
         }
-        
+
         alert("상품이 수정되었습니다.");
         setCurrentPage(`package-detail-${packageId}`);
       } else {
@@ -567,7 +567,7 @@ export default function PilgrimagePackageFormPage({
               }))
             });
           }
-          
+
           // 새 이미지들 (이미지 라이브러리에서 선택한 것들) - 개별 추가
           const newImages = formData.images.filter(img => !img.id);
           for (const newImage of newImages) {
@@ -629,8 +629,8 @@ export default function PilgrimagePackageFormPage({
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="sm"
                 onClick={() => setCurrentPage(isEdit ? `package-detail-${packageId}` : "pilgrimage-packages")}
                 className="flex items-center space-x-2"
@@ -646,8 +646,8 @@ export default function PilgrimagePackageFormPage({
               {/* <Button variant="outline" size="sm">
                 미리보기
               </Button> */}
-              <Button 
-                onClick={handleSubmit} 
+              <Button
+                onClick={handleSubmit}
                 disabled={loading}
                 className="flex items-center space-x-2"
               >
@@ -787,7 +787,7 @@ export default function PilgrimagePackageFormPage({
               </CardContent>
             </Card>
 
-                          {/* 이미지 관리 */}
+            {/* 이미지 관리 */}
             <Card>
               <CardHeader>
                 <CardTitle>상품 이미지</CardTitle>
@@ -866,7 +866,7 @@ export default function PilgrimagePackageFormPage({
                     const newImages = [...formData.images];
                     newImages.splice(dragIndex, 1);
                     newImages.splice(hoverIndex, 0, draggedImage);
-                    
+
                     // 순서 업데이트
                     const updatedImages = newImages.map((image, index) => ({
                       ...image,
@@ -958,21 +958,21 @@ export default function PilgrimagePackageFormPage({
                         <span>{day.dayLabel}</span>
                         {formData.departureDate && (
                           <span className="text-sm text-muted-foreground">
-                                                          {(() => {
-                                const range = parseDayRange(day.dayLabel);
-                                if (!range) return "";
-                                
-                                const startDate = new Date(formData.departureDate);
-                                startDate.setDate(startDate.getDate() + range.start - 1);
-                                
-                                if (range.start === range.end) {
-                                  return formatDateToKorean(startDate);
-                                } else {
-                                  const endDate = new Date(formData.departureDate);
-                                  endDate.setDate(endDate.getDate() + range.end - 1);
-                                  return `${formatDateToKorean(startDate)} ~ ${formatDateToKorean(endDate)}`;
-                                }
-                              })()}
+                            {(() => {
+                              const range = parseDayRange(day.dayLabel);
+                              if (!range) return "";
+
+                              const startDate = new Date(formData.departureDate);
+                              startDate.setDate(startDate.getDate() + range.start - 1);
+
+                              if (range.start === range.end) {
+                                return formatDateToKorean(startDate);
+                              } else {
+                                const endDate = new Date(formData.departureDate);
+                                endDate.setDate(endDate.getDate() + range.end - 1);
+                                return `${formatDateToKorean(startDate)} ~ ${formatDateToKorean(endDate)}`;
+                              }
+                            })()}
                           </span>
                         )}
                       </div>
@@ -1077,7 +1077,7 @@ export default function PilgrimagePackageFormPage({
                 </CardContent>
               </Card>
             ))}
-            
+
             {/* 하단 일정 추가 버튼 */}
             <div className="flex justify-center mt-6">
               <Button onClick={addItineraryDay} className="flex items-center space-x-2">

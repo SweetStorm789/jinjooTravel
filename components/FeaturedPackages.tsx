@@ -90,8 +90,8 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
         }
 
         if (!Array.isArray(packagesData)) {
-          console.error('❌ packagesData is not an array, cannot use filter');
-          console.log('🔄 Using fallback dummy data');
+          // console.error('❌ packagesData is not an array, cannot use filter');
+          // console.log('🔄 Using fallback dummy data');
           setPackages([]);
           return;
         }
@@ -100,7 +100,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
 
         // published 패키지가 없으면 빈 배열 설정
         if (publishedPackages.length === 0) {
-          console.log('🔄 No published packages found, setting empty array');
+          // console.log('🔄 No published packages found, setting empty array');
           setPackages([]);
           return;
         }
@@ -143,7 +143,7 @@ export default function FeaturedPackages({ setCurrentPage }: FeaturedPackagesPro
 
         // 네트워크 에러나 서버 연결 실패 시 빈 배열 설정
         if (error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
-          console.log('🔄 Network error, setting empty array');
+          // console.log('🔄 Network error, setting empty array');
         }
 
         // 에러 시 빈 배열 설정

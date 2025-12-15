@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 //app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 import fs from 'fs';
 const uploadsPath = path.join(__dirname, '../uploads');
-console.log('🔥 uploads 폴더 경로:', uploadsPath);
-console.log('📂 폴더 존재함?', fs.existsSync(uploadsPath));  // true or false
+// console.log('🔥 uploads 폴더 경로:', uploadsPath);
+// console.log('📂 폴더 존재함?', fs.existsSync(uploadsPath));  // true or false
 
 app.use('/uploads', express.static(uploadsPath));
 
@@ -62,7 +62,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  // console.log(`Server is running on port ${PORT}`);
 });
 
 // 헬스체크 (NGINX 프록시 확인용)

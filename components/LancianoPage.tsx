@@ -7,10 +7,10 @@ import {
   Building,
   Mountain,
   Church,
-  ArrowRight,
   Info,
   ChevronDown,
   ChevronRight,
+  ArrowRight,
   ChevronUp,
   Cross,
   Heart,
@@ -37,37 +37,16 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import churchOfSanFrancescoInLancianoImage from "../images/italy/lanciano/ChurchOfSanFrancescoInLanciano.jpg";
 import miracoloEucaristicoImage from "../images/italy/lanciano/MiracoloEucaristico.jpg";
 import museumOfTheEucharisticMiracleImage from "../images/italy/lanciano/MuseumOfTheEucharisticMiracle.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface LancianoPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -342,7 +321,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                         alt={city.name}
                         className="w-full h-[300px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -351,7 +330,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -396,11 +375,11 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[2/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={miracoloEucaristicoImage}
-                        alt="성체기적"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={miracoloEucaristicoImage}
+                            alt="성체기적"
+                            className="w-full h-full object-cover"
+                          />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -411,10 +390,10 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
-                          Miracolo Eucaristico
+                            Miracolo Eucaristico
                           </p>
                           <p className="text-sm text-amber-700">
-                          성체기적
+                            성체기적
                           </p>
                         </div>
                       </div>
@@ -424,9 +403,9 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          8세기 바실리오회 수도사가 성체의 현존을 의심하며 미사를 드리던 중 
-                          성체가 실제 살덩어리로, 포도주가 진짜 피로 변하는 기적이 일어났습니다. 
-                          이는 세계에서 가장 오래되고 첫 번째 성체기적으로 기록되어 있으며, 
+                          8세기 바실리오회 수도사가 성체의 현존을 의심하며 미사를 드리던 중
+                          성체가 실제 살덩어리로, 포도주가 진짜 피로 변하는 기적이 일어났습니다.
+                          이는 세계에서 가장 오래되고 첫 번째 성체기적으로 기록되어 있으며,
                           1300년 이상 부패하지 않고 보존되어 있습니다.
                         </p>
 
@@ -446,8 +425,8 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          현재 이 성체기적의 유물들은 란치아노의 성 프란치스코 성당에 
-                          보관되어 있으며, 매년 전 세계에서 수많은 순례자들이 찾아와 
+                          현재 이 성체기적의 유물들은 란치아노의 성 프란치스코 성당에
+                          보관되어 있으며, 매년 전 세계에서 수많은 순례자들이 찾아와
                           성체성사의 신비를 체험하고 있습니다.
                         </p>
                       </div>
@@ -498,10 +477,10 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                       <Info className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-red-800 leading-relaxed">
-                          란치아노의 성체기적은 가톨릭교회에서 공식 인정한 
-                          성체기적 중 가장 오래되고 과학적으로 가장 철저히 
-                          검증된 기적입니다. 이 기적은 성체성사에 대한 
-                          우리의 믿음을 강화하고, 예수 그리스도의 
+                          란치아노의 성체기적은 가톨릭교회에서 공식 인정한
+                          성체기적 중 가장 오래되고 과학적으로 가장 철저히
+                          검증된 기적입니다. 이 기적은 성체성사에 대한
+                          우리의 믿음을 강화하고, 예수 그리스도의
                           참된 현존을 증명하는 영원한 증거입니다.
                         </p>
                       </div>
@@ -516,115 +495,7 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    // 현재 페이지이므로 아무것도 하지 않음
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "란치아노" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
-                              >
-                                <span className={`text-sm ${child === "란치아노" ? "" : "text-muted-foreground"}`}>{child}</span>
-                                {child !== "란치아노" && (
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="lanciano" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -704,10 +575,10 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 성 프란치스코 성당</p>
                     <p>
                       사진: Syrio, 성 프란치스코 성당 (Lanciano, Abruzzo, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/4.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY-SA 4.0
@@ -715,10 +586,10 @@ export default function LancianoPage({ setCurrentPage }: LancianoPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Syrio, San Francesco Church (Lanciano, Abruzzo, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/4.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY-SA 4.0

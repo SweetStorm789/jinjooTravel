@@ -22,7 +22,7 @@ function logSqlError(prefix: string, error: SqlError) {
 }
 
 export const createPackage = async (req: Request, res: Response) => {
-  console.log('🚀 createPackage function called!');
+  // console.log('🚀 createPackage function called!');
   try {
     // 기본 데이터와 상세 데이터 분리
     const {
@@ -49,8 +49,8 @@ export const createPackage = async (req: Request, res: Response) => {
       itinerary,
       ...rest
     } = req.body;
-    console.log('[createPackage] insurance_notes value:', insurance_notes);
-    console.log('[createPackage] keys:', Object.keys(req.body));
+    // console.log('[createPackage] insurance_notes value:', insurance_notes);
+    // console.log('[createPackage] keys:', Object.keys(req.body));
     // 트랜잭션 시작
     const connection = await pool.getConnection();
     await connection.beginTransaction();
@@ -109,11 +109,11 @@ export const createPackage = async (req: Request, res: Response) => {
       }
 
       await connection.commit();
-      res.status(201).json({ 
-        id: packageId, 
-        message: 'Package created successfully' 
+      res.status(201).json({
+        id: packageId,
+        message: 'Package created successfully'
       });
-    } catch (e:any) {
+    } catch (e: any) {
       await connection.rollback();
       console.error('❌ [CreatePackage SQL Error]', {
         message: e?.message,
@@ -132,7 +132,7 @@ export const createPackage = async (req: Request, res: Response) => {
           sql: e?.sql
         }
       });
-    } 
+    }
     finally {
       connection.release();
     }
@@ -222,7 +222,7 @@ export const getAllPackages = async (req: Request, res: Response) => {
           images = [];
         }
       }
-      
+
       return {
         ...pkg,
         images: images
@@ -254,13 +254,13 @@ export const getAllPackages = async (req: Request, res: Response) => {
 export const getPackageById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    
+
     // 기본 정보 조회
     const [packages] = await pool.query(
       'SELECT * FROM pilgrimage_packages WHERE id = ? AND deleted_at IS NULL',
       [id]
     );
-    
+
     if (!packages || (packages as any[]).length === 0) {
       throw new AppError('Package not found', 404);
     }
@@ -288,17 +288,17 @@ export const getPackageById = async (req: Request, res: Response) => {
     // 이미지 URL을 절대 경로로 변환
     const imagesWithFullUrls = (images as any[]).map(img => ({
       ...img,
-                  image_url: `${process.env.BASE_URL || 'http://localhost:5000'}${img.image_url}`
+      image_url: `${process.env.BASE_URL || 'http://localhost:5000'}${img.image_url}`
     }));
 
     const detailData = (details as any[])[0] || {};
-    
+
     // 일정 데이터 처리 - activities를 원본 텍스트 그대로 유지
     const processedItineraries = (itineraries as any[]).map(itinerary => ({
       ...itinerary,
       activities: itinerary.activities || ''
     }));
-    
+
     const responseData = {
       ...package_data,
       ...detailData,
@@ -421,7 +421,7 @@ export const updatePackage = async (req: Request, res: Response) => {
 export const deletePackage = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    
+
     // 소프트 삭제 - deleted_at 필드 업데이트
     await pool.query(
       'UPDATE pilgrimage_packages SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?',
@@ -452,7 +452,7 @@ export const updatePackageOrder = async (req: Request, res: Response) => {
     }
 
     const connection = await pool.getConnection();
-    
+
     try {
       // 상품 순서 업데이트
       const [result] = await connection.query(
@@ -498,7 +498,7 @@ export const togglePackagePin = async (req: Request, res: Response) => {
     }
 
     const connection = await pool.getConnection();
-    
+
     try {
       // 상품 고정 상태 업데이트
       const [result] = await connection.query(

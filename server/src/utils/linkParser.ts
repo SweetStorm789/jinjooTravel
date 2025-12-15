@@ -17,8 +17,8 @@ interface LinkMetadata {
  */
 export const extractLinkMetadata = async (url: string): Promise<LinkMetadata> => {
   try {
-    console.log('🔗 링크 메타데이터 추출 시작:', url);
-    
+    // console.log('🔗 링크 메타데이터 추출 시작:', url);
+
     // User-Agent 설정 (일부 사이트에서 봇 차단 방지)
     const response = await axios.get(url, {
       timeout: 10000,
@@ -93,17 +93,16 @@ export const extractLinkMetadata = async (url: string): Promise<LinkMetadata> =>
       metadata.image = `${urlObj.protocol}//${urlObj.host}${metadata.image}`;
     }
 
-    console.log('✅ 링크 메타데이터 추출 완료:', {
-      title: metadata.title?.substring(0, 50) + '...',
-      image: metadata.image ? '있음' : '없음',
-      description: metadata.description?.substring(0, 50) + '...'
-    });
+    // console.log('✅ 링크 메타데이터 추출 완료:', {
+    //   title: metadata.title?.substring(0, 50) + '...',
+    //   image: metadata.image ? '있음' : '없음',
+    //   description: metadata.description?.substring(0, 50) + '...'
+    // });
 
     return metadata;
 
   } catch (error) {
     console.error('❌ 링크 메타데이터 추출 실패:', url, error);
-    
     // 기본 정보 반환
     return {
       url: url,
@@ -118,17 +117,17 @@ export const extractLinkMetadata = async (url: string): Promise<LinkMetadata> =>
  */
 export const processSocialMediaLink = async (url: string): Promise<LinkMetadata> => {
   const urlLower = url.toLowerCase();
-  
+
   // Instagram 특별 처리
   if (urlLower.includes('instagram.com')) {
     return await processInstagramLink(url);
   }
-  
+
   // YouTube 특별 처리
   if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) {
     return await processYouTubeLink(url);
   }
-  
+
   // 지원하지 않는 플랫폼인 경우
   if (urlLower.includes('facebook.com') || urlLower.includes('threads.net')) {
     return {
@@ -138,7 +137,7 @@ export const processSocialMediaLink = async (url: string): Promise<LinkMetadata>
       site_name: '지원하지 않는 플랫폼'
     };
   }
-  
+
   // 일반 링크 처리
   return await extractLinkMetadata(url);
 };
@@ -149,12 +148,12 @@ export const processSocialMediaLink = async (url: string): Promise<LinkMetadata>
 const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
   try {
     const metadata = await extractLinkMetadata(url);
-    
+
     // Instagram 기본 정보 추가
     if (!metadata.site_name) {
       metadata.site_name = 'Instagram';
     }
-    
+
     // Instagram 게시자 정보 추출 (작성자 ID)
     const usernameMatch = url.match(/instagram\.com\/([^\/\?]+)/);
     if (usernameMatch && usernameMatch[1] && !usernameMatch[1].includes('p')) {
@@ -162,7 +161,7 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
       metadata.author = username; // @ 제거하고 순수 ID만 사용
       metadata.author_url = `https://www.instagram.com/${username}/`;
     }
-    
+
     // Instagram 게시물 URL에서 사용자명 추출 시도
     if (!metadata.author) {
       const postMatch = url.match(/instagram\.com\/p\/[^\/]+\/?(?:\?.*)?$/);
@@ -178,7 +177,7 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
         }
       }
     }
-    
+
     // Instagram에서 제목이나 설명이 없으면 기본값 제공
     if (!metadata.title || metadata.title === 'Instagram') {
       if (metadata.author) {
@@ -187,7 +186,7 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
         metadata.title = 'Instagram 여행 게시물';
       }
     }
-    
+
     // Instagram 설명 개선
     if (!metadata.description || metadata.description === 'undefined') {
       if (metadata.author) {
@@ -196,7 +195,7 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
         metadata.description = 'Instagram에서 여행 경험을 확인해보세요';
       }
     }
-    
+
     // Instagram 이미지 처리 개선
     if (!metadata.image) {
       // Instagram 게시물 ID 추출 시도
@@ -212,7 +211,7 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
         metadata.image = possibleImageUrls[0]; // 첫 번째 URL 사용
       }
     }
-    
+
     // Instagram 이미지가 여전히 없으면 og:image에서 추출 시도
     if (!metadata.image) {
       try {
@@ -246,13 +245,13 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
         console.error('Instagram 이미지 재추출 실패:', error);
       }
     }
-    
+
     // Instagram 내용 추출 시도 (og:description이 있으면 사용)
     if (metadata.description && metadata.description.length > 10) {
       // Instagram 설명이 충분히 길면 내용으로 사용
       metadata.description = metadata.description.replace(/\.\.\.$/, ''); // 끝의 ... 제거
     }
-    
+
     return metadata;
   } catch (error) {
     console.error('Instagram 링크 처리 실패:', error);
@@ -271,19 +270,19 @@ const processInstagramLink = async (url: string): Promise<LinkMetadata> => {
 const processYouTubeLink = async (url: string): Promise<LinkMetadata> => {
   try {
     const metadata = await extractLinkMetadata(url);
-    
+
     // YouTube 기본 정보 추가
     if (!metadata.site_name) {
       metadata.site_name = 'YouTube';
     }
-    
+
     // YouTube 채널 정보 추출 시도
     const channelMatch = url.match(/youtube\.com\/(?:channel\/|c\/|user\/|@)([^\/\?]+)/);
     if (channelMatch && channelMatch[1]) {
       metadata.author = `@${channelMatch[1]}`;
       metadata.author_url = `https://www.youtube.com/${channelMatch[1]}`;
     }
-    
+
     return metadata;
   } catch (error) {
     console.error('YouTube 링크 처리 실패:', error);

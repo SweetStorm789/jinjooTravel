@@ -38,6 +38,7 @@ import HagiaSophiaFromTheSultanamehtSquareHippodromeImage from "../images/turkiy
 import HouseOfTheVirginMaryImage from "../images/turkiye/House_of_the_Virgin_Mary.jpg"; //성모 마리아의 집
 import KonyaSenPolKilisesi4486Image from "../images/turkiye/Konya_Sen_Pol_Kilisesi_4486.jpg"; // 콘야 바오로 기념 성당
 import LaodiceaBasilicaChurchImage from "../images/turkiye/LaodiceaBasilicaChurch.jpg"; //라오디케이아 성당
+import HolyLandMenu from "./HolyLandMenu";
 
 
 interface TurkiyePageProps {
@@ -45,10 +46,9 @@ interface TurkiyePageProps {
 }
 
 export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('turkiye'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -64,28 +64,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -117,7 +96,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -6시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -5시간)`,
       color: "text-orange-600",
@@ -136,9 +115,9 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
     { label: "종교", value: "이슬람 99.8%, 기타 0.2%" },
     { label: "언어", value: "터키어" },
     { label: "화폐단위", value: "터키리라(TL)" },
-    { 
-      label: "시차", 
-      value: "한국과의 시차는 6시간 (한국 07:00 튀르키예 00:00), 여름에는 summer time 실시로 5시간 튀르키예가 느립니다." 
+    {
+      label: "시차",
+      value: "한국과의 시차는 6시간 (한국 07:00 튀르키예 00:00), 여름에는 summer time 실시로 5시간 튀르키예가 느립니다."
     },
   ];
 
@@ -358,7 +337,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {holyPlaces.map((city, index) => (
+                {holyPlaces.map((city, index) => (
                   <Card key={index} className="overflow-hidden">
                     <div className="relative">
                       <div className="absolute inset-0"></div>
@@ -367,7 +346,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                         alt={city.name}
                         className="w-full h-[300px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -376,7 +355,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -420,18 +399,18 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={HouseOfTheVirginMaryImage}
-                        alt="성모 마리아의 집"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={HouseOfTheVirginMaryImage}
+                            alt="성모 마리아의 집"
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
-                          Ephesus
+                            Ephesus
                           </p>
                           <p className="text-sm text-amber-700">
-                          성모 마리아의 집
+                            성모 마리아의 집
                           </p>
                         </div>
                       </div>
@@ -440,9 +419,9 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          에페소 인근의 언덕 위에 자리한 성모 마리아의 집은 예수의 어머니 
-                          성모 마리아가 사도 요한과 함께 여생을 보낸 곳으로 전해집니다. 
-                          교황청이 공식 성지로 인정했으며, 교황 바오로 6세, 요한 바오로 2세, 
+                          에페소 인근의 언덕 위에 자리한 성모 마리아의 집은 예수의 어머니
+                          성모 마리아가 사도 요한과 함께 여생을 보낸 곳으로 전해집니다.
+                          교황청이 공식 성지로 인정했으며, 교황 바오로 6세, 요한 바오로 2세,
                           베네딕토 16세 등 여러 교황이 직접 방문한 순례지입니다.
                         </p>
 
@@ -450,20 +429,20 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-pink-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-pink-800 italic">
-                              "이곳은 평화와 위로의 집입니다. 
-                              성모님이 머무신 이 자리에서 
-                              신앙인들은 하느님의 사랑과 
+                              "이곳은 평화와 위로의 집입니다.
+                              성모님이 머무신 이 자리에서
+                              신앙인들은 하느님의 사랑과
                               자비를 새롭게 체험합니다."
                             </blockquote>
                           </div>
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          작은 석조 건물로 남아 있는 성모 마리아의 집은 
-                          전 세계 신자들의 순례가 끊이지 않는 성지입니다. 
-                          매년 수많은 이들이 이곳을 찾아와 기도하며, 
-                          그분의 보호와 은총을 간청합니다. 
-                          주변에는 초기 그리스도교 유적과 고대 에페소 도시가 함께 자리해 
+                          작은 석조 건물로 남아 있는 성모 마리아의 집은
+                          전 세계 신자들의 순례가 끊이지 않는 성지입니다.
+                          매년 수많은 이들이 이곳을 찾아와 기도하며,
+                          그분의 보호와 은총을 간청합니다.
+                          주변에는 초기 그리스도교 유적과 고대 에페소 도시가 함께 자리해
                           신앙과 역사가 어우러진 특별한 공간을 이룹니다.
                         </p>
                       </div>
@@ -509,9 +488,9 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                 <CardContent className="p-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
-                      카파도키아는 독특한 바위 지형으로 유명한 지역으로, 
-                      초기 가톨릭 신자들이 로마의 박해를 피해 은신했던 곳입니다. 
-                      지하 도시들과 바위를 깎아 만든 교회들이 수백 개 발견되어 
+                      카파도키아는 독특한 바위 지형으로 유명한 지역으로,
+                      초기 가톨릭 신자들이 로마의 박해를 피해 은신했던 곳입니다.
+                      지하 도시들과 바위를 깎아 만든 교회들이 수백 개 발견되어
                       초기 가톨릭 역사의 중요한 증거가 되고 있습니다.
                     </p>
 
@@ -558,15 +537,15 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
                       </p>
                     </div>
                   ))}
-                  
+
                   <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
                     <div className="flex items-start space-x-2">
                       <Info className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-red-800 leading-relaxed">
-                          튀르키예는 사도 바오로의 선교 여행지로서 초대교회 형성에 중요한 역할을 했으며, 
-                          비잔틴 제국 시대에는 동방 가톨릭의 중심지였습니다. 
-                          현재도 에페소의 성모 마리아의 집을 비롯해 많은 가톨릭 유적이 
+                          튀르키예는 사도 바오로의 선교 여행지로서 초대교회 형성에 중요한 역할을 했으며,
+                          비잔틴 제국 시대에는 동방 가톨릭의 중심지였습니다.
+                          현재도 에페소의 성모 마리아의 집을 비롯해 많은 가톨릭 유적이
                           잘 보존되어 있어 전 세계 가톨릭 신자들의 순례지가 되고 있습니다.
                         </p>
                       </div>
@@ -581,114 +560,7 @@ export default function TurkiyePage({ setCurrentPage }: TurkiyePageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "튀르키예" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                            }`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            {item.name !== "튀르키예" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                              >
-                                <span className="text-sm text-muted-foreground">{child}</span>
-                                <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="turkiye" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

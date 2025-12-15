@@ -36,7 +36,7 @@ export default function ImageLibraryModal({
 }: ImageLibraryModalProps) {
   const [images, setImages] = useState<ImageLibraryImage[]>([]);
   const [loading, setLoading] = useState(false);
-  
+
   // 다중 선택 모드에서 내부적으로 선택된 이미지들 관리
   const [internalSelectedImages, setInternalSelectedImages] = useState<ImageLibraryImage[]>([]);
 
@@ -52,16 +52,16 @@ export default function ImageLibraryModal({
       const data = response.data;
 
       // 중복 이미지 제거 (ID 기준)
-      const uniqueImages = (data.images || []).filter((image: any, index: number, self: any[]) => 
+      const uniqueImages = (data.images || []).filter((image: any, index: number, self: any[]) =>
         index === self.findIndex((img: any) => img.id === image.id)
       );
-      
+
       // 이미 선택된 이미지들 제외 (URL 기준으로 비교)
       const selectedImageUrls = selectedImages.map(img => img.url);
-      const filteredImages = uniqueImages.filter((image: any) => 
+      const filteredImages = uniqueImages.filter((image: any) =>
         !selectedImageUrls.includes(image.url)
       );
-      
+
       setImages(filteredImages);
     } catch (error) {
       console.error('Failed to fetch images:', error);
@@ -118,68 +118,67 @@ export default function ImageLibraryModal({
           </DialogDescription>
         </DialogHeader>
 
-                 <div className="flex flex-col h-full">
-           {/* 이미지 그리드 - 탐색기 스타일 */}
+        <div className="flex flex-col h-full">
+          {/* 이미지 그리드 - 탐색기 스타일 */}
           <div className="flex-1 overflow-y-auto min-h-[500px] max-h-[600px]">
-  {loading ? (
-    <div className="flex items-center justify-center h-96">
-      <div className="text-gray-500">로딩 중...</div>
-    </div>
-  ) : images.length === 0 ? (
-    <div className="flex items-center justify-center h-96">
-      <div className="text-gray-500">이미지가 없습니다.</div>
-    </div>
-  ) : (
-    // ① 행높이 고정: auto-rows-[140px] (파일명 한 줄 + 썸네일)
-         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-4 p-4">
-      {images.map((image) => (
-        <button
-          type="button"
-          key={`image-${image.id}-${image.filename}`}
-          onClick={() => handleImageSelect(image)}
-          // ③ 카드에 overflow-hidden / focus/hover 스타일
-          className={`group relative flex flex-col rounded-lg border border-gray-200 bg-white overflow-hidden transition ring-offset-2 hover:ring-2 hover:ring-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            isImageSelected(image) ? 'ring-2 ring-blue-500' : ''
-          }`}
-        >
-          {/* ② 썸네일: aspect-square 로 셀 너비에 맞춰 정사각형 */}
-          <div className="relative w-full aspect-square">
-            <img
-              src={image.thumbnail_url || image.url}
-              alt={image.original_name}
-              className="absolute inset-0 w-full h-full object-cover bg-gray-50 opacity-0 transition-opacity duration-200"
-              onLoad={(e) => {
-                (e.target as HTMLImageElement).style.opacity = '1';
-                console.log('Image loaded successfully:', {
-                  url: image.url,
-                  filename: image.filename,
-                  original_name: image.original_name
-                });
-              }}
-              onError={(e) => {
-                console.error('Image load failed:', {
-                  url: image.url,
-                  thumbnail_url: image.thumbnail_url,
-                  filename: image.filename,
-                  original_name: image.original_name
-                });
-                (e.target as HTMLImageElement).src =
-                  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNGM0Y0RjYiLz48cGF0aCBkPSJNMTkgMjBINDVWNDRIMSkgRmlsbD0iI0Q3RDlEMSIvPjwvc3ZnPg==';
-              }}
-            />
-            {isImageSelected(image) && (
-              <div className="absolute bottom-1 right-1 bg-green-500 text-white rounded-full p-0.5 pointer-events-none">
-                <Check className="w-3 h-3" />
+            {loading ? (
+              <div className="flex items-center justify-center h-96">
+                <div className="text-gray-500">로딩 중...</div>
+              </div>
+            ) : images.length === 0 ? (
+              <div className="flex items-center justify-center h-96">
+                <div className="text-gray-500">이미지가 없습니다.</div>
+              </div>
+            ) : (
+              // ① 행높이 고정: auto-rows-[140px] (파일명 한 줄 + 썸네일)
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-4 p-4">
+                {images.map((image) => (
+                  <button
+                    type="button"
+                    key={`image-${image.id}-${image.filename}`}
+                    onClick={() => handleImageSelect(image)}
+                    // ③ 카드에 overflow-hidden / focus/hover 스타일
+                    className={`group relative flex flex-col rounded-lg border border-gray-200 bg-white overflow-hidden transition ring-offset-2 hover:ring-2 hover:ring-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 ${isImageSelected(image) ? 'ring-2 ring-blue-500' : ''
+                      }`}
+                  >
+                    {/* ② 썸네일: aspect-square 로 셀 너비에 맞춰 정사각형 */}
+                    <div className="relative w-full aspect-square">
+                      <img
+                        src={image.thumbnail_url || image.url}
+                        alt={image.original_name}
+                        className="absolute inset-0 w-full h-full object-cover bg-gray-50 opacity-0 transition-opacity duration-200"
+                        onLoad={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = '1';
+                          // console.log('Image loaded successfully:', {
+                          //   url: image.url,
+                          //   filename: image.filename,
+                          //   original_name: image.original_name
+                          // });
+                        }}
+                        onError={(e) => {
+                          console.error('Image load failed:', {
+                            url: image.url,
+                            thumbnail_url: image.thumbnail_url,
+                            filename: image.filename,
+                            original_name: image.original_name
+                          });
+                          (e.target as HTMLImageElement).src =
+                            'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNGM0Y0RjYiLz48cGF0aCBkPSJNMTkgMjBINDVWNDRIMSkgRmlsbD0iI0Q3RDlEMSIvPjwvc3ZnPg==';
+                        }}
+                      />
+                      {isImageSelected(image) && (
+                        <div className="absolute bottom-1 right-1 bg-green-500 text-white rounded-full p-0.5 pointer-events-none">
+                          <Check className="w-3 h-3" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 파일명 숨김 */}
+                  </button>
+                ))}
               </div>
             )}
           </div>
-
-                     {/* 파일명 숨김 */}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
 
 
 
@@ -212,19 +211,19 @@ export default function ImageLibraryModal({
                 ))}
               </div>
               <div className="flex justify-end mt-4">
-                                 <Button
-                   onClick={() => {
-                     if (onSelectMultipleImages) {
-                       onSelectMultipleImages(internalSelectedImages);
-                     } else {
-                       onSelectImage(internalSelectedImages[0]); // 첫 번째 이미지만 전달 (임시)
-                     }
-                     onClose();
-                   }}
-                   className="bg-blue-600 hover:bg-blue-700"
-                 >
-                   선택 완료 ({internalSelectedImages.length}개)
-                 </Button>
+                <Button
+                  onClick={() => {
+                    if (onSelectMultipleImages) {
+                      onSelectMultipleImages(internalSelectedImages);
+                    } else {
+                      onSelectImage(internalSelectedImages[0]); // 첫 번째 이미지만 전달 (임시)
+                    }
+                    onClose();
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  선택 완료 ({internalSelectedImages.length}개)
+                </Button>
               </div>
             </div>
           )}

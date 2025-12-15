@@ -7,10 +7,7 @@ import {
   Building,
   Mountain,
   Church,
-  ArrowRight,
   Info,
-  ChevronDown,
-  ChevronRight,
   Crown,
   Cross,
 } from "lucide-react";
@@ -28,6 +25,7 @@ import GoogleMap from "./shared/GoogleMap";
 import { getTimeDifferenceFromKorea } from "../utils/timezone";
 import { holyPlacesLocations } from "./constants/holyPlacesLocations";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import HolyLandMenu from "./HolyLandMenu";
 
 import madridImage from "../images/spain/madrid-2179954_1920.jpg";
 import segoviaImage from "../images/spain/segovia-91266_1920.jpg";
@@ -44,9 +42,8 @@ interface SpainPageProps {
 export default function SpainPage({
   setCurrentPage,
 }: SpainPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('spain'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -61,29 +58,6 @@ export default function SpainPage({
 
     return () => clearInterval(interval);
   }, []);
-
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
 
   const keyStats = [
     {
@@ -115,7 +89,7 @@ export default function SpainPage({
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -8시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -7시간)`,
       color: "text-orange-600",
@@ -142,21 +116,21 @@ export default function SpainPage({
       subtitle: "스페인의 수도이자 정치·경제·문화의 중심지",
       description:
         "스페인의 수도인 마드리드는 이베리아 반도 중앙에 위치한 정치·경제·문화의 중심지입니다. 알무데나 성당과 왕궁 등 중요한 가톨릭 성지들이 위치해 있다.",
-        image: madridImage,
+      image: madridImage,
     },
     {
       name: "살라망카",
       subtitle: "유럽에서 가장 오래된 대학 도시 중 하나",
       description:
         "1218년에 설립된 살라망카 대학교로 유명한 이 도시는 '황금빛 도시'라고 불립니다. 신구 대성당과 산 마르코스 수도원 등이 위치해 있다.",
-        image: salanamceImage,
+      image: salanamceImage,
     },
     {
       name: "세고비아",
       subtitle: "로마 시대의 수도교와 알카사르로 유명한 고도",
       description:
         "세고비아는 로마 시대부터 이어져 온 고도로, 유네스코 세계문화유산인 로마 수도교와 알카사르가 있습니다. 성모 마리아에게 봉헌된 대성당이 도시의 중심에 자리하고 있다.",
-        image: segoviaImage,
+      image: segoviaImage,
     },
     {
       name: "아빌라",
@@ -164,9 +138,9 @@ export default function SpainPage({
         "성녀 테레사의 고향이자 중세 성벽으로 둘러싸인 성스러운 도시",
       description:
         "대성녀 테레사(데 헤수스)의 고향인 아빌라는 완전히 보존된 중세 성벽으로 유명합니다. 성녀 테레사 수도원과 성 비센테 성당 등 중요한 순례지들이 있다.",
-        image: avilaImage,
+      image: avilaImage,
     },
-    
+
   ];
 
   return (
@@ -329,7 +303,7 @@ export default function SpainPage({
                         alt={city.name}
                         className="w-full h-[240px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -338,11 +312,11 @@ export default function SpainPage({
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
-                    <span className="text-sm font-medium text-gray-800">
-                          </span>
+                      <span className="text-sm font-medium text-gray-800">
+                      </span>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {city.description}
                       </p>
@@ -382,11 +356,11 @@ export default function SpainPage({
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[4/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={sanctiagoImage}
-                        alt="산티아고 데 콤포스텔라"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={sanctiagoImage}
+                            alt="산티아고 데 콤포스텔라"
+                            className="w-full h-full object-cover"
+                          />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -410,10 +384,10 @@ export default function SpainPage({
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                        산티아고 데 콤포스텔라는 예루살렘, 로마와 함께 가톨릭 3대 성지 중 하나로 꼽히며, 스페인 북서부 갈리시아 지방에 위치한 순례의 중심지다. 이곳에는 사도 야고보(스페인어로 산티아고)의 무덤이 있다고 전해지며, 
-                        그의 유해가 안치된 대성당은 전 세계에서 순례자들을 끌어들이는 신앙의 상징이다. 
-                        중세부터 시작된 산티아고 순례길(카미노 데 산티아고)은 유럽 각지에서 출발해 이곳으로 향하는 대표적인 성지순례로 자리 잡았으며, 오늘날에도 수많은 이들이 영적 여정과 치유, 
-                        새로운 삶의 의미를 찾기 위해 걸음을 이어가고 있다.
+                          산티아고 데 콤포스텔라는 예루살렘, 로마와 함께 가톨릭 3대 성지 중 하나로 꼽히며, 스페인 북서부 갈리시아 지방에 위치한 순례의 중심지다. 이곳에는 사도 야고보(스페인어로 산티아고)의 무덤이 있다고 전해지며,
+                          그의 유해가 안치된 대성당은 전 세계에서 순례자들을 끌어들이는 신앙의 상징이다.
+                          중세부터 시작된 산티아고 순례길(카미노 데 산티아고)은 유럽 각지에서 출발해 이곳으로 향하는 대표적인 성지순례로 자리 잡았으며, 오늘날에도 수많은 이들이 영적 여정과 치유,
+                          새로운 삶의 의미를 찾기 위해 걸음을 이어가고 있다.
                         </p>
 
                         <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
@@ -429,9 +403,9 @@ export default function SpainPage({
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                        프랑스 국경에 위치한 작은 마을 **생장피드포르(Saint-Jean-Pied-de-Port)**에서 시작되는 **프랑스 길(Camino Francés)**은 산티아고 순례길 중에서도 가장 인기 있는 노선이다. 
-                        피레네 산맥을 넘어 스페인 북부를 가로지르며 이어지는 이 길은 총 800km에 달하며, 역사적 성지와 중세 도시, 다양한 자연 경관을 지나 산티아고 데 콤포스텔라 대성당까지 이어진다. 
-                        이 길은 순례자뿐 아니라 여행자들에게도 깊은 영적 체험과 치유의 시간을 제공하며, 유네스코 세계문화유산으로도 등재되어 그 가치를 인정받고 있다.
+                          프랑스 국경에 위치한 작은 마을 **생장피드포르(Saint-Jean-Pied-de-Port)**에서 시작되는 **프랑스 길(Camino Francés)**은 산티아고 순례길 중에서도 가장 인기 있는 노선이다.
+                          피레네 산맥을 넘어 스페인 북부를 가로지르며 이어지는 이 길은 총 800km에 달하며, 역사적 성지와 중세 도시, 다양한 자연 경관을 지나 산티아고 데 콤포스텔라 대성당까지 이어진다.
+                          이 길은 순례자뿐 아니라 여행자들에게도 깊은 영적 체험과 치유의 시간을 제공하며, 유네스코 세계문화유산으로도 등재되어 그 가치를 인정받고 있다.
                         </p>
                       </div>
 
@@ -474,9 +448,9 @@ export default function SpainPage({
                 <CardContent className="p-6">
                   <div className="space-y-4">
                     <p className="leading-relaxed">
-                    스페인의 아름다운 고도 아빌라는 대성녀 **테레사 데 헤수스(1515–1582)**의 고향으로, 그녀의 삶과 영성을 깊이 느낄 수 있는 순례지다. 
-                    성녀 테레사는 스페인을 대표하는 신비가이자 교회박사로, 가르멜회 개혁과 수도원 설립을 통해 수도생활의 본질을 되살리고자 했다. 
-                    그녀의 발자취가 남아 있는 아빌라는 완벽하게 보존된 중세 성벽 도시로, 순례자와 여행자 모두에게 깊은 영적 울림을 전한다.
+                      스페인의 아름다운 고도 아빌라는 대성녀 **테레사 데 헤수스(1515–1582)**의 고향으로, 그녀의 삶과 영성을 깊이 느낄 수 있는 순례지다.
+                      성녀 테레사는 스페인을 대표하는 신비가이자 교회박사로, 가르멜회 개혁과 수도원 설립을 통해 수도생활의 본질을 되살리고자 했다.
+                      그녀의 발자취가 남아 있는 아빌라는 완벽하게 보존된 중세 성벽 도시로, 순례자와 여행자 모두에게 깊은 영적 울림을 전한다.
                     </p>
 
                     <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
@@ -502,126 +476,7 @@ export default function SpainPage({
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-{item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else if (item.name === "스페인") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(
-                                //   `${item.name} 페이지는 아직 구현되지 않았습니다.`,
-                                // );
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "스페인"
-                                ? "bg-primary/5 text-primary border-r-2 border-primary"
-                                : ""
-                            }`}
-                          >
-                            <span className="text-sm">
-                              {item.name}
-                            </span>
-                            {item.name !== "스페인" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" &&
-                          isItalyExpanded && (
-                            <div className="ml-4 border-l border-border">
-                              {item.children?.map((child) => (
-                                <a
-                                  key={child}
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    if (child === "로마") {
-                                      setCurrentPage("rome");
-                                    } else if (child === "아시시") {
-                                      setCurrentPage("assisi");
-                                    } else if (child === "산조반니로톤도") {
-                                      setCurrentPage("sangiovannirotondo");
-                                    } else if (child === "로레토") {
-                                      setCurrentPage("loreto");
-                                    } else if (child === "시에나") {
-                                      setCurrentPage("siena");
-                                    } else if (child === "오르비에또") {
-                                      setCurrentPage("orviettoo");
-                                    } else if (child === "란치아노") {
-                                      setCurrentPage("lanciano");
-                                    } else {
-                                      // console.log(
-                                      //   `${child} 페이지는 아직 구현되지 않았습니다.`,
-                                      // );
-                                    }
-                                  }}
-                                  className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                                >
-                                  <span className="text-sm text-muted-foreground">
-                                    {child}
-                                  </span>
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </a>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="spain" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -665,8 +520,8 @@ export default function SpainPage({
           </div>
         </div>
       </div>
-          </div>
+    </div>
 
 
-    );
+  );
 }

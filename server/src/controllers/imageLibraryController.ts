@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ 
+const upload = multer({
   storage: storage,
   limits: {
     fileSize: 50 * 1024 * 1024, // 50MB (임시로 늘림, 리사이징 후 작아짐)
@@ -32,7 +32,7 @@ const upload = multer({
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-    
+
     if (mimetype && extname) {
       return cb(null, true);
     } else {
@@ -46,14 +46,14 @@ const resizeImage = async (inputPath: string, outputPath: string, maxWidth: numb
   try {
     const image = sharp(inputPath);
     const metadata = await image.metadata();
-    
+
     // 원본 크기
     const { width, height } = metadata;
-    
+
     if (!width || !height) {
       throw new Error('이미지 크기를 읽을 수 없습니다.');
     }
-    
+
     // 리사이징이 필요한지 확인
     if (width <= maxWidth && height <= maxHeight) {
       // 크기가 작으면 그대로 복사하되 품질만 조정하고 회전 처리
@@ -76,7 +76,7 @@ const resizeImage = async (inputPath: string, outputPath: string, maxWidth: numb
         .webp({ quality })
         .toFile(outputPath);
     }
-    
+
     return true;
   } catch (error) {
     console.error('이미지 리사이징 오류:', error);
@@ -142,7 +142,7 @@ export const getAllImages = async (req: Request, res: Response) => {
       // 파일명 추출
       const filename = img.file_path.split('/').pop();
       const baseUrl = process.env.BASE_URL || process.env.VITE_API_BASE_URL || 'http://localhost:5000';
-      
+
       return {
         ...img,
         url: `${baseUrl}/uploads/${filename}`,
@@ -204,7 +204,7 @@ export const addImageToLibrary = async (req: Request, res: Response) => {
     // 파일명 추출
     const extractedFilename = image.file_path.split('/').pop();
     const baseUrl = process.env.BASE_URL || process.env.VITE_API_BASE_URL || 'http://localhost:5000';
-    
+
     image.url = `${baseUrl}/uploads/${extractedFilename}`;
     image.thumbnail_url = `${baseUrl}/uploads/${extractedFilename}`; // 썸네일은 일단 원본과 동일하게
 
@@ -306,9 +306,9 @@ export const getImageCategories = async (req: Request, res: Response) => {
 
 // 이미지 업로드 (멀티파트) - 리사이징 포함
 export const uploadImages = async (req: Request, res: Response) => {
-  console.log('🔄 이미지 업로드 시작');
+  // console.log('🔄 이미지 업로드 시작');
   const connection = await pool.getConnection();
-  
+
   // Multer 미들웨어 실행
   upload.array('images', 10)(req, res, async (err) => {
     if (err) {
@@ -319,48 +319,48 @@ export const uploadImages = async (req: Request, res: Response) => {
 
     try {
       const files = req.files as Express.Multer.File[];
-      console.log('📁 업로드된 파일 수:', files?.length || 0);
-      
+      // console.log('📁 업로드된 파일 수:', files?.length || 0);
+
       if (!files || files.length === 0) {
         throw new AppError('업로드할 이미지가 없습니다.', 400);
       }
 
       const uploadedImages = [];
       const uploadsDir = path.join(__dirname, '../../uploads');
-      console.log('📂 업로드 디렉토리:', uploadsDir);
-      
+      // console.log('📂 업로드 디렉토리:', uploadsDir);
+
       // uploads 디렉토리 생성
       if (!fs.existsSync(uploadsDir)) {
         fs.mkdirSync(uploadsDir, { recursive: true });
-        console.log('✅ 업로드 디렉토리 생성됨');
+        // console.log('✅ 업로드 디렉토리 생성됨');
       }
 
       for (const file of files) {
         try {
-          console.log(`🖼️ 파일 처리 중: ${file.originalname} (${file.size} bytes)`);
-          
+          // console.log(`🖼️ 파일 처리 중: ${file.originalname} (${file.size} bytes)`);
+
           // 임시 파일 경로
           const tempPath = file.path;
-          console.log('📁 임시 파일 경로:', tempPath);
-          
+          // console.log('📁 임시 파일 경로:', tempPath);
+
           // 최종 파일명 생성
           const finalFilename = `resized-${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`;
           const finalPath = path.join(uploadsDir, finalFilename);
-          console.log('📁 최종 파일 경로:', finalPath);
-          
+          // console.log('📁 최종 파일 경로:', finalPath);
+
           // 이미지 리사이징
-          console.log('🔄 이미지 리사이징 시작...');
+          // console.log('🔄 이미지 리사이징 시작...');
           const resizeSuccess = await resizeImage(tempPath, finalPath, 1920, 1080, 80);
-          
+
           if (!resizeSuccess) {
             throw new Error('이미지 리사이징에 실패했습니다.');
           }
-          console.log('✅ 이미지 리사이징 완료');
-          
+          // console.log('✅ 이미지 리사이징 완료');
+
           // 리사이징된 파일 정보 가져오기
           const finalStats = fs.statSync(finalPath);
-          console.log('📊 최종 파일 크기:', finalStats.size, 'bytes');
-          
+          // console.log('📊 최종 파일 크기:', finalStats.size, 'bytes');
+
           const imageData = {
             filename: finalFilename,
             original_name: file.originalname,
@@ -372,36 +372,36 @@ export const uploadImages = async (req: Request, res: Response) => {
             usage_count: 0
           };
 
-          console.log('💾 데이터베이스에 저장 중...');
+          // console.log('💾 데이터베이스에 저장 중...');
           const [result] = await connection.query(
             'INSERT INTO image_library SET ?',
             imageData
           );
 
           const imageId = (result as any).insertId;
-          console.log('✅ 데이터베이스 저장 완료, ID:', imageId);
-          
+          // console.log('✅ 데이터베이스 저장 완료, ID:', imageId);
+
           // 추가된 이미지 정보 조회
           const [images] = await connection.query(
             'SELECT * FROM image_library WHERE id = ?',
             [imageId]
           );
 
-                     const image = (images as any[])[0];
-           const baseUrl = process.env.BASE_URL || process.env.VITE_API_BASE_URL || 'http://localhost:5000';
-          
+          const image = (images as any[])[0];
+          const baseUrl = process.env.BASE_URL || process.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
           image.url = `${baseUrl}${image.file_path}`;
           image.thumbnail_url = `${baseUrl}${image.file_path}`;
 
           uploadedImages.push(image);
-          console.log('✅ 이미지 처리 완료:', image.original_name);
-          
+          // console.log('✅ 이미지 처리 완료:', image.original_name);
+
           // 임시 파일 삭제
           if (fs.existsSync(tempPath)) {
             fs.unlinkSync(tempPath);
-            console.log('🗑️ 임시 파일 삭제됨');
+            // console.log('🗑️ 임시 파일 삭제됨');
           }
-          
+
         } catch (fileError) {
           console.error(`❌ 파일 처리 오류 (${file.originalname}):`, fileError);
           // 임시 파일 정리
@@ -417,7 +417,7 @@ export const uploadImages = async (req: Request, res: Response) => {
         throw new AppError('업로드에 성공한 이미지가 없습니다.', 400);
       }
 
-      console.log('🎉 업로드 완료:', uploadedImages.length, '개 파일');
+      // console.log('🎉 업로드 완료:', uploadedImages.length, '개 파일');
       res.status(201).json({
         message: `${uploadedImages.length}개의 이미지가 업로드되었습니다.`,
         images: uploadedImages

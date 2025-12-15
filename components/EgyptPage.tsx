@@ -36,6 +36,7 @@ import cairoImage from "../images/egypt/cairo-egypt.jpg";
 import luxorImage from "../images/egypt/luxor-egypt.jpg";
 import gizaImage from "../images/egypt/giza-egypt.jpg";
 import saintCatherinesMonasteryImage from "../images/egypt/saint-catherines-monastery-egypt.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 
 
@@ -44,9 +45,8 @@ interface EgyptPageProps {
 }
 
 export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [timeDifference, setTimeDifference] = useState(getTimeDifferenceFromKorea('egypt'));
-  
+
   // 실시간 시차 업데이트
   useEffect(() => {
     const updateTimeDifference = () => {
@@ -62,29 +62,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
 
-    { 
-      name: "이탈리아", 
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노"
-      ]
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
 
   const keyStats = [
     {
@@ -116,7 +94,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       title: "시차(현재)",
       value: `${timeDifference.rawHours}시간`,
       unit: `(${timeDifference.isDST ? '서머타임' : '표준시'})`,
-      description: timeDifference.isDST 
+      description: timeDifference.isDST
         ? `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (표준시는 -7시간)`
         : `한국보다 ${Math.abs(timeDifference.rawHours)}시간 늦음 (서머타임은 -6시간)`,
       color: "text-orange-600",
@@ -211,7 +189,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
       feature: "이집트 가톨릭의 중심. 전통적인 콥트 전례 사용"
     },
     {
-      name: "라틴 가톨릭 교회", 
+      name: "라틴 가톨릭 교회",
       feature: "주로 외국인 및 유럽계 신자 중심, 로마 전례 사용"
     },
     {
@@ -405,7 +383,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                       <div>
                         <h4 className="font-medium text-yellow-800 mb-2">📖 성경 속 이집트</h4>
                         <p className="text-sm text-yellow-800 leading-relaxed">
-                          이집트는 이스라엘 민족의 피난처이면서, 아기 예수께서 헤로데를 피하기 위한 피난처로 사용된 땅입니다. 
+                          이집트는 이스라엘 민족의 피난처이면서, 아기 예수께서 헤로데를 피하기 위한 피난처로 사용된 땅입니다.
                           그리고 아브라함과 야곱의 가족이 가뭄을 피해 갔던 땅이자 예레미야가 피해 갔던 땅입니다.
                         </p>
                       </div>
@@ -469,13 +447,13 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                       <div className={`aspect-video bg-gradient-to-br ${place.color} flex items-center justify-center relative`}>
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
                         <ImageWithFallback
-                        src={place.image}
-                        alt={place.name}
-                        className="w-full h-[240px] object-cover"
-                      />
+                          src={place.image}
+                          alt={place.name}
+                          className="w-full h-[240px] object-cover"
+                        />
                         {/* 오버레이 텍스트 */}
                         <div className="absolute bottom-3 left-3 right-3">
-                        <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
+                          <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
                             <span className="text-sm font-medium text-gray-800">
                               {place.name} - {place.subtitle}
                             </span>
@@ -544,9 +522,9 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          시나이산은 이집트 시나이 반도에 위치한 해발 2,285m의 산으로, 
-                          구약성경에서 모세가 하느님으로부터 십계명을 받은 성스러운 장소입니다. 
-                          산 기슭에는 세계에서 가장 오래된 수도원 중 하나인 
+                          시나이산은 이집트 시나이 반도에 위치한 해발 2,285m의 산으로,
+                          구약성경에서 모세가 하느님으로부터 십계명을 받은 성스러운 장소입니다.
+                          산 기슭에는 세계에서 가장 오래된 수도원 중 하나인
                           성녀 카타리나 수도원이 위치해 있습니다.
                         </p>
 
@@ -554,7 +532,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-orange-800 italic">
-                              "여호와께서 시내산 위에 강림하시고 모세를 산 꼭대기로 부르시니 
+                              "여호와께서 시내산 위에 강림하시고 모세를 산 꼭대기로 부르시니
                               모세가 올라가매 여호와께서 모세에게 이르시되"
                             </blockquote>
                           </div>
@@ -564,9 +542,9 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          성녀 카타리나 수도원은 6세기에 건립되어 현재까지 
-                          지속적으로 운영되고 있는 세계에서 가장 오래된 
-                          가톨릭 수도원 중 하나입니다. 수도원 내에는 
+                          성녀 카타리나 수도원은 6세기에 건립되어 현재까지
+                          지속적으로 운영되고 있는 세계에서 가장 오래된
+                          가톨릭 수도원 중 하나입니다. 수도원 내에는
                           모세의 불타는 떨기나무로 여겨지는 나무가 있습니다.
                         </p>
                       </div>
@@ -636,7 +614,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                     <p className="text-sm text-muted-foreground mb-4">
                       오늘날 이집트에는 다양한 가톨릭 교파가 활동 중이며, 모두 로마 교황청과의 완전한 일치 상태에 있습니다.
                     </p>
-                    
+
                     <div className="space-y-3">
                       {catholicChurches.map((church, index) => (
                         <div key={index} className="flex justify-between items-start p-3 bg-muted rounded-lg">
@@ -647,7 +625,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
                         </div>
                       ))}
                     </div>
-                    
+
                     <p className="text-xs text-muted-foreground mt-3">
                       전체 이집트 인구의 약 0.3% 내외가 가톨릭 신자이며, 대다수는 콥트 가톨릭 교회에 소속되어 있습니다.
                     </p>
@@ -694,115 +672,7 @@ export default function EgyptPage({ setCurrentPage }: EgyptPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-{item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                // 현재 페이지이므로 아무것도 하지 않음
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group ${
-                              item.name === "이집트" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                            }`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            {item.name !== "이집트" ? (
-                              <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            ) : null}
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className="flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group"
-                              >
-                                <span className="text-sm text-muted-foreground">{child}</span>
-                                <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="egypt" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>

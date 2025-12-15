@@ -7,10 +7,10 @@ import {
   Building,
   Mountain,
   Church,
-  ArrowRight,
   Info,
   ChevronDown,
   ChevronRight,
+  ArrowRight,
   ChevronUp,
   Cross,
   Heart,
@@ -40,37 +40,16 @@ import CappellaDelCorporaleImage from "../images/italy/orvieto/CappellaDelCorpor
 import CappellaDiSanBrizioImage from "../images/italy/orvieto/CappellaDiSanBrizio.jpg"; //성 브리조 경당
 import DuomoDiOrvietoImage from "../images/italy/orvieto/DuomoDiOrvieto.jpg"; //오르비에토 대성당
 import miracleOfBolsenaImage from "../images/italy/orvieto/MiracleOfBolsena.jpg"; //볼세나 성체기적
+import HolyLandMenu from "./HolyLandMenu";
 
 interface OrviettooPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -347,7 +326,7 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                         alt={city.name}
                         className="w-full h-[300px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -356,7 +335,7 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -401,11 +380,11 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                     <div className="lg:col-span-1">
                       <div className="space-y-4">
                         <div className="aspect-[2/3] bg-gradient-to-br from-amber-100 to-yellow-200 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                        src={miracleOfBolsenaImage}
-                        alt="볼세나 성체 기적"
-                        className="w-full h-full object-cover"
-                      />
+                          <ImageWithFallback
+                            src={miracleOfBolsenaImage}
+                            alt="볼세나 성체 기적"
+                            className="w-full h-full object-cover"
+                          />
                           <div className="w-full h-full flex items-center justify-center">
                             <div className="text-center space-y-3">
                               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -416,10 +395,10 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                         </div>
                         <div className="text-center">
                           <p className="font-medium text-amber-900">
-                          The Eucharistic Miracle of Bolsena, 1263
+                            The Eucharistic Miracle of Bolsena, 1263
                           </p>
                           <p className="text-sm text-amber-700">
-                          볼세나 성체 기적
+                            볼세나 성체 기적
                           </p>
                         </div>
                       </div>
@@ -429,9 +408,9 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          1263년 보헤미아 출신 베드로 신부가 볼세나의 성 크리스티나 성당에서 
-                          미사를 드리던 중 성체가 피로 변하는 기적이 일어났습니다. 
-                          성체에서 흘러나온 피가 성체포에 스며들었고, 이를 목격한 
+                          1263년 보헤미아 출신 베드로 신부가 볼세나의 성 크리스티나 성당에서
+                          미사를 드리던 중 성체가 피로 변하는 기적이 일어났습니다.
+                          성체에서 흘러나온 피가 성체포에 스며들었고, 이를 목격한
                           교황 우르바노 4세는 직접 조사하여 기적임을 확인했습니다.
                         </p>
 
@@ -448,8 +427,8 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          이 기적을 계기로 교황 우르바노 4세는 1264년 성체축일(코르푸스 도미니)을 
-                          제정했으며, 성체포는 오르비에토로 옮겨져 현재까지 보관되고 있습니다. 
+                          이 기적을 계기로 교황 우르바노 4세는 1264년 성체축일(코르푸스 도미니)을
+                          제정했으며, 성체포는 오르비에토로 옮겨져 현재까지 보관되고 있습니다.
                           오르비에토 대성당은 이 기적을 기념하기 위해 건축되었습니다.
                         </p>
                       </div>
@@ -498,9 +477,9 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                       <Info className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-yellow-800 leading-relaxed">
-                          오르비에토의 성체기적은 가톨릭교회의 성체신학 발전에 
-                          중대한 영향을 미쳤습니다. 이 기적은 성체 안에 예수 
-                          그리스도가 참으로 현존하신다는 믿음을 강화했으며, 
+                          오르비에토의 성체기적은 가톨릭교회의 성체신학 발전에
+                          중대한 영향을 미쳤습니다. 이 기적은 성체 안에 예수
+                          그리스도가 참으로 현존하신다는 믿음을 강화했으며,
                           성체축일이라는 보편 축일의 제정으로 이어졌습니다.
                         </p>
                       </div>
@@ -515,115 +494,7 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    setCurrentPage("siena");
-                                  } else if (child === "오르비에또") {
-                                    // 현재 페이지이므로 아무것도 하지 않음
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "오르비에또" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
-                              >
-                                <span className={`text-sm ${child === "오르비에또" ? "" : "text-muted-foreground"}`}>{child}</span>
-                                {child !== "오르비에또" && (
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              <HolyLandMenu currentPage="orviettoo" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -703,10 +574,10 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 포조 디 산 파트리치오</p>
                     <p>
                       사진: Fabio Poggi, 포조 디 산 파트리치오 (Orvieto, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY 3.0
@@ -714,10 +585,10 @@ export default function OrviettooPage({ setCurrentPage }: OrviettooPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Fabio Poggi, Pozzo di San Patrizio (Orvieto, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY 3.0

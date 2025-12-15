@@ -38,37 +38,16 @@ import basilicaDiSanDomenicoImage from "../images/italy/siena/BasilicaDiSanDomen
 import duomoDiSienaImage from "../images/italy/siena/DuomoDiSiena.jpg";
 import piazzaDelCampoImage from "../images/italy/siena/piazzaDelCampo.jpg";
 import santuarioDiSantaCaterinaImage from "../images/italy/siena/SantuarioDiSantaCaterina.jpg";
+import HolyLandMenu from "./HolyLandMenu";
 
 interface SienaPageProps {
   setCurrentPage: (page: string) => void;
 }
 
 export default function SienaPage({ setCurrentPage }: SienaPageProps) {
-  const [isItalyExpanded, setIsItalyExpanded] = useState(true);
   const [isCopyrightExpanded, setIsCopyrightExpanded] = useState(false);
 
-  const holyLandMenuItems = [
-    { name: "바티칸", type: "page" },
-    { name: "그리스", type: "page" },
-    { name: "스페인", type: "page" },
-    { name: "이스라엘", type: "page" },
-    { name: "이집트", type: "page" },
-    {
-      name: "이탈리아",
-      type: "parent",
-      children: [
-        "로마",
-        "아시시",
-        "산조반니로톤도",
-        "로레토",
-        "시에나",
-        "오르비에또",
-        "란치아노",
-      ],
-    },
-    { name: "튀르키예", type: "page" },
-    { name: "프랑스", type: "page" },
-  ];
+
 
   const keyStats = [
     {
@@ -355,7 +334,7 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                         alt={city.name}
                         className="w-full h-[300px] object-cover"
                       />
-                     
+
                       {/* 오버레이 텍스트 */}
                       <div className="absolute bottom-3 left-3 right-3">
                         <div className="bg-white/50 backdrop-blur-sm rounded px-2 py-1 flex justify-center items-center w-full">
@@ -364,7 +343,7 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                           </span>
                         </div>
                       </div>
-                      
+
                     </div>
                     <CardContent className="p-4">
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-blue-200 pl-3">
@@ -428,11 +407,11 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     <div className="lg:col-span-2 space-y-4">
                       <div className="space-y-3">
                         <p className="leading-relaxed">
-                          성녀 카타리나(1347-1380)는 시에나의 염색업자 야코포 베닌카사의 
-                          25명 자녀 중 막내딸로 태어났습니다. 6세에 신비한 체험을 하며 
-                          그리스도와 성인들에 대한 환시를 받았고, 16세에 도미니코 제3회에 
-                          입회했습니다. 교황 그레고리우스 11세에게 아비뇽에서 로마로 
-                          돌아올 것을 간청하여 아비뇽 유수를 끝내는 데 기여했으며, 
+                          성녀 카타리나(1347-1380)는 시에나의 염색업자 야코포 베닌카사의
+                          25명 자녀 중 막내딸로 태어났습니다. 6세에 신비한 체험을 하며
+                          그리스도와 성인들에 대한 환시를 받았고, 16세에 도미니코 제3회에
+                          입회했습니다. 교황 그레고리우스 11세에게 아비뇽에서 로마로
+                          돌아올 것을 간청하여 아비뇽 유수를 끝내는 데 기여했으며,
                           1970년 여성 최초로 교회박사로 선포되었습니다.
                         </p>
 
@@ -440,7 +419,7 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                           <div className="flex items-start space-x-2">
                             <Info className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                             <blockquote className="text-red-800 italic">
-                              "불을 원한다면 불 속으로 들어가야 합니다. 
+                              "불을 원한다면 불 속으로 들어가야 합니다.
                               그리스도를 원한다면 십자가 위로 올라가야 합니다."
                             </blockquote>
                           </div>
@@ -450,10 +429,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                         </div>
 
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          성녀 카타리나는 『대화』라는 영성서와 400여 통의 서한을 남겨 
-                          후세에 큰 영향을 미쳤습니다. 1375년 피사에서 오상 성흔을 받았으며, 
-                          교회 분열 시기에는 우르바누스 6세 교황을 지지하여 교회 통합에 
-                          기여했습니다. 그녀는 이탈리아와 유럽의 수호성인이며, 1999년 교황 
+                          성녀 카타리나는 『대화』라는 영성서와 400여 통의 서한을 남겨
+                          후세에 큰 영향을 미쳤습니다. 1375년 피사에서 오상 성흔을 받았으며,
+                          교회 분열 시기에는 우르바누스 6세 교황을 지지하여 교회 통합에
+                          기여했습니다. 그녀는 이탈리아와 유럽의 수호성인이며, 1999년 교황
                           요한 바오로 2세에 의해 유럽의 공동 수호성인으로 선포되었습니다.
                         </p>
                       </div>
@@ -502,9 +481,9 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                       <Info className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-red-800 leading-relaxed">
-                          성녀 카타리나는 짧은 생애(33년)에도 불구하고 교회사에 
-                          큰 족적을 남겼습니다. 그녀의 영성과 교회에 대한 사랑, 
-                          그리고 교회 개혁을 위한 열정은 오늘날에도 
+                          성녀 카타리나는 짧은 생애(33년)에도 불구하고 교회사에
+                          큰 족적을 남겼습니다. 그녀의 영성과 교회에 대한 사랑,
+                          그리고 교회 개혁을 위한 열정은 오늘날에도
                           많은 이들에게 영감을 주고 있습니다.
                         </p>
                       </div>
@@ -546,8 +525,8 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                         <div>
                           <h4 className="font-medium text-amber-800 mb-2">1730년 성체 도난 사건</h4>
                           <p className="text-sm text-amber-700 leading-relaxed">
-                            1730년 8월 15일 성모승천대축일에 성 프란치스코 성당에서 348개의 성체가 
-                            보관되어 있던 성합이 도난을 당했습니다. 후에 이 성체가 모셔진 성합은 
+                            1730년 8월 15일 성모승천대축일에 성 프란치스코 성당에서 348개의 성체가
+                            보관되어 있던 성합이 도난을 당했습니다. 후에 이 성체가 모셔진 성합은
                             산타 마리아 성당의 헌금함에서 발견되었습니다.
                           </p>
                         </div>
@@ -560,8 +539,8 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                         <div>
                           <h4 className="font-medium text-amber-800 mb-2">기적적 보존</h4>
                           <p className="text-sm text-amber-700 leading-relaxed">
-                            성체 모독을 방지하기 위해 자연 부패되도록 되찾은 이 성체 중 223개를 
-                            보관하기로 했으나, 매우 놀랍게도 그 성체는 하나도 변하지 않은 채 
+                            성체 모독을 방지하기 위해 자연 부패되도록 되찾은 이 성체 중 223개를
+                            보관하기로 했으나, 매우 놀랍게도 그 성체는 하나도 변하지 않은 채
                             하얗고 깨끗하게 보존되어 있었습니다.
                           </p>
                         </div>
@@ -574,9 +553,9 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                         <div>
                           <h4 className="font-medium text-amber-800 mb-2">과학적 조사</h4>
                           <p className="text-sm text-amber-700 leading-relaxed">
-                            1780년 화학자, 대학교수, 그리고 시에나의 대주교 하에 있는 학자들로 
-                            구성된 법정위원회가 조사를 실시한 결과, '이 성체들은 실제로 산성화되지 
-                            않은 빵의 중요한 구성성분인 전분이 포함된 반죽으로 만들어졌고, 
+                            1780년 화학자, 대학교수, 그리고 시에나의 대주교 하에 있는 학자들로
+                            구성된 법정위원회가 조사를 실시한 결과, '이 성체들은 실제로 산성화되지
+                            않은 빵의 중요한 구성성분인 전분이 포함된 반죽으로 만들어졌고,
                             성체의 보관상태는 매우 양호하였다'고 결론지었습니다.
                           </p>
                         </div>
@@ -588,8 +567,8 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                         <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <div>
                           <p className="text-sm text-amber-800 leading-relaxed">
-                            교황 베네딕토 15세는 시에나의 이 놀라운 성체기적에 관해 자주 언급하셨으며, 
-                            이 성체들은 현재까지도 시에나 대성당에서 보존되고 있습니다. 
+                            교황 베네딕토 15세는 시에나의 이 놀라운 성체기적에 관해 자주 언급하셨으며,
+                            이 성체들은 현재까지도 시에나 대성당에서 보존되고 있습니다.
                             이는 성체의 실재성에 대한 강력한 증거로 여겨지고 있습니다.
                           </p>
                         </div>
@@ -605,115 +584,8 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
           <div className="xl:col-span-1">
             <div className="sticky top-6 space-y-6">
               {/* 성지정보 메뉴 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>성지정보</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <nav className="space-y-1">
-                    {holyLandMenuItems.map((item) => (
-                      <div key={item.name}>
-                        {item.type === "parent" ? (
-                          <div className="flex items-center">
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage("italy");
-                              }}
-                              className="flex-1 px-4 py-3 hover:bg-muted transition-colors"
-                            >
-                              <span className="text-sm">{item.name}</span>
-                            </a>
-                            <button
-                              onClick={() => setIsItalyExpanded(!isItalyExpanded)}
-                              className="px-3 py-3 hover:bg-muted transition-colors"
-                            >
-                              {isItalyExpanded ? (
-                                <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.name === "바티칸") {
-                                setCurrentPage("vatican");
-                              } else if (item.name === "그리스") {
-                                setCurrentPage("greece");
-                              } else if (item.name === "스페인") {
-                                setCurrentPage("spain");
-                              } else if (item.name === "이스라엘") {
-                                setCurrentPage("israel");
-                              } else if (item.name === "이집트") {
-                                setCurrentPage("egypt");
-                              } else if (item.name === "튀르키예") {
-                                setCurrentPage("turkiye");
-                              } else if (item.name === "프랑스") {
-                                setCurrentPage("france");
-                              } else {
-                                // 다른 페이지들은 아직 구현되지 않음
-                                // console.log(`${item.name} 페이지는 아직 구현되지 않았습니다.`);
-                              }
-                            }}
-                            className={`flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors group`}
-                          >
-                            <span className="text-sm">{item.name}</span>
-                            <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </a>
-                        )}
-                        
-                        {/* 이탈리아 하위 메뉴 */}
-                        {item.type === "parent" && isItalyExpanded && (
-                          <div className="ml-4 border-l border-border">
-                            {item.children?.map((child) => (
-                              <a
-                                key={child}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (child === "로마") {
-                                    setCurrentPage("rome");
-                                  } else if (child === "아시시") {
-                                    setCurrentPage("assisi");
-                                  } else if (child === "산조반니로톤도") {
-                                    setCurrentPage("sangiovannirotondo");
-                                  } else if (child === "로레토") {
-                                    setCurrentPage("loreto");
-                                  } else if (child === "시에나") {
-                                    // 현재 페이지이므로 아무것도 하지 않음
-                                  } else if (child === "오르비에또") {
-                                    setCurrentPage("orviettoo");
-                                  } else if (child === "란치아노") {
-                                    setCurrentPage("lanciano");
-                                  } else {
-                                    // console.log(`${child} 페이지는 아직 구현되지 않았습니다.`);
-                                  }
-                                }}
-                                className={`flex items-center justify-between px-4 py-2 hover:bg-muted transition-colors group ${
-                                  child === "시에나" ? "bg-primary/5 text-primary border-r-2 border-primary" : ""
-                                }`}
-                              >
-                                <span className={`text-sm ${child === "시에나" ? "" : "text-muted-foreground"}`}>{child}</span>
-                                {child !== "시에나" && (
-                                  <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                                )}
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </nav>
-                </CardContent>
-              </Card>
+              {/* 성지정보 메뉴 */}
+              <HolyLandMenu currentPage="siena" setCurrentPage={setCurrentPage} />
 
               {/* 빠른 정보 */}
               <Card>
@@ -793,10 +665,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 성녀 카타리나의 집</p>
                     <p>
                       사진: Sailko, 성녀 카타리나의 집 (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY 3.0
@@ -804,10 +676,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Sailko, House of Saint Catherine of Siena (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY 3.0
@@ -819,10 +691,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 산 도미니코 대성당</p>
                     <p>
                       사진: Luca Aless, 산 도미니코 대성당 (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY-SA 3.0
@@ -830,10 +702,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Luca Aless, Basilica di San Domenico (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY-SA 3.0
@@ -845,10 +717,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 시에나 대성당 전경</p>
                     <p>
                       사진: Luca Aless, 시에나 대성당 전경 (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY-SA 3.0
@@ -856,10 +728,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Luca Aless, Veduta del Duomo di Siena (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/3.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/3.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY-SA 3.0
@@ -871,10 +743,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     <p className="font-medium text-gray-700 mb-1">📷 캄포 광장</p>
                     <p>
                       사진: Holger Uwe Schmitt, 캄포 광장 (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/4.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800 font-medium"
                       >
                         CC BY-SA 4.0
@@ -882,10 +754,10 @@ export default function SienaPage({ setCurrentPage }: SienaPageProps) {
                     </p>
                     <p className="text-gray-500 mt-1">
                       Image: Holger Uwe Schmitt, Piazza del Campo (Siena, Italy),{" "}
-                      <a 
-                        href="https://creativecommons.org/licenses/by-sa/4.0/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 underline hover:text-blue-800"
                       >
                         CC BY-SA 4.0

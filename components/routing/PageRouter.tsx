@@ -16,6 +16,7 @@ import LorettoPage from "../LorettoPage";
 import SienaPage from "../SienaPage";
 import OrviettooPage from "../OrviettooPage";
 import LancianoPage from "../LancianoPage";
+import JapanPage from "../JapanPage";
 import PilgrimagePackagesPage from "../PilgrimagePackagesPage";
 import PilgrimagePackageDetailPage from "../PilgrimagePackageDetailPage";
 import PilgrimagePackageFormPage from "../PilgrimagePackageFormPage";
@@ -287,6 +288,7 @@ export default function PageRouter({ currentPage, setCurrentPage, isAdmin, onAdm
     if (currentPage === "siena") return <SienaPage setCurrentPage={setCurrentPage} />;
     if (currentPage === "orviettoo") return <OrviettooPage setCurrentPage={setCurrentPage} />;
     if (currentPage === "lanciano") return <LancianoPage setCurrentPage={setCurrentPage} />;
+    if (currentPage === "japan") return <JapanPage setCurrentPage={setCurrentPage} />;
 
     // 기본값 (홈페이지)
     return (

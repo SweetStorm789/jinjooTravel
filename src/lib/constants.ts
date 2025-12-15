@@ -4,27 +4,27 @@ export const getBaseUrl = () => {
   // 개발 환경에서는 환경 변수 사용
   if (import.meta.env.DEV) {
     const devUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/api$/, '');
-    console.log('🔧 Development URL:', devUrl);
+    // console.log('🔧 Development URL:', devUrl);
     return devUrl;
   }
-  
+
   // 프로덕션 환경에서는 환경 변수 우선, 없으면 현재 도메인 사용
   const envUrl = import.meta.env.VITE_API_BASE_URL;
   if (envUrl) {
     const prodUrl = envUrl.replace(/\/api$/, '');
-    console.log('🔧 Production URL from env:', prodUrl);
+    // console.log('🔧 Production URL from env:', prodUrl);
     return prodUrl;
   }
-  
+
   // 환경 변수가 없으면 현재 도메인 사용
   if (typeof window !== 'undefined' && window.location && window.location.origin) {
     const originUrl = window.location.origin.replace(/\/api$/, '');
-    console.log('🔧 Production URL from origin:', originUrl);
+    // console.log('🔧 Production URL from origin:', originUrl);
     return originUrl;
   }
-  
+
   // 프로덕션에서 window.location이 없는 경우 빈 문자열 반환
-  console.log('🔧 Fallback URL: empty string (will be handled by getSafeBaseUrl)');
+  // console.log('🔧 Fallback URL: empty string (will be handled by getSafeBaseUrl)');
   return '';
 };
 
@@ -44,23 +44,23 @@ export const getSafeBaseUrl = () => {
   if (BASE_URL && BASE_URL !== '') {
     return BASE_URL;
   }
-  
+
   // 런타임에 다시 계산
   const runtimeUrl = getBaseUrl();
   if (runtimeUrl && runtimeUrl !== '') {
     return runtimeUrl;
   }
-  
+
   // 마지막 fallback: 개발 환경이면 localhost, 아니면 빈 문자열
   if (import.meta.env.DEV) {
     return 'http://localhost:5000';
   }
-  
+
   // 프로덕션에서는 window.location.origin을 강제로 사용
   if (typeof window !== 'undefined' && window.location && window.location.origin) {
     return window.location.origin.replace(/\/api$/, '');
   }
-  
+
   // 모든 방법이 실패하면 빈 문자열 반환
   console.error('❌ Failed to determine BASE_URL');
   return '';
