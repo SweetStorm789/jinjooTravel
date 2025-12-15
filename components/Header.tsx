@@ -59,6 +59,7 @@ export default function Header({
       { name: "이탈리아", hasSubMenu: true },
       { name: "튀르키예", hasSubMenu: false },
       { name: "프랑스", hasSubMenu: false },
+      // { name: "일본", hasSubMenu: false },
     ],
     성모님발현지: [
       { name: "파티마", hasSubMenu: false },
@@ -227,9 +228,9 @@ export default function Header({
             <span className="text-gray-300 hidden md:inline">|</span>
             {isAdmin ? (
               <>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 text-xs sm:text-sm px-2 sm:px-3"
                   onClick={() => setCurrentPage("image-library-test")}
                 >
@@ -237,9 +238,9 @@ export default function Header({
                   <span className="sm:hidden">이미지</span>
                 </Button>
                 <span className="text-gray-300 hidden md:inline">|</span>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs sm:text-sm px-2 sm:px-3"
                   onClick={onAdminLogout}
                 >
@@ -248,9 +249,9 @@ export default function Header({
                 </Button>
               </>
             ) : (
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 text-xs sm:text-sm px-2 sm:px-3"
                 onClick={() => setCurrentPage("admin-login")}
               >
@@ -291,8 +292,8 @@ export default function Header({
                 key={category}
                 className="relative"
                 onMouseEnter={() => handleMenuEnter(category)}
-                // ⛔ 개별 onMouseLeave 제거 (닫힘 트리거 원인)
-                // onMouseLeave={handleMenuLeave}
+              // ⛔ 개별 onMouseLeave 제거 (닫힘 트리거 원인)
+              // onMouseLeave={handleMenuLeave}
               >
                 <a
                   href="#"
@@ -327,9 +328,8 @@ export default function Header({
                       setHoveredSubCategory(null);
                     }
                   }}
-                  className={`px-4 py-3 text-sm font-medium transition-colors duration-200 hover:text-blue-600 hover:bg-gray-50 rounded-lg ${
-                    hoveredCategory === category ? "text-blue-600 bg-gray-50" : "text-gray-700"
-                  }`}
+                  className={`px-4 py-3 text-sm font-medium transition-colors duration-200 hover:text-blue-600 hover:bg-gray-50 rounded-lg ${hoveredCategory === category ? "text-blue-600 bg-gray-50" : "text-gray-700"
+                    }`}
                 >
                   {category}
                 </a>
@@ -339,7 +339,7 @@ export default function Header({
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Button 
+            <Button
               className="md:hidden bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm"
               onClick={() => window.location.href = 'tel:02-738-0747'}
             >
@@ -409,6 +409,7 @@ export default function Header({
                           else if (subItem.name === "이탈리아") setCurrentPage("italy");
                           else if (subItem.name === "튀르키예") setCurrentPage("turkiye");
                           else if (subItem.name === "프랑스") setCurrentPage("france");
+                          // else if (subItem.name === "일본") setCurrentPage("japan");
                           setHoveredCategory(null);
                           setHoveredSubCategory(null);
                         }
@@ -442,11 +443,10 @@ export default function Header({
                           setHoveredSubCategory(null);
                         }
                       }}
-                      className={`flex items-center px-4 py-3 text-sm transition-colors duration-200 border-r border-gray-300 last:border-r-0 ${
-                        hoveredSubCategory === subItem.name
-                          ? "text-blue-600 bg-white"
-                          : "text-gray-600 hover:text-blue-600 hover:bg-white"
-                      } rounded`}
+                      className={`flex items-center px-4 py-3 text-sm transition-colors duration-200 border-r border-gray-300 last:border-r-0 ${hoveredSubCategory === subItem.name
+                        ? "text-blue-600 bg-white"
+                        : "text-gray-600 hover:text-blue-600 hover:bg-white"
+                        } rounded`}
                     >
                       {subItem.name}
                       {subItem.hasSubMenu && <ChevronRight className="w-3 h-3 ml-1 text-gray-400" />}
@@ -463,7 +463,7 @@ export default function Header({
         thirdDepthCategories[hoveredSubCategory as keyof typeof thirdDepthCategories] && (
           <div
             className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-[110]"
-            style={{ 
+            style={{
               marginTop: '40px' // 3depth 메뉴를 2depth 아래로 5px 이동
             }}
             onMouseEnter={handleThirdDepthEnter}
@@ -628,6 +628,7 @@ export default function Header({
                                 else if (subItem.name === "이탈리아") setCurrentPage("italy");
                                 else if (subItem.name === "튀르키예") setCurrentPage("turkiye");
                                 else if (subItem.name === "프랑스") setCurrentPage("france");
+                                // else if (subItem.name === "일본") setCurrentPage("japan");
                                 setIsMobileMenuOpen(false);
                               } else if (category === "성모님발현지") {
                                 if (subItem.name === "파티마") setCurrentPage("fatima");
